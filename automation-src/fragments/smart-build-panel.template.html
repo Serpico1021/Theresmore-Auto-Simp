@@ -1,0 +1,56 @@
+﻿          <div class="mb-6">
+            <h3 class="text-lg">Smart build planner:</h3>
+            <div class="mb-2"><label>Enabled:
+              <input type="checkbox" data-setting="smartBuild" data-key="enabled" class="option" />
+            </label></div>
+            <div class="mb-2">
+              Goal:
+              <select class="option dark:bg-mydark-200" data-setting="smartBuild" data-key="goal">
+                <option value="progress">Progress game stages</option>
+                <option value="moonlightNight">Moonlight Night</option>
+                <option value="druid">Druid Route</option>
+                <option value="gloriousRetirement">Glorious Retirement</option>
+                <option value="annihilator">Launch Annihilator</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              Fallback strategy:
+              <select class="option dark:bg-mydark-200" data-setting="smartBuild" data-key="strategy">
+                <option value="balanced">Balanced</option>
+                <option value="research">Research</option>
+                <option value="prestige">Prestige</option>
+                <option value="military">Military</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              Risk:
+              <select class="option dark:bg-mydark-200" data-setting="smartBuild" data-key="risk">
+                <option value="normal">Normal</option>
+                <option value="conservative">Conservative</option>
+                <option value="aggressive">Aggressive</option>
+              </select>
+            </div>
+            <div class="mb-2"><label>Manual values override smart plan:
+              <input type="checkbox" data-setting="smartBuild" data-key="manualOverrides" class="option" />
+            </label></div>
+            <div class="mb-2"><label>Max extra buildings per pass:
+              <input type="number" data-setting="smartBuild" data-key="maxExtra" class="option text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="3" min="1" max="20" step="1" />
+            </label></div>
+            <div class="mb-2"><label>Smart army for dangerous research:
+              <input type="checkbox" data-setting="smartBuild" data-key="armyEnabled" class="option" />
+            </label></div>
+            <div class="mb-2"><label>Max extra units per pass:
+              <input type="number" data-setting="smartBuild" data-key="armyMaxExtra" class="option text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="25" min="1" max="500" step="1" />
+            </label></div>
+            <div class="mb-2"><label>Max target per unit:
+              <input type="number" data-setting="smartBuild" data-key="armyMaxTarget" class="option text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="250" min="1" max="9999" step="1" />
+            </label></div>
+            <div class="mb-2"><label>Max target per building:
+              <input type="number" data-setting="smartBuild" data-key="maxTarget" class="option text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="80" min="1" max="999" step="1" />
+            </label></div>
+            <div class="mb-2"><label>Max wait seconds:
+              <input type="number" data-setting="smartBuild" data-key="maxWaitSeconds" class="option text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="180" min="10" max="3600" step="10" />
+            </label></div>
+            <p class="mb-2">When enabled, Build max/prio is generated from the selected goal, corrected route gates from the local dataset, current resources, caps, population effects, negative production risk and the fallback strategy. If Smart army is enabled, dangerous goal researches such as Moonlight Night can also generate temporary Army max/prio until the battle calculator says the defending army can win. It is temporary and does not rewrite manual max fields.</p>
+          </div>
+

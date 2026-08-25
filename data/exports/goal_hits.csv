@@ -1,0 +1,214 @@
+﻿entity_id,goal,match_aliases,name,program_id,sheet
+97,stage_progress,['法力深井'],法力深井,,建筑
+98,stage_progress,['法力深井'],法力深井组件,,建筑
+549,prestige,['转生'],到达1次里程碑,1_prestige,成就
+550,prestige,['转生'],到达5次里程碑,5_prestige,成就
+551,prestige,['转生'],到达15次里程碑,15_prestige,成就
+552,prestige,['转生'],到达30次里程碑,30_prestige,成就
+553,prestige,['转生'],到达60次里程碑,60_prestige,成就
+554,prestige,['转生'],到达120次里程碑,120_prestige,成就
+555,prestige,['转生'],到达1次超里程碑,1_ng_reset,成就
+556,prestige,['转生'],到达5次超里程碑,5_ng_reset,成就
+557,prestige,['转生'],到达10次超里程碑,10_ng_reset,成就
+558,prestige,['转生'],到达20次超里程碑,20_ng_reset,成就
+559,prestige,['转生'],到达40次超里程碑,40_ng_reset,成就
+560,prestige,['转生'],到达80次超里程碑,80_ng_reset,成就
+561,annihilator,"['灭世', '灭世终焉', '发射灭世终焉']",核爆末日,1_annihilator,成就
+562,annihilator,"['灭世', '灭世终焉', '发射灭世终焉']",黑洞之力,5_annihilator,成就
+563,annihilator,"['灭世', '灭世终焉', '发射灭世终焉']",深渊炼狱,15_annihilator,成就
+564,annihilator,"['灭世', '灭世终焉', '发射灭世终焉']",星辰伟力,30_annihilator,成就
+639,moonlight,"['月明', '月明之夜']",粉碎地精,army_of_goblin,成就
+640,moonlight,"['月明', '月明之夜']",在容易难度下粉碎地精！,army_of_goblin_dif_99,成就
+641,moonlight,"['月明', '月明之夜']",在困难难度下粉碎地精！,army_of_goblin_dif_1,成就
+642,moonlight,"['月明', '月明之夜']",在无望难度下粉碎地精！,army_of_goblin_dif_2,成就
+643,moonlight,"['月明', '月明之夜']",在神明难度下粉碎地精！,army_of_goblin_dif_3,成就
+649,druid,['德鲁伊'],信任德鲁伊,fallen_angel_army_1,成就
+650,druid,['德鲁伊'],在容易难度下信任德鲁伊！,fallen_angel_army_1_dif_99,成就
+651,druid,['德鲁伊'],在困难难度下信任德鲁伊！,fallen_angel_army_1_dif_1,成就
+652,druid,['德鲁伊'],在无望难度下信任德鲁伊！,fallen_angel_army_1_dif_2,成就
+653,druid,['德鲁伊'],在神明难度下信任德鲁伊！,fallen_angel_army_1_dif_3,成就
+677,stage_progress,['航海'],航海,harbor_district,成就
+680,stage_progress,['法力深井'],充满法力的深洞,mana_pit,成就
+787,prestige,['转生'],向着经济上的转生,5_bank,成就
+902,prestige,"['传承', '转生']",每次转生时可以购买的传承,,传承
+903,prestige,['传承'],远古宝库,ancient_treasury,传承
+904,prestige,['传承'],强化斧头,enhanced_axes,传承
+905,prestige,['传承'],占卜者,fortune_teller,传承
+906,prestige,['传承'],灌溉技术,irrigation_techniques,传承
+907,prestige,['传承'],著名石匠,renowned_stonemasons,传承
+908,prestige,['传承'],资源上限,resource_cap,传承
+909,prestige,['传承'],侍奉神明,service_gods,传承
+910,prestige,['传承'],魅力,charism,传承
+911,prestige,['传承'],自然的赠礼,gift_nature,传承
+912,prestige,['传承'],店主和饲育员,shopkeepers_and_breeders,传承
+913,prestige,['传承'],库存资源,stock_resources,传承
+914,prestige,['传承'],强壮的工人,strong_workers,传承
+915,prestige,['传承'],武器强化,powered_weapons,传承
+916,prestige,['传承'],聪明的村民,clever_villagers,传承
+917,prestige,['传承'],聚宝盆,deep_pockets,传承
+918,prestige,['传承'],强化镐子,enhanced_pickaxes,传承
+919,prestige,['传承'],增员,free_hands,传承
+920,prestige,['传承'],造物主的赠礼,gift_creators,传承
+921,prestige,['传承'],资源上限 II,resource_cap_II,传承
+922,prestige,['传承'],侍奉神明 II,service_gods_II,传承
+923,prestige,['传承'],占卜师,soothsayer,传承
+924,prestige,['传承'],尖刺与陷坑,spikes_and_pits,传承
+925,prestige,['传承'],强化信念,strengthening_faith,传承
+926,prestige,['传承'],泽尼克斯的使魔,zenix_familiar_l,传承
+927,prestige,['传承'],强化斧头 II,enhanced_axes_II,传承
+928,prestige,['传承'],灌溉技术 II,irrigation_techniques_II,传承
+929,prestige,['传承'],著名石匠 II,renowned_stonemasons_II,传承
+930,prestige,['传承'],远古宝库 II,ancient_treasury_II,传承
+931,prestige,['传承'],远古保险库,ancient_vault,传承
+932,prestige,['传承'],众志成军‌,army_of_men,传承
+933,prestige,['传承'],库存资源 II,stock_resources_II,传承
+934,prestige,['传承'],工匠,craftmen,传承
+935,prestige,['传承'],武器强化 II,powered_weapons_II,传承
+936,prestige,['传承'],资源上限 III,resource_cap_III,传承
+937,prestige,['传承'],持盾卫士,shieldbearer,传承
+938,prestige,['传承'],店主和饲育员 II,shopkeepers_and_breeders_II,传承
+939,prestige,['传承'],强壮的工人 II,strong_workers_II,传承
+940,prestige,['传承'],代币佣兵,coin_mercenary,传承
+941,prestige,['传承'],强化镐子 II,enhanced_pickaxes_II,传承
+942,prestige,['传承'],粮食储存,grain_storage,传承
+943,prestige,['传承'],马蹄铁传家宝,heirloom_horseshoes,传承
+944,prestige,['传承'],纪念品传家宝,heirloom_momento,传承
+945,prestige,['传承'],契约传家宝,heirloom_contract,传承
+946,prestige,['传承'],智慧传家宝,heirloom_wisdom,传承
+947,prestige,['传承'],死亡传家宝,heirloom_death,传承
+948,prestige,['传承'],财富传家宝,heirloom_wealth,传承
+949,prestige,['传承'],纪念碑,monument_1,传承
+950,prestige,['传承'],尖刺与陷坑 II,spikes_and_pits_II,传承
+951,prestige,['传承'],强化信念 II,strengthening_faith_II,传承
+952,prestige,['传承'],远古宝库 III,ancient_treasury_III,传承
+953,prestige,['传承'],魅力 II,charism_II,传承
+954,prestige,['传承'],神算者,clairvoyant,传承
+955,prestige,['传承'],壁垒,defensive_rampart,传承
+956,prestige,['传承'],工匠公会,guild_craftsmen,传承
+957,prestige,['传承'],登攀者世界图书馆,library_theresmore,传承
+958,prestige,['传承'],修道会,monastic_orders,传承
+959,prestige,['传承'],资源上限 IV,resource_cap_IV,传承
+960,prestige,['传承'],侍奉神明 III,service_gods_III,传承
+961,prestige,['传承'],白色连队,white_m_company,传承
+962,prestige,['传承'],加里亚德团长的故事,cpt_galliard_story,传承
+963,prestige,['传承'],聚宝盆 II,deep_pockets_II,传承
+964,prestige,['传承'],乐土,elysian_field,传承
+965,prestige,['传承'],增员 II,free_hands_II,传承
+966,prestige,['传承'],佣兵合约,mercenary_agreements,传承
+967,prestige,['传承'],武器强化 III,powered_weapons_III,传承
+968,prestige,['传承'],石匠坊,stonemason_l,传承
+969,prestige,['传承'],木工,woodworking,传承
+970,prestige,['传承'],众志成军‌ II,army_of_men_II,传承
+971,prestige,['传承'],聪明的村民 II,clever_villagers_II,传承
+972,prestige,['传承'],招募民兵,militia_recruitment,传承
+973,prestige,['传承'],牧师,priest,传承
+974,prestige,['传承'],资源上限 V,resource_cap_V,传承
+975,prestige,['传承'],店主和饲育员 III,shopkeepers_and_breeders_III,传承
+976,prestige,['传承'],强化斧头 III,enhanced_axes_III,传承
+977,prestige,['传承'],灌溉技术 III,irrigation_techniques_III,传承
+978,prestige,['传承'],著名石匠 III,renowned_stonemasons_III,传承
+979,prestige,['传承'],强化镐子 III,enhanced_pickaxes_III,传承
+980,prestige,['传承'],佣兵合约 II,mercenary_agreements_II,传承
+981,prestige,['传承'],区域市场,regional_market,传承
+982,prestige,['传承'],资源上限 VI,resource_cap_VI,传承
+983,prestige,['传承'],远古宝库 IV,ancient_treasury_IV,传承
+984,prestige,['传承'],工匠 II,craftmen_II,传承
+985,prestige,['传承'],增员 III,free_hands_III,传承
+986,prestige,['传承'],资源上限 VII,resource_cap_VII,传承
+987,prestige,['传承'],尖刺与陷坑 III,spikes_and_pits_III,传承
+988,prestige,['传承'],强化信念 III,strengthening_faith_III,传承
+989,prestige,['传承'],战斗天使,angel,传承
+990,prestige,['传承'],众志成军‌ III,army_of_men_III,传承
+991,prestige,['传承'],乐土 II,elysian_field_II,传承
+992,prestige,['传承'],主宰,juggernaut,传承
+993,prestige,['传承'],佣兵合约 III,mercenary_agreements_III,传承
+994,prestige,['传承'],武器强化 IV,powered_weapons_IV,传承
+995,prestige,['传承'],卡牌占卜师,cartomancer,传承
+996,prestige,['传承'],聚宝盆 III,deep_pockets_III,传承
+997,prestige,['传承'],亡者大厅,hall_dead,传承
+998,prestige,['传承'],智慧大厅,hall_wisdom,传承
+999,prestige,['传承'],诸神的机器,machines_gods,传承
+1000,prestige,['传承'],亡者兽群,undead_herds,传承
+1001,prestige,['传承'],资源上限 VIII,resource_cap_VIII,传承
+1002,prestige,['传承'],侍奉神明 IV,service_gods_IV,传承
+1003,prestige,['传承'],聪明的村民 III,clever_villagers_III,传承
+1004,prestige,['传承'],加里亚德团长,cpt_galliard_l,传承
+1005,prestige,['传承'],强化斧头 IV,enhanced_axes_IV,传承
+1006,prestige,['传承'],灌溉技术 IV,irrigation_techniques_IV,传承
+1007,prestige,['传承'],著名石匠 IV,renowned_stonemasons_IV,传承
+1008,prestige,['传承'],强化镐子 IV,enhanced_pickaxes_IV,传承
+1009,prestige,['传承'],内政部,ministry_interior_l,传承
+1010,prestige,['传承'],战争部,ministry_war_l,传承
+1011,prestige,['传承'],宗教部,ministry_worship_l,传承
+1012,prestige,['传承'],武器强化 V,powered_weapons_V,传承
+1013,prestige,['传承'],工匠 III,craftmen_III,传承
+1014,prestige,['传承'],众志成军‌ IV,army_of_men_IV,传承
+1015,prestige,['传承'],训练定居点的军队,train_colonial,传承
+1016,prestige,['传承'],增员 IV,free_hands_IV,传承
+1017,prestige,['传承'],尖刺与陷坑 IV,spikes_and_pits_IV,传承
+1018,prestige,['传承'],强化信念 IV,strengthening_faith_IV,传承
+1019,prestige,['传承'],远古炎魔,ancient_balor_l,传承
+1020,prestige,['传承'],工匠 IV,craftmen_IV,传承
+1021,prestige,['传承'],乐土 III,elysian_field_III,传承
+1022,prestige,['传承'],炽天使,seraphim_l,传承
+1023,prestige,['传承'],命运侍僧,acolyte_fate,传承
+1024,prestige,['传承'],聚宝盆 IV,deep_pockets_IV,传承
+1025,prestige,['传承'],侍奉神明 V,service_gods_V,传承
+1026,prestige,['传承'],武器强化 VI,powered_weapons_VI,传承
+1027,prestige,['传承'],众志成军‌ V,army_of_men_V,传承
+1028,prestige,['传承'],工匠 V,craftmen_V,传承
+1029,prestige,['传承'],训练定居点的军队 II,train_colonial_II,传承
+1030,prestige,['传承'],尖刺与陷坑 V,spikes_and_pits_V,传承
+1031,prestige,['传承'],强化信念V,strengthening_faith_V,传承
+1032,prestige,['传承'],泰坦的建筑,architecture_titan,传承
+1033,prestige,['传承'],泰坦之墙,wall_titan,传承
+1034,prestige,['传承'],泰坦的武器,weapons_titan,传承
+1035,prestige,['传承'],聚宝盆 V,deep_pockets_V,传承
+1036,prestige,['传承'],武器强化 VII,powered_weapons_VII,传承
+1037,prestige,['传承'],聪明的村民 IV,clever_villagers_IV,传承
+1038,prestige,['传承'],武器强化 VIII,powered_weapons_VIII,传承
+1039,prestige,['传承'],尖刺与陷坑 VI,spikes_and_pits_VI,传承
+1040,prestige,['传承'],工匠 VI,craftmen_VI,传承
+1041,prestige,['传承'],众志成军‌ VI,army_of_men_VI,传承
+1042,prestige,['传承'],强化斧头 V,enhanced_axes_V,传承
+1043,prestige,['传承'],灌溉技术 V,irrigation_techniques_V,传承
+1044,prestige,['传承'],著名石匠 V,renowned_stonemasons_V,传承
+1045,prestige,['传承'],强化镐子 V,enhanced_pickaxes_V,传承
+1046,prestige,['传承'],强化斧头 VI,enhanced_axes_VI,传承
+1047,prestige,['传承'],灌溉技术 VI,irrigation_techniques_VI,传承
+1048,prestige,['传承'],著名石匠 VI,renowned_stonemasons_VI,传承
+1049,prestige,['传承'],强化镐子 VI,enhanced_pickaxes_VI,传承
+1050,prestige,['传承'],增员 V,free_hands_V,传承
+1051,prestige,['传承'],乐土 IV,elysian_field_IV,传承
+1052,prestige,['传承'],幸运之神,god_luck,传承
+1053,prestige,['传承'],训练定居点的军队 III,train_colonial_III,传承
+1054,prestige,['传承'],光明之环,light_circle,传承
+1055,prestige,['传承'],强化信念 VI,strengthening_faith_VI,传承
+1056,prestige,['传承'],聚宝盆 VI,deep_pockets_VI,传承
+1057,prestige,['传承'],乐土 V,elysian_field_V,传承
+1058,prestige,['传承'],武器强化 IX,powered_weapons_IX,传承
+1059,prestige,['传承'],光明之环 II,light_circle_II,传承
+1060,prestige,['传承'],众志成军‌ VII,army_of_men_VII,传承
+1061,prestige,['传承'],众志成军‌ VIII,army_of_men_VIII,传承
+1062,prestige,['传承'],光明之环 III,light_circle_III,传承
+1063,prestige,['传承'],聚宝盆 VII,deep_pockets_VII,传承
+1064,prestige,['传承'],光明之环 IV,light_circle_IV,传承
+1065,prestige,['传承'],众志成军‌ IX,army_of_men_IX,传承
+1165,stage_progress,['结束远古时代'],结束远古时代,end_ancient_era,研究
+1187,moonlight,"['月明', '月明之夜']",月明之夜,moonlight_night,研究
+1206,prestige,['光荣退休'],光荣退休,glorious_retirement,研究
+1208,stage_progress,['结束封建时代'],结束封建时代,end_feudal_era,研究
+1283,druid,"['德鲁伊', '孤独的德鲁伊']",孤独的德鲁伊,lonely_druid,研究
+1284,druid,['德鲁伊'],德鲁伊之怒,rage_druid,研究
+1287,druid,['德鲁伊'],神秘劫案,mysterious_robbery,研究
+1293,stage_progress,['航海'],航海,seafaring,研究
+1409,annihilator,"['灭世', '灭世终焉']",研究灭世终焉,research_annhilator,研究
+1410,annihilator,"['灭世', '灭世终焉']",制造灭世终焉,create_annhilator,研究
+1411,annihilator,"['灭世', '灭世终焉', '发射灭世终焉']",发射灭世终焉,launch_annhilator,研究
+1411,prestige,"['传承', '转生']",发射灭世终焉,launch_annhilator,研究
+1412,annihilator,"['灭世', '灭世终焉', '销毁灭世终焉']",销毁灭世终焉,destroy_annhilator,研究
+1490,druid,"['德鲁伊', '接受德鲁伊']",接受德鲁伊,accept_druid,祈祷与魔法
+1491,druid,['德鲁伊'],放逐德鲁伊,banish_druid,祈祷与魔法
+1492,druid,"['德鲁伊', '孤独的德鲁伊']",孤独的德鲁伊,prayer_lonely_druid,祈祷与魔法
+1566,druid,['德鲁伊'],德鲁伊的祝福,druid_blessing,祈祷与魔法
+1625,prestige,['传承'],传承,legacy,资源

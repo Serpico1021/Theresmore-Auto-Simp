@@ -1,0 +1,3788 @@
+{
+  "generated_at": "2026-08-25T04:13:28.253190+00:00",
+  "goals": {
+    "moonlight": {
+      "aliases": [
+        "月明",
+        "月明之夜"
+      ],
+      "whitelist_items": [
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "住房",
+          "amount": "",
+          "source_line": "住房  琢石  陶器"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "琢石",
+          "amount": "",
+          "source_line": "住房  琢石  陶器"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "陶器",
+          "amount": "",
+          "source_line": "住房  琢石  陶器"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "采矿",
+          "amount": "",
+          "source_line": "采矿  写作 青铜加工"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "写作",
+          "amount": "",
+          "source_line": "采矿  写作 青铜加工"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "青铜加工",
+          "amount": "",
+          "source_line": "采矿  写作 青铜加工"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "宗教",
+          "amount": "",
+          "source_line": "宗教 铁加工 结束远古时代 封建时代 建筑学"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "铁加工",
+          "amount": "",
+          "source_line": "宗教 铁加工 结束远古时代 封建时代 建筑学"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "结束远古时代",
+          "amount": "",
+          "source_line": "宗教 铁加工 结束远古时代 封建时代 建筑学"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "封建时代",
+          "amount": "",
+          "source_line": "宗教 铁加工 结束远古时代 封建时代 建筑学"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "建筑学",
+          "amount": "",
+          "source_line": "宗教 铁加工 结束远古时代 封建时代 建筑学"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "确定边界",
+          "amount": "",
+          "source_line": "确定边界 卡纳瓦先驱"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "卡纳瓦先驱",
+          "amount": "",
+          "source_line": "确定边界 卡纳瓦先驱"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "公会",
+          "amount": "",
+          "source_line": "（公会，工匠公会）或者（农业 存储 饲育 教育学 食物保存）"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "工匠公会",
+          "amount": "",
+          "source_line": "（公会，工匠公会）或者（农业 存储 饲育 教育学 食物保存）"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "农业",
+          "amount": "",
+          "source_line": "（公会，工匠公会）或者（农业 存储 饲育 教育学 食物保存）"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "存储",
+          "amount": "",
+          "source_line": "（公会，工匠公会）或者（农业 存储 饲育 教育学 食物保存）"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "饲育",
+          "amount": "",
+          "source_line": "（公会，工匠公会）或者（农业 存储 饲育 教育学 食物保存）"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "教育学",
+          "amount": "",
+          "source_line": "（公会，工匠公会）或者（农业 存储 饲育 教育学 食物保存）"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "research",
+          "name": "食物保存",
+          "amount": "",
+          "source_line": "（公会，工匠公会）或者（农业 存储 饲育 教育学 食物保存）"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "building",
+          "name": "普通房屋",
+          "amount": "15",
+          "source_line": "15普通房屋"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "building",
+          "name": "采石5工匠作坊",
+          "amount": "3",
+          "source_line": "3采石5工匠作坊"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "building",
+          "name": "工匠公会",
+          "amount": "1",
+          "source_line": "（1工匠公会）或者（1大学5农场1木匠工坊1食品杂货店1马厩）"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "building",
+          "name": "大学5农场1木匠工坊1食品杂货店1马厩",
+          "amount": "1",
+          "source_line": "（1工匠公会）或者（1大学5农场1木匠工坊1食品杂货店1马厩）"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "building",
+          "name": "守望者前哨",
+          "amount": "4",
+          "source_line": "4守望者前哨"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "note",
+          "name": "最少只需0人口不需要工人之家，缺人可研究 奴役，产量不足自加建筑数量",
+          "amount": "",
+          "source_line": "最少只需0人口不需要工人之家，缺人可研究 奴役，产量不足自加建筑数量"
+        },
+        {
+          "goal_key": "moonlight",
+          "goal": "月明",
+          "type": "note",
+          "name": "设置好的automation文件已发",
+          "amount": "",
+          "source_line": "设置好的automation文件已发"
+        }
+      ],
+      "xlsx_hits": [
+        {
+          "goal": "moonlight",
+          "entity_id": 639,
+          "sheet": "成就",
+          "name": "粉碎地精",
+          "program_id": "army_of_goblin",
+          "match_aliases": [
+            "月明",
+            "月明之夜"
+          ]
+        },
+        {
+          "goal": "moonlight",
+          "entity_id": 640,
+          "sheet": "成就",
+          "name": "在容易难度下粉碎地精！",
+          "program_id": "army_of_goblin_dif_99",
+          "match_aliases": [
+            "月明",
+            "月明之夜"
+          ]
+        },
+        {
+          "goal": "moonlight",
+          "entity_id": 641,
+          "sheet": "成就",
+          "name": "在困难难度下粉碎地精！",
+          "program_id": "army_of_goblin_dif_1",
+          "match_aliases": [
+            "月明",
+            "月明之夜"
+          ]
+        },
+        {
+          "goal": "moonlight",
+          "entity_id": 642,
+          "sheet": "成就",
+          "name": "在无望难度下粉碎地精！",
+          "program_id": "army_of_goblin_dif_2",
+          "match_aliases": [
+            "月明",
+            "月明之夜"
+          ]
+        },
+        {
+          "goal": "moonlight",
+          "entity_id": 643,
+          "sheet": "成就",
+          "name": "在神明难度下粉碎地精！",
+          "program_id": "army_of_goblin_dif_3",
+          "match_aliases": [
+            "月明",
+            "月明之夜"
+          ]
+        },
+        {
+          "goal": "moonlight",
+          "entity_id": 1187,
+          "sheet": "研究",
+          "name": "月明之夜",
+          "program_id": "moonlight_night",
+          "match_aliases": [
+            "月明",
+            "月明之夜"
+          ]
+        }
+      ]
+    },
+    "druid": {
+      "aliases": [
+        "德鲁伊",
+        "孤独的德鲁伊",
+        "接受德鲁伊"
+      ],
+      "whitelist_items": [
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "住房",
+          "amount": "",
+          "source_line": "住房 陶器 写作 货币 封建时代 金属铸造 公会 科学理论 灾难 法力应用 生态学 神秘劫案"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "陶器",
+          "amount": "",
+          "source_line": "住房 陶器 写作 货币 封建时代 金属铸造 公会 科学理论 灾难 法力应用 生态学 神秘劫案"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "写作",
+          "amount": "",
+          "source_line": "住房 陶器 写作 货币 封建时代 金属铸造 公会 科学理论 灾难 法力应用 生态学 神秘劫案"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "货币",
+          "amount": "",
+          "source_line": "住房 陶器 写作 货币 封建时代 金属铸造 公会 科学理论 灾难 法力应用 生态学 神秘劫案"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "封建时代",
+          "amount": "",
+          "source_line": "住房 陶器 写作 货币 封建时代 金属铸造 公会 科学理论 灾难 法力应用 生态学 神秘劫案"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "金属铸造",
+          "amount": "",
+          "source_line": "住房 陶器 写作 货币 封建时代 金属铸造 公会 科学理论 灾难 法力应用 生态学 神秘劫案"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "公会",
+          "amount": "",
+          "source_line": "住房 陶器 写作 货币 封建时代 金属铸造 公会 科学理论 灾难 法力应用 生态学 神秘劫案"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "科学理论",
+          "amount": "",
+          "source_line": "住房 陶器 写作 货币 封建时代 金属铸造 公会 科学理论 灾难 法力应用 生态学 神秘劫案"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "灾难",
+          "amount": "",
+          "source_line": "住房 陶器 写作 货币 封建时代 金属铸造 公会 科学理论 灾难 法力应用 生态学 神秘劫案"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "法力应用",
+          "amount": "",
+          "source_line": "住房 陶器 写作 货币 封建时代 金属铸造 公会 科学理论 灾难 法力应用 生态学 神秘劫案"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "生态学",
+          "amount": "",
+          "source_line": "住房 陶器 写作 货币 封建时代 金属铸造 公会 科学理论 灾难 法力应用 生态学 神秘劫案"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "神秘劫案",
+          "amount": "",
+          "source_line": "住房 陶器 写作 货币 封建时代 金属铸造 公会 科学理论 灾难 法力应用 生态学 神秘劫案"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "青铜加工",
+          "amount": "",
+          "source_line": "青铜加工 数学 宗教 建筑学 确定边界 银行业 骑士精神 化学 巨龙来袭 法力引擎 与自然沟通"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "数学",
+          "amount": "",
+          "source_line": "青铜加工 数学 宗教 建筑学 确定边界 银行业 骑士精神 化学 巨龙来袭 法力引擎 与自然沟通"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "宗教",
+          "amount": "",
+          "source_line": "青铜加工 数学 宗教 建筑学 确定边界 银行业 骑士精神 化学 巨龙来袭 法力引擎 与自然沟通"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "建筑学",
+          "amount": "",
+          "source_line": "青铜加工 数学 宗教 建筑学 确定边界 银行业 骑士精神 化学 巨龙来袭 法力引擎 与自然沟通"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "确定边界",
+          "amount": "",
+          "source_line": "青铜加工 数学 宗教 建筑学 确定边界 银行业 骑士精神 化学 巨龙来袭 法力引擎 与自然沟通"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "银行业",
+          "amount": "",
+          "source_line": "青铜加工 数学 宗教 建筑学 确定边界 银行业 骑士精神 化学 巨龙来袭 法力引擎 与自然沟通"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "骑士精神",
+          "amount": "",
+          "source_line": "青铜加工 数学 宗教 建筑学 确定边界 银行业 骑士精神 化学 巨龙来袭 法力引擎 与自然沟通"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "化学",
+          "amount": "",
+          "source_line": "青铜加工 数学 宗教 建筑学 确定边界 银行业 骑士精神 化学 巨龙来袭 法力引擎 与自然沟通"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "巨龙来袭",
+          "amount": "",
+          "source_line": "青铜加工 数学 宗教 建筑学 确定边界 银行业 骑士精神 化学 巨龙来袭 法力引擎 与自然沟通"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "法力引擎",
+          "amount": "",
+          "source_line": "青铜加工 数学 宗教 建筑学 确定边界 银行业 骑士精神 化学 巨龙来袭 法力引擎 与自然沟通"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "与自然沟通",
+          "amount": "",
+          "source_line": "青铜加工 数学 宗教 建筑学 确定边界 银行业 骑士精神 化学 巨龙来袭 法力引擎 与自然沟通"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "琢石",
+          "amount": "",
+          "source_line": "琢石 采矿 铁加工 教育学 卡纳瓦先驱 锻钢 集市与市场 印刷机 圣职者军团 机械化 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "采矿",
+          "amount": "",
+          "source_line": "琢石 采矿 铁加工 教育学 卡纳瓦先驱 锻钢 集市与市场 印刷机 圣职者军团 机械化 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "铁加工",
+          "amount": "",
+          "source_line": "琢石 采矿 铁加工 教育学 卡纳瓦先驱 锻钢 集市与市场 印刷机 圣职者军团 机械化 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "教育学",
+          "amount": "",
+          "source_line": "琢石 采矿 铁加工 教育学 卡纳瓦先驱 锻钢 集市与市场 印刷机 圣职者军团 机械化 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "卡纳瓦先驱",
+          "amount": "",
+          "source_line": "琢石 采矿 铁加工 教育学 卡纳瓦先驱 锻钢 集市与市场 印刷机 圣职者军团 机械化 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "锻钢",
+          "amount": "",
+          "source_line": "琢石 采矿 铁加工 教育学 卡纳瓦先驱 锻钢 集市与市场 印刷机 圣职者军团 机械化 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "集市与市场",
+          "amount": "",
+          "source_line": "琢石 采矿 铁加工 教育学 卡纳瓦先驱 锻钢 集市与市场 印刷机 圣职者军团 机械化 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "印刷机",
+          "amount": "",
+          "source_line": "琢石 采矿 铁加工 教育学 卡纳瓦先驱 锻钢 集市与市场 印刷机 圣职者军团 机械化 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "圣职者军团",
+          "amount": "",
+          "source_line": "琢石 采矿 铁加工 教育学 卡纳瓦先驱 锻钢 集市与市场 印刷机 圣职者军团 机械化 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "机械化",
+          "amount": "",
+          "source_line": "琢石 采矿 铁加工 教育学 卡纳瓦先驱 锻钢 集市与市场 印刷机 圣职者军团 机械化 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "孤独的德鲁伊",
+          "amount": "",
+          "source_line": "琢石 采矿 铁加工 教育学 卡纳瓦先驱 锻钢 集市与市场 印刷机 圣职者军团 机械化 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "结束远古时代",
+          "amount": "",
+          "source_line": "结束远古时代 月明之夜 结束封建时代 火药 魔法艺术教学 研究区 城市的奇迹"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "月明之夜",
+          "amount": "",
+          "source_line": "结束远古时代 月明之夜 结束封建时代 火药 魔法艺术教学 研究区 城市的奇迹"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "结束封建时代",
+          "amount": "",
+          "source_line": "结束远古时代 月明之夜 结束封建时代 火药 魔法艺术教学 研究区 城市的奇迹"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "火药",
+          "amount": "",
+          "source_line": "结束远古时代 月明之夜 结束封建时代 火药 魔法艺术教学 研究区 城市的奇迹"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "魔法艺术教学",
+          "amount": "",
+          "source_line": "结束远古时代 月明之夜 结束封建时代 火药 魔法艺术教学 研究区 城市的奇迹"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "研究区",
+          "amount": "",
+          "source_line": "结束远古时代 月明之夜 结束封建时代 火药 魔法艺术教学 研究区 城市的奇迹"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "城市的奇迹",
+          "amount": "",
+          "source_line": "结束远古时代 月明之夜 结束封建时代 火药 魔法艺术教学 研究区 城市的奇迹"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "工匠公会",
+          "amount": "",
+          "source_line": "（工匠公会）或者（农业 存储 饲育 教育学 食物保存）"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "农业",
+          "amount": "",
+          "source_line": "（工匠公会）或者（农业 存储 饲育 教育学 食物保存）"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "存储",
+          "amount": "",
+          "source_line": "（工匠公会）或者（农业 存储 饲育 教育学 食物保存）"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "饲育",
+          "amount": "",
+          "source_line": "（工匠公会）或者（农业 存储 饲育 教育学 食物保存）"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "教育学",
+          "amount": "",
+          "source_line": "（工匠公会）或者（农业 存储 饲育 教育学 食物保存）"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "食物保存",
+          "amount": "",
+          "source_line": "（工匠公会）或者（农业 存储 饲育 教育学 食物保存）"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "note",
+          "name": "给声誉但是非必要的：每5个生产建筑给的研究",
+          "amount": "",
+          "source_line": "（给声誉但是非必要的：每5个生产建筑给的研究，光荣游行，欢乐的国度，经济学，生产制造）"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "光荣游行",
+          "amount": "",
+          "source_line": "（给声誉但是非必要的：每5个生产建筑给的研究，光荣游行，欢乐的国度，经济学，生产制造）"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "欢乐的国度",
+          "amount": "",
+          "source_line": "（给声誉但是非必要的：每5个生产建筑给的研究，光荣游行，欢乐的国度，经济学，生产制造）"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "经济学",
+          "amount": "",
+          "source_line": "（给声誉但是非必要的：每5个生产建筑给的研究，光荣游行，欢乐的国度，经济学，生产制造）"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "research",
+          "name": "生产制造",
+          "amount": "",
+          "source_line": "（给声誉但是非必要的：每5个生产建筑给的研究，光荣游行，欢乐的国度，经济学，生产制造）"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "prayer",
+          "name": "解决危机",
+          "amount": "",
+          "source_line": "解决危机 龙之骨 接受德鲁伊 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "prayer",
+          "name": "龙之骨",
+          "amount": "",
+          "source_line": "解决危机 龙之骨 接受德鲁伊 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "prayer",
+          "name": "接受德鲁伊",
+          "amount": "",
+          "source_line": "解决危机 龙之骨 接受德鲁伊 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "prayer",
+          "name": "孤独的德鲁伊",
+          "amount": "",
+          "source_line": "解决危机 龙之骨 接受德鲁伊 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "building",
+          "name": "普通房屋3宅邸",
+          "amount": "15",
+          "source_line": "15普通房屋3宅邸"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "building",
+          "name": "采石3木匠工坊3食品杂货店3钢铁厂1炼金实验室",
+          "amount": "3",
+          "source_line": "3采石3木匠工坊3食品杂货店3钢铁厂1炼金实验室"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "building",
+          "name": "市中心",
+          "amount": "",
+          "source_line": "市中心 自由思想家学院 难民区 法力深井"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "building",
+          "name": "自由思想家学院",
+          "amount": "",
+          "source_line": "市中心 自由思想家学院 难民区 法力深井"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "building",
+          "name": "难民区",
+          "amount": "",
+          "source_line": "市中心 自由思想家学院 难民区 法力深井"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "building",
+          "name": "法力深井",
+          "amount": "",
+          "source_line": "市中心 自由思想家学院 难民区 法力深井"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "building",
+          "name": "工匠作坊3市场",
+          "amount": "5",
+          "source_line": "5工匠作坊3市场"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "building",
+          "name": "大学",
+          "amount": "3",
+          "source_line": "3大学"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "building",
+          "name": "守望者前哨",
+          "amount": "4",
+          "source_line": "4守望者前哨"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "building",
+          "name": "寺庙",
+          "amount": "1",
+          "source_line": "1寺庙"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "building",
+          "name": "工匠公会",
+          "amount": "1",
+          "source_line": "（1工匠公会）或者（1大学5农场1木匠工坊1食品杂货店1马厩）"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "building",
+          "name": "大学5农场1木匠工坊1食品杂货店1马厩",
+          "amount": "1",
+          "source_line": "（1工匠公会）或者（1大学5农场1木匠工坊1食品杂货店1马厩）"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "note",
+          "name": "最少只需1人口，产量不足自加建筑数量",
+          "amount": "",
+          "source_line": "最少只需1人口，产量不足自加建筑数量"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "note",
+          "name": "造200战士即过德鲁伊",
+          "amount": "",
+          "source_line": "造200战士即过德鲁伊，150即自杀"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "building",
+          "name": "即自杀",
+          "amount": "150",
+          "source_line": "造200战士即过德鲁伊，150即自杀"
+        },
+        {
+          "goal_key": "druid",
+          "goal": "德鲁伊",
+          "type": "note",
+          "name": "设置好的automation文件已发，带上了打了能加声誉的怪的名单",
+          "amount": "",
+          "source_line": "设置好的automation文件已发，带上了打了能加声誉的怪的名单"
+        }
+      ],
+      "xlsx_hits": [
+        {
+          "goal": "druid",
+          "entity_id": 649,
+          "sheet": "成就",
+          "name": "信任德鲁伊",
+          "program_id": "fallen_angel_army_1",
+          "match_aliases": [
+            "德鲁伊"
+          ]
+        },
+        {
+          "goal": "druid",
+          "entity_id": 650,
+          "sheet": "成就",
+          "name": "在容易难度下信任德鲁伊！",
+          "program_id": "fallen_angel_army_1_dif_99",
+          "match_aliases": [
+            "德鲁伊"
+          ]
+        },
+        {
+          "goal": "druid",
+          "entity_id": 651,
+          "sheet": "成就",
+          "name": "在困难难度下信任德鲁伊！",
+          "program_id": "fallen_angel_army_1_dif_1",
+          "match_aliases": [
+            "德鲁伊"
+          ]
+        },
+        {
+          "goal": "druid",
+          "entity_id": 652,
+          "sheet": "成就",
+          "name": "在无望难度下信任德鲁伊！",
+          "program_id": "fallen_angel_army_1_dif_2",
+          "match_aliases": [
+            "德鲁伊"
+          ]
+        },
+        {
+          "goal": "druid",
+          "entity_id": 653,
+          "sheet": "成就",
+          "name": "在神明难度下信任德鲁伊！",
+          "program_id": "fallen_angel_army_1_dif_3",
+          "match_aliases": [
+            "德鲁伊"
+          ]
+        },
+        {
+          "goal": "druid",
+          "entity_id": 1283,
+          "sheet": "研究",
+          "name": "孤独的德鲁伊",
+          "program_id": "lonely_druid",
+          "match_aliases": [
+            "德鲁伊",
+            "孤独的德鲁伊"
+          ]
+        },
+        {
+          "goal": "druid",
+          "entity_id": 1284,
+          "sheet": "研究",
+          "name": "德鲁伊之怒",
+          "program_id": "rage_druid",
+          "match_aliases": [
+            "德鲁伊"
+          ]
+        },
+        {
+          "goal": "druid",
+          "entity_id": 1287,
+          "sheet": "研究",
+          "name": "神秘劫案",
+          "program_id": "mysterious_robbery",
+          "match_aliases": [
+            "德鲁伊"
+          ]
+        },
+        {
+          "goal": "druid",
+          "entity_id": 1490,
+          "sheet": "祈祷与魔法",
+          "name": "接受德鲁伊",
+          "program_id": "accept_druid",
+          "match_aliases": [
+            "德鲁伊",
+            "接受德鲁伊"
+          ]
+        },
+        {
+          "goal": "druid",
+          "entity_id": 1491,
+          "sheet": "祈祷与魔法",
+          "name": "放逐德鲁伊",
+          "program_id": "banish_druid",
+          "match_aliases": [
+            "德鲁伊"
+          ]
+        },
+        {
+          "goal": "druid",
+          "entity_id": 1492,
+          "sheet": "祈祷与魔法",
+          "name": "孤独的德鲁伊",
+          "program_id": "prayer_lonely_druid",
+          "match_aliases": [
+            "德鲁伊",
+            "孤独的德鲁伊"
+          ]
+        },
+        {
+          "goal": "druid",
+          "entity_id": 1566,
+          "sheet": "祈祷与魔法",
+          "name": "德鲁伊的祝福",
+          "program_id": "druid_blessing",
+          "match_aliases": [
+            "德鲁伊"
+          ]
+        }
+      ]
+    },
+    "annihilator": {
+      "aliases": [
+        "灭世",
+        "灭世终焉",
+        "发射灭世终焉",
+        "销毁灭世终焉"
+      ],
+      "whitelist_items": [
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "神圣之怒",
+          "amount": "",
+          "source_line": "神圣之怒→解锁战斗天使"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "解锁战斗天使",
+          "amount": "",
+          "source_line": "神圣之怒→解锁战斗天使"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "登攀者世界的海岸",
+          "amount": "",
+          "source_line": "登攀者世界的海岸 小岛前哨 兽人的威胁  精灵衰变 传送门 划定疆界 黑暗之地 卫星 激活信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "小岛前哨",
+          "amount": "",
+          "source_line": "登攀者世界的海岸 小岛前哨 兽人的威胁  精灵衰变 传送门 划定疆界 黑暗之地 卫星 激活信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "兽人的威胁",
+          "amount": "",
+          "source_line": "登攀者世界的海岸 小岛前哨 兽人的威胁  精灵衰变 传送门 划定疆界 黑暗之地 卫星 激活信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "精灵衰变",
+          "amount": "",
+          "source_line": "登攀者世界的海岸 小岛前哨 兽人的威胁  精灵衰变 传送门 划定疆界 黑暗之地 卫星 激活信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "传送门",
+          "amount": "",
+          "source_line": "登攀者世界的海岸 小岛前哨 兽人的威胁  精灵衰变 传送门 划定疆界 黑暗之地 卫星 激活信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "划定疆界",
+          "amount": "",
+          "source_line": "登攀者世界的海岸 小岛前哨 兽人的威胁  精灵衰变 传送门 划定疆界 黑暗之地 卫星 激活信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "黑暗之地",
+          "amount": "",
+          "source_line": "登攀者世界的海岸 小岛前哨 兽人的威胁  精灵衰变 传送门 划定疆界 黑暗之地 卫星 激活信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "卫星",
+          "amount": "",
+          "source_line": "登攀者世界的海岸 小岛前哨 兽人的威胁  精灵衰变 传送门 划定疆界 黑暗之地 卫星 激活信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "激活信号机器",
+          "amount": "",
+          "source_line": "登攀者世界的海岸 小岛前哨 兽人的威胁  精灵衰变 传送门 划定疆界 黑暗之地 卫星 激活信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "欢乐的国度",
+          "amount": "",
+          "source_line": "欢乐的国度 踏上旅途 兽人堡垒  精灵古物 调查深渊 奥术研究 光耀广场 信号 研究灭世终焉"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "踏上旅途",
+          "amount": "",
+          "source_line": "欢乐的国度 踏上旅途 兽人堡垒  精灵古物 调查深渊 奥术研究 光耀广场 信号 研究灭世终焉"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "兽人堡垒",
+          "amount": "",
+          "source_line": "欢乐的国度 踏上旅途 兽人堡垒  精灵古物 调查深渊 奥术研究 光耀广场 信号 研究灭世终焉"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "精灵古物",
+          "amount": "",
+          "source_line": "欢乐的国度 踏上旅途 兽人堡垒  精灵古物 调查深渊 奥术研究 光耀广场 信号 研究灭世终焉"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "调查深渊",
+          "amount": "",
+          "source_line": "欢乐的国度 踏上旅途 兽人堡垒  精灵古物 调查深渊 奥术研究 光耀广场 信号 研究灭世终焉"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "奥术研究",
+          "amount": "",
+          "source_line": "欢乐的国度 踏上旅途 兽人堡垒  精灵古物 调查深渊 奥术研究 光耀广场 信号 研究灭世终焉"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "光耀广场",
+          "amount": "",
+          "source_line": "欢乐的国度 踏上旅途 兽人堡垒  精灵古物 调查深渊 奥术研究 光耀广场 信号 研究灭世终焉"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "信号",
+          "amount": "",
+          "source_line": "欢乐的国度 踏上旅途 兽人堡垒  精灵古物 调查深渊 奥术研究 光耀广场 信号 研究灭世终焉"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "研究灭世终焉",
+          "amount": "",
+          "source_line": "欢乐的国度 踏上旅途 兽人堡垒  精灵古物 调查深渊 奥术研究 光耀广场 信号 研究灭世终焉"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "远大梦想",
+          "amount": "",
+          "source_line": "远大梦想 人类的至暗时刻 兽人部落 古物洞穴 辉烬 地下房间 火箭技术 解密信号 制造灭世终焉 信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "人类的至暗时刻",
+          "amount": "",
+          "source_line": "远大梦想 人类的至暗时刻 兽人部落 古物洞穴 辉烬 地下房间 火箭技术 解密信号 制造灭世终焉 信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "兽人部落",
+          "amount": "",
+          "source_line": "远大梦想 人类的至暗时刻 兽人部落 古物洞穴 辉烬 地下房间 火箭技术 解密信号 制造灭世终焉 信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "古物洞穴",
+          "amount": "",
+          "source_line": "远大梦想 人类的至暗时刻 兽人部落 古物洞穴 辉烬 地下房间 火箭技术 解密信号 制造灭世终焉 信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "辉烬",
+          "amount": "",
+          "source_line": "远大梦想 人类的至暗时刻 兽人部落 古物洞穴 辉烬 地下房间 火箭技术 解密信号 制造灭世终焉 信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "地下房间",
+          "amount": "",
+          "source_line": "远大梦想 人类的至暗时刻 兽人部落 古物洞穴 辉烬 地下房间 火箭技术 解密信号 制造灭世终焉 信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "火箭技术",
+          "amount": "",
+          "source_line": "远大梦想 人类的至暗时刻 兽人部落 古物洞穴 辉烬 地下房间 火箭技术 解密信号 制造灭世终焉 信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "解密信号",
+          "amount": "",
+          "source_line": "远大梦想 人类的至暗时刻 兽人部落 古物洞穴 辉烬 地下房间 火箭技术 解密信号 制造灭世终焉 信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "制造灭世终焉",
+          "amount": "",
+          "source_line": "远大梦想 人类的至暗时刻 兽人部落 古物洞穴 辉烬 地下房间 火箭技术 解密信号 制造灭世终焉 信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "信号机器",
+          "amount": "",
+          "source_line": "远大梦想 人类的至暗时刻 兽人部落 古物洞穴 辉烬 地下房间 火箭技术 解密信号 制造灭世终焉 信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "长途探险",
+          "amount": "",
+          "source_line": "长途探险 海湾计划 城市的奇迹 航海 被烧毁的农场 凯旋归来 黑色古物 俯瞰黑暗 勘测周围区域 无人机"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "海湾计划",
+          "amount": "",
+          "source_line": "长途探险 海湾计划 城市的奇迹 航海 被烧毁的农场 凯旋归来 黑色古物 俯瞰黑暗 勘测周围区域 无人机"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "城市的奇迹",
+          "amount": "",
+          "source_line": "长途探险 海湾计划 城市的奇迹 航海 被烧毁的农场 凯旋归来 黑色古物 俯瞰黑暗 勘测周围区域 无人机"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "航海",
+          "amount": "",
+          "source_line": "长途探险 海湾计划 城市的奇迹 航海 被烧毁的农场 凯旋归来 黑色古物 俯瞰黑暗 勘测周围区域 无人机"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "被烧毁的农场",
+          "amount": "",
+          "source_line": "长途探险 海湾计划 城市的奇迹 航海 被烧毁的农场 凯旋归来 黑色古物 俯瞰黑暗 勘测周围区域 无人机"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "凯旋归来",
+          "amount": "",
+          "source_line": "长途探险 海湾计划 城市的奇迹 航海 被烧毁的农场 凯旋归来 黑色古物 俯瞰黑暗 勘测周围区域 无人机"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "黑色古物",
+          "amount": "",
+          "source_line": "长途探险 海湾计划 城市的奇迹 航海 被烧毁的农场 凯旋归来 黑色古物 俯瞰黑暗 勘测周围区域 无人机"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "俯瞰黑暗",
+          "amount": "",
+          "source_line": "长途探险 海湾计划 城市的奇迹 航海 被烧毁的农场 凯旋归来 黑色古物 俯瞰黑暗 勘测周围区域 无人机"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "勘测周围区域",
+          "amount": "",
+          "source_line": "长途探险 海湾计划 城市的奇迹 航海 被烧毁的农场 凯旋归来 黑色古物 俯瞰黑暗 勘测周围区域 无人机"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "research",
+          "name": "无人机",
+          "amount": "",
+          "source_line": "长途探险 海湾计划 城市的奇迹 航海 被烧毁的农场 凯旋归来 黑色古物 俯瞰黑暗 勘测周围区域 无人机"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "prayer",
+          "name": "解决危机",
+          "amount": "",
+          "source_line": "解决危机 龙之骨 接受德鲁伊 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "prayer",
+          "name": "龙之骨",
+          "amount": "",
+          "source_line": "解决危机 龙之骨 接受德鲁伊 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "prayer",
+          "name": "接受德鲁伊",
+          "amount": "",
+          "source_line": "解决危机 龙之骨 接受德鲁伊 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "prayer",
+          "name": "孤独的德鲁伊",
+          "amount": "",
+          "source_line": "解决危机 龙之骨 接受德鲁伊 孤独的德鲁伊"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "普通房屋3宅邸",
+          "amount": "15",
+          "source_line": "15普通房屋3宅邸"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "采石3木匠工坊3食品杂货店3钢铁厂1炼金实验室",
+          "amount": "3",
+          "source_line": "3采石3木匠工坊3食品杂货店3钢铁厂1炼金实验室"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "市中心",
+          "amount": "",
+          "source_line": "市中心 自由思想家学院 难民区 法力深井 海湾区"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "自由思想家学院",
+          "amount": "",
+          "source_line": "市中心 自由思想家学院 难民区 法力深井 海湾区"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "难民区",
+          "amount": "",
+          "source_line": "市中心 自由思想家学院 难民区 法力深井 海湾区"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "法力深井",
+          "amount": "",
+          "source_line": "市中心 自由思想家学院 难民区 法力深井 海湾区"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "海湾区",
+          "amount": "",
+          "source_line": "市中心 自由思想家学院 难民区 法力深井 海湾区"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "工匠作坊3市场",
+          "amount": "5",
+          "source_line": "5工匠作坊3市场"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "大学1卢雷齐亚雕像1岛屿前哨",
+          "amount": "3",
+          "source_line": "3大学1卢雷齐亚雕像1岛屿前哨"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "守望者前哨",
+          "amount": "4",
+          "source_line": "4守望者前哨"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "寺庙",
+          "amount": "1",
+          "source_line": "1寺庙（寺庙可以多点，7500%加成都会卡信念）"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "寺庙可以多点",
+          "amount": "",
+          "source_line": "1寺庙（寺庙可以多点，7500%加成都会卡信念）"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "%加成都会卡信念",
+          "amount": "7500",
+          "source_line": "1寺庙（寺庙可以多点，7500%加成都会卡信念）"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "定居点大厅1辉烬工厂",
+          "amount": "12",
+          "source_line": "12定居点大厅1辉烬工厂 治疗圣所 3禁锢单元"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "治疗圣所",
+          "amount": "",
+          "source_line": "12定居点大厅1辉烬工厂 治疗圣所 3禁锢单元"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "禁锢单元",
+          "amount": "3",
+          "source_line": "12定居点大厅1辉烬工厂 治疗圣所 3禁锢单元"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "光之信标5光耀广场",
+          "amount": "5",
+          "source_line": "5光之信标5光耀广场 信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "信号机器",
+          "amount": "",
+          "source_line": "5光之信标5光耀广场 信号机器"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "工匠公会",
+          "amount": "1",
+          "source_line": "（1工匠公会）或者（1大学5农场1木匠工坊1食品杂货店1马厩）"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "building",
+          "name": "大学5农场1木匠工坊1食品杂货店1马厩",
+          "amount": "1",
+          "source_line": "（1工匠公会）或者（1大学5农场1木匠工坊1食品杂货店1马厩）"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "note",
+          "name": "最少只需2人口，产量不足自加建筑数量",
+          "amount": "",
+          "source_line": "最少只需2人口，产量不足自加建筑数量"
+        },
+        {
+          "goal_key": "annihilator",
+          "goal": "灭世",
+          "type": "note",
+          "name": "设置好的automation文件已发，需要传承中点出满乐土的战斗天使",
+          "amount": "",
+          "source_line": "设置好的automation文件已发，需要传承中点出满乐土的战斗天使"
+        }
+      ],
+      "xlsx_hits": [
+        {
+          "goal": "annihilator",
+          "entity_id": 561,
+          "sheet": "成就",
+          "name": "核爆末日",
+          "program_id": "1_annihilator",
+          "match_aliases": [
+            "灭世",
+            "灭世终焉",
+            "发射灭世终焉"
+          ]
+        },
+        {
+          "goal": "annihilator",
+          "entity_id": 562,
+          "sheet": "成就",
+          "name": "黑洞之力",
+          "program_id": "5_annihilator",
+          "match_aliases": [
+            "灭世",
+            "灭世终焉",
+            "发射灭世终焉"
+          ]
+        },
+        {
+          "goal": "annihilator",
+          "entity_id": 563,
+          "sheet": "成就",
+          "name": "深渊炼狱",
+          "program_id": "15_annihilator",
+          "match_aliases": [
+            "灭世",
+            "灭世终焉",
+            "发射灭世终焉"
+          ]
+        },
+        {
+          "goal": "annihilator",
+          "entity_id": 564,
+          "sheet": "成就",
+          "name": "星辰伟力",
+          "program_id": "30_annihilator",
+          "match_aliases": [
+            "灭世",
+            "灭世终焉",
+            "发射灭世终焉"
+          ]
+        },
+        {
+          "goal": "annihilator",
+          "entity_id": 1409,
+          "sheet": "研究",
+          "name": "研究灭世终焉",
+          "program_id": "research_annhilator",
+          "match_aliases": [
+            "灭世",
+            "灭世终焉"
+          ]
+        },
+        {
+          "goal": "annihilator",
+          "entity_id": 1410,
+          "sheet": "研究",
+          "name": "制造灭世终焉",
+          "program_id": "create_annhilator",
+          "match_aliases": [
+            "灭世",
+            "灭世终焉"
+          ]
+        },
+        {
+          "goal": "annihilator",
+          "entity_id": 1411,
+          "sheet": "研究",
+          "name": "发射灭世终焉",
+          "program_id": "launch_annhilator",
+          "match_aliases": [
+            "灭世",
+            "灭世终焉",
+            "发射灭世终焉"
+          ]
+        },
+        {
+          "goal": "annihilator",
+          "entity_id": 1412,
+          "sheet": "研究",
+          "name": "销毁灭世终焉",
+          "program_id": "destroy_annhilator",
+          "match_aliases": [
+            "灭世",
+            "灭世终焉",
+            "销毁灭世终焉"
+          ]
+        }
+      ]
+    },
+    "prestige": {
+      "aliases": [
+        "光荣退休",
+        "传承",
+        "转生"
+      ],
+      "whitelist_items": [],
+      "xlsx_hits": [
+        {
+          "goal": "prestige",
+          "entity_id": 549,
+          "sheet": "成就",
+          "name": "到达1次里程碑",
+          "program_id": "1_prestige",
+          "match_aliases": [
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 550,
+          "sheet": "成就",
+          "name": "到达5次里程碑",
+          "program_id": "5_prestige",
+          "match_aliases": [
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 551,
+          "sheet": "成就",
+          "name": "到达15次里程碑",
+          "program_id": "15_prestige",
+          "match_aliases": [
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 552,
+          "sheet": "成就",
+          "name": "到达30次里程碑",
+          "program_id": "30_prestige",
+          "match_aliases": [
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 553,
+          "sheet": "成就",
+          "name": "到达60次里程碑",
+          "program_id": "60_prestige",
+          "match_aliases": [
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 554,
+          "sheet": "成就",
+          "name": "到达120次里程碑",
+          "program_id": "120_prestige",
+          "match_aliases": [
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 555,
+          "sheet": "成就",
+          "name": "到达1次超里程碑",
+          "program_id": "1_ng_reset",
+          "match_aliases": [
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 556,
+          "sheet": "成就",
+          "name": "到达5次超里程碑",
+          "program_id": "5_ng_reset",
+          "match_aliases": [
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 557,
+          "sheet": "成就",
+          "name": "到达10次超里程碑",
+          "program_id": "10_ng_reset",
+          "match_aliases": [
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 558,
+          "sheet": "成就",
+          "name": "到达20次超里程碑",
+          "program_id": "20_ng_reset",
+          "match_aliases": [
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 559,
+          "sheet": "成就",
+          "name": "到达40次超里程碑",
+          "program_id": "40_ng_reset",
+          "match_aliases": [
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 560,
+          "sheet": "成就",
+          "name": "到达80次超里程碑",
+          "program_id": "80_ng_reset",
+          "match_aliases": [
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 787,
+          "sheet": "成就",
+          "name": "向着经济上的转生",
+          "program_id": "5_bank",
+          "match_aliases": [
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 902,
+          "sheet": "传承",
+          "name": "每次转生时可以购买的传承",
+          "program_id": "",
+          "match_aliases": [
+            "传承",
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 903,
+          "sheet": "传承",
+          "name": "远古宝库",
+          "program_id": "ancient_treasury",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 904,
+          "sheet": "传承",
+          "name": "强化斧头",
+          "program_id": "enhanced_axes",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 905,
+          "sheet": "传承",
+          "name": "占卜者",
+          "program_id": "fortune_teller",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 906,
+          "sheet": "传承",
+          "name": "灌溉技术",
+          "program_id": "irrigation_techniques",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 907,
+          "sheet": "传承",
+          "name": "著名石匠",
+          "program_id": "renowned_stonemasons",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 908,
+          "sheet": "传承",
+          "name": "资源上限",
+          "program_id": "resource_cap",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 909,
+          "sheet": "传承",
+          "name": "侍奉神明",
+          "program_id": "service_gods",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 910,
+          "sheet": "传承",
+          "name": "魅力",
+          "program_id": "charism",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 911,
+          "sheet": "传承",
+          "name": "自然的赠礼",
+          "program_id": "gift_nature",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 912,
+          "sheet": "传承",
+          "name": "店主和饲育员",
+          "program_id": "shopkeepers_and_breeders",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 913,
+          "sheet": "传承",
+          "name": "库存资源",
+          "program_id": "stock_resources",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 914,
+          "sheet": "传承",
+          "name": "强壮的工人",
+          "program_id": "strong_workers",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 915,
+          "sheet": "传承",
+          "name": "武器强化",
+          "program_id": "powered_weapons",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 916,
+          "sheet": "传承",
+          "name": "聪明的村民",
+          "program_id": "clever_villagers",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 917,
+          "sheet": "传承",
+          "name": "聚宝盆",
+          "program_id": "deep_pockets",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 918,
+          "sheet": "传承",
+          "name": "强化镐子",
+          "program_id": "enhanced_pickaxes",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 919,
+          "sheet": "传承",
+          "name": "增员",
+          "program_id": "free_hands",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 920,
+          "sheet": "传承",
+          "name": "造物主的赠礼",
+          "program_id": "gift_creators",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 921,
+          "sheet": "传承",
+          "name": "资源上限 II",
+          "program_id": "resource_cap_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 922,
+          "sheet": "传承",
+          "name": "侍奉神明 II",
+          "program_id": "service_gods_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 923,
+          "sheet": "传承",
+          "name": "占卜师",
+          "program_id": "soothsayer",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 924,
+          "sheet": "传承",
+          "name": "尖刺与陷坑",
+          "program_id": "spikes_and_pits",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 925,
+          "sheet": "传承",
+          "name": "强化信念",
+          "program_id": "strengthening_faith",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 926,
+          "sheet": "传承",
+          "name": "泽尼克斯的使魔",
+          "program_id": "zenix_familiar_l",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 927,
+          "sheet": "传承",
+          "name": "强化斧头 II",
+          "program_id": "enhanced_axes_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 928,
+          "sheet": "传承",
+          "name": "灌溉技术 II",
+          "program_id": "irrigation_techniques_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 929,
+          "sheet": "传承",
+          "name": "著名石匠 II",
+          "program_id": "renowned_stonemasons_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 930,
+          "sheet": "传承",
+          "name": "远古宝库 II",
+          "program_id": "ancient_treasury_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 931,
+          "sheet": "传承",
+          "name": "远古保险库",
+          "program_id": "ancient_vault",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 932,
+          "sheet": "传承",
+          "name": "众志成军‌",
+          "program_id": "army_of_men",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 933,
+          "sheet": "传承",
+          "name": "库存资源 II",
+          "program_id": "stock_resources_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 934,
+          "sheet": "传承",
+          "name": "工匠",
+          "program_id": "craftmen",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 935,
+          "sheet": "传承",
+          "name": "武器强化 II",
+          "program_id": "powered_weapons_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 936,
+          "sheet": "传承",
+          "name": "资源上限 III",
+          "program_id": "resource_cap_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 937,
+          "sheet": "传承",
+          "name": "持盾卫士",
+          "program_id": "shieldbearer",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 938,
+          "sheet": "传承",
+          "name": "店主和饲育员 II",
+          "program_id": "shopkeepers_and_breeders_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 939,
+          "sheet": "传承",
+          "name": "强壮的工人 II",
+          "program_id": "strong_workers_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 940,
+          "sheet": "传承",
+          "name": "代币佣兵",
+          "program_id": "coin_mercenary",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 941,
+          "sheet": "传承",
+          "name": "强化镐子 II",
+          "program_id": "enhanced_pickaxes_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 942,
+          "sheet": "传承",
+          "name": "粮食储存",
+          "program_id": "grain_storage",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 943,
+          "sheet": "传承",
+          "name": "马蹄铁传家宝",
+          "program_id": "heirloom_horseshoes",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 944,
+          "sheet": "传承",
+          "name": "纪念品传家宝",
+          "program_id": "heirloom_momento",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 945,
+          "sheet": "传承",
+          "name": "契约传家宝",
+          "program_id": "heirloom_contract",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 946,
+          "sheet": "传承",
+          "name": "智慧传家宝",
+          "program_id": "heirloom_wisdom",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 947,
+          "sheet": "传承",
+          "name": "死亡传家宝",
+          "program_id": "heirloom_death",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 948,
+          "sheet": "传承",
+          "name": "财富传家宝",
+          "program_id": "heirloom_wealth",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 949,
+          "sheet": "传承",
+          "name": "纪念碑",
+          "program_id": "monument_1",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 950,
+          "sheet": "传承",
+          "name": "尖刺与陷坑 II",
+          "program_id": "spikes_and_pits_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 951,
+          "sheet": "传承",
+          "name": "强化信念 II",
+          "program_id": "strengthening_faith_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 952,
+          "sheet": "传承",
+          "name": "远古宝库 III",
+          "program_id": "ancient_treasury_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 953,
+          "sheet": "传承",
+          "name": "魅力 II",
+          "program_id": "charism_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 954,
+          "sheet": "传承",
+          "name": "神算者",
+          "program_id": "clairvoyant",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 955,
+          "sheet": "传承",
+          "name": "壁垒",
+          "program_id": "defensive_rampart",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 956,
+          "sheet": "传承",
+          "name": "工匠公会",
+          "program_id": "guild_craftsmen",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 957,
+          "sheet": "传承",
+          "name": "登攀者世界图书馆",
+          "program_id": "library_theresmore",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 958,
+          "sheet": "传承",
+          "name": "修道会",
+          "program_id": "monastic_orders",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 959,
+          "sheet": "传承",
+          "name": "资源上限 IV",
+          "program_id": "resource_cap_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 960,
+          "sheet": "传承",
+          "name": "侍奉神明 III",
+          "program_id": "service_gods_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 961,
+          "sheet": "传承",
+          "name": "白色连队",
+          "program_id": "white_m_company",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 962,
+          "sheet": "传承",
+          "name": "加里亚德团长的故事",
+          "program_id": "cpt_galliard_story",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 963,
+          "sheet": "传承",
+          "name": "聚宝盆 II",
+          "program_id": "deep_pockets_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 964,
+          "sheet": "传承",
+          "name": "乐土",
+          "program_id": "elysian_field",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 965,
+          "sheet": "传承",
+          "name": "增员 II",
+          "program_id": "free_hands_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 966,
+          "sheet": "传承",
+          "name": "佣兵合约",
+          "program_id": "mercenary_agreements",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 967,
+          "sheet": "传承",
+          "name": "武器强化 III",
+          "program_id": "powered_weapons_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 968,
+          "sheet": "传承",
+          "name": "石匠坊",
+          "program_id": "stonemason_l",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 969,
+          "sheet": "传承",
+          "name": "木工",
+          "program_id": "woodworking",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 970,
+          "sheet": "传承",
+          "name": "众志成军‌ II",
+          "program_id": "army_of_men_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 971,
+          "sheet": "传承",
+          "name": "聪明的村民 II",
+          "program_id": "clever_villagers_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 972,
+          "sheet": "传承",
+          "name": "招募民兵",
+          "program_id": "militia_recruitment",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 973,
+          "sheet": "传承",
+          "name": "牧师",
+          "program_id": "priest",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 974,
+          "sheet": "传承",
+          "name": "资源上限 V",
+          "program_id": "resource_cap_V",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 975,
+          "sheet": "传承",
+          "name": "店主和饲育员 III",
+          "program_id": "shopkeepers_and_breeders_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 976,
+          "sheet": "传承",
+          "name": "强化斧头 III",
+          "program_id": "enhanced_axes_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 977,
+          "sheet": "传承",
+          "name": "灌溉技术 III",
+          "program_id": "irrigation_techniques_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 978,
+          "sheet": "传承",
+          "name": "著名石匠 III",
+          "program_id": "renowned_stonemasons_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 979,
+          "sheet": "传承",
+          "name": "强化镐子 III",
+          "program_id": "enhanced_pickaxes_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 980,
+          "sheet": "传承",
+          "name": "佣兵合约 II",
+          "program_id": "mercenary_agreements_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 981,
+          "sheet": "传承",
+          "name": "区域市场",
+          "program_id": "regional_market",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 982,
+          "sheet": "传承",
+          "name": "资源上限 VI",
+          "program_id": "resource_cap_VI",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 983,
+          "sheet": "传承",
+          "name": "远古宝库 IV",
+          "program_id": "ancient_treasury_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 984,
+          "sheet": "传承",
+          "name": "工匠 II",
+          "program_id": "craftmen_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 985,
+          "sheet": "传承",
+          "name": "增员 III",
+          "program_id": "free_hands_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 986,
+          "sheet": "传承",
+          "name": "资源上限 VII",
+          "program_id": "resource_cap_VII",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 987,
+          "sheet": "传承",
+          "name": "尖刺与陷坑 III",
+          "program_id": "spikes_and_pits_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 988,
+          "sheet": "传承",
+          "name": "强化信念 III",
+          "program_id": "strengthening_faith_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 989,
+          "sheet": "传承",
+          "name": "战斗天使",
+          "program_id": "angel",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 990,
+          "sheet": "传承",
+          "name": "众志成军‌ III",
+          "program_id": "army_of_men_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 991,
+          "sheet": "传承",
+          "name": "乐土 II",
+          "program_id": "elysian_field_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 992,
+          "sheet": "传承",
+          "name": "主宰",
+          "program_id": "juggernaut",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 993,
+          "sheet": "传承",
+          "name": "佣兵合约 III",
+          "program_id": "mercenary_agreements_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 994,
+          "sheet": "传承",
+          "name": "武器强化 IV",
+          "program_id": "powered_weapons_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 995,
+          "sheet": "传承",
+          "name": "卡牌占卜师",
+          "program_id": "cartomancer",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 996,
+          "sheet": "传承",
+          "name": "聚宝盆 III",
+          "program_id": "deep_pockets_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 997,
+          "sheet": "传承",
+          "name": "亡者大厅",
+          "program_id": "hall_dead",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 998,
+          "sheet": "传承",
+          "name": "智慧大厅",
+          "program_id": "hall_wisdom",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 999,
+          "sheet": "传承",
+          "name": "诸神的机器",
+          "program_id": "machines_gods",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1000,
+          "sheet": "传承",
+          "name": "亡者兽群",
+          "program_id": "undead_herds",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1001,
+          "sheet": "传承",
+          "name": "资源上限 VIII",
+          "program_id": "resource_cap_VIII",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1002,
+          "sheet": "传承",
+          "name": "侍奉神明 IV",
+          "program_id": "service_gods_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1003,
+          "sheet": "传承",
+          "name": "聪明的村民 III",
+          "program_id": "clever_villagers_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1004,
+          "sheet": "传承",
+          "name": "加里亚德团长",
+          "program_id": "cpt_galliard_l",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1005,
+          "sheet": "传承",
+          "name": "强化斧头 IV",
+          "program_id": "enhanced_axes_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1006,
+          "sheet": "传承",
+          "name": "灌溉技术 IV",
+          "program_id": "irrigation_techniques_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1007,
+          "sheet": "传承",
+          "name": "著名石匠 IV",
+          "program_id": "renowned_stonemasons_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1008,
+          "sheet": "传承",
+          "name": "强化镐子 IV",
+          "program_id": "enhanced_pickaxes_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1009,
+          "sheet": "传承",
+          "name": "内政部",
+          "program_id": "ministry_interior_l",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1010,
+          "sheet": "传承",
+          "name": "战争部",
+          "program_id": "ministry_war_l",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1011,
+          "sheet": "传承",
+          "name": "宗教部",
+          "program_id": "ministry_worship_l",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1012,
+          "sheet": "传承",
+          "name": "武器强化 V",
+          "program_id": "powered_weapons_V",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1013,
+          "sheet": "传承",
+          "name": "工匠 III",
+          "program_id": "craftmen_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1014,
+          "sheet": "传承",
+          "name": "众志成军‌ IV",
+          "program_id": "army_of_men_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1015,
+          "sheet": "传承",
+          "name": "训练定居点的军队",
+          "program_id": "train_colonial",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1016,
+          "sheet": "传承",
+          "name": "增员 IV",
+          "program_id": "free_hands_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1017,
+          "sheet": "传承",
+          "name": "尖刺与陷坑 IV",
+          "program_id": "spikes_and_pits_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1018,
+          "sheet": "传承",
+          "name": "强化信念 IV",
+          "program_id": "strengthening_faith_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1019,
+          "sheet": "传承",
+          "name": "远古炎魔",
+          "program_id": "ancient_balor_l",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1020,
+          "sheet": "传承",
+          "name": "工匠 IV",
+          "program_id": "craftmen_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1021,
+          "sheet": "传承",
+          "name": "乐土 III",
+          "program_id": "elysian_field_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1022,
+          "sheet": "传承",
+          "name": "炽天使",
+          "program_id": "seraphim_l",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1023,
+          "sheet": "传承",
+          "name": "命运侍僧",
+          "program_id": "acolyte_fate",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1024,
+          "sheet": "传承",
+          "name": "聚宝盆 IV",
+          "program_id": "deep_pockets_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1025,
+          "sheet": "传承",
+          "name": "侍奉神明 V",
+          "program_id": "service_gods_V",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1026,
+          "sheet": "传承",
+          "name": "武器强化 VI",
+          "program_id": "powered_weapons_VI",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1027,
+          "sheet": "传承",
+          "name": "众志成军‌ V",
+          "program_id": "army_of_men_V",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1028,
+          "sheet": "传承",
+          "name": "工匠 V",
+          "program_id": "craftmen_V",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1029,
+          "sheet": "传承",
+          "name": "训练定居点的军队 II",
+          "program_id": "train_colonial_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1030,
+          "sheet": "传承",
+          "name": "尖刺与陷坑 V",
+          "program_id": "spikes_and_pits_V",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1031,
+          "sheet": "传承",
+          "name": "强化信念V",
+          "program_id": "strengthening_faith_V",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1032,
+          "sheet": "传承",
+          "name": "泰坦的建筑",
+          "program_id": "architecture_titan",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1033,
+          "sheet": "传承",
+          "name": "泰坦之墙",
+          "program_id": "wall_titan",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1034,
+          "sheet": "传承",
+          "name": "泰坦的武器",
+          "program_id": "weapons_titan",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1035,
+          "sheet": "传承",
+          "name": "聚宝盆 V",
+          "program_id": "deep_pockets_V",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1036,
+          "sheet": "传承",
+          "name": "武器强化 VII",
+          "program_id": "powered_weapons_VII",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1037,
+          "sheet": "传承",
+          "name": "聪明的村民 IV",
+          "program_id": "clever_villagers_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1038,
+          "sheet": "传承",
+          "name": "武器强化 VIII",
+          "program_id": "powered_weapons_VIII",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1039,
+          "sheet": "传承",
+          "name": "尖刺与陷坑 VI",
+          "program_id": "spikes_and_pits_VI",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1040,
+          "sheet": "传承",
+          "name": "工匠 VI",
+          "program_id": "craftmen_VI",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1041,
+          "sheet": "传承",
+          "name": "众志成军‌ VI",
+          "program_id": "army_of_men_VI",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1042,
+          "sheet": "传承",
+          "name": "强化斧头 V",
+          "program_id": "enhanced_axes_V",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1043,
+          "sheet": "传承",
+          "name": "灌溉技术 V",
+          "program_id": "irrigation_techniques_V",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1044,
+          "sheet": "传承",
+          "name": "著名石匠 V",
+          "program_id": "renowned_stonemasons_V",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1045,
+          "sheet": "传承",
+          "name": "强化镐子 V",
+          "program_id": "enhanced_pickaxes_V",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1046,
+          "sheet": "传承",
+          "name": "强化斧头 VI",
+          "program_id": "enhanced_axes_VI",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1047,
+          "sheet": "传承",
+          "name": "灌溉技术 VI",
+          "program_id": "irrigation_techniques_VI",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1048,
+          "sheet": "传承",
+          "name": "著名石匠 VI",
+          "program_id": "renowned_stonemasons_VI",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1049,
+          "sheet": "传承",
+          "name": "强化镐子 VI",
+          "program_id": "enhanced_pickaxes_VI",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1050,
+          "sheet": "传承",
+          "name": "增员 V",
+          "program_id": "free_hands_V",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1051,
+          "sheet": "传承",
+          "name": "乐土 IV",
+          "program_id": "elysian_field_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1052,
+          "sheet": "传承",
+          "name": "幸运之神",
+          "program_id": "god_luck",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1053,
+          "sheet": "传承",
+          "name": "训练定居点的军队 III",
+          "program_id": "train_colonial_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1054,
+          "sheet": "传承",
+          "name": "光明之环",
+          "program_id": "light_circle",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1055,
+          "sheet": "传承",
+          "name": "强化信念 VI",
+          "program_id": "strengthening_faith_VI",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1056,
+          "sheet": "传承",
+          "name": "聚宝盆 VI",
+          "program_id": "deep_pockets_VI",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1057,
+          "sheet": "传承",
+          "name": "乐土 V",
+          "program_id": "elysian_field_V",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1058,
+          "sheet": "传承",
+          "name": "武器强化 IX",
+          "program_id": "powered_weapons_IX",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1059,
+          "sheet": "传承",
+          "name": "光明之环 II",
+          "program_id": "light_circle_II",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1060,
+          "sheet": "传承",
+          "name": "众志成军‌ VII",
+          "program_id": "army_of_men_VII",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1061,
+          "sheet": "传承",
+          "name": "众志成军‌ VIII",
+          "program_id": "army_of_men_VIII",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1062,
+          "sheet": "传承",
+          "name": "光明之环 III",
+          "program_id": "light_circle_III",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1063,
+          "sheet": "传承",
+          "name": "聚宝盆 VII",
+          "program_id": "deep_pockets_VII",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1064,
+          "sheet": "传承",
+          "name": "光明之环 IV",
+          "program_id": "light_circle_IV",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1065,
+          "sheet": "传承",
+          "name": "众志成军‌ IX",
+          "program_id": "army_of_men_IX",
+          "match_aliases": [
+            "传承"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1206,
+          "sheet": "研究",
+          "name": "光荣退休",
+          "program_id": "glorious_retirement",
+          "match_aliases": [
+            "光荣退休"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1411,
+          "sheet": "研究",
+          "name": "发射灭世终焉",
+          "program_id": "launch_annhilator",
+          "match_aliases": [
+            "传承",
+            "转生"
+          ]
+        },
+        {
+          "goal": "prestige",
+          "entity_id": 1625,
+          "sheet": "资源",
+          "name": "传承",
+          "program_id": "legacy",
+          "match_aliases": [
+            "传承"
+          ]
+        }
+      ]
+    },
+    "stage_progress": {
+      "aliases": [
+        "结束远古时代",
+        "结束封建时代",
+        "航海",
+        "法力深井"
+      ],
+      "whitelist_items": [],
+      "xlsx_hits": [
+        {
+          "goal": "stage_progress",
+          "entity_id": 97,
+          "sheet": "建筑",
+          "name": "法力深井",
+          "program_id": "",
+          "match_aliases": [
+            "法力深井"
+          ]
+        },
+        {
+          "goal": "stage_progress",
+          "entity_id": 98,
+          "sheet": "建筑",
+          "name": "法力深井组件",
+          "program_id": "",
+          "match_aliases": [
+            "法力深井"
+          ]
+        },
+        {
+          "goal": "stage_progress",
+          "entity_id": 677,
+          "sheet": "成就",
+          "name": "航海",
+          "program_id": "harbor_district",
+          "match_aliases": [
+            "航海"
+          ]
+        },
+        {
+          "goal": "stage_progress",
+          "entity_id": 680,
+          "sheet": "成就",
+          "name": "充满法力的深洞",
+          "program_id": "mana_pit",
+          "match_aliases": [
+            "法力深井"
+          ]
+        },
+        {
+          "goal": "stage_progress",
+          "entity_id": 1165,
+          "sheet": "研究",
+          "name": "结束远古时代",
+          "program_id": "end_ancient_era",
+          "match_aliases": [
+            "结束远古时代"
+          ]
+        },
+        {
+          "goal": "stage_progress",
+          "entity_id": 1208,
+          "sheet": "研究",
+          "name": "结束封建时代",
+          "program_id": "end_feudal_era",
+          "match_aliases": [
+            "结束封建时代"
+          ]
+        },
+        {
+          "goal": "stage_progress",
+          "entity_id": 1293,
+          "sheet": "研究",
+          "name": "航海",
+          "program_id": "seafaring",
+          "match_aliases": [
+            "航海"
+          ]
+        }
+      ]
+    }
+  },
+  "flowchart_stages": [
+    {
+      "stage": "远古时代",
+      "nodes": [
+        "住房",
+        "农业",
+        "存储",
+        "农场",
+        "储物间",
+        "饲育",
+        "马厩",
+        "琢石",
+        "采石场",
+        "采矿",
+        "矿井",
+        "青铜加工",
+        "铁加工",
+        "砍伐木材",
+        "伐木工营地",
+        "陶器",
+        "工匠作坊",
+        "写作",
+        "宗教",
+        "数学",
+        "货币",
+        "市场",
+        "结束远古时代",
+        "市中心"
+      ],
+      "gates": [
+        {
+          "name": "采矿门槛",
+          "requirements": [
+            "3采石场"
+          ]
+        },
+        {
+          "name": "饲育门槛",
+          "requirements": [
+            "5农场",
+            "1储物间"
+          ]
+        },
+        {
+          "name": "远古结束门槛",
+          "requirements": [
+            "15普通房屋",
+            "5工坊",
+            "铁加工",
+            "宗教"
+          ]
+        }
+      ],
+      "focus": [
+        "stage_progress"
+      ]
+    },
+    {
+      "stage": "封建时代",
+      "nodes": [
+        "封建时代",
+        "建筑学",
+        "确定边界",
+        "卡纳瓦先驱",
+        "守望者前哨",
+        "月明之夜",
+        "教育学",
+        "公会",
+        "食品保存",
+        "银行业",
+        "金属铸造",
+        "锻钢",
+        "骑士精神",
+        "集市和市场",
+        "结束封建时代"
+      ],
+      "gates": [
+        {
+          "name": "月明门槛",
+          "requirements": [
+            "4守望者前哨"
+          ]
+        },
+        {
+          "name": "市场门槛",
+          "requirements": [
+            "公会",
+            "银行业",
+            "3市场"
+          ]
+        },
+        {
+          "name": "封建结束门槛",
+          "requirements": [
+            "3宅邸",
+            "3木匠工坊",
+            "3钢铁厂",
+            "3大学",
+            "3食品杂货店",
+            "集市和市场",
+            "骑士精神",
+            "月明之夜"
+          ]
+        }
+      ],
+      "focus": [
+        "moonlight",
+        "stage_progress"
+      ]
+    },
+    {
+      "stage": "中世纪 / 德鲁伊线",
+      "nodes": [
+        "自由思想家学院",
+        "科学理论",
+        "化学",
+        "火药",
+        "灾难",
+        "解决危机",
+        "难民区",
+        "龙之骨",
+        "巨龙来袭",
+        "印刷机",
+        "圣职者军团",
+        "魔法艺术教学",
+        "法力应用",
+        "法力深井",
+        "法力引擎",
+        "机械化",
+        "研究区",
+        "生态学",
+        "与自然沟通",
+        "孤独的德鲁伊",
+        "放逐德鲁伊",
+        "德鲁伊之怒",
+        "接受德鲁伊",
+        "城市的奇迹"
+      ],
+      "gates": [
+        {
+          "name": "法力应用门槛",
+          "requirements": [
+            "魔法艺术教学",
+            "巨龙来袭"
+          ]
+        }
+      ],
+      "focus": [
+        "druid",
+        "stage_progress"
+      ]
+    },
+    {
+      "stage": "纳红石时代 / 海岛",
+      "nodes": [
+        "长途探险",
+        "登攀者世界的海岸",
+        "海湾计划",
+        "海湾区",
+        "远大梦想",
+        "航海",
+        "远西岛",
+        "小岛前哨",
+        "岛屿前哨",
+        "踏上旅途",
+        "定居点大厅",
+        "被烧毁的农场",
+        "兽人集中营",
+        "兽人的威胁",
+        "兽人突袭队",
+        "兽人堡垒",
+        "兽人艾米亚克堡垒",
+        "人类的至暗时刻"
+      ],
+      "gates": [
+        {
+          "name": "航海门槛",
+          "requirements": [
+            "海湾区",
+            "远大梦想"
+          ]
+        },
+        {
+          "name": "海岛推进门槛",
+          "requirements": [
+            "12定居点大厅"
+          ]
+        }
+      ],
+      "focus": [
+        "annihilator",
+        "stage_progress"
+      ]
+    },
+    {
+      "stage": "深渊 / 灭世线",
+      "nodes": [
+        "光之信标",
+        "调查深渊",
+        "俯瞰黑暗",
+        "划定疆界",
+        "奥术研究",
+        "地下房间",
+        "勘探周围区域",
+        "黑暗村庄",
+        "黑暗之地",
+        "辉烬",
+        "辉烬工厂",
+        "光耀广场",
+        "火箭技术",
+        "无人机",
+        "卫星",
+        "信号",
+        "解密信号",
+        "信号机器",
+        "信号机器奇观",
+        "激活信号机器",
+        "制造灭世终焉",
+        "发射灭世终焉",
+        "销毁灭世终焉",
+        "灭世转生",
+        "恶孽之手",
+        "莫德凯·暗禁男爵",
+        "无智之恶",
+        "登攀者世界的救世主"
+      ],
+      "gates": [
+        {
+          "name": "黑暗之地门槛",
+          "requirements": [
+            "5光之信标",
+            "黑暗村庄"
+          ]
+        },
+        {
+          "name": "火箭/信号门槛",
+          "requirements": [
+            "5光耀广场"
+          ]
+        },
+        {
+          "name": "无智之恶门槛",
+          "requirements": [
+            "销毁灭世终焉",
+            "莫德凯·暗禁男爵",
+            "恶孽之手"
+          ]
+        }
+      ],
+      "focus": [
+        "annihilator"
+      ]
+    }
+  ]
+}
