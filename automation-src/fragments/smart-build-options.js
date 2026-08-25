@@ -1,5 +1,5 @@
 ﻿      smartBuild: {
-        enabled: false,
+        enabled: true,
         goal: 'progress',
         strategy: 'balanced',
         risk: 'normal',
@@ -9,6 +9,8 @@
         armyMaxExtra: 25,
         armyMaxTarget: 250,
         maxTarget: 80,
-        maxWaitSeconds: 180
+        maxWaitSeconds: 180,
+        researchEnabled: true,
+        researchExcludes: []
       },
 

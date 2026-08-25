@@ -280,11 +280,11 @@
       if (!route) return [];
       return [...(route.buildingTargets || []), ...(route.supportTargets || [])];
     };
-    const getExpandedRouteTargets = route => {
-      if (!route) return [];
+    const expandPrerequisiteTargets = (seedEntries, reasonLabel = 'target') => {
+      if (!seedEntries || !seedEntries.length) return [];
       const byId = {};
       const visiting = {};
-      const addEntry = (entry, inheritedPriority = 6, reason = 'route target') => {
+      const addEntry = (entry, inheritedPriority = 6, reason = reasonLabel) => {
         if (!entry || !entry.id) return;
         const building = buildings.find(candidate => candidate.id === entry.id);
         if (!building) return;
@@ -305,13 +305,27 @@
             id: req.id,
             target: Math.max(1, Number(req.value) || 1),
             priority: Math.min(10, priority + 1),
-            reason: `route prerequisite for ${entry.id}`
-          }, Math.min(10, priority + 1), `route prerequisite for ${entry.id}`);
+            reason: `prerequisite for ${entry.id}`
+          }, Math.min(10, priority + 1), `prerequisite for ${entry.id}`);
         });
         visiting[entry.id] = false;
       };
-      getRouteTargets(route).forEach(entry => addEntry(entry, entry.priority || 6, entry.reason || 'route target'));
+      seedEntries.forEach(entry => addEntry(entry, entry.priority || 6, entry.reason || reasonLabel));
       return Object.values(byId);
+    };
+    const getExpandedRouteTargets = route => {
+      if (!route) return [];
+      return expandPrerequisiteTargets(getRouteTargets(route), 'route target');
+    };
+    const getExpandedGoalFocusTargets = goal => {
+      if (!goal.buildingFocus || !goal.buildingFocus.length) return [];
+      const seeds = goal.buildingFocus.map(id => ({
+        id,
+        target: 1,
+        priority: 6,
+        reason: 'goal building focus'
+      }));
+      return expandPrerequisiteTargets(seeds, 'goal building focus');
     };
     const getRouteEntry = (building, route) => getExpandedRouteTargets(route).find(entry => entry.id === building.id);
     const getGoalTechs = goal => (goal.targetTechs || []).map(techId => tech.find(technology => technology.id === techId)).filter(Boolean);
@@ -527,6 +541,14 @@
       if (count >= routeEntry.target) return routeEntry.priority >= 8 ? 8 : 3;
       return 80 + (routeEntry.target - count) * 14 + (routeEntry.priority || 6) * 5;
     };
+    const getGoalFocusPrerequisiteBonus = (building, goal) => {
+      if (goal.buildingFocus && goal.buildingFocus.includes(building.id)) return 0;
+      const focusEntry = getExpandedGoalFocusTargets(goal).find(target => target.id === building.id);
+      if (!focusEntry) return 0;
+      const count = getCount(building);
+      if (count >= focusEntry.target) return focusEntry.priority >= 8 ? 8 : 3;
+      return 80 + (focusEntry.target - count) * 14 + (focusEntry.priority || 6) * 5;
+    };
     const getCostWait = (building, count, resourceMap) => {
       if (!building.req) return 0;
       return building.req.filter(req => req.type === 'resource').reduce((wait, req) => {
@@ -597,6 +619,7 @@
       score *= goal.weights && goal.weights[building.cat] ? goal.weights[building.cat] : 1;
       score += getGoalRequirementBonus(building, goal);
       score += getRouteRequirementBonus(building, route);
+      score += getGoalFocusPrerequisiteBonus(building, goal);
       score += getCapShortfallBonus(building, goal, route, resourceMap);
       score += getDangerousBattleBuildingBonus(building, options);
       score -= Math.max(0, count - 6) * 0.55;
@@ -734,6 +757,69 @@
       }
       return applyUnitManualOverrides(targets, manualOptions, options);
     };
+    const getResearchGroups = () => groupChoices(tech);
+    const getTechUnlockBonus = (technology, goal) => {
+      const focusTargets = getExpandedGoalFocusTargets(goal);
+      if (!focusTargets.length) return 0;
+      const unlockedBuildings = buildings.filter(building => (building.req || []).some(req => req.type === 'tech' && req.id === technology.id));
+      if (!unlockedBuildings.length) return 0;
+      const bestPriority = unlockedBuildings.reduce((max, building) => {
+        const entry = focusTargets.find(target => target.id === building.id);
+        return entry ? Math.max(max, entry.priority || 0) : max;
+      }, 0);
+      return bestPriority ? 60 + bestPriority * 8 : 0;
+    };
+    const getResearchProductionBonus = (technology, options, goal) => {
+      const weights = smartBuildStrategyWeights[options.strategy] || smartBuildStrategyWeights.balanced;
+      let bonus = 0;
+      (technology.gen || []).forEach(gen => {
+        if (gen.type === 'resource') {
+          const focusWeight = goal.resourceFocus && goal.resourceFocus.includes(gen.id) ? 1.6 : 1;
+          bonus += Math.abs(gen.value || 0) * (gen.perc ? 6 : 1.5) * focusWeight;
+        } else if (gen.type === 'modifier' && gen.type_id === 'army') {
+          bonus += Math.abs(gen.value || 0) * 2;
+        }
+      });
+      return bonus * (weights.science || 1);
+    };
+    const scoreResearch = (technology, options, goal, blockedFights) => {
+      if (resetResearch.includes(technology.id) && !(goal.targetTechs || []).includes(technology.id)) return 0;
+      if ((options.researchExcludes || []).includes(technology.id)) return 0;
+      let score = 4;
+      if ((goal.targetTechs || []).includes(technology.id)) score += 220;
+      score += getResearchProductionBonus(technology, options, goal);
+      score += getTechUnlockBonus(technology, goal);
+      if (technology.confirm || unsafeResearch.includes(technology.id)) {
+        score += blockedFights.some(fight => fight.techId === technology.id) ? 40 : 10;
+      }
+      return score;
+    };
+    const applyResearchManualOverrides = (targets, manualOptions, options) => {
+      if (!options.manualOverrides || !manualOptions) return targets;
+      Object.keys(manualOptions).forEach(key => {
+        if (manualOptions[key]) targets[key] = manualOptions[key];
+      });
+      return targets;
+    };
+    const getResearchTargets = (manualOptions = {}) => {
+      const options = getOptions();
+      if (!options.enabled || options.researchEnabled === false) return null;
+      const goal = getGoal(options);
+      const blockedFights = getBlockedDangerousFights(options);
+      const targets = {};
+      tech.forEach(technology => {
+        targets[technology.id] = toPriority(scoreResearch(technology, options, goal, blockedFights));
+      });
+      getResearchGroups().forEach(group => {
+        const members = (group.value || []).map(id => tech.find(technology => technology.id === id)).filter(Boolean);
+        if (!members.length) return;
+        const winner = members.reduce((best, candidate) => targets[candidate.id] > targets[best.id] ? candidate : best, members[0]);
+        members.forEach(member => {
+          if (member.id !== winner.id) targets[member.id] = 0;
+        });
+      });
+      return applyResearchManualOverrides(targets, manualOptions, options);
+    };
     const getTargets = (subpage, manualOptions = {}) => {
       const options = getOptions();
       if (!options.enabled) return null;
@@ -758,6 +844,7 @@
     return {
       getTargets,
       getUnitTargets,
+      getResearchTargets,
       shouldGateDangerousResearch
     };
   })();

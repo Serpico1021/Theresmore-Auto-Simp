@@ -47877,7 +47877,8 @@ const taVersion = "4.14.4";
     return state.options.pages[CONSTANTS.PAGES.RESEARCH].subpages[CONSTANTS.SUBPAGES.RESEARCH].enabled || false;
   };
   const getAllowedResearch = () => {
-    const researchOptions = state.options.pages[CONSTANTS.PAGES.RESEARCH].subpages[CONSTANTS.SUBPAGES.RESEARCH].options;
+    const configuredResearchOptions = state.options.pages[CONSTANTS.PAGES.RESEARCH].subpages[CONSTANTS.SUBPAGES.RESEARCH].options;
+    const researchOptions = smartBuildPlanner.getResearchTargets(configuredResearchOptions) || configuredResearchOptions;
     if (Object.keys(researchOptions).length) {
       let allowedResearch = Object.keys(researchOptions).filter(key => !!researchOptions[key]).map(key => {
         const research = {
