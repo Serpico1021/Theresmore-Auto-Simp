@@ -113,7 +113,7 @@ const getProductionStorageCap = (building, resourceMap, options) => {
     if (projectedSpeed <= 0) return cap;
     const secondsToFill = (res.max - res.current) / projectedSpeed;
     if (secondsToFill >= PRODUCTION_STORAGE_CAP_SECONDS) return cap;
-    return Math.min(cap, getCount(building));
+    return Math.min(cap, Math.max(getCount(building), 1));
   }, Infinity);
 };
 const applyTitanOverrides = (targets, options) => {
@@ -156,7 +156,6 @@ const getRouteRequirementBonus = (building, route) => {
   return 80 + (routeEntry.target - count) * 14 + (routeEntry.priority || 6) * 5;
 };
 const getGoalFocusPrerequisiteBonus = (building, goal) => {
-  if (goal.buildingFocus && goal.buildingFocus.includes(building.id)) return 0;
   const focusEntry = getExpandedGoalFocusTargets(goal).find(target => target.id === building.id);
   if (!focusEntry) return 0;
   const count = getCount(building);

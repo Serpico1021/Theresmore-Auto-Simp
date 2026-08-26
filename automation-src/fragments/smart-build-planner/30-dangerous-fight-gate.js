@@ -48,6 +48,6 @@ const getBlockedDangerousFights = options => {
 };
 const shouldGateDangerousResearch = researchKey => {
   const options = getOptions();
-  if (!options.enabled || !options.armyEnabled || !smartBuildDangerousFights[researchKey]) return false;
+  if (!options.enabled || !smartBuildDangerousFights[researchKey]) return false;
   return true;
 };

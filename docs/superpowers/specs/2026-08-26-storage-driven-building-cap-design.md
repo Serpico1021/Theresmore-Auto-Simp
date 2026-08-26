@@ -139,3 +139,14 @@ getTargets(subpage, manualOptions)
 
 - `smartBuildTitanOverrides` 首版只搭框架，具体游戏内泰坦建筑 id、`replaces` 列表、`capFactor` 数值需要后续单独确认填充。
 - `PRODUCTION_STORAGE_CAP_SECONDS` 阈值（默认 90 秒）是否需要按资源类型（如 `research` vs `food`）区分不同阈值，留待实机验证后再调。
+
+## 2026-08-26 事后修复：`getCount(building)===0` 时上限被钉死为 0（已修复）
+
+实机验证时发现的缺陷（不是理论推演）：`getProductionStorageCap` 触发"资源已过剩"判定时把上限
+设为 `getCount(building)`，对**从未建过的建筑**（`getCount===0`）这个上限直接是 0，导致只要
+它产出的某个资源已经快装满仓库，这个建筑就永远造不出来——包括第一次也造不出来，和"阻止已建成的
+产出建筑继续无脑叠加"的设计初衷不符。具体案例：`refugee_district`（难民区，`progress` goal 的
+`buildingFocus` 目标，前置 `refugee_district_part` 已建满 8/8）反复卡在这一步，直到发现这个
+上限计算独立于打分链路（`getGoalFocusPrerequisiteBonus` 加多少分都没用），才定位到根因。
+已修复为 `Math.min(cap, Math.max(getCount(building), 1))`——保留"不超过现有数量"的限流意图，
+但不再挡住第一个。详见 `.codemap-conventions.md`"难民区仍不自动建造——真正根因"条目。
