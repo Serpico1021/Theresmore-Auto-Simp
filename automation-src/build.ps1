@@ -9,7 +9,24 @@ $fragmentsPath = Join-Path $PSScriptRoot 'fragments'
 
 $base = Get-Content -Raw -Encoding UTF8 -LiteralPath $basePath
 $smartBuildOptions = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'smart-build-options.js')
-$smartBuildPlanner = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'smart-build-planner.js')
+
+$plannerDir = Join-Path $fragmentsPath 'smart-build-planner'
+$dataTables = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $plannerDir '00-data-tables.js')
+$plannerInnerFiles = @(
+  '10-game-state-adapter.js',
+  '20-goal-routes.js',
+  '30-dangerous-fight-gate.js',
+  '40-build-scoring.js',
+  '50-unit-scoring.js',
+  '60-research-scoring.js',
+  '70-explore-scoring.js',
+  '90-export.js'
+)
+$plannerInner = ($plannerInnerFiles | ForEach-Object {
+  Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $plannerDir $_)
+}) -join "`n"
+$smartBuildPlanner = $dataTables.TrimEnd() + "`n  const smartBuildPlanner = (() => {`n" + $plannerInner + "`n  })();`n"
+
 $smartBuildPanel = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'smart-build-panel.template.html')
 
 $bundle = $base.

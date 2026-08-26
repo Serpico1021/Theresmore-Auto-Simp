@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# VS Code Local History extension artifact
+.history/

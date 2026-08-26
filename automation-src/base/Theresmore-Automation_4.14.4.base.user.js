@@ -47016,18 +47016,20 @@ const taVersion = "4.14.4";
   const executeAction$7 = async () => {
     if (!navigation.checkPage(CONSTANTS.PAGES.ARMY, CONSTANTS.SUBPAGES.EXPLORE)) return;
     if (state.scriptPaused) return;
+    const configuredExploreOptions = state.options.pages[CONSTANTS.PAGES.ARMY].subpages[CONSTANTS.SUBPAGES.EXPLORE].options;
+    const exploreOptions = smartBuildPlanner.getExploreTargets(configuredExploreOptions) || configuredExploreOptions;
     const limits = {
       scout: {
-        min: state.options.pages[CONSTANTS.PAGES.ARMY].subpages[CONSTANTS.SUBPAGES.EXPLORE].options.scoutsMin ?? 0,
-        max: state.options.pages[CONSTANTS.PAGES.ARMY].subpages[CONSTANTS.SUBPAGES.EXPLORE].options.scoutsMax ?? 0
+        min: exploreOptions.scoutsMin ?? 0,
+        max: exploreOptions.scoutsMax ?? 0
       },
       explorer: {
-        min: state.options.pages[CONSTANTS.PAGES.ARMY].subpages[CONSTANTS.SUBPAGES.EXPLORE].options.explorersMin ?? 0,
-        max: state.options.pages[CONSTANTS.PAGES.ARMY].subpages[CONSTANTS.SUBPAGES.EXPLORE].options.explorersMax ?? 0
+        min: exploreOptions.explorersMin ?? 0,
+        max: exploreOptions.explorersMax ?? 0
       },
       familiar: {
-        min: state.options.pages[CONSTANTS.PAGES.ARMY].subpages[CONSTANTS.SUBPAGES.EXPLORE].options.familiarsMin ?? 0,
-        max: state.options.pages[CONSTANTS.PAGES.ARMY].subpages[CONSTANTS.SUBPAGES.EXPLORE].options.familiarsMax ?? 0
+        min: exploreOptions.familiarsMin ?? 0,
+        max: exploreOptions.familiarsMax ?? 0
       }
     };
     const container = document.querySelector('div.tab-container.sub-container');

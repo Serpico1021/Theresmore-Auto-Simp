@@ -11,6 +11,7 @@
         maxTarget: 80,
         maxWaitSeconds: 180,
         researchEnabled: true,
-        researchExcludes: []
+        researchExcludes: [],
+        exploreEnabled: true
       },
 
