@@ -57,7 +57,7 @@ const smartBuildStrategyWeights = {
 const smartBuildGoals = {
   progress: {
     resourceFocus: ['research', 'wood', 'stone', 'tools', 'iron', 'building_material'],
-    buildingFocus: ['city_center', 'academy_of_freethinkers', 'mana_pit', 'harbor_district'],
+    buildingFocus: ['city_center', 'academy_of_freethinkers', 'refugee_district', 'mana_pit', 'harbor_district'],
     targetTechs: ['architecture', 'establish_boundaries', 'moonlight_night', 'end_ancient_era', 'end_feudal_era', 'end_era_4_1', 'end_era_4_2'],
     weights: {
       resource: 1.2,
