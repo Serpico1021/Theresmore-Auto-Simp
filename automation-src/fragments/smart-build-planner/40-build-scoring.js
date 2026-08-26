@@ -316,10 +316,19 @@ const applyDangerousBattleBuildingTargets = (targets, subpage, options) => {
   });
   return targets;
 };
+const GENERAL_SCORE_PLAN_CAP_MULTIPLIER = 2;
+const getPlannedTarget = (building, goal, route) => {
+  const routeEntry = getRouteEntry(building, route);
+  if (routeEntry) return routeEntry.target;
+  const focusEntry = getExpandedGoalFocusTargets(goal).find(target => target.id === building.id);
+  return focusEntry ? focusEntry.target : null;
+};
 const getTargets = (subpage, manualOptions = {}) => {
   const options = getOptions();
   if (!options.enabled) return null;
   const resourceMap = getResourceMap();
+  const goal = getGoal(options);
+  const route = getRoute(options);
   const targets = {};
   buildings.filter(building => building.tab === CONSTANTS.SUBPAGES_INDEX[subpage] + 1).forEach(building => {
     const score = scoreBuilding(building, resourceMap, options);
@@ -327,11 +336,13 @@ const getTargets = (subpage, manualOptions = {}) => {
     if (!prio) return;
     const count = getCount(building);
     const cap = building.cap || Number(options.maxTarget) || smartBuildDefaults.maxTarget;
+    const plannedTarget = getPlannedTarget(building, goal, route);
     const max = Math.min(
       cap,
       Number(options.maxTarget) || smartBuildDefaults.maxTarget,
       count + Math.min(Number(options.maxExtra) || smartBuildDefaults.maxExtra, toExtra(score)),
-      getProductionStorageCap(building, resourceMap, options)
+      getProductionStorageCap(building, resourceMap, options),
+      plannedTarget !== null ? plannedTarget * GENERAL_SCORE_PLAN_CAP_MULTIPLIER : Infinity
     );
     if (max <= count) return;
     targets[building.id] = max;

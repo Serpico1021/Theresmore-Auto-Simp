@@ -3,5 +3,6 @@ return {
   getUnitTargets,
   getResearchTargets,
   getExploreTargets,
+  getPrayerTargets,
   shouldGateDangerousResearch
 };

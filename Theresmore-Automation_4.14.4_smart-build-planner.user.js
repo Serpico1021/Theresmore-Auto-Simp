@@ -256,7 +256,9 @@ const taVersion = "4.14.4";
         maxWaitSeconds: 180,
         researchEnabled: true,
         researchExcludes: [],
-        exploreEnabled: true
+        exploreEnabled: true,
+        prayerEnabled: true,
+        prayerExcludes: []
       },
       lastMigration: 3,
       version: taVersion
@@ -48074,10 +48076,19 @@ const applyDangerousBattleBuildingTargets = (targets, subpage, options) => {
   });
   return targets;
 };
+const GENERAL_SCORE_PLAN_CAP_MULTIPLIER = 2;
+const getPlannedTarget = (building, goal, route) => {
+  const routeEntry = getRouteEntry(building, route);
+  if (routeEntry) return routeEntry.target;
+  const focusEntry = getExpandedGoalFocusTargets(goal).find(target => target.id === building.id);
+  return focusEntry ? focusEntry.target : null;
+};
 const getTargets = (subpage, manualOptions = {}) => {
   const options = getOptions();
   if (!options.enabled) return null;
   const resourceMap = getResourceMap();
+  const goal = getGoal(options);
+  const route = getRoute(options);
   const targets = {};
   buildings.filter(building => building.tab === CONSTANTS.SUBPAGES_INDEX[subpage] + 1).forEach(building => {
     const score = scoreBuilding(building, resourceMap, options);
@@ -48085,11 +48096,13 @@ const getTargets = (subpage, manualOptions = {}) => {
     if (!prio) return;
     const count = getCount(building);
     const cap = building.cap || Number(options.maxTarget) || smartBuildDefaults.maxTarget;
+    const plannedTarget = getPlannedTarget(building, goal, route);
     const max = Math.min(
       cap,
       Number(options.maxTarget) || smartBuildDefaults.maxTarget,
       count + Math.min(Number(options.maxExtra) || smartBuildDefaults.maxExtra, toExtra(score)),
-      getProductionStorageCap(building, resourceMap, options)
+      getProductionStorageCap(building, resourceMap, options),
+      plannedTarget !== null ? plannedTarget * GENERAL_SCORE_PLAN_CAP_MULTIPLIER : Infinity
     );
     if (max <= count) return;
     targets[building.id] = max;
@@ -48285,11 +48298,47 @@ const getExploreTargets = (manualOptions = {}) => {
   return applyExploreManualOverrides(targets, manualOptions, options);
 };
 
+const getPrayerUnlockBonus = (prayer, goal, route) => {
+  const wantedTargets = [...getExpandedGoalFocusTargets(goal), ...getExpandedRouteTargets(route)];
+  if (!wantedTargets.length) return 0;
+  const unlockedBuildings = buildings.filter(building => (building.req || []).some(req => req.type === 'prayer' && req.id === prayer.id));
+  if (!unlockedBuildings.length) return 0;
+  const bestPriority = unlockedBuildings.reduce((max, building) => {
+    const entry = wantedTargets.find(target => target.id === building.id);
+    if (!entry || getCount(building) >= entry.target) return max;
+    return Math.max(max, entry.priority || 0);
+  }, 0);
+  return bestPriority ? 60 + bestPriority * 8 : 0;
+};
+const scorePrayer = (prayer, options, goal, route) => {
+  if ((options.prayerExcludes || []).includes(prayer.id)) return 0;
+  return 10 + getPrayerUnlockBonus(prayer, goal, route);
+};
+const applyPrayerManualOverrides = (targets, manualOptions, options) => {
+  if (!options.manualOverrides || !manualOptions) return targets;
+  Object.keys(manualOptions).forEach(key => {
+    if (manualOptions[key]) targets[key] = manualOptions[key];
+  });
+  return targets;
+};
+const getPrayerTargets = (manualOptions = {}) => {
+  const options = getOptions();
+  if (!options.enabled || options.prayerEnabled === false) return null;
+  const goal = getGoal(options);
+  const route = getRoute(options);
+  const targets = {};
+  spells.filter(spell => spell.type === 'prayer').forEach(prayer => {
+    targets[prayer.id] = toPriority(scorePrayer(prayer, options, goal, route));
+  });
+  return applyPrayerManualOverrides(targets, manualOptions, options);
+};
+
 return {
   getTargets,
   getUnitTargets,
   getResearchTargets,
   getExploreTargets,
+  getPrayerTargets,
   shouldGateDangerousResearch
 };
 
@@ -49045,7 +49094,8 @@ return {
     return (state.options.pages[CONSTANTS.PAGES.MAGIC].enabled || false) && (state.options.pages[CONSTANTS.PAGES.MAGIC].subpages[CONSTANTS.SUBPAGES.PRAYERS].enabled || false);
   };
   const getAllowedPrayers = () => {
-    const prayersOptions = state.options.pages[CONSTANTS.PAGES.MAGIC].subpages[CONSTANTS.SUBPAGES.PRAYERS].options;
+    const configuredPrayersOptions = state.options.pages[CONSTANTS.PAGES.MAGIC].subpages[CONSTANTS.SUBPAGES.PRAYERS].options;
+    const prayersOptions = smartBuildPlanner.getPrayerTargets(configuredPrayersOptions) || configuredPrayersOptions;
     if (Object.keys(prayersOptions).length) {
       let allowedPrayers = Object.keys(prayersOptions).filter(key => !!prayersOptions[key]).map(key => {
         const prayer = {

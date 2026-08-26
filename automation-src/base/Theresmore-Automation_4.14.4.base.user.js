@@ -48059,7 +48059,8 @@ const taVersion = "4.14.4";
     return (state.options.pages[CONSTANTS.PAGES.MAGIC].enabled || false) && (state.options.pages[CONSTANTS.PAGES.MAGIC].subpages[CONSTANTS.SUBPAGES.PRAYERS].enabled || false);
   };
   const getAllowedPrayers = () => {
-    const prayersOptions = state.options.pages[CONSTANTS.PAGES.MAGIC].subpages[CONSTANTS.SUBPAGES.PRAYERS].options;
+    const configuredPrayersOptions = state.options.pages[CONSTANTS.PAGES.MAGIC].subpages[CONSTANTS.SUBPAGES.PRAYERS].options;
+    const prayersOptions = smartBuildPlanner.getPrayerTargets(configuredPrayersOptions) || configuredPrayersOptions;
     if (Object.keys(prayersOptions).length) {
       let allowedPrayers = Object.keys(prayersOptions).filter(key => !!prayersOptions[key]).map(key => {
         const prayer = {

@@ -12,6 +12,8 @@
         maxWaitSeconds: 180,
         researchEnabled: true,
         researchExcludes: [],
-        exploreEnabled: true
+        exploreEnabled: true,
+        prayerEnabled: true,
+        prayerExcludes: []
       },
 

@@ -20,6 +20,7 @@ $plannerInnerFiles = @(
   '50-unit-scoring.js',
   '60-research-scoring.js',
   '70-explore-scoring.js',
+  '80-prayer-scoring.js',
   '90-export.js'
 )
 $plannerInner = ($plannerInnerFiles | ForEach-Object {
