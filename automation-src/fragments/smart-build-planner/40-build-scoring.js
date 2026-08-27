@@ -32,13 +32,13 @@ const getResearchResourceCapShortfalls = (goal, resourceMap) => {
   });
   return shortfalls;
 };
-const getRouteBuildingResourceCapShortfalls = (route, resourceMap) => {
+const getRouteBuildingResourceCapShortfalls = (route, resourceMap, options) => {
   const shortfalls = {};
   getExpandedRouteTargets(route).forEach(routeEntry => {
     const building = buildings.find(candidate => candidate.id === routeEntry.id);
     if (!building) return;
     const count = getCount(building);
-    if (count >= routeEntry.target) return;
+    if (count >= getStageCap(building, options)) return;
     (building.req || []).filter(req => req.type === 'resource').forEach(req => {
       registerResourceCapShortfall(shortfalls, req, resourceMap, {
         id: building.id,
@@ -49,11 +49,11 @@ const getRouteBuildingResourceCapShortfalls = (route, resourceMap) => {
   });
   return shortfalls;
 };
-const getResourceCapShortfalls = (goal, route, resourceMap) => {
+const getResourceCapShortfalls = (goal, route, resourceMap, options) => {
   const shortfalls = {};
   [
     getResearchResourceCapShortfalls(goal, resourceMap),
-    getRouteBuildingResourceCapShortfalls(route, resourceMap)
+    getRouteBuildingResourceCapShortfalls(route, resourceMap, options)
   ].forEach(group => {
     Object.values(group).forEach(shortfall => {
       if (!shortfalls[shortfall.id] || shortfalls[shortfall.id].required < shortfall.required) {
@@ -91,8 +91,8 @@ const getGoalRequirementBonus = (building, goal) => {
   });
   return bonus;
 };
-const getCapShortfallBonus = (building, goal, route, resourceMap) => {
-  const shortfalls = getResourceCapShortfalls(goal, route, resourceMap);
+const getCapShortfallBonus = (building, goal, route, resourceMap, options) => {
+  const shortfalls = getResourceCapShortfalls(goal, route, resourceMap, options);
   const entries = Object.values(shortfalls);
   if (!entries.length || !building.gen) return 0;
   return entries.reduce((bonus, shortfall) => {
@@ -115,6 +115,15 @@ const getProductionStorageCap = (building, resourceMap, options) => {
     if (secondsToFill >= PRODUCTION_STORAGE_CAP_SECONDS) return cap;
     return Math.min(cap, Math.max(getCount(building), 1));
   }, Infinity);
+};
+const STAGE_DECAY_FLOOR = 4;
+const getStageCap = (building, options) => {
+  const cap = building.cap || Number(options.maxTarget) || smartBuildDefaults.maxTarget;
+  const stage = getCurrentStageIndex();
+  const tier = building.age === 100 ? stage : building.age;
+  const gap = stage - tier;
+  if (gap <= 0) return cap;
+  return Math.max(STAGE_DECAY_FLOOR, Math.round(cap / Math.pow(2, gap)));
 };
 const applyTitanOverrides = (targets, options) => {
   Object.keys(smartBuildTitanOverrides).forEach(titanId => {
@@ -148,12 +157,13 @@ const getDangerousBattleBuildingBonus = (building, options) => {
     return bonus;
   }, 0);
 };
-const getRouteRequirementBonus = (building, route) => {
+const getRouteRequirementBonus = (building, route, options) => {
   const routeEntry = getRouteEntry(building, route);
   if (!routeEntry) return 0;
   const count = getCount(building);
-  if (count >= routeEntry.target) return routeEntry.priority >= 8 ? 8 : 3;
-  return 80 + (routeEntry.target - count) * 14 + (routeEntry.priority || 6) * 5;
+  const target = getStageCap(building, options);
+  if (count >= target) return routeEntry.priority >= 8 ? 8 : 3;
+  return 80 + (target - count) * 14 + (routeEntry.priority || 6) * 5;
 };
 const getGoalFocusPrerequisiteBonus = (building, goal) => {
   const focusEntry = getExpandedGoalFocusTargets(goal).find(target => target.id === building.id);
@@ -231,9 +241,9 @@ const scoreBuilding = (building, resourceMap, options) => {
   score *= strategyWeights[building.cat] || 1;
   score *= goal.weights && goal.weights[building.cat] ? goal.weights[building.cat] : 1;
   score += getGoalRequirementBonus(building, goal);
-  score += getRouteRequirementBonus(building, route);
+  score += getRouteRequirementBonus(building, route, options);
   score += getGoalFocusPrerequisiteBonus(building, goal);
-  score += getCapShortfallBonus(building, goal, route, resourceMap);
+  score += getCapShortfallBonus(building, goal, route, resourceMap, options);
   score += getDangerousBattleBuildingBonus(building, options);
   score -= Math.max(0, count - 6) * 0.55;
   return score - risk;
@@ -268,19 +278,14 @@ const applyRouteTargets = (targets, subpage, options) => {
   getExpandedRouteTargets(route).forEach(routeEntry => {
     const building = buildings.find(candidate => candidate.id === routeEntry.id);
     if (!building || building.tab !== allowedTab) return;
-    const count = getCount(building);
-    if (count >= routeEntry.target) return;
-    const cap = building.cap || Number(options.maxTarget) || smartBuildDefaults.maxTarget;
-    const routeMax = Math.min(routeEntry.target, cap, Number(options.maxTarget) || smartBuildDefaults.maxTarget, count + Math.min(Number(options.maxExtra) || smartBuildDefaults.maxExtra, Math.max(1, routeEntry.target - count)));
-    if (routeMax <= count) return;
-    targets[building.id] = Math.max(targets[building.id] || 0, routeMax);
+    if (!(building.id in targets)) return;
     targets[`prio_${building.id}`] = Math.max(targets[`prio_${building.id}`] || 0, routeEntry.priority || 8);
   });
   return targets;
 };
 const applyCapBridgeTargets = (targets, subpage, resourceMap, options) => {
   const goal = getGoal(options);
-  const shortfalls = getResourceCapShortfalls(goal, getRoute(options), resourceMap);
+  const shortfalls = getResourceCapShortfalls(goal, getRoute(options), resourceMap, options);
   if (!Object.keys(shortfalls).length) return targets;
   const allowedTab = CONSTANTS.SUBPAGES_INDEX[subpage] + 1;
   buildings.filter(building => building.tab === allowedTab && building.gen && isBuildingUnlocked(building)).forEach(building => {
@@ -315,33 +320,25 @@ const applyDangerousBattleBuildingTargets = (targets, subpage, options) => {
   });
   return targets;
 };
-const GENERAL_SCORE_PLAN_CAP_MULTIPLIER = 2;
-const getPlannedTarget = (building, goal, route) => {
-  const routeEntry = getRouteEntry(building, route);
-  if (routeEntry) return routeEntry.target;
-  const focusEntry = getExpandedGoalFocusTargets(goal).find(target => target.id === building.id);
-  return focusEntry ? focusEntry.target : null;
-};
 const getTargets = (subpage, manualOptions = {}) => {
   const options = getOptions();
   if (!options.enabled) return null;
   const resourceMap = getResourceMap();
-  const goal = getGoal(options);
   const route = getRoute(options);
+  const routeTargetIds = new Set(getExpandedRouteTargets(route).map(entry => entry.id));
   const targets = {};
   buildings.filter(building => building.tab === CONSTANTS.SUBPAGES_INDEX[subpage] + 1).forEach(building => {
     const score = scoreBuilding(building, resourceMap, options);
     const prio = toPriority(score);
-    if (!prio) return;
+    if (!prio && !routeTargetIds.has(building.id)) return;
     const count = getCount(building);
     const cap = building.cap || Number(options.maxTarget) || smartBuildDefaults.maxTarget;
-    const plannedTarget = getPlannedTarget(building, goal, route);
     const max = Math.min(
       cap,
       Number(options.maxTarget) || smartBuildDefaults.maxTarget,
       count + Math.min(Number(options.maxExtra) || smartBuildDefaults.maxExtra, toExtra(score)),
       getProductionStorageCap(building, resourceMap, options),
-      plannedTarget !== null ? plannedTarget * GENERAL_SCORE_PLAN_CAP_MULTIPLIER : Infinity
+      getStageCap(building, options)
     );
     if (max <= count) return;
     targets[building.id] = max;

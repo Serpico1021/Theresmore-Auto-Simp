@@ -1,20 +1,25 @@
 const getResearchGroups = () => groupChoices(tech);
-const getTechUnlockBonus = (technology, goal, route) => {
-  const focusTargets = [...getExpandedGoalFocusTargets(goal), ...getExpandedRouteTargets(route)];
-  if (!focusTargets.length) return 0;
+const getTechUnlockBonus = (technology, options, goal, route) => {
+  const focusTargets = getExpandedGoalFocusTargets(goal);
+  const routeTargets = getExpandedRouteTargets(route);
+  if (!focusTargets.length && !routeTargets.length) return 0;
   const unlockedBuildings = buildings.filter(building => (building.req || []).some(req => req.type === 'tech' && req.id === technology.id));
   if (!unlockedBuildings.length) return 0;
   const bestPriority = unlockedBuildings.reduce((max, building) => {
-    const entry = focusTargets.find(target => target.id === building.id);
-    if (!entry || getCount(building) >= entry.target) return max;
+    const focusEntry = focusTargets.find(target => target.id === building.id);
+    const routeEntry = routeTargets.find(target => target.id === building.id);
+    const entry = focusEntry || routeEntry;
+    if (!entry) return max;
+    const needed = focusEntry ? focusEntry.target : getStageCap(building, options);
+    if (getCount(building) >= needed) return max;
     return Math.max(max, entry.priority || 0);
   }, 0);
   return bestPriority ? 60 + bestPriority * 8 : 0;
 };
-const getPrayerTechBonus = (technology, goal, route) => {
+const getPrayerTechBonus = (technology, options, goal, route) => {
   const wantedPrayers = spells.filter(spell => spell.type === 'prayer' && (spell.req || []).some(req => req.type === 'tech' && req.id === technology.id));
   if (!wantedPrayers.length) return 0;
-  return wantedPrayers.reduce((max, prayer) => Math.max(max, getPrayerUnlockBonus(prayer, goal, route)), 0);
+  return wantedPrayers.reduce((max, prayer) => Math.max(max, getPrayerUnlockBonus(prayer, options, goal, route)), 0);
 };
 const getResearchProductionBonus = (technology, options, goal) => {
   const weights = smartBuildStrategyWeights[options.strategy] || smartBuildStrategyWeights.balanced;
@@ -36,8 +41,8 @@ const scoreResearch = (technology, options, goal, route, blockedFights) => {
   let score = isDangerous ? 4 : 8;
   if ((goal.targetTechs || []).includes(technology.id)) score += 220;
   score += getResearchProductionBonus(technology, options, goal);
-  score += getTechUnlockBonus(technology, goal, route);
-  score += getPrayerTechBonus(technology, goal, route);
+  score += getTechUnlockBonus(technology, options, goal, route);
+  score += getPrayerTechBonus(technology, options, goal, route);
   if (isDangerous) {
     score += blockedFights.some(fight => fight.techId === technology.id) ? 40 : 10;
   }

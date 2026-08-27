@@ -47450,82 +47450,82 @@ const smartBuildRoutes = {
   moonlightNight: {
     label: 'Moonlight Night',
     buildingTargets: [
-      { id: 'common_house', target: 15, priority: 9, reason: 'moonlight whitelist: 15 common houses' },
-      { id: 'quarry', target: 3, priority: 8, reason: 'moonlight whitelist: 3 quarries' },
-      { id: 'artisan_workshop', target: 5, priority: 8, reason: 'moonlight whitelist: 5 artisan workshops' },
-      { id: 'watchman_outpost', target: 4, priority: 10, reason: 'moonlight gate: 4 watchman outposts' }
+      { id: 'common_house', priority: 9, reason: 'moonlight whitelist' },
+      { id: 'quarry', priority: 8, reason: 'moonlight whitelist' },
+      { id: 'artisan_workshop', priority: 8, reason: 'moonlight whitelist' },
+      { id: 'watchman_outpost', priority: 10, reason: 'moonlight gate' }
     ],
     supportTargets: [
-      { id: 'guild_of_craftsmen', target: 1, priority: 6 },
-      { id: 'university', target: 1, priority: 5 },
-      { id: 'farm', target: 5, priority: 5 },
-      { id: 'carpenter_workshop', target: 1, priority: 5 },
-      { id: 'grocery', target: 1, priority: 5 },
-      { id: 'stable', target: 1, priority: 5 }
+      { id: 'guild_of_craftsmen', priority: 6 },
+      { id: 'university', priority: 5 },
+      { id: 'farm', priority: 5 },
+      { id: 'carpenter_workshop', priority: 5 },
+      { id: 'grocery', priority: 5 },
+      { id: 'stable', priority: 5 }
     ]
   },
   druid: {
     label: 'Druid route',
     buildingTargets: [
-      { id: 'common_house', target: 15, priority: 9 },
-      { id: 'mansion', target: 3, priority: 8 },
-      { id: 'quarry', target: 3, priority: 8 },
-      { id: 'carpenter_workshop', target: 3, priority: 8 },
-      { id: 'grocery', target: 3, priority: 8 },
-      { id: 'steelworks', target: 3, priority: 8 },
-      { id: 'alchemic_laboratory', target: 1, priority: 8 },
-      { id: 'city_center', target: 1, priority: 9 },
-      { id: 'academy_of_freethinkers', target: 1, priority: 9 },
-      { id: 'refugee_district', target: 1, priority: 8 },
-      { id: 'mana_pit', target: 1, priority: 9 },
-      { id: 'artisan_workshop', target: 5, priority: 8 },
-      { id: 'marketplace', target: 3, priority: 7 },
-      { id: 'university', target: 3, priority: 8 },
-      { id: 'watchman_outpost', target: 4, priority: 9 },
-      { id: 'temple', target: 1, priority: 8 }
+      { id: 'common_house', priority: 9 },
+      { id: 'mansion', priority: 8 },
+      { id: 'quarry', priority: 8 },
+      { id: 'carpenter_workshop', priority: 8 },
+      { id: 'grocery', priority: 8 },
+      { id: 'steelworks', priority: 8 },
+      { id: 'alchemic_laboratory', priority: 8 },
+      { id: 'city_center', priority: 9 },
+      { id: 'academy_of_freethinkers', priority: 9 },
+      { id: 'refugee_district', priority: 8 },
+      { id: 'mana_pit', priority: 9 },
+      { id: 'artisan_workshop', priority: 8 },
+      { id: 'marketplace', priority: 7 },
+      { id: 'university', priority: 8 },
+      { id: 'watchman_outpost', priority: 9 },
+      { id: 'temple', priority: 8 }
     ],
     supportTargets: [
-      { id: 'guild_of_craftsmen', target: 1, priority: 6 },
-      { id: 'farm', target: 5, priority: 5 },
-      { id: 'stable', target: 1, priority: 5 }
+      { id: 'guild_of_craftsmen', priority: 6 },
+      { id: 'farm', priority: 5 },
+      { id: 'stable', priority: 5 }
     ]
   },
   annihilator: {
     label: 'Annihilator route',
     buildingTargets: [
-      { id: 'common_house', target: 15, priority: 9 },
-      { id: 'mansion', target: 3, priority: 8 },
-      { id: 'quarry', target: 3, priority: 8 },
-      { id: 'carpenter_workshop', target: 3, priority: 8 },
-      { id: 'grocery', target: 3, priority: 8 },
-      { id: 'steelworks', target: 3, priority: 8 },
-      { id: 'alchemic_laboratory', target: 1, priority: 8 },
-      { id: 'city_center', target: 1, priority: 9 },
-      { id: 'academy_of_freethinkers', target: 1, priority: 9 },
-      { id: 'refugee_district', target: 1, priority: 8 },
-      { id: 'mana_pit', target: 1, priority: 9 },
-      { id: 'harbor_district', target: 1, priority: 9 },
-      { id: 'artisan_workshop', target: 5, priority: 8 },
-      { id: 'marketplace', target: 3, priority: 7 },
-      { id: 'university', target: 3, priority: 8 },
-      { id: 'statue_lurezia', target: 1, priority: 6 },
-      { id: 'island_outpost', target: 1, priority: 9 },
-      { id: 'watchman_outpost', target: 4, priority: 9 },
-      { id: 'temple', target: 3, priority: 8 },
-      { id: 'colony_hall', target: 12, priority: 9 },
-      { id: 'lumix_plant', target: 1, priority: 8 },
-      { id: 'sanctum_healing', target: 1, priority: 8 },
-      { id: 'containment_cell', target: 3, priority: 8 },
-      { id: 'beacon_light', target: 5, priority: 10 },
-      { id: 'light_square_b', target: 5, priority: 10 },
-      { id: 'signal_machine', target: 1, priority: 10 }
+      { id: 'common_house', priority: 9 },
+      { id: 'mansion', priority: 8 },
+      { id: 'quarry', priority: 8 },
+      { id: 'carpenter_workshop', priority: 8 },
+      { id: 'grocery', priority: 8 },
+      { id: 'steelworks', priority: 8 },
+      { id: 'alchemic_laboratory', priority: 8 },
+      { id: 'city_center', priority: 9 },
+      { id: 'academy_of_freethinkers', priority: 9 },
+      { id: 'refugee_district', priority: 8 },
+      { id: 'mana_pit', priority: 9 },
+      { id: 'harbor_district', priority: 9 },
+      { id: 'artisan_workshop', priority: 8 },
+      { id: 'marketplace', priority: 7 },
+      { id: 'university', priority: 8 },
+      { id: 'statue_lurezia', priority: 6 },
+      { id: 'island_outpost', priority: 9 },
+      { id: 'watchman_outpost', priority: 9 },
+      { id: 'temple', priority: 8 },
+      { id: 'colony_hall', priority: 9 },
+      { id: 'lumix_plant', priority: 8 },
+      { id: 'sanctum_healing', priority: 8 },
+      { id: 'containment_cell', priority: 8 },
+      { id: 'beacon_light', priority: 10 },
+      { id: 'light_square_b', priority: 10 },
+      { id: 'signal_machine', priority: 10 }
     ],
     supportTargets: [
-      { id: 'guild_of_craftsmen', target: 1, priority: 6 },
-      { id: 'farm', target: 5, priority: 5 },
-      { id: 'stable', target: 1, priority: 5 },
-      { id: 'mana_extractors', target: 3, priority: 6 },
-      { id: 'arcane_school', target: 5, priority: 6 }
+      { id: 'guild_of_craftsmen', priority: 6 },
+      { id: 'farm', priority: 5 },
+      { id: 'stable', priority: 5 },
+      { id: 'mana_extractors', priority: 6 },
+      { id: 'arcane_school', priority: 6 }
     ]
   }
 };
@@ -47642,6 +47642,10 @@ const isUnlockCompleted = (type, id) => {
   if (type === 'prayer' || type === 'magic') return hasIndexedOrRunItem(id, ['fai_']);
   if (type === 'legacy') return hasIndexedOrRunItem(id, ['leg_']);
   return false;
+};
+const getCurrentStageIndex = () => {
+  const unlockedAges = buildings.filter(building => building.age !== 100 && isBuildingUnlocked(building)).map(building => building.age).filter(age => Number.isFinite(age));
+  return unlockedAges.length ? Math.max(...unlockedAges) : 1;
 };
 
 const getGoal = options => smartBuildGoals[options.goal] || smartBuildGoals.progress;
@@ -47792,13 +47796,13 @@ const getResearchResourceCapShortfalls = (goal, resourceMap) => {
   });
   return shortfalls;
 };
-const getRouteBuildingResourceCapShortfalls = (route, resourceMap) => {
+const getRouteBuildingResourceCapShortfalls = (route, resourceMap, options) => {
   const shortfalls = {};
   getExpandedRouteTargets(route).forEach(routeEntry => {
     const building = buildings.find(candidate => candidate.id === routeEntry.id);
     if (!building) return;
     const count = getCount(building);
-    if (count >= routeEntry.target) return;
+    if (count >= getStageCap(building, options)) return;
     (building.req || []).filter(req => req.type === 'resource').forEach(req => {
       registerResourceCapShortfall(shortfalls, req, resourceMap, {
         id: building.id,
@@ -47809,11 +47813,11 @@ const getRouteBuildingResourceCapShortfalls = (route, resourceMap) => {
   });
   return shortfalls;
 };
-const getResourceCapShortfalls = (goal, route, resourceMap) => {
+const getResourceCapShortfalls = (goal, route, resourceMap, options) => {
   const shortfalls = {};
   [
     getResearchResourceCapShortfalls(goal, resourceMap),
-    getRouteBuildingResourceCapShortfalls(route, resourceMap)
+    getRouteBuildingResourceCapShortfalls(route, resourceMap, options)
   ].forEach(group => {
     Object.values(group).forEach(shortfall => {
       if (!shortfalls[shortfall.id] || shortfalls[shortfall.id].required < shortfall.required) {
@@ -47851,8 +47855,8 @@ const getGoalRequirementBonus = (building, goal) => {
   });
   return bonus;
 };
-const getCapShortfallBonus = (building, goal, route, resourceMap) => {
-  const shortfalls = getResourceCapShortfalls(goal, route, resourceMap);
+const getCapShortfallBonus = (building, goal, route, resourceMap, options) => {
+  const shortfalls = getResourceCapShortfalls(goal, route, resourceMap, options);
   const entries = Object.values(shortfalls);
   if (!entries.length || !building.gen) return 0;
   return entries.reduce((bonus, shortfall) => {
@@ -47875,6 +47879,15 @@ const getProductionStorageCap = (building, resourceMap, options) => {
     if (secondsToFill >= PRODUCTION_STORAGE_CAP_SECONDS) return cap;
     return Math.min(cap, Math.max(getCount(building), 1));
   }, Infinity);
+};
+const STAGE_DECAY_FLOOR = 4;
+const getStageCap = (building, options) => {
+  const cap = building.cap || Number(options.maxTarget) || smartBuildDefaults.maxTarget;
+  const stage = getCurrentStageIndex();
+  const tier = building.age === 100 ? stage : building.age;
+  const gap = stage - tier;
+  if (gap <= 0) return cap;
+  return Math.max(STAGE_DECAY_FLOOR, Math.round(cap / Math.pow(2, gap)));
 };
 const applyTitanOverrides = (targets, options) => {
   Object.keys(smartBuildTitanOverrides).forEach(titanId => {
@@ -47908,12 +47921,13 @@ const getDangerousBattleBuildingBonus = (building, options) => {
     return bonus;
   }, 0);
 };
-const getRouteRequirementBonus = (building, route) => {
+const getRouteRequirementBonus = (building, route, options) => {
   const routeEntry = getRouteEntry(building, route);
   if (!routeEntry) return 0;
   const count = getCount(building);
-  if (count >= routeEntry.target) return routeEntry.priority >= 8 ? 8 : 3;
-  return 80 + (routeEntry.target - count) * 14 + (routeEntry.priority || 6) * 5;
+  const target = getStageCap(building, options);
+  if (count >= target) return routeEntry.priority >= 8 ? 8 : 3;
+  return 80 + (target - count) * 14 + (routeEntry.priority || 6) * 5;
 };
 const getGoalFocusPrerequisiteBonus = (building, goal) => {
   const focusEntry = getExpandedGoalFocusTargets(goal).find(target => target.id === building.id);
@@ -47991,9 +48005,9 @@ const scoreBuilding = (building, resourceMap, options) => {
   score *= strategyWeights[building.cat] || 1;
   score *= goal.weights && goal.weights[building.cat] ? goal.weights[building.cat] : 1;
   score += getGoalRequirementBonus(building, goal);
-  score += getRouteRequirementBonus(building, route);
+  score += getRouteRequirementBonus(building, route, options);
   score += getGoalFocusPrerequisiteBonus(building, goal);
-  score += getCapShortfallBonus(building, goal, route, resourceMap);
+  score += getCapShortfallBonus(building, goal, route, resourceMap, options);
   score += getDangerousBattleBuildingBonus(building, options);
   score -= Math.max(0, count - 6) * 0.55;
   return score - risk;
@@ -48028,19 +48042,14 @@ const applyRouteTargets = (targets, subpage, options) => {
   getExpandedRouteTargets(route).forEach(routeEntry => {
     const building = buildings.find(candidate => candidate.id === routeEntry.id);
     if (!building || building.tab !== allowedTab) return;
-    const count = getCount(building);
-    if (count >= routeEntry.target) return;
-    const cap = building.cap || Number(options.maxTarget) || smartBuildDefaults.maxTarget;
-    const routeMax = Math.min(routeEntry.target, cap, Number(options.maxTarget) || smartBuildDefaults.maxTarget, count + Math.min(Number(options.maxExtra) || smartBuildDefaults.maxExtra, Math.max(1, routeEntry.target - count)));
-    if (routeMax <= count) return;
-    targets[building.id] = Math.max(targets[building.id] || 0, routeMax);
+    if (!(building.id in targets)) return;
     targets[`prio_${building.id}`] = Math.max(targets[`prio_${building.id}`] || 0, routeEntry.priority || 8);
   });
   return targets;
 };
 const applyCapBridgeTargets = (targets, subpage, resourceMap, options) => {
   const goal = getGoal(options);
-  const shortfalls = getResourceCapShortfalls(goal, getRoute(options), resourceMap);
+  const shortfalls = getResourceCapShortfalls(goal, getRoute(options), resourceMap, options);
   if (!Object.keys(shortfalls).length) return targets;
   const allowedTab = CONSTANTS.SUBPAGES_INDEX[subpage] + 1;
   buildings.filter(building => building.tab === allowedTab && building.gen && isBuildingUnlocked(building)).forEach(building => {
@@ -48075,33 +48084,25 @@ const applyDangerousBattleBuildingTargets = (targets, subpage, options) => {
   });
   return targets;
 };
-const GENERAL_SCORE_PLAN_CAP_MULTIPLIER = 2;
-const getPlannedTarget = (building, goal, route) => {
-  const routeEntry = getRouteEntry(building, route);
-  if (routeEntry) return routeEntry.target;
-  const focusEntry = getExpandedGoalFocusTargets(goal).find(target => target.id === building.id);
-  return focusEntry ? focusEntry.target : null;
-};
 const getTargets = (subpage, manualOptions = {}) => {
   const options = getOptions();
   if (!options.enabled) return null;
   const resourceMap = getResourceMap();
-  const goal = getGoal(options);
   const route = getRoute(options);
+  const routeTargetIds = new Set(getExpandedRouteTargets(route).map(entry => entry.id));
   const targets = {};
   buildings.filter(building => building.tab === CONSTANTS.SUBPAGES_INDEX[subpage] + 1).forEach(building => {
     const score = scoreBuilding(building, resourceMap, options);
     const prio = toPriority(score);
-    if (!prio) return;
+    if (!prio && !routeTargetIds.has(building.id)) return;
     const count = getCount(building);
     const cap = building.cap || Number(options.maxTarget) || smartBuildDefaults.maxTarget;
-    const plannedTarget = getPlannedTarget(building, goal, route);
     const max = Math.min(
       cap,
       Number(options.maxTarget) || smartBuildDefaults.maxTarget,
       count + Math.min(Number(options.maxExtra) || smartBuildDefaults.maxExtra, toExtra(score)),
       getProductionStorageCap(building, resourceMap, options),
-      plannedTarget !== null ? plannedTarget * GENERAL_SCORE_PLAN_CAP_MULTIPLIER : Infinity
+      getStageCap(building, options)
     );
     if (max <= count) return;
     targets[building.id] = max;
@@ -48188,22 +48189,27 @@ const getUnitTargets = (manualOptions = {}) => {
 };
 
 const getResearchGroups = () => groupChoices(tech);
-const getTechUnlockBonus = (technology, goal, route) => {
-  const focusTargets = [...getExpandedGoalFocusTargets(goal), ...getExpandedRouteTargets(route)];
-  if (!focusTargets.length) return 0;
+const getTechUnlockBonus = (technology, options, goal, route) => {
+  const focusTargets = getExpandedGoalFocusTargets(goal);
+  const routeTargets = getExpandedRouteTargets(route);
+  if (!focusTargets.length && !routeTargets.length) return 0;
   const unlockedBuildings = buildings.filter(building => (building.req || []).some(req => req.type === 'tech' && req.id === technology.id));
   if (!unlockedBuildings.length) return 0;
   const bestPriority = unlockedBuildings.reduce((max, building) => {
-    const entry = focusTargets.find(target => target.id === building.id);
-    if (!entry || getCount(building) >= entry.target) return max;
+    const focusEntry = focusTargets.find(target => target.id === building.id);
+    const routeEntry = routeTargets.find(target => target.id === building.id);
+    const entry = focusEntry || routeEntry;
+    if (!entry) return max;
+    const needed = focusEntry ? focusEntry.target : getStageCap(building, options);
+    if (getCount(building) >= needed) return max;
     return Math.max(max, entry.priority || 0);
   }, 0);
   return bestPriority ? 60 + bestPriority * 8 : 0;
 };
-const getPrayerTechBonus = (technology, goal, route) => {
+const getPrayerTechBonus = (technology, options, goal, route) => {
   const wantedPrayers = spells.filter(spell => spell.type === 'prayer' && (spell.req || []).some(req => req.type === 'tech' && req.id === technology.id));
   if (!wantedPrayers.length) return 0;
-  return wantedPrayers.reduce((max, prayer) => Math.max(max, getPrayerUnlockBonus(prayer, goal, route)), 0);
+  return wantedPrayers.reduce((max, prayer) => Math.max(max, getPrayerUnlockBonus(prayer, options, goal, route)), 0);
 };
 const getResearchProductionBonus = (technology, options, goal) => {
   const weights = smartBuildStrategyWeights[options.strategy] || smartBuildStrategyWeights.balanced;
@@ -48225,8 +48231,8 @@ const scoreResearch = (technology, options, goal, route, blockedFights) => {
   let score = isDangerous ? 4 : 8;
   if ((goal.targetTechs || []).includes(technology.id)) score += 220;
   score += getResearchProductionBonus(technology, options, goal);
-  score += getTechUnlockBonus(technology, goal, route);
-  score += getPrayerTechBonus(technology, goal, route);
+  score += getTechUnlockBonus(technology, options, goal, route);
+  score += getPrayerTechBonus(technology, options, goal, route);
   if (isDangerous) {
     score += blockedFights.some(fight => fight.techId === technology.id) ? 40 : 10;
   }
@@ -48305,21 +48311,26 @@ const getExploreTargets = (manualOptions = {}) => {
   return applyExploreManualOverrides(targets, manualOptions, options);
 };
 
-const getPrayerUnlockBonus = (prayer, goal, route) => {
-  const wantedTargets = [...getExpandedGoalFocusTargets(goal), ...getExpandedRouteTargets(route)];
-  if (!wantedTargets.length) return 0;
+const getPrayerUnlockBonus = (prayer, options, goal, route) => {
+  const focusTargets = getExpandedGoalFocusTargets(goal);
+  const routeTargets = getExpandedRouteTargets(route);
+  if (!focusTargets.length && !routeTargets.length) return 0;
   const unlockedBuildings = buildings.filter(building => (building.req || []).some(req => req.type === 'prayer' && req.id === prayer.id));
   if (!unlockedBuildings.length) return 0;
   const bestPriority = unlockedBuildings.reduce((max, building) => {
-    const entry = wantedTargets.find(target => target.id === building.id);
-    if (!entry || getCount(building) >= entry.target) return max;
+    const focusEntry = focusTargets.find(target => target.id === building.id);
+    const routeEntry = routeTargets.find(target => target.id === building.id);
+    const entry = focusEntry || routeEntry;
+    if (!entry) return max;
+    const needed = focusEntry ? focusEntry.target : getStageCap(building, options);
+    if (getCount(building) >= needed) return max;
     return Math.max(max, entry.priority || 0);
   }, 0);
   return bestPriority ? 60 + bestPriority * 8 : 0;
 };
 const scorePrayer = (prayer, options, goal, route) => {
   if ((options.prayerExcludes || []).includes(prayer.id)) return 0;
-  return 10 + getPrayerUnlockBonus(prayer, goal, route);
+  return 10 + getPrayerUnlockBonus(prayer, options, goal, route);
 };
 const applyPrayerManualOverrides = (targets, manualOptions, options) => {
   if (!options.manualOverrides || !manualOptions) return targets;
