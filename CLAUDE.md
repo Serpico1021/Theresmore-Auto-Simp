@@ -43,12 +43,12 @@
 
 ## Superpowers 技能白名单约束
 
-**本项目 superpowers 系列技能只允许使用 `brainstorming`，其余技能一律禁止调用**
+**本项目 superpowers 系列技能只允许使用 `brainstorming` 和 `frontend-design`，其余技能一律禁止调用**
 （包括但不限于 `writing-plans`、`subagent-driven-development`、`using-git-worktrees`、
-`requesting-code-review`、`finishing-a-development-branch`、`test-driven-development`、
-`frontend-design`）。
+`requesting-code-review`、`finishing-a-development-branch`、`test-driven-development`）。
 
-- 设计阶段用 `brainstorming` 与用户澄清需求、产出 spec（例如目标驱动规划器的各子系统改造设计）。
+- 设计阶段用 `brainstorming` 与用户澄清需求、产出 spec（例如目标驱动规划器的各子系统改造设计）；
+  涉及 UI/面板视觉设计时可调用 `frontend-design` 辅助设计。
 - spec 确认后，实现计划、任务拆解、执行、代码评审等后续环节一律采用**直接工程实践**
   （Read/Edit/Write/Bash，必要时用 `Agent` 工具做子任务分派），不通过 Skill 工具调用上述技能。
 - 已写成的计划/spec 文档本身不受影响，只是后续不再用这些技能名义驱动。
