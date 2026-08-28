@@ -127,14 +127,14 @@ const smartBuildRoutes = {
     buildingTargets: [
       { id: 'common_house', priority: 9, reason: 'moonlight whitelist' },
       { id: 'quarry', priority: 8, reason: 'moonlight whitelist' },
-      { id: 'artisan_workshop', priority: 8, target: 3, reason: 'moonlight whitelist' },
+      { id: 'artisan_workshop', priority: 8, reason: 'moonlight whitelist' },
       { id: 'watchman_outpost', priority: 10, reason: 'moonlight gate' }
     ],
     supportTargets: [
       { id: 'guild_of_craftsmen', priority: 6 },
       { id: 'university', priority: 5 },
       { id: 'farm', priority: 5 },
-      { id: 'carpenter_workshop', priority: 5, target: 3 },
+      { id: 'carpenter_workshop', priority: 5 },
       { id: 'grocery', priority: 5 },
       { id: 'stable', priority: 5 }
     ]

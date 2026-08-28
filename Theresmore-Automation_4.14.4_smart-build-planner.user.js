@@ -47453,14 +47453,14 @@ const smartBuildRoutes = {
     buildingTargets: [
       { id: 'common_house', priority: 9, reason: 'moonlight whitelist' },
       { id: 'quarry', priority: 8, reason: 'moonlight whitelist' },
-      { id: 'artisan_workshop', priority: 8, target: 3, reason: 'moonlight whitelist' },
+      { id: 'artisan_workshop', priority: 8, reason: 'moonlight whitelist' },
       { id: 'watchman_outpost', priority: 10, reason: 'moonlight gate' }
     ],
     supportTargets: [
       { id: 'guild_of_craftsmen', priority: 6 },
       { id: 'university', priority: 5 },
       { id: 'farm', priority: 5 },
-      { id: 'carpenter_workshop', priority: 5, target: 3 },
+      { id: 'carpenter_workshop', priority: 5 },
       { id: 'grocery', priority: 5 },
       { id: 'stable', priority: 5 }
     ]
@@ -47865,6 +47865,17 @@ const getResourceProductionShortfalls = (goal, route, resourceMap, options) => {
   });
   return shortfalls;
 };
+const getJobForBuilding = building => {
+  const slot = (building.gen || []).find(item => item.type === 'population' && item.id);
+  return slot ? jobs.find(job => job.id === slot.id) || null : null;
+};
+const getBuildingResourceRate = (building, resourceId) => {
+  const direct = (building.gen || []).find(item => item.type === 'resource' && item.id === resourceId);
+  if (direct) return direct.value;
+  const job = getJobForBuilding(building);
+  const jobGen = job && (job.gen || []).find(item => item.type === 'resource' && item.id === resourceId);
+  return jobGen ? jobGen.value : 0;
+};
 const getGoalResourceBonus = (id, goal, resourceMap) => {
   if (!goal.resourceFocus || !goal.resourceFocus.includes(id)) return 0;
   const res = resourceMap[id];
@@ -48105,15 +48116,22 @@ const applyProductionBridgeTargets = (targets, subpage, resourceMap, options) =>
   const shortfalls = getResourceProductionShortfalls(goal, route, resourceMap, options);
   if (!Object.keys(shortfalls).length) return targets;
   const allowedTab = CONSTANTS.SUBPAGES_INDEX[subpage] + 1;
+  const maxWaitSeconds = Number(options.maxWaitSeconds) || smartBuildDefaults.maxWaitSeconds;
   buildings.filter(building => building.tab === allowedTab && building.gen && isBuildingUnlocked(building)).forEach(building => {
     const isGoalRelevant = getStructuralTechFloor(building) > 0 || getFocusOrRouteTarget(building, goal, route) > 0;
     if (!isGoalRelevant) return;
-    const helpsProduction = building.gen.find(gen => gen.type === 'resource' && gen.value > 0 && shortfalls[gen.id]);
-    if (!helpsProduction) return;
+    const applicableShortfalls = Object.values(shortfalls).filter(shortfall => getBuildingResourceRate(building, shortfall.id) > 0);
+    if (!applicableShortfalls.length) return;
     const count = getCount(building);
     const cap = getStageCap(building, options);
     if (count >= cap) return;
-    const bridgeMax = Math.min(cap, count + Math.max(1, Number(options.maxExtra) || smartBuildDefaults.maxExtra));
+    const neededExtra = applicableShortfalls.reduce((maxExtra, shortfall) => {
+      const perUnitRate = getBuildingResourceRate(building, shortfall.id);
+      const requiredSpeed = shortfall.deficit / maxWaitSeconds;
+      const extraSpeedNeeded = Math.max(0, requiredSpeed - shortfall.speed);
+      return Math.max(maxExtra, Math.ceil(extraSpeedNeeded / perUnitRate));
+    }, 1);
+    const bridgeMax = Math.min(cap, count + neededExtra);
     if (bridgeMax <= count) return;
     targets[building.id] = Math.max(targets[building.id] || 0, bridgeMax);
     targets[`prio_${building.id}`] = Math.max(targets[`prio_${building.id}`] || 0, 9);
