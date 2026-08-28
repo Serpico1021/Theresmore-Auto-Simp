@@ -10,6 +10,7 @@
         armyMaxTarget: 250,
         maxTarget: 80,
         maxWaitSeconds: 180,
+        manualResourceClicksPerSecond: 8,
         researchEnabled: true,
         researchExcludes: [],
         exploreEnabled: true,

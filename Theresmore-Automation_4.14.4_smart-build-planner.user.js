@@ -254,6 +254,7 @@ const taVersion = "4.14.4";
         armyMaxTarget: 250,
         maxTarget: 80,
         maxWaitSeconds: 180,
+        manualResourceClicksPerSecond: 8,
         researchEnabled: true,
         researchExcludes: [],
         exploreEnabled: true,
@@ -47336,14 +47337,43 @@ const smartBuildDefaults = {
   armyMaxTarget: 250,
   maxTarget: 80,
   maxWaitSeconds: 180,
+  manualResourceClicksPerSecond: 8,
   forcedTargets: {}
 };
 const smartBuildResources = ['food', 'wood', 'stone', 'gold', 'research', 'tools', 'copper', 'iron', 'cow', 'horse', 'mana', 'building_material', 'faith', 'supplies', 'crystal', 'steel', 'saltpetre', 'natronite'];
 const smartBuildGoals = {
   moonlightNight: {
     dangerousResearchOverrides: ['moonlight_night'],
-    resourceFocus: ['research', 'food', 'wood', 'stone', 'iron', 'tools'],
-    buildingFocus: ['common_house', 'quarry', 'artisan_workshop', 'watchman_outpost'],
+    postGoalBoundaryTechs: ['moonlight_night', 'end_feudal_era'],
+    allowedBridgeBuildings: [
+      'common_house',
+      'farm',
+      'lumberjack_camp',
+      'quarry',
+      'mine',
+      'artisan_workshop',
+      'school',
+      'marketplace',
+      'carpenter_workshop',
+      'grocery',
+      'university',
+      'guild_of_craftsmen',
+      'steelworks',
+      'stable',
+      'titan_work_area',
+      'watchman_outpost'
+    ],
+    capProviderPreferences: {
+      research: ['school', 'university'],
+      gold: ['marketplace', 'artisan_workshop'],
+      tools: ['marketplace', 'artisan_workshop'],
+      building_material: ['carpenter_workshop'],
+      supplies: ['grocery'],
+      steel: ['steelworks']
+    },
+    resourceFocus: ['research', 'food', 'wood', 'stone', 'copper', 'iron', 'tools'],
+    buildingFocus: ['common_house', 'farm', 'lumberjack_camp', 'quarry', 'mine', 'artisan_workshop', 'school', 'watchman_outpost'],
+    supportTechs: ['servitude'],
     targetTechs: ['architecture', 'establish_boundaries', 'moonlight_night']
   }
 };
@@ -47353,13 +47383,16 @@ const smartBuildRoutes = {
     buildingTargets: [
       { id: 'common_house', priority: 9, reason: { key: 'whitelist' } },
       { id: 'quarry', priority: 8, reason: { key: 'whitelist' } },
+      { id: 'mine', priority: 8, reason: { key: 'resourceBridge' } },
       { id: 'artisan_workshop', priority: 8, reason: { key: 'whitelist' } },
+      { id: 'school', priority: 8, reason: { key: 'resourceCapBridge' } },
       { id: 'watchman_outpost', priority: 10, reason: { key: 'gate' } }
     ],
     supportTargets: [
       { id: 'guild_of_craftsmen', priority: 6 },
       { id: 'university', priority: 5 },
-      { id: 'farm', priority: 5 },
+      { id: 'marketplace', priority: 5 },
+      { id: 'farm', priority: 8 },
       { id: 'carpenter_workshop', priority: 5 },
       { id: 'grocery', priority: 5 },
       { id: 'stable', priority: 5 },
@@ -47494,6 +47527,13 @@ const getExpandedGoalFocusTargets = goal => {
 };
 const getRouteEntry = (building, route) => getExpandedRouteTargets(route).find(entry => entry.id === building.id);
 const getGoalTechs = goal => (goal.targetTechs || []).map(techId => tech.find(technology => technology.id === techId)).filter(Boolean);
+const getGoalTechEntries = goal => [
+  ...(goal.supportTechs || []).map(techId => ({ id: techId, reason: { key: 'supportTech' } })),
+  ...(goal.targetTechs || []).map(techId => ({ id: techId, reason: { key: 'goalTargetTech' } }))
+].map(entry => ({
+  technology: tech.find(technology => technology.id === entry.id),
+  reason: entry.reason
+})).filter(entry => entry.technology);
 
 const isDangerousResearchOverridden = researchKey => {
   const options = getOptions();
@@ -47507,9 +47547,78 @@ const getResourceCost = (req, count = 0) => {
   if (!value) return 0;
   return value * (req.multi ? Math.pow(req.multi, count) : 1);
 };
-const findDirectProducer = resourceId => buildings.find(building =>
-  isBuildingUnlocked(building) &&
-  (building.gen || []).some(gen => gen.type === 'resource' && gen.id === resourceId && gen.value > 0));
+const buildingProducesResource = (building, resourceId) => (building.gen || []).some(gen =>
+  gen.value > 0 && (
+    gen.type === 'resource' && gen.id === resourceId ||
+    gen.type === 'modifier' && gen.type_gen === 'resource' && gen.gen === resourceId
+  ));
+const buildingRaisesResourceCap = (building, resourceId) => (building.gen || []).some(gen =>
+  gen.type === 'cap' && gen.id === resourceId && gen.value > 0);
+const getResourceCapValue = (building, resourceId) => (building.gen || [])
+  .filter(gen => gen.type === 'cap' && gen.id === resourceId)
+  .reduce((total, gen) => total + (Number(gen.value) || 0), 0);
+const getResourceGenValue = (building, resourceId) => (building.gen || [])
+  .filter(gen => gen.type === 'resource' && gen.id === resourceId)
+  .reduce((total, gen) => total + (Number(gen.value) || 0), 0);
+const techDependsOnAny = (techId, forbiddenTechIds, seen = {}) => {
+  if (!techId || !forbiddenTechIds || !forbiddenTechIds.length) return false;
+  if (forbiddenTechIds.includes(techId)) return true;
+  if (seen[`tech:${techId}`]) return false;
+  seen[`tech:${techId}`] = true;
+  const technology = tech.find(candidate => candidate.id === techId);
+  if (!technology) return false;
+  return (technology.req || []).some(req => {
+    if (req.type === 'tech') return techDependsOnAny(req.id, forbiddenTechIds, seen);
+    if (req.type === 'building') return buildingDependsOnAnyTech(req.id, forbiddenTechIds, seen);
+    return false;
+  });
+};
+const buildingDependsOnAnyTech = (buildingId, forbiddenTechIds, seen = {}) => {
+  if (!buildingId || !forbiddenTechIds || !forbiddenTechIds.length) return false;
+  if (seen[`building:${buildingId}`]) return false;
+  seen[`building:${buildingId}`] = true;
+  const building = buildings.find(candidate => candidate.id === buildingId);
+  if (!building) return false;
+  return (building.req || []).some(req => {
+    if (req.type === 'tech') return techDependsOnAny(req.id, forbiddenTechIds, seen);
+    if (req.type === 'building') return buildingDependsOnAnyTech(req.id, forbiddenTechIds, seen);
+    return false;
+  });
+};
+const isAllowedGoalBridge = (building, goal) => {
+  const allowedBridgeBuildings = (goal && goal.allowedBridgeBuildings) || [];
+  if (allowedBridgeBuildings.length && !allowedBridgeBuildings.includes(building.id)) return false;
+  const forbiddenTechIds = (goal && goal.postGoalBoundaryTechs) || [];
+  return !buildingDependsOnAnyTech(building.id, forbiddenTechIds, {});
+};
+const isBridgeReason = reason => reason && ['bootstrapProducer', 'resourceBridge', 'resourceCapBridge', 'foodCoverageForMoonlightNight'].includes(reason.key);
+const isAllowedPathNodeForGoal = (node, goal) => {
+  if (!goal || !node) return true;
+  const forbiddenTechIds = goal.postGoalBoundaryTechs || [];
+  if (node.kind === 'tech') return !forbiddenTechIds.includes(node.id) || (goal.targetTechs || []).includes(node.id);
+  if (buildingDependsOnAnyTech(node.id, forbiddenTechIds, {})) return false;
+  const allowedBridgeBuildings = goal.allowedBridgeBuildings || [];
+  if (allowedBridgeBuildings.length && (node.reasons || []).some(isBridgeReason) && !allowedBridgeBuildings.includes(node.id)) return false;
+  return true;
+};
+const findDirectProducer = (resourceId, goal) => buildings.find(building =>
+  buildingProducesResource(building, resourceId) && isAllowedGoalBridge(building, goal));
+const findCapProvider = (resourceId, goal) => {
+  const candidates = buildings.filter(building =>
+    buildingRaisesResourceCap(building, resourceId) && isAllowedGoalBridge(building, goal));
+  const preferred = (goal && goal.capProviderPreferences && goal.capProviderPreferences[resourceId]) || [];
+  if (preferred.length) {
+    const byPreference = preferred.map(id => candidates.find(building => building.id === id)).filter(Boolean);
+    if (byPreference.length) {
+      return byPreference.sort((a, b) => {
+        const unlockedDelta = Number(isBuildingUnlocked(b)) - Number(isBuildingUnlocked(a));
+        if (unlockedDelta) return unlockedDelta;
+        return getResourceCapValue(b, resourceId) - getResourceCapValue(a, resourceId);
+      })[0];
+    }
+  }
+  return candidates.sort((a, b) => getResourceCapValue(b, resourceId) - getResourceCapValue(a, resourceId))[0];
+};
 const layerToPriority = layer => Math.max(1, 9 - Math.max(0, layer));
 const createPathNode = (kind, id) => ({
   kind,
@@ -47526,6 +47635,18 @@ const computeShortestPath = (options, resourceMap) => {
   const route = getRoute(options);
   const nodesById = {};
   const visiting = {};
+  const projectedResourceCaps = {};
+  const getProjectedResourceCap = resourceId => {
+    if (typeof projectedResourceCaps[resourceId] !== 'undefined') return projectedResourceCaps[resourceId];
+    const res = resourceMap[resourceId];
+    projectedResourceCaps[resourceId] = res ? Number(res.max) || 0 : 0;
+    return projectedResourceCaps[resourceId];
+  };
+  const addReason = (node, reason) => {
+    if (!reason) return;
+    const key = JSON.stringify(reason);
+    if (!(node.reasons || []).some(existing => JSON.stringify(existing) === key)) node.reasons.push(reason);
+  };
   const getOrCreateNode = (kind, id) => {
     const key = `${kind}:${id}`;
     if (!nodesById[key]) nodesById[key] = createPathNode(kind, id);
@@ -47538,12 +47659,26 @@ const computeShortestPath = (options, resourceMap) => {
       const res = resourceMap[req.id];
       const cost = getResourceCost(req, count);
       if (!cost) return;
-      if (!res || res.max < cost) {
-        blocked = blocked || { type: 'resource-cap', resourceId: req.id };
+      const availableCap = getProjectedResourceCap(req.id);
+      if (!res || availableCap < cost) {
+        const capProvider = findCapProvider(req.id, goal);
+        if (capProvider) {
+          const capGain = getResourceCapValue(capProvider, req.id);
+          const missingCap = Math.max(0, cost - availableCap);
+          const extraCount = capGain > 0 ? Math.max(1, Math.ceil(missingCap / capGain)) : 1;
+          const providerNode = nodesById[`building:${capProvider.id}`];
+          const currentTarget = Math.max(getCount(capProvider), providerNode ? providerNode.targetValue : 0);
+          const targetValue = Math.min(options.maxTarget || 80, currentTarget + extraCount);
+          projectedResourceCaps[req.id] = availableCap + Math.max(0, targetValue - currentTarget) * capGain;
+          const capNode = resolveBuilding(capProvider.id, targetValue, { key: 'resourceCapBridge', resourceId: req.id });
+          maxPrereqLayer = Math.max(maxPrereqLayer, capNode.layer);
+        } else {
+          blocked = blocked || { type: 'resource-cap', resourceId: req.id };
+        }
         return;
       }
       if (res.speed <= 0) {
-        const producer = findDirectProducer(req.id);
+        const producer = findDirectProducer(req.id, goal);
         if (producer) {
           const producerNode = resolveBuilding(producer.id, getCount(producer) + 1, { key: 'bootstrapProducer', resourceId: req.id });
           maxPrereqLayer = Math.max(maxPrereqLayer, producerNode.layer);
@@ -47580,7 +47715,7 @@ const computeShortestPath = (options, resourceMap) => {
     if (!building) return null;
     const node = getOrCreateNode('building', buildingId);
     node.targetValue = Math.max(node.targetValue, targetValue);
-    if (reason) node.reasons.push(reason);
+    addReason(node, reason);
     if (visiting[node.key]) return node;
     const count = getCount(building);
     if (count >= node.targetValue) {
@@ -47604,7 +47739,7 @@ const computeShortestPath = (options, resourceMap) => {
     const technology = tech.find(candidate => candidate.id === techId);
     if (!technology) return null;
     const node = getOrCreateNode('tech', techId);
-    if (reason) node.reasons.push(reason);
+    addReason(node, reason);
     node.targetValue = 1;
     if (visiting[node.key]) return node;
     if (isTechCompleted(techId)) {
@@ -47624,11 +47759,26 @@ const computeShortestPath = (options, resourceMap) => {
     node.layer = maxPrereqLayer + 1;
     return node;
   };
-  if (goal) {
-    getGoalTechs(goal).forEach(technology => resolveTech(technology.id, { key: 'goalTargetTech' }));
-    getExpandedGoalFocusTargets(goal).forEach(entry => resolveBuilding(entry.id, entry.target, entry.reason));
-  }
+  const applyMoonlightNightFoodCoverage = () => {
+    if (options.goal !== 'moonlightNight') return;
+    const farm = buildings.find(candidate => candidate.id === 'farm');
+    const commonHouse = buildings.find(candidate => candidate.id === 'common_house');
+    if (!farm || !commonHouse || !isBuildingUnlocked(farm)) return;
+    const food = resourceMap.food;
+    const foodSpeed = food ? Number(food.speed) || 0 : 0;
+    const commonHouseNode = nodesById['building:common_house'];
+    const commonHouseTarget = Math.max(getCount(commonHouse), commonHouseNode ? commonHouseNode.targetValue : 0);
+    const commonHouseFoodUse = Math.abs(getResourceGenValue(commonHouse, 'food')) || 1;
+    const currentFoodShortfall = Math.max(0, Math.ceil((foodSpeed * -1) / commonHouseFoodUse));
+    const target = Math.min(options.maxTarget || 80, Math.max(getCount(farm), commonHouseTarget + 1, getCount(commonHouse) + currentFoodShortfall + 1));
+    if (target > getCount(farm)) {
+      resolveBuilding('farm', target, { key: 'foodCoverageForMoonlightNight' });
+    }
+  };
+  if (goal) getExpandedGoalFocusTargets(goal).forEach(entry => resolveBuilding(entry.id, entry.target, entry.reason));
   if (route) getExpandedRouteTargets(route).forEach(entry => resolveBuilding(entry.id, entry.target, entry.reason));
+  applyMoonlightNightFoodCoverage();
+  if (goal) getGoalTechEntries(goal).forEach(entry => resolveTech(entry.technology.id, entry.reason));
   return { nodesById };
 };
 const getPathFingerprint = (options, resourceMap) => {
@@ -47669,7 +47819,7 @@ const getTargets = (subpage, manualOptions = {}) => {
   const targets = {};
   buildings.filter(building => building.tab === allowedTab).forEach(building => {
     const node = path.nodesById[`building:${building.id}`];
-    if (!node || node.status === 'met') {
+    if (!node || node.status === 'met' || !isAllowedPathNodeForGoal(node, getGoal(options))) {
       targets[building.id] = 0;
       targets[`prio_${building.id}`] = 0;
       return;
@@ -47685,10 +47835,11 @@ const getResearchTargets = (manualOptions = {}) => {
   if (!getGoal(options)) return null;
   const resourceMap = getResourceMap();
   const path = getPath(options, resourceMap);
+  const goal = getGoal(options);
   const targets = {};
   tech.forEach(technology => {
     const node = path.nodesById[`tech:${technology.id}`];
-    targets[technology.id] = (!node || node.status === 'met') ? 0 : layerToPriority(node.layer);
+    targets[technology.id] = (!node || node.status === 'met' || !isAllowedPathNodeForGoal(node, goal)) ? 0 : layerToPriority(node.layer);
   });
   return targets;
 };
@@ -47698,7 +47849,7 @@ const getPathSnapshot = () => {
   if (!goal) return { goal: options.goal, nodes: [] };
   const resourceMap = getResourceMap();
   const path = getPath(options, resourceMap);
-  const nodes = Object.values(path.nodesById).map(node => {
+  const nodes = Object.values(path.nodesById).filter(node => isAllowedPathNodeForGoal(node, goal)).map(node => {
     const current = node.kind === 'building'
       ? getCount(buildings.find(candidate => candidate.id === node.id))
       : (isTechCompleted(node.id) ? 1 : 0);
@@ -47807,10 +47958,36 @@ return {
 		'statue_virtue', 'pilgrim_camp', 'mana_extractors', 'beacon_light', 'light_turret',
 		'probe_system', 'arcane_school', 'underground_house', 'light_square_b', 'mining_area'
 		];
+    const isMoonlightNightSmartBuild = () => state.options.smartBuild && state.options.smartBuild.enabled && state.options.smartBuild.goal === 'moonlightNight';
+    const hasVisibleBuildingButton = buildingId => selectors.getAllButtons(false).some(element => reactUtil.getNearestKey(element, 6) === keyGen.building.key(buildingId));
+    const shouldBuildMoonlightCommonHouse = button => {
+      if (!isMoonlightNightSmartBuild() || button.building.key !== 'common_house') return null;
+      if (!hasVisibleBuildingButton('farm')) return !button.count || button.count < 3;
+      return true;
+    };
+    const getSmartBuildMaxExtra = () => {
+      if (!state.options.smartBuild || !state.options.smartBuild.enabled) return Infinity;
+      const configured = Number(state.options.smartBuild.maxExtra) || 3;
+      return Math.max(1, configured);
+    };
+    const getButtonCount = button => {
+      const countEl = button.element.querySelector('span.right-0');
+      if (countEl) {
+        const parsed = numberParser.parse(countEl.innerText);
+        if (Number.isFinite(parsed)) return parsed;
+      }
+      const gameData = reactUtil.getGameData();
+      const idx = gameData && gameData.idxs && gameData.idxs.buildings ? gameData.idxs.buildings[button.building.key] : undefined;
+      const entry = typeof idx === 'undefined' ? null : gameData.run && gameData.run.buildings ? gameData.run.buildings[idx] : null;
+      const numeric = entry ? Number(entry.value) : button.count || 0;
+      return Number.isFinite(numeric) ? numeric : 0;
+    };
 
     const executeAction = async () => {
       let buttons = getAllButtons();
       let guidedStart = state.options.guidedStart.enabled;
+      let buildsThisPass = 0;
+      const maxBuildsThisPass = getSmartBuildMaxExtra();
       if (guidedStart) {
         if (reactUtil.getGameData().ResourcesStore.resources.findIndex(x => x.id == 'copper') > -1) {
           guidedStart = false;
@@ -47832,7 +48009,7 @@ return {
         }
       }
       if (buttons.length) {
-        while (!state.scriptPaused && buttons.length) {
+        while (!state.scriptPaused && buttons.length && buildsThisPass < maxBuildsThisPass) {
           let refreshButtons = false;
           const highestPrio = buttons[0].building.prio;
           const highestPrioBuildings = buttons.filter(button => button.building.prio === highestPrio);
@@ -47840,6 +48017,10 @@ return {
           while (!state.scriptPaused && highestPrioBuildings.length) {
             let shouldBuild = true;
             const button = highestPrioBuildings.shift();
+            button.count = getButtonCount(button);
+            if (button.count >= button.building.max) {
+              continue;
+            }
             if (guidedStart) {
               shouldBuild = false;
               if (button.building.key === 'common_house' && (!button.count || button.count < 3)) {
@@ -47853,16 +48034,22 @@ return {
               }
             } else if (!button.building.isSafe && button.building.requires.length) {
               shouldBuild = !button.building.requires.find(req => !resources.get(req.resource) || resources.get(req.resource)[req.parameter] <= req.minValue);
-              if (button.building.key === 'common_house' && (!button.count || button.count < 10)) {
-                shouldBuild = true;
+              if (button.building.key === 'common_house') {
+                const moonlightCommonHouseDecision = shouldBuildMoonlightCommonHouse(button);
+                shouldBuild = moonlightCommonHouseDecision === null ? true : moonlightCommonHouseDecision;
               }
             }
             if (shouldBuild) {
+              if (buildsThisPass >= maxBuildsThisPass) {
+                refreshButtons = true;
+                break;
+              }
               if (state.options.turbo.enabled && state.MainStore) {
                 state.MainStore.BuildingsStore.addBuilding(button.building.key);
               } else {
                 button.element.click();
               }
+              buildsThisPass += 1;
 
 			  if (popAdjustBuildingList.includes(button.building.key))
 				  localStorage.set("popAdjust", true);
@@ -48131,12 +48318,56 @@ return {
     let availableJobs = getAllAvailableJobs();
     if (availablePop[0] > 0 && availableJobs.length) {
       const minimumFood = state.options.pages[CONSTANTS.PAGES.POPULATION].options.minimumFood || 0;
-      const unsafeJobRatio = state.options.pages[CONSTANTS.PAGES.POPULATION].options.unsafeJobRatio ?? 2;
+      const projectedSpeeds = {};
+      const getProjectedSpeed = resourceId => {
+        if (typeof projectedSpeeds[resourceId] !== 'undefined') return projectedSpeeds[resourceId];
+        const resource = resources.get(resourceId);
+        projectedSpeeds[resourceId] = resource ? Number(resource.speed) || 0 : 0;
+        return projectedSpeeds[resourceId];
+      };
+      const canAssignJobWithoutNegativeProduction = job => {
+        if (!job.resourcesUsed || !job.resourcesUsed.length) return true;
+        return job.resourcesUsed.every(resUsed => {
+          const nextSpeed = getProjectedSpeed(resUsed.id) + resUsed.value;
+          const minimumSpeed = resUsed.id === 'food' ? minimumFood : 0;
+          return nextSpeed >= minimumSpeed;
+        });
+      };
+      const applyProjectedJob = job => {
+        (job.resourcesGenerated || []).forEach(resGen => {
+          projectedSpeeds[resGen.id] = getProjectedSpeed(resGen.id) + resGen.value;
+        });
+        (job.resourcesUsed || []).forEach(resUsed => {
+          projectedSpeeds[resUsed.id] = getProjectedSpeed(resUsed.id) + resUsed.value;
+        });
+      };
+      const foodSurplusLimit = Math.max(minimumFood + 6, 8);
+      const nonFoodResourcePriority = ['natronite', 'saltpetre', 'tools', 'wood', 'stone', 'iron', 'copper', 'mana', 'faith', 'research', 'materials', 'steel', 'supplies', 'gold', 'crystal', 'horse', 'cow'];
+      const producesResource = (job, resourceId) => (job.resourcesGenerated || []).some(resGen => resGen.id === resourceId);
+      const isFoodProducer = job => producesResource(job, 'food');
+      const isNonFoodProducer = job => (job.resourcesGenerated || []).some(resGen => resGen.id !== 'food');
+      const hasAssignableNonFoodJob = jobsList => jobsList.some(job => {
+        return isNonFoodProducer(job) && job.current < Math.min(job.max, job.maxAvailable) && canAssignJobWithoutNegativeProduction(job);
+      });
+      const hasNonFoodProductionGap = jobsList => nonFoodResourcePriority.some(resourceId => {
+        return resources.get(resourceId) && getProjectedSpeed(resourceId) <= 0 && jobsList.some(job => producesResource(job, resourceId));
+      });
+      const shouldDeferFoodJob = (job, jobsList) => {
+        if (!isFoodProducer(job) || isNonFoodProducer(job)) return false;
+        if (getProjectedSpeed('food') <= minimumFood) return false;
+        if (!hasAssignableNonFoodJob(jobsList)) return false;
+        return getProjectedSpeed('food') >= foodSurplusLimit || hasNonFoodProductionGap(jobsList);
+      };
+      const canAssignJob = (job, jobsList) => {
+        return job.current < Math.min(job.max, job.maxAvailable)
+          && canAssignJobWithoutNegativeProduction(job)
+          && !shouldDeferFoodJob(job, jobsList);
+      };
       while (!state.scriptPaused && canAssignJobs) {
         canAssignJobs = false;
         if (availableJobs.length) {
           const foodJob = availableJobs.find(job => job.resourcesGenerated.find(res => res.id === 'food'));
-          if (foodJob && resources.get('food').speed <= minimumFood && foodJob.current < foodJob.maxAvailable) {
+          if (foodJob && getProjectedSpeed('food') <= minimumFood && foodJob.current < Math.min(foodJob.max, foodJob.maxAvailable)) {
             const addJobButton = foodJob.container.querySelector('button.btn-green');
             if (addJobButton) {
               logger({
@@ -48146,6 +48377,7 @@ return {
               addJobButton.click();
               canAssignJobs = true;
               foodJob.current += 1;
+              applyProjectedJob(foodJob);
               await sleep(20);
               if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) return;
             }
@@ -48153,8 +48385,8 @@ return {
             let unassigned = container.querySelector('div > span.ml-2').textContent.split('/').map(pop => numberParser.parse(pop.trim())).shift();
             if (unassigned > 0) {
               const resourcesToProduce = ['natronite', 'saltpetre', 'tools', 'wood', 'stone', 'iron', 'copper', 'mana', 'faith', 'research', 'materials', 'steel', 'supplies', 'gold', 'crystal', 'horse', 'cow', 'food'].filter(res => resources.get(res)).filter(res => availableJobs.find(job => job.resourcesGenerated.find(resGen => resGen.id === res)));
-              const resourcesWithNegativeGen = resourcesToProduce.filter(res => resources.get(res) && resources.get(res).speed < 0);
-              const resourcesWithNoGen = resourcesToProduce.filter(res => !resourcesWithNegativeGen.includes(res) && resources.get(res) && !resources.get(res).speed);
+              const resourcesWithNegativeGen = resourcesToProduce.filter(res => resources.get(res) && getProjectedSpeed(res) < 0);
+              const resourcesWithNoGen = resourcesToProduce.filter(res => !resourcesWithNegativeGen.includes(res) && resources.get(res) && !getProjectedSpeed(res));
               const resourcesSorted = resourcesWithNegativeGen.concat(resourcesWithNoGen);
               if (resourcesSorted.length) {
                 for (let i = 0; i < resourcesSorted.length && !state.scriptPaused; i++) {
@@ -48165,31 +48397,7 @@ return {
                     for (let i = 0; i < jobsForResource.length && !state.scriptPaused; i++) {
                       if (unassigned === 0) break;
                       const job = jobsForResource[i];
-                      let isSafeToAdd = job.current < Math.min(job.max, job.maxAvailable);
-                      const isFoodJob = !!job.resourcesGenerated.find(res => res.id === 'food');
-                      if (isFoodJob) {
-                        isSafeToAdd = isSafeToAdd || resources.get('food').speed <= minimumFood && foodJob.current < foodJob.maxAvailable;
-                      }
-                      if (!job.isSafe) {
-                        job.resourcesUsed.every(resUsed => {
-                          const res = resources.get(resUsed.id);
-                          if (!res || res.speed <= Math.abs(resUsed.value * unsafeJobRatio)) {
-                            isSafeToAdd = false;
-                          }
-                          if (res && resUsed.id === 'food' && res.speed - resUsed.value < minimumFood) {
-                            const foodJob = getAllAvailableJobs().find(job => job.resourcesGenerated.find(res => res.id === 'food'));
-                            if (foodJob) {
-                              i -= 1;
-                              job = foodJob;
-                              isSafeToAdd = true;
-                              return false;
-                            } else {
-                              isSafeToAdd = false;
-                            }
-                          }
-                          return isSafeToAdd;
-                        });
-                      }
+                      const isSafeToAdd = canAssignJob(job, availableJobs);
                       if (isSafeToAdd) {
                         const addJobButton = job.container.querySelector('button.btn-green');
                         if (addJobButton) {
@@ -48201,6 +48409,7 @@ return {
                           job.current += 1;
                           unassigned -= 1;
                           canAssignJobs = !!unassigned;
+                          applyProjectedJob(job);
                           await sleep(20);
                           if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) return;
                         }
@@ -48214,30 +48423,7 @@ return {
                 if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) break;
                 if (state.scriptPaused) break;
                 const job = availableJobs[i];
-                let isSafeToAdd = job.current < Math.min(job.max, job.maxAvailable);
-                const isFoodJob = !!job.resourcesGenerated.find(res => res.id === 'food');
-                if (isFoodJob) {
-                  isSafeToAdd = isSafeToAdd || resources.get('food').speed <= minimumFood && foodJob.current < foodJob.maxAvailable;
-                }
-                if (!job.isSafe) {
-                  job.resourcesUsed.every(resUsed => {
-                    const res = resources.get(resUsed.id);
-                    if (!res || res.speed <= Math.abs(resUsed.value * unsafeJobRatio)) {
-                      isSafeToAdd = false;
-                    }
-                    if (res && resUsed.id === 'food' && res.speed - resUsed.value < minimumFood) {
-                      const foodJob = availableJobs.find(job => job.resourcesGenerated.find(res => res.id === 'food'));
-                      if (foodJob) {
-                        job = foodJob;
-                        isSafeToAdd = true;
-                        return false;
-                      } else {
-                        isSafeToAdd = false;
-                      }
-                    }
-                    return isSafeToAdd;
-                  });
-                }
+                const isSafeToAdd = canAssignJob(job, availableJobs);
                 if (isSafeToAdd && !state.scriptPaused) {
                   const addJobButton = job.container.querySelector('button.btn-green');
                   if (addJobButton) {
@@ -48249,6 +48435,7 @@ return {
                     job.current += 1;
                     unassigned -= 1;
                     canAssignJobs = !!unassigned;
+                    applyProjectedJob(job);
                     await sleep(20);
                     if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) return;
                     break;
@@ -49076,31 +49263,25 @@ return {
     }
   };
 
-  const autoClicker = async () => {
-    if (!state.haveManualResourceButtons) return;
-    if (state.scriptPaused) return;
-    const manualResources = [keyGen.manual.key('food'), keyGen.manual.key('wood'), keyGen.manual.key('stone')];
-    while (!state.scriptPaused && state.haveManualResourceButtons) {
-      if (state.stopAutoClicking) {
-        await sleep(1000);
-        continue;
-      }
-      const buttons = [...document.querySelectorAll('#root > div.flex.flex-wrap.w-full.mx-auto.p-2 > div.w-full.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3 > button')];
-      if (!buttons.length) {
-        state.haveManualResourceButtons = false;
-        return;
-      }
-      const buttonsToClick = buttons.filter(button => manualResources.includes(reactUtil.getNearestKey(button, 2)));
-      if (buttonsToClick.length && !reactUtil.getGameData().SettingsStore.showSettings) {
-        while (buttonsToClick.length && !reactUtil.getGameData().SettingsStore.showSettings) {
-          const buttonToClick = buttonsToClick.shift();
-          buttonToClick.click();
-          await sleep(100);
-        }
-      } else {
-        await sleep(1000);
-      }
-    }
+  const getManualResourceClickInterval = () => {
+    const configured = Number(state.options.smartBuild && state.options.smartBuild.manualResourceClicksPerSecond) || 8;
+    const clicksPerSecond = Math.min(30, Math.max(1, configured));
+    return Math.round(1000 / clicksPerSecond);
+  };
+  const autoClicker = () => {
+    let btn = [0, 0, 0];
+    btn[0] = document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600 > button:nth-child(1)");
+    btn[1] = document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600 > button:nth-child(2)");
+    btn[2] = document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600 > button:nth-child(3)");
+    if (!btn[2]) return;
+    let food = resources.get("food");
+    let wood = resources.get("wood");
+    let stone = resources.get("stone");
+    if (food.current < 100 && food.current < food.max) btn[0].click();
+    else if (wood.current < stone.current * 1.5 && wood.current < wood.max) btn[1].click();
+    else if (stone.current < stone.max) btn[2].click();
+    else if (wood.current < wood.max) btn[1].click();
+    else btn[0].click();
   };
 
   const defaultAncestor = 'ancestor_gatherer';
@@ -49919,7 +50100,11 @@ const GOAL_PATH_I18N = {
       goalBuildingFocus: () => 'Goal building focus',
       prerequisiteFor: targetId => `Prerequisite for ${translate(targetId) || targetId}`,
       goalTargetTech: () => 'Goal target tech',
-      bootstrapProducer: resourceId => `Bootstrap producer for ${translate(resourceId, 'res_') || resourceId}`
+      supportTech: () => 'Support tech',
+      bootstrapProducer: resourceId => `Bootstrap producer for ${translate(resourceId, 'res_') || resourceId}`,
+      resourceBridge: () => 'Resource bridge',
+      resourceCapBridge: resourceId => `Storage bridge for ${translate(resourceId, 'res_') || resourceId}`,
+      foodCoverageForMoonlightNight: () => 'Moonlight food coverage'
     },
     blocked: {
       'resource-cap': resourceId => `Storage too small for ${translate(resourceId, 'res_') || resourceId}`,
@@ -49949,7 +50134,11 @@ const GOAL_PATH_I18N = {
       goalBuildingFocus: () => '目标重点建筑',
       prerequisiteFor: targetId => `${translate(targetId) || targetId}的前置条件`,
       goalTargetTech: () => '目标科技',
-      bootstrapProducer: resourceId => `${translate(resourceId, 'res_') || resourceId}产出的启动建筑`
+      supportTech: () => '辅助科技',
+      bootstrapProducer: resourceId => `${translate(resourceId, 'res_') || resourceId}产出的启动建筑`,
+      resourceBridge: () => '资源桥梁',
+      resourceCapBridge: resourceId => `${translate(resourceId, 'res_') || resourceId}上限桥梁`,
+      foodCoverageForMoonlightNight: () => '月明之夜食物覆盖'
     },
     blocked: {
       'resource-cap': resourceId => `${translate(resourceId, 'res_') || resourceId}的仓储上限不够`,
@@ -49987,6 +50176,7 @@ const goalPathReasonText = (reason, lang) => {
   if (!formatter) return reason.key;
   if (reason.key === 'prerequisiteFor') return formatter(reason.targetId);
   if (reason.key === 'bootstrapProducer') return formatter(reason.resourceId);
+  if (reason.key === 'resourceCapBridge') return formatter(reason.resourceId);
   return formatter();
 };
 
@@ -51051,6 +51241,9 @@ const initGoalAutomationPreset = () => {
             <div class="mb-2"><label>Max wait seconds:
               <input type="number" data-setting="smartBuild" data-key="maxWaitSeconds" class="option text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="180" min="10" max="3600" step="10" />
             </label></div>
+            <div class="mb-2"><label>Manual resource clicks per second:
+              <input type="number" data-setting="smartBuild" data-key="manualResourceClicksPerSecond" class="option text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="8" min="1" max="30" step="1" />
+            </label></div>
             <p class="mb-2">When enabled, Build max/prio is generated from the selected goal, corrected route gates from the local dataset, current resources, caps, population effects, negative production risk and the fallback strategy. If Smart army is enabled, dangerous goal researches such as Moonlight Night can also generate temporary Army max/prio until the battle calculator says the defending army can win. It is temporary and does not rewrite manual max fields.</p>
           </div>
           <div class="mb-2"><label>Guided start:
@@ -51596,6 +51789,7 @@ const initGoalAutomationPreset = () => {
 
   let mainLoopRunning = false;
   let hideFullPageOverlayInterval;
+  let autoClickerInterval;
   const switchScriptState = () => {
     state.scriptPaused = !state.scriptPaused;
     localStorage.set('scriptPaused', state.scriptPaused);
@@ -51723,11 +51917,17 @@ const initGoalAutomationPreset = () => {
       }
       await sleep(2000);
       mainLoop();
-      await sleep(1000);
-      tasks.autoClicker();
+      if (autoClickerInterval) {
+        clearInterval(autoClickerInterval);
+      }
+      autoClickerInterval = setInterval(tasks.autoClicker, getManualResourceClickInterval());
     } else {
       if (!hideFullPageOverlayInterval) {
         clearInterval(hideFullPageOverlayInterval);
+      }
+      if (autoClickerInterval) {
+        clearInterval(autoClickerInterval);
+        autoClickerInterval = null;
       }
     }
   };

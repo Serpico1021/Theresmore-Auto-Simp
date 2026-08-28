@@ -37,7 +37,11 @@ const GOAL_PATH_I18N = {
       goalBuildingFocus: () => 'Goal building focus',
       prerequisiteFor: targetId => `Prerequisite for ${translate(targetId) || targetId}`,
       goalTargetTech: () => 'Goal target tech',
-      bootstrapProducer: resourceId => `Bootstrap producer for ${translate(resourceId, 'res_') || resourceId}`
+      supportTech: () => 'Support tech',
+      bootstrapProducer: resourceId => `Bootstrap producer for ${translate(resourceId, 'res_') || resourceId}`,
+      resourceBridge: () => 'Resource bridge',
+      resourceCapBridge: resourceId => `Storage bridge for ${translate(resourceId, 'res_') || resourceId}`,
+      foodCoverageForMoonlightNight: () => 'Moonlight food coverage'
     },
     blocked: {
       'resource-cap': resourceId => `Storage too small for ${translate(resourceId, 'res_') || resourceId}`,
@@ -67,7 +71,11 @@ const GOAL_PATH_I18N = {
       goalBuildingFocus: () => '目标重点建筑',
       prerequisiteFor: targetId => `${translate(targetId) || targetId}的前置条件`,
       goalTargetTech: () => '目标科技',
-      bootstrapProducer: resourceId => `${translate(resourceId, 'res_') || resourceId}产出的启动建筑`
+      supportTech: () => '辅助科技',
+      bootstrapProducer: resourceId => `${translate(resourceId, 'res_') || resourceId}产出的启动建筑`,
+      resourceBridge: () => '资源桥梁',
+      resourceCapBridge: resourceId => `${translate(resourceId, 'res_') || resourceId}上限桥梁`,
+      foodCoverageForMoonlightNight: () => '月明之夜食物覆盖'
     },
     blocked: {
       'resource-cap': resourceId => `${translate(resourceId, 'res_') || resourceId}的仓储上限不够`,
@@ -105,6 +113,7 @@ const goalPathReasonText = (reason, lang) => {
   if (!formatter) return reason.key;
   if (reason.key === 'prerequisiteFor') return formatter(reason.targetId);
   if (reason.key === 'bootstrapProducer') return formatter(reason.resourceId);
+  if (reason.key === 'resourceCapBridge') return formatter(reason.resourceId);
   return formatter();
 };
 

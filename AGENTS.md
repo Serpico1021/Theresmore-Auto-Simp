@@ -1,5 +1,12 @@
 # THERESMORE Project Constraints
 
+## Local Codex Workflow
+
+- 默认使用中文沟通。
+- 命令行优先使用 `bash`；当前环境没有 `bash` 时，使用 PowerShell 兜底。
+- 涉及网络访问、受限目录写入或沙箱阻断的操作，默认请求升权执行。
+- 过程 Update、状态汇报和最终摘要默认不超过 15 行，除非用户明确要求展开。
+
 ## Output Location
 
 All Theresmore-related outputs for this project should live under:

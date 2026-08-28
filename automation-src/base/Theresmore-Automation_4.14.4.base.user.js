@@ -47387,10 +47387,36 @@ const taVersion = "4.14.4";
 		'statue_virtue', 'pilgrim_camp', 'mana_extractors', 'beacon_light', 'light_turret',
 		'probe_system', 'arcane_school', 'underground_house', 'light_square_b', 'mining_area'
 		];
+    const isMoonlightNightSmartBuild = () => state.options.smartBuild && state.options.smartBuild.enabled && state.options.smartBuild.goal === 'moonlightNight';
+    const hasVisibleBuildingButton = buildingId => selectors.getAllButtons(false).some(element => reactUtil.getNearestKey(element, 6) === keyGen.building.key(buildingId));
+    const shouldBuildMoonlightCommonHouse = button => {
+      if (!isMoonlightNightSmartBuild() || button.building.key !== 'common_house') return null;
+      if (!hasVisibleBuildingButton('farm')) return !button.count || button.count < 3;
+      return true;
+    };
+    const getSmartBuildMaxExtra = () => {
+      if (!state.options.smartBuild || !state.options.smartBuild.enabled) return Infinity;
+      const configured = Number(state.options.smartBuild.maxExtra) || 3;
+      return Math.max(1, configured);
+    };
+    const getButtonCount = button => {
+      const countEl = button.element.querySelector('span.right-0');
+      if (countEl) {
+        const parsed = numberParser.parse(countEl.innerText);
+        if (Number.isFinite(parsed)) return parsed;
+      }
+      const gameData = reactUtil.getGameData();
+      const idx = gameData && gameData.idxs && gameData.idxs.buildings ? gameData.idxs.buildings[button.building.key] : undefined;
+      const entry = typeof idx === 'undefined' ? null : gameData.run && gameData.run.buildings ? gameData.run.buildings[idx] : null;
+      const numeric = entry ? Number(entry.value) : button.count || 0;
+      return Number.isFinite(numeric) ? numeric : 0;
+    };
 
     const executeAction = async () => {
       let buttons = getAllButtons();
       let guidedStart = state.options.guidedStart.enabled;
+      let buildsThisPass = 0;
+      const maxBuildsThisPass = getSmartBuildMaxExtra();
       if (guidedStart) {
         if (reactUtil.getGameData().ResourcesStore.resources.findIndex(x => x.id == 'copper') > -1) {
           guidedStart = false;
@@ -47412,7 +47438,7 @@ const taVersion = "4.14.4";
         }
       }
       if (buttons.length) {
-        while (!state.scriptPaused && buttons.length) {
+        while (!state.scriptPaused && buttons.length && buildsThisPass < maxBuildsThisPass) {
           let refreshButtons = false;
           const highestPrio = buttons[0].building.prio;
           const highestPrioBuildings = buttons.filter(button => button.building.prio === highestPrio);
@@ -47420,6 +47446,10 @@ const taVersion = "4.14.4";
           while (!state.scriptPaused && highestPrioBuildings.length) {
             let shouldBuild = true;
             const button = highestPrioBuildings.shift();
+            button.count = getButtonCount(button);
+            if (button.count >= button.building.max) {
+              continue;
+            }
             if (guidedStart) {
               shouldBuild = false;
               if (button.building.key === 'common_house' && (!button.count || button.count < 3)) {
@@ -47433,16 +47463,22 @@ const taVersion = "4.14.4";
               }
             } else if (!button.building.isSafe && button.building.requires.length) {
               shouldBuild = !button.building.requires.find(req => !resources.get(req.resource) || resources.get(req.resource)[req.parameter] <= req.minValue);
-              if (button.building.key === 'common_house' && (!button.count || button.count < 10)) {
-                shouldBuild = true;
+              if (button.building.key === 'common_house') {
+                const moonlightCommonHouseDecision = shouldBuildMoonlightCommonHouse(button);
+                shouldBuild = moonlightCommonHouseDecision === null ? true : moonlightCommonHouseDecision;
               }
             }
             if (shouldBuild) {
+              if (buildsThisPass >= maxBuildsThisPass) {
+                refreshButtons = true;
+                break;
+              }
               if (state.options.turbo.enabled && state.MainStore) {
                 state.MainStore.BuildingsStore.addBuilding(button.building.key);
               } else {
                 button.element.click();
               }
+              buildsThisPass += 1;
 
 			  if (popAdjustBuildingList.includes(button.building.key))
 				  localStorage.set("popAdjust", true);
@@ -47711,12 +47747,56 @@ const taVersion = "4.14.4";
     let availableJobs = getAllAvailableJobs();
     if (availablePop[0] > 0 && availableJobs.length) {
       const minimumFood = state.options.pages[CONSTANTS.PAGES.POPULATION].options.minimumFood || 0;
-      const unsafeJobRatio = state.options.pages[CONSTANTS.PAGES.POPULATION].options.unsafeJobRatio ?? 2;
+      const projectedSpeeds = {};
+      const getProjectedSpeed = resourceId => {
+        if (typeof projectedSpeeds[resourceId] !== 'undefined') return projectedSpeeds[resourceId];
+        const resource = resources.get(resourceId);
+        projectedSpeeds[resourceId] = resource ? Number(resource.speed) || 0 : 0;
+        return projectedSpeeds[resourceId];
+      };
+      const canAssignJobWithoutNegativeProduction = job => {
+        if (!job.resourcesUsed || !job.resourcesUsed.length) return true;
+        return job.resourcesUsed.every(resUsed => {
+          const nextSpeed = getProjectedSpeed(resUsed.id) + resUsed.value;
+          const minimumSpeed = resUsed.id === 'food' ? minimumFood : 0;
+          return nextSpeed >= minimumSpeed;
+        });
+      };
+      const applyProjectedJob = job => {
+        (job.resourcesGenerated || []).forEach(resGen => {
+          projectedSpeeds[resGen.id] = getProjectedSpeed(resGen.id) + resGen.value;
+        });
+        (job.resourcesUsed || []).forEach(resUsed => {
+          projectedSpeeds[resUsed.id] = getProjectedSpeed(resUsed.id) + resUsed.value;
+        });
+      };
+      const foodSurplusLimit = Math.max(minimumFood + 6, 8);
+      const nonFoodResourcePriority = ['natronite', 'saltpetre', 'tools', 'wood', 'stone', 'iron', 'copper', 'mana', 'faith', 'research', 'materials', 'steel', 'supplies', 'gold', 'crystal', 'horse', 'cow'];
+      const producesResource = (job, resourceId) => (job.resourcesGenerated || []).some(resGen => resGen.id === resourceId);
+      const isFoodProducer = job => producesResource(job, 'food');
+      const isNonFoodProducer = job => (job.resourcesGenerated || []).some(resGen => resGen.id !== 'food');
+      const hasAssignableNonFoodJob = jobsList => jobsList.some(job => {
+        return isNonFoodProducer(job) && job.current < Math.min(job.max, job.maxAvailable) && canAssignJobWithoutNegativeProduction(job);
+      });
+      const hasNonFoodProductionGap = jobsList => nonFoodResourcePriority.some(resourceId => {
+        return resources.get(resourceId) && getProjectedSpeed(resourceId) <= 0 && jobsList.some(job => producesResource(job, resourceId));
+      });
+      const shouldDeferFoodJob = (job, jobsList) => {
+        if (!isFoodProducer(job) || isNonFoodProducer(job)) return false;
+        if (getProjectedSpeed('food') <= minimumFood) return false;
+        if (!hasAssignableNonFoodJob(jobsList)) return false;
+        return getProjectedSpeed('food') >= foodSurplusLimit || hasNonFoodProductionGap(jobsList);
+      };
+      const canAssignJob = (job, jobsList) => {
+        return job.current < Math.min(job.max, job.maxAvailable)
+          && canAssignJobWithoutNegativeProduction(job)
+          && !shouldDeferFoodJob(job, jobsList);
+      };
       while (!state.scriptPaused && canAssignJobs) {
         canAssignJobs = false;
         if (availableJobs.length) {
           const foodJob = availableJobs.find(job => job.resourcesGenerated.find(res => res.id === 'food'));
-          if (foodJob && resources.get('food').speed <= minimumFood && foodJob.current < foodJob.maxAvailable) {
+          if (foodJob && getProjectedSpeed('food') <= minimumFood && foodJob.current < Math.min(foodJob.max, foodJob.maxAvailable)) {
             const addJobButton = foodJob.container.querySelector('button.btn-green');
             if (addJobButton) {
               logger({
@@ -47726,6 +47806,7 @@ const taVersion = "4.14.4";
               addJobButton.click();
               canAssignJobs = true;
               foodJob.current += 1;
+              applyProjectedJob(foodJob);
               await sleep(20);
               if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) return;
             }
@@ -47733,8 +47814,8 @@ const taVersion = "4.14.4";
             let unassigned = container.querySelector('div > span.ml-2').textContent.split('/').map(pop => numberParser.parse(pop.trim())).shift();
             if (unassigned > 0) {
               const resourcesToProduce = ['natronite', 'saltpetre', 'tools', 'wood', 'stone', 'iron', 'copper', 'mana', 'faith', 'research', 'materials', 'steel', 'supplies', 'gold', 'crystal', 'horse', 'cow', 'food'].filter(res => resources.get(res)).filter(res => availableJobs.find(job => job.resourcesGenerated.find(resGen => resGen.id === res)));
-              const resourcesWithNegativeGen = resourcesToProduce.filter(res => resources.get(res) && resources.get(res).speed < 0);
-              const resourcesWithNoGen = resourcesToProduce.filter(res => !resourcesWithNegativeGen.includes(res) && resources.get(res) && !resources.get(res).speed);
+              const resourcesWithNegativeGen = resourcesToProduce.filter(res => resources.get(res) && getProjectedSpeed(res) < 0);
+              const resourcesWithNoGen = resourcesToProduce.filter(res => !resourcesWithNegativeGen.includes(res) && resources.get(res) && !getProjectedSpeed(res));
               const resourcesSorted = resourcesWithNegativeGen.concat(resourcesWithNoGen);
               if (resourcesSorted.length) {
                 for (let i = 0; i < resourcesSorted.length && !state.scriptPaused; i++) {
@@ -47745,31 +47826,7 @@ const taVersion = "4.14.4";
                     for (let i = 0; i < jobsForResource.length && !state.scriptPaused; i++) {
                       if (unassigned === 0) break;
                       const job = jobsForResource[i];
-                      let isSafeToAdd = job.current < Math.min(job.max, job.maxAvailable);
-                      const isFoodJob = !!job.resourcesGenerated.find(res => res.id === 'food');
-                      if (isFoodJob) {
-                        isSafeToAdd = isSafeToAdd || resources.get('food').speed <= minimumFood && foodJob.current < foodJob.maxAvailable;
-                      }
-                      if (!job.isSafe) {
-                        job.resourcesUsed.every(resUsed => {
-                          const res = resources.get(resUsed.id);
-                          if (!res || res.speed <= Math.abs(resUsed.value * unsafeJobRatio)) {
-                            isSafeToAdd = false;
-                          }
-                          if (res && resUsed.id === 'food' && res.speed - resUsed.value < minimumFood) {
-                            const foodJob = getAllAvailableJobs().find(job => job.resourcesGenerated.find(res => res.id === 'food'));
-                            if (foodJob) {
-                              i -= 1;
-                              job = foodJob;
-                              isSafeToAdd = true;
-                              return false;
-                            } else {
-                              isSafeToAdd = false;
-                            }
-                          }
-                          return isSafeToAdd;
-                        });
-                      }
+                      const isSafeToAdd = canAssignJob(job, availableJobs);
                       if (isSafeToAdd) {
                         const addJobButton = job.container.querySelector('button.btn-green');
                         if (addJobButton) {
@@ -47781,6 +47838,7 @@ const taVersion = "4.14.4";
                           job.current += 1;
                           unassigned -= 1;
                           canAssignJobs = !!unassigned;
+                          applyProjectedJob(job);
                           await sleep(20);
                           if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) return;
                         }
@@ -47794,30 +47852,7 @@ const taVersion = "4.14.4";
                 if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) break;
                 if (state.scriptPaused) break;
                 const job = availableJobs[i];
-                let isSafeToAdd = job.current < Math.min(job.max, job.maxAvailable);
-                const isFoodJob = !!job.resourcesGenerated.find(res => res.id === 'food');
-                if (isFoodJob) {
-                  isSafeToAdd = isSafeToAdd || resources.get('food').speed <= minimumFood && foodJob.current < foodJob.maxAvailable;
-                }
-                if (!job.isSafe) {
-                  job.resourcesUsed.every(resUsed => {
-                    const res = resources.get(resUsed.id);
-                    if (!res || res.speed <= Math.abs(resUsed.value * unsafeJobRatio)) {
-                      isSafeToAdd = false;
-                    }
-                    if (res && resUsed.id === 'food' && res.speed - resUsed.value < minimumFood) {
-                      const foodJob = availableJobs.find(job => job.resourcesGenerated.find(res => res.id === 'food'));
-                      if (foodJob) {
-                        job = foodJob;
-                        isSafeToAdd = true;
-                        return false;
-                      } else {
-                        isSafeToAdd = false;
-                      }
-                    }
-                    return isSafeToAdd;
-                  });
-                }
+                const isSafeToAdd = canAssignJob(job, availableJobs);
                 if (isSafeToAdd && !state.scriptPaused) {
                   const addJobButton = job.container.querySelector('button.btn-green');
                   if (addJobButton) {
@@ -47829,6 +47864,7 @@ const taVersion = "4.14.4";
                     job.current += 1;
                     unassigned -= 1;
                     canAssignJobs = !!unassigned;
+                    applyProjectedJob(job);
                     await sleep(20);
                     if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) return;
                     break;
@@ -48656,31 +48692,25 @@ const taVersion = "4.14.4";
     }
   };
 
-  const autoClicker = async () => {
-    if (!state.haveManualResourceButtons) return;
-    if (state.scriptPaused) return;
-    const manualResources = [keyGen.manual.key('food'), keyGen.manual.key('wood'), keyGen.manual.key('stone')];
-    while (!state.scriptPaused && state.haveManualResourceButtons) {
-      if (state.stopAutoClicking) {
-        await sleep(1000);
-        continue;
-      }
-      const buttons = [...document.querySelectorAll('#root > div.flex.flex-wrap.w-full.mx-auto.p-2 > div.w-full.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3 > button')];
-      if (!buttons.length) {
-        state.haveManualResourceButtons = false;
-        return;
-      }
-      const buttonsToClick = buttons.filter(button => manualResources.includes(reactUtil.getNearestKey(button, 2)));
-      if (buttonsToClick.length && !reactUtil.getGameData().SettingsStore.showSettings) {
-        while (buttonsToClick.length && !reactUtil.getGameData().SettingsStore.showSettings) {
-          const buttonToClick = buttonsToClick.shift();
-          buttonToClick.click();
-          await sleep(100);
-        }
-      } else {
-        await sleep(1000);
-      }
-    }
+  const getManualResourceClickInterval = () => {
+    const configured = Number(state.options.smartBuild && state.options.smartBuild.manualResourceClicksPerSecond) || 8;
+    const clicksPerSecond = Math.min(30, Math.max(1, configured));
+    return Math.round(1000 / clicksPerSecond);
+  };
+  const autoClicker = () => {
+    let btn = [0, 0, 0];
+    btn[0] = document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600 > button:nth-child(1)");
+    btn[1] = document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600 > button:nth-child(2)");
+    btn[2] = document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600 > button:nth-child(3)");
+    if (!btn[2]) return;
+    let food = resources.get("food");
+    let wood = resources.get("wood");
+    let stone = resources.get("stone");
+    if (food.current < 100 && food.current < food.max) btn[0].click();
+    else if (wood.current < stone.current * 1.5 && wood.current < wood.max) btn[1].click();
+    else if (stone.current < stone.max) btn[2].click();
+    else if (wood.current < wood.max) btn[1].click();
+    else btn[0].click();
   };
 
   const defaultAncestor = 'ancestor_gatherer';
@@ -50618,6 +50648,7 @@ const manualNG = async () => {
 
   let mainLoopRunning = false;
   let hideFullPageOverlayInterval;
+  let autoClickerInterval;
   const switchScriptState = () => {
     state.scriptPaused = !state.scriptPaused;
     localStorage.set('scriptPaused', state.scriptPaused);
@@ -50745,11 +50776,17 @@ const manualNG = async () => {
       }
       await sleep(2000);
       mainLoop();
-      await sleep(1000);
-      tasks.autoClicker();
+      if (autoClickerInterval) {
+        clearInterval(autoClickerInterval);
+      }
+      autoClickerInterval = setInterval(tasks.autoClicker, getManualResourceClickInterval());
     } else {
       if (!hideFullPageOverlayInterval) {
         clearInterval(hideFullPageOverlayInterval);
+      }
+      if (autoClickerInterval) {
+        clearInterval(autoClickerInterval);
+        autoClickerInterval = null;
       }
     }
   };

@@ -53,3 +53,10 @@ const getExpandedGoalFocusTargets = goal => {
 };
 const getRouteEntry = (building, route) => getExpandedRouteTargets(route).find(entry => entry.id === building.id);
 const getGoalTechs = goal => (goal.targetTechs || []).map(techId => tech.find(technology => technology.id === techId)).filter(Boolean);
+const getGoalTechEntries = goal => [
+  ...(goal.supportTechs || []).map(techId => ({ id: techId, reason: { key: 'supportTech' } })),
+  ...(goal.targetTechs || []).map(techId => ({ id: techId, reason: { key: 'goalTargetTech' } }))
+].map(entry => ({
+  technology: tech.find(technology => technology.id === entry.id),
+  reason: entry.reason
+})).filter(entry => entry.technology);

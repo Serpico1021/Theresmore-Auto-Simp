@@ -51,6 +51,9 @@
             <div class="mb-2"><label>Max wait seconds:
               <input type="number" data-setting="smartBuild" data-key="maxWaitSeconds" class="option text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="180" min="10" max="3600" step="10" />
             </label></div>
+            <div class="mb-2"><label>Manual resource clicks per second:
+              <input type="number" data-setting="smartBuild" data-key="manualResourceClicksPerSecond" class="option text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="8" min="1" max="30" step="1" />
+            </label></div>
             <p class="mb-2">When enabled, Build max/prio is generated from the selected goal, corrected route gates from the local dataset, current resources, caps, population effects, negative production risk and the fallback strategy. If Smart army is enabled, dangerous goal researches such as Moonlight Night can also generate temporary Army max/prio until the battle calculator says the defending army can win. It is temporary and does not rewrite manual max fields.</p>
           </div>
 
