@@ -63,6 +63,34 @@ const getResourceCapShortfalls = (goal, route, resourceMap, options) => {
   });
   return shortfalls;
 };
+const registerResourceProductionShortfall = (shortfalls, req, resourceMap, source, options) => {
+  const res = resourceMap[req.id];
+  if (!res) return;
+  const cost = getResourceCost(req, source && Number.isFinite(source.count) ? source.count : 0);
+  if (!cost || res.current >= cost) return;
+  const deficit = cost - res.current;
+  const wait = res.speed > 0 ? deficit / res.speed : Infinity;
+  if (wait <= (Number(options.maxWaitSeconds) || 999)) return;
+  if (!shortfalls[req.id] || shortfalls[req.id].deficit < deficit) {
+    shortfalls[req.id] = { id: req.id, deficit, speed: res.speed };
+  }
+};
+const getResourceProductionShortfalls = (goal, route, resourceMap, options) => {
+  const shortfalls = {};
+  getGoalTechs(goal).forEach(target => {
+    (target.req || []).filter(req => req.type === 'resource').forEach(req =>
+      registerResourceProductionShortfall(shortfalls, req, resourceMap, { count: 0 }, options));
+  });
+  [...getExpandedRouteTargets(route), ...getExpandedGoalFocusTargets(goal)].forEach(entry => {
+    const building = buildings.find(candidate => candidate.id === entry.id);
+    if (!building) return;
+    const count = getCount(building);
+    if (count >= entry.target) return;
+    (building.req || []).filter(req => req.type === 'resource').forEach(req =>
+      registerResourceProductionShortfall(shortfalls, req, resourceMap, { count }, options));
+  });
+  return shortfalls;
+};
 const getGoalResourceBonus = (id, goal, resourceMap) => {
   if (!goal.resourceFocus || !goal.resourceFocus.includes(id)) return 0;
   const res = resourceMap[id];
@@ -72,6 +100,16 @@ const getGoalResourceBonus = (id, goal, resourceMap) => {
   if (fillRatio < 0.5) bonus += 8;
   if (res.speed <= 0) bonus += 10;
   return bonus;
+};
+const getStructuralTechFloor = building => tech.reduce((floor, technology) => {
+  if (isTechCompleted(technology.id)) return floor;
+  const req = (technology.req || []).find(item => item.type === 'building' && item.id === building.id);
+  return req ? Math.max(floor, Number(req.value) || 0) : floor;
+}, 0);
+const getFocusOrRouteTarget = (building, goal, route) => {
+  const focusEntry = getExpandedGoalFocusTargets(goal).find(target => target.id === building.id);
+  const routeEntry = getRouteEntry(building, route);
+  return Math.max(focusEntry ? focusEntry.target : 0, routeEntry ? routeEntry.target : 0);
 };
 const getGoalRequirementBonus = (building, goal) => {
   let bonus = goal.buildingFocus && goal.buildingFocus.includes(building.id) ? 34 : 0;
@@ -101,20 +139,6 @@ const getCapShortfallBonus = (building, goal, route, resourceMap, options) => {
     const severity = shortfall.required > 0 ? Math.min(1, shortfall.deficit / shortfall.required) : 0;
     return bonus + 95 + severity * 95 + Math.min(40, Number(capGen.value) || 0);
   }, 0);
-};
-const PRODUCTION_STORAGE_CAP_SECONDS = 90;
-const getProductionStorageCap = (building, resourceMap, options) => {
-  const resourceGens = (building.gen || []).filter(item => item.type === 'resource' && item.value > 0);
-  if (!resourceGens.length) return Infinity;
-  return resourceGens.reduce((cap, item) => {
-    const res = resourceMap[item.id];
-    if (!res || !(res.max > 0)) return cap;
-    const projectedSpeed = (res.speed || 0) + item.value;
-    if (projectedSpeed <= 0) return cap;
-    const secondsToFill = (res.max - res.current) / projectedSpeed;
-    if (secondsToFill >= PRODUCTION_STORAGE_CAP_SECONDS) return cap;
-    return Math.min(cap, Math.max(getCount(building), 1));
-  }, Infinity);
 };
 const STAGE_DECAY_FLOOR = 4;
 const getStageCap = (building, options) => {
@@ -292,9 +316,30 @@ const applyCapBridgeTargets = (targets, subpage, resourceMap, options) => {
     const helpsCap = building.gen.find(gen => gen.type === 'cap' && gen.value > 0 && shortfalls[gen.id]);
     if (!helpsCap) return;
     const count = getCount(building);
-    const cap = building.cap || Number(options.maxTarget) || smartBuildDefaults.maxTarget;
+    const cap = getStageCap(building, options);
     if (count >= cap) return;
-    const bridgeMax = Math.min(cap, Number(options.maxTarget) || smartBuildDefaults.maxTarget, count + Math.max(1, Number(options.maxExtra) || smartBuildDefaults.maxExtra));
+    const bridgeMax = Math.min(cap, count + Math.max(1, Number(options.maxExtra) || smartBuildDefaults.maxExtra));
+    if (bridgeMax <= count) return;
+    targets[building.id] = Math.max(targets[building.id] || 0, bridgeMax);
+    targets[`prio_${building.id}`] = Math.max(targets[`prio_${building.id}`] || 0, 9);
+  });
+  return targets;
+};
+const applyProductionBridgeTargets = (targets, subpage, resourceMap, options) => {
+  const goal = getGoal(options);
+  const route = getRoute(options);
+  const shortfalls = getResourceProductionShortfalls(goal, route, resourceMap, options);
+  if (!Object.keys(shortfalls).length) return targets;
+  const allowedTab = CONSTANTS.SUBPAGES_INDEX[subpage] + 1;
+  buildings.filter(building => building.tab === allowedTab && building.gen && isBuildingUnlocked(building)).forEach(building => {
+    const isGoalRelevant = getStructuralTechFloor(building) > 0 || getFocusOrRouteTarget(building, goal, route) > 0;
+    if (!isGoalRelevant) return;
+    const helpsProduction = building.gen.find(gen => gen.type === 'resource' && gen.value > 0 && shortfalls[gen.id]);
+    if (!helpsProduction) return;
+    const count = getCount(building);
+    const cap = getStageCap(building, options);
+    if (count >= cap) return;
+    const bridgeMax = Math.min(cap, count + Math.max(1, Number(options.maxExtra) || smartBuildDefaults.maxExtra));
     if (bridgeMax <= count) return;
     targets[building.id] = Math.max(targets[building.id] || 0, bridgeMax);
     targets[`prio_${building.id}`] = Math.max(targets[`prio_${building.id}`] || 0, 9);
@@ -311,9 +356,9 @@ const applyDangerousBattleBuildingTargets = (targets, subpage, options) => {
     const templateEntry = getTemplateBuildingEntry(building, template);
     if (!helpsArmy && !templateEntry) return;
     const count = getCount(building);
-    const cap = building.cap || Number(options.maxTarget) || smartBuildDefaults.maxTarget;
+    const cap = getStageCap(building, options);
     if (count >= cap) return;
-    const battleMax = Math.min(cap, Number(options.maxTarget) || smartBuildDefaults.maxTarget, count + Math.max(1, Number(options.maxExtra) || smartBuildDefaults.maxExtra));
+    const battleMax = Math.min(cap, count + Math.max(1, Number(options.maxExtra) || smartBuildDefaults.maxExtra));
     if (battleMax <= count) return;
     targets[building.id] = Math.max(targets[building.id] || 0, battleMax);
     targets[`prio_${building.id}`] = Math.max(targets[`prio_${building.id}`] || 0, templateEntry ? templateEntry.priority || 9 : 9);
@@ -324,27 +369,26 @@ const getTargets = (subpage, manualOptions = {}) => {
   const options = getOptions();
   if (!options.enabled) return null;
   const resourceMap = getResourceMap();
+  const goal = getGoal(options);
   const route = getRoute(options);
-  const routeTargetIds = new Set(getExpandedRouteTargets(route).map(entry => entry.id));
   const targets = {};
   buildings.filter(building => building.tab === CONSTANTS.SUBPAGES_INDEX[subpage] + 1).forEach(building => {
     const score = scoreBuilding(building, resourceMap, options);
     const prio = toPriority(score);
-    if (!prio && !routeTargetIds.has(building.id)) return;
+    const structuralFloor = getStructuralTechFloor(building);
+    const focusOrRouteTarget = getFocusOrRouteTarget(building, goal, route);
+    const floor = Math.max(structuralFloor, focusOrRouteTarget);
+    if (!floor) return;
     const count = getCount(building);
     const cap = building.cap || Number(options.maxTarget) || smartBuildDefaults.maxTarget;
-    const max = Math.min(
-      cap,
-      Number(options.maxTarget) || smartBuildDefaults.maxTarget,
-      count + Math.min(Number(options.maxExtra) || smartBuildDefaults.maxExtra, toExtra(score)),
-      getProductionStorageCap(building, resourceMap, options),
-      getStageCap(building, options)
-    );
+    const maxTargetOption = Number(options.maxTarget) || smartBuildDefaults.maxTarget;
+    const max = Math.min(Math.max(floor, count), cap, maxTargetOption);
     if (max <= count) return;
     targets[building.id] = max;
     targets[`prio_${building.id}`] = prio;
   });
   applyCapBridgeTargets(targets, subpage, resourceMap, options);
+  applyProductionBridgeTargets(targets, subpage, resourceMap, options);
   applyDangerousBattleBuildingTargets(targets, subpage, options);
   applyRouteTargets(targets, subpage, options);
   applyTitanOverrides(targets, options);

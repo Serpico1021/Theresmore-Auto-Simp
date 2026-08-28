@@ -55,15 +55,39 @@ const applyResearchManualOverrides = (targets, manualOptions, options) => {
   });
   return targets;
 };
+const isDirectlyRelevantResearch = (technology, options, goal, route) =>
+  (goal.targetTechs || []).includes(technology.id) ||
+  getTechUnlockBonus(technology, options, goal, route) > 0 ||
+  getPrayerTechBonus(technology, options, goal, route) > 0;
+const expandTechPrerequisites = seedIds => {
+  const result = new Set();
+  const visiting = {};
+  const visit = techId => {
+    if (result.has(techId) || visiting[techId] || isTechCompleted(techId)) return;
+    const technology = tech.find(item => item.id === techId);
+    if (!technology) return;
+    visiting[techId] = true;
+    result.add(techId);
+    (technology.req || []).filter(req => req.type === 'tech').forEach(req => visit(req.id));
+    visiting[techId] = false;
+  };
+  seedIds.forEach(visit);
+  return result;
+};
 const getResearchTargets = (manualOptions = {}) => {
   const options = getOptions();
   if (!options.enabled || options.researchEnabled === false) return null;
   const goal = getGoal(options);
   const route = getRoute(options);
   const blockedFights = getBlockedDangerousFights(options);
+  const relevantSeeds = tech
+    .filter(technology => isDirectlyRelevantResearch(technology, options, goal, route))
+    .map(technology => technology.id);
+  const requiredPrereqs = expandTechPrerequisites(relevantSeeds);
   const targets = {};
   tech.forEach(technology => {
-    targets[technology.id] = toPriority(scoreResearch(technology, options, goal, route, blockedFights));
+    const relevant = isDirectlyRelevantResearch(technology, options, goal, route) || requiredPrereqs.has(technology.id);
+    targets[technology.id] = relevant ? toPriority(scoreResearch(technology, options, goal, route, blockedFights)) : 0;
   });
   getResearchGroups().forEach(group => {
     const members = (group.value || []).map(id => tech.find(technology => technology.id === id)).filter(Boolean);

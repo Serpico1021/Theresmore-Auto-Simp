@@ -68,6 +68,7 @@ const smartBuildGoals = {
     }
   },
   moonlightNight: {
+    dangerousResearchOverrides: ['moonlight_night'],
     resourceFocus: ['research', 'food', 'wood', 'stone', 'iron', 'tools'],
     buildingFocus: ['common_house', 'quarry', 'artisan_workshop', 'watchman_outpost'],
     targetTechs: ['architecture', 'establish_boundaries', 'moonlight_night'],
@@ -126,14 +127,14 @@ const smartBuildRoutes = {
     buildingTargets: [
       { id: 'common_house', priority: 9, reason: 'moonlight whitelist' },
       { id: 'quarry', priority: 8, reason: 'moonlight whitelist' },
-      { id: 'artisan_workshop', priority: 8, reason: 'moonlight whitelist' },
+      { id: 'artisan_workshop', priority: 8, target: 3, reason: 'moonlight whitelist' },
       { id: 'watchman_outpost', priority: 10, reason: 'moonlight gate' }
     ],
     supportTargets: [
       { id: 'guild_of_craftsmen', priority: 6 },
       { id: 'university', priority: 5 },
       { id: 'farm', priority: 5 },
-      { id: 'carpenter_workshop', priority: 5 },
+      { id: 'carpenter_workshop', priority: 5, target: 3 },
       { id: 'grocery', priority: 5 },
       { id: 'stable', priority: 5 }
     ]

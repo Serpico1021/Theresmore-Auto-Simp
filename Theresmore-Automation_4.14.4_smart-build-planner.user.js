@@ -47394,6 +47394,7 @@ const smartBuildGoals = {
     }
   },
   moonlightNight: {
+    dangerousResearchOverrides: ['moonlight_night'],
     resourceFocus: ['research', 'food', 'wood', 'stone', 'iron', 'tools'],
     buildingFocus: ['common_house', 'quarry', 'artisan_workshop', 'watchman_outpost'],
     targetTechs: ['architecture', 'establish_boundaries', 'moonlight_night'],
@@ -47452,14 +47453,14 @@ const smartBuildRoutes = {
     buildingTargets: [
       { id: 'common_house', priority: 9, reason: 'moonlight whitelist' },
       { id: 'quarry', priority: 8, reason: 'moonlight whitelist' },
-      { id: 'artisan_workshop', priority: 8, reason: 'moonlight whitelist' },
+      { id: 'artisan_workshop', priority: 8, target: 3, reason: 'moonlight whitelist' },
       { id: 'watchman_outpost', priority: 10, reason: 'moonlight gate' }
     ],
     supportTargets: [
       { id: 'guild_of_craftsmen', priority: 6 },
       { id: 'university', priority: 5 },
       { id: 'farm', priority: 5 },
-      { id: 'carpenter_workshop', priority: 5 },
+      { id: 'carpenter_workshop', priority: 5, target: 3 },
       { id: 'grocery', priority: 5 },
       { id: 'stable', priority: 5 }
     ]
@@ -47643,8 +47644,9 @@ const isUnlockCompleted = (type, id) => {
   if (type === 'legacy') return hasIndexedOrRunItem(id, ['leg_']);
   return false;
 };
+const hasStageGate = building => (building.req || []).some(req => req.type !== 'resource');
 const getCurrentStageIndex = () => {
-  const unlockedAges = buildings.filter(building => building.age !== 100 && isBuildingUnlocked(building)).map(building => building.age).filter(age => Number.isFinite(age));
+  const unlockedAges = buildings.filter(building => building.age !== 100 && hasStageGate(building) && isBuildingUnlocked(building)).map(building => building.age).filter(age => Number.isFinite(age));
   return unlockedAges.length ? Math.max(...unlockedAges) : 1;
 };
 
@@ -47759,7 +47761,15 @@ const getBlockedDangerousFights = options => {
 const shouldGateDangerousResearch = researchKey => {
   const options = getOptions();
   if (!options.enabled || !smartBuildDangerousFights[researchKey]) return false;
+  const goal = getGoal(options);
+  if ((goal.dangerousResearchOverrides || []).includes(researchKey)) return false;
   return true;
+};
+const isDangerousResearchOverridden = researchKey => {
+  const options = getOptions();
+  if (!options.enabled) return false;
+  const goal = getGoal(options);
+  return (goal.dangerousResearchOverrides || []).includes(researchKey);
 };
 
 const getResourceCost = (req, count = 0) => {
@@ -47827,6 +47837,34 @@ const getResourceCapShortfalls = (goal, route, resourceMap, options) => {
   });
   return shortfalls;
 };
+const registerResourceProductionShortfall = (shortfalls, req, resourceMap, source, options) => {
+  const res = resourceMap[req.id];
+  if (!res) return;
+  const cost = getResourceCost(req, source && Number.isFinite(source.count) ? source.count : 0);
+  if (!cost || res.current >= cost) return;
+  const deficit = cost - res.current;
+  const wait = res.speed > 0 ? deficit / res.speed : Infinity;
+  if (wait <= (Number(options.maxWaitSeconds) || 999)) return;
+  if (!shortfalls[req.id] || shortfalls[req.id].deficit < deficit) {
+    shortfalls[req.id] = { id: req.id, deficit, speed: res.speed };
+  }
+};
+const getResourceProductionShortfalls = (goal, route, resourceMap, options) => {
+  const shortfalls = {};
+  getGoalTechs(goal).forEach(target => {
+    (target.req || []).filter(req => req.type === 'resource').forEach(req =>
+      registerResourceProductionShortfall(shortfalls, req, resourceMap, { count: 0 }, options));
+  });
+  [...getExpandedRouteTargets(route), ...getExpandedGoalFocusTargets(goal)].forEach(entry => {
+    const building = buildings.find(candidate => candidate.id === entry.id);
+    if (!building) return;
+    const count = getCount(building);
+    if (count >= entry.target) return;
+    (building.req || []).filter(req => req.type === 'resource').forEach(req =>
+      registerResourceProductionShortfall(shortfalls, req, resourceMap, { count }, options));
+  });
+  return shortfalls;
+};
 const getGoalResourceBonus = (id, goal, resourceMap) => {
   if (!goal.resourceFocus || !goal.resourceFocus.includes(id)) return 0;
   const res = resourceMap[id];
@@ -47836,6 +47874,16 @@ const getGoalResourceBonus = (id, goal, resourceMap) => {
   if (fillRatio < 0.5) bonus += 8;
   if (res.speed <= 0) bonus += 10;
   return bonus;
+};
+const getStructuralTechFloor = building => tech.reduce((floor, technology) => {
+  if (isTechCompleted(technology.id)) return floor;
+  const req = (technology.req || []).find(item => item.type === 'building' && item.id === building.id);
+  return req ? Math.max(floor, Number(req.value) || 0) : floor;
+}, 0);
+const getFocusOrRouteTarget = (building, goal, route) => {
+  const focusEntry = getExpandedGoalFocusTargets(goal).find(target => target.id === building.id);
+  const routeEntry = getRouteEntry(building, route);
+  return Math.max(focusEntry ? focusEntry.target : 0, routeEntry ? routeEntry.target : 0);
 };
 const getGoalRequirementBonus = (building, goal) => {
   let bonus = goal.buildingFocus && goal.buildingFocus.includes(building.id) ? 34 : 0;
@@ -47865,20 +47913,6 @@ const getCapShortfallBonus = (building, goal, route, resourceMap, options) => {
     const severity = shortfall.required > 0 ? Math.min(1, shortfall.deficit / shortfall.required) : 0;
     return bonus + 95 + severity * 95 + Math.min(40, Number(capGen.value) || 0);
   }, 0);
-};
-const PRODUCTION_STORAGE_CAP_SECONDS = 90;
-const getProductionStorageCap = (building, resourceMap, options) => {
-  const resourceGens = (building.gen || []).filter(item => item.type === 'resource' && item.value > 0);
-  if (!resourceGens.length) return Infinity;
-  return resourceGens.reduce((cap, item) => {
-    const res = resourceMap[item.id];
-    if (!res || !(res.max > 0)) return cap;
-    const projectedSpeed = (res.speed || 0) + item.value;
-    if (projectedSpeed <= 0) return cap;
-    const secondsToFill = (res.max - res.current) / projectedSpeed;
-    if (secondsToFill >= PRODUCTION_STORAGE_CAP_SECONDS) return cap;
-    return Math.min(cap, Math.max(getCount(building), 1));
-  }, Infinity);
 };
 const STAGE_DECAY_FLOOR = 4;
 const getStageCap = (building, options) => {
@@ -48056,9 +48090,30 @@ const applyCapBridgeTargets = (targets, subpage, resourceMap, options) => {
     const helpsCap = building.gen.find(gen => gen.type === 'cap' && gen.value > 0 && shortfalls[gen.id]);
     if (!helpsCap) return;
     const count = getCount(building);
-    const cap = building.cap || Number(options.maxTarget) || smartBuildDefaults.maxTarget;
+    const cap = getStageCap(building, options);
     if (count >= cap) return;
-    const bridgeMax = Math.min(cap, Number(options.maxTarget) || smartBuildDefaults.maxTarget, count + Math.max(1, Number(options.maxExtra) || smartBuildDefaults.maxExtra));
+    const bridgeMax = Math.min(cap, count + Math.max(1, Number(options.maxExtra) || smartBuildDefaults.maxExtra));
+    if (bridgeMax <= count) return;
+    targets[building.id] = Math.max(targets[building.id] || 0, bridgeMax);
+    targets[`prio_${building.id}`] = Math.max(targets[`prio_${building.id}`] || 0, 9);
+  });
+  return targets;
+};
+const applyProductionBridgeTargets = (targets, subpage, resourceMap, options) => {
+  const goal = getGoal(options);
+  const route = getRoute(options);
+  const shortfalls = getResourceProductionShortfalls(goal, route, resourceMap, options);
+  if (!Object.keys(shortfalls).length) return targets;
+  const allowedTab = CONSTANTS.SUBPAGES_INDEX[subpage] + 1;
+  buildings.filter(building => building.tab === allowedTab && building.gen && isBuildingUnlocked(building)).forEach(building => {
+    const isGoalRelevant = getStructuralTechFloor(building) > 0 || getFocusOrRouteTarget(building, goal, route) > 0;
+    if (!isGoalRelevant) return;
+    const helpsProduction = building.gen.find(gen => gen.type === 'resource' && gen.value > 0 && shortfalls[gen.id]);
+    if (!helpsProduction) return;
+    const count = getCount(building);
+    const cap = getStageCap(building, options);
+    if (count >= cap) return;
+    const bridgeMax = Math.min(cap, count + Math.max(1, Number(options.maxExtra) || smartBuildDefaults.maxExtra));
     if (bridgeMax <= count) return;
     targets[building.id] = Math.max(targets[building.id] || 0, bridgeMax);
     targets[`prio_${building.id}`] = Math.max(targets[`prio_${building.id}`] || 0, 9);
@@ -48075,9 +48130,9 @@ const applyDangerousBattleBuildingTargets = (targets, subpage, options) => {
     const templateEntry = getTemplateBuildingEntry(building, template);
     if (!helpsArmy && !templateEntry) return;
     const count = getCount(building);
-    const cap = building.cap || Number(options.maxTarget) || smartBuildDefaults.maxTarget;
+    const cap = getStageCap(building, options);
     if (count >= cap) return;
-    const battleMax = Math.min(cap, Number(options.maxTarget) || smartBuildDefaults.maxTarget, count + Math.max(1, Number(options.maxExtra) || smartBuildDefaults.maxExtra));
+    const battleMax = Math.min(cap, count + Math.max(1, Number(options.maxExtra) || smartBuildDefaults.maxExtra));
     if (battleMax <= count) return;
     targets[building.id] = Math.max(targets[building.id] || 0, battleMax);
     targets[`prio_${building.id}`] = Math.max(targets[`prio_${building.id}`] || 0, templateEntry ? templateEntry.priority || 9 : 9);
@@ -48088,27 +48143,26 @@ const getTargets = (subpage, manualOptions = {}) => {
   const options = getOptions();
   if (!options.enabled) return null;
   const resourceMap = getResourceMap();
+  const goal = getGoal(options);
   const route = getRoute(options);
-  const routeTargetIds = new Set(getExpandedRouteTargets(route).map(entry => entry.id));
   const targets = {};
   buildings.filter(building => building.tab === CONSTANTS.SUBPAGES_INDEX[subpage] + 1).forEach(building => {
     const score = scoreBuilding(building, resourceMap, options);
     const prio = toPriority(score);
-    if (!prio && !routeTargetIds.has(building.id)) return;
+    const structuralFloor = getStructuralTechFloor(building);
+    const focusOrRouteTarget = getFocusOrRouteTarget(building, goal, route);
+    const floor = Math.max(structuralFloor, focusOrRouteTarget);
+    if (!floor) return;
     const count = getCount(building);
     const cap = building.cap || Number(options.maxTarget) || smartBuildDefaults.maxTarget;
-    const max = Math.min(
-      cap,
-      Number(options.maxTarget) || smartBuildDefaults.maxTarget,
-      count + Math.min(Number(options.maxExtra) || smartBuildDefaults.maxExtra, toExtra(score)),
-      getProductionStorageCap(building, resourceMap, options),
-      getStageCap(building, options)
-    );
+    const maxTargetOption = Number(options.maxTarget) || smartBuildDefaults.maxTarget;
+    const max = Math.min(Math.max(floor, count), cap, maxTargetOption);
     if (max <= count) return;
     targets[building.id] = max;
     targets[`prio_${building.id}`] = prio;
   });
   applyCapBridgeTargets(targets, subpage, resourceMap, options);
+  applyProductionBridgeTargets(targets, subpage, resourceMap, options);
   applyDangerousBattleBuildingTargets(targets, subpage, options);
   applyRouteTargets(targets, subpage, options);
   applyTitanOverrides(targets, options);
@@ -48245,15 +48299,39 @@ const applyResearchManualOverrides = (targets, manualOptions, options) => {
   });
   return targets;
 };
+const isDirectlyRelevantResearch = (technology, options, goal, route) =>
+  (goal.targetTechs || []).includes(technology.id) ||
+  getTechUnlockBonus(technology, options, goal, route) > 0 ||
+  getPrayerTechBonus(technology, options, goal, route) > 0;
+const expandTechPrerequisites = seedIds => {
+  const result = new Set();
+  const visiting = {};
+  const visit = techId => {
+    if (result.has(techId) || visiting[techId] || isTechCompleted(techId)) return;
+    const technology = tech.find(item => item.id === techId);
+    if (!technology) return;
+    visiting[techId] = true;
+    result.add(techId);
+    (technology.req || []).filter(req => req.type === 'tech').forEach(req => visit(req.id));
+    visiting[techId] = false;
+  };
+  seedIds.forEach(visit);
+  return result;
+};
 const getResearchTargets = (manualOptions = {}) => {
   const options = getOptions();
   if (!options.enabled || options.researchEnabled === false) return null;
   const goal = getGoal(options);
   const route = getRoute(options);
   const blockedFights = getBlockedDangerousFights(options);
+  const relevantSeeds = tech
+    .filter(technology => isDirectlyRelevantResearch(technology, options, goal, route))
+    .map(technology => technology.id);
+  const requiredPrereqs = expandTechPrerequisites(relevantSeeds);
   const targets = {};
   tech.forEach(technology => {
-    targets[technology.id] = toPriority(scoreResearch(technology, options, goal, route, blockedFights));
+    const relevant = isDirectlyRelevantResearch(technology, options, goal, route) || requiredPrereqs.has(technology.id);
+    targets[technology.id] = relevant ? toPriority(scoreResearch(technology, options, goal, route, blockedFights)) : 0;
   });
   getResearchGroups().forEach(group => {
     const members = (group.value || []).map(id => tech.find(technology => technology.id === id)).filter(Boolean);
@@ -48934,6 +49012,9 @@ return {
   const getAllowedResearch = () => {
     const configuredResearchOptions = state.options.pages[CONSTANTS.PAGES.RESEARCH].subpages[CONSTANTS.SUBPAGES.RESEARCH].options;
     const researchOptions = smartBuildPlanner.getResearchTargets(configuredResearchOptions) || configuredResearchOptions;
+    if ('moonlight_night' in researchOptions) {
+      logger({ msgLevel: 'warn', msg: `[debug] moonlight_night research priority=${researchOptions.moonlight_night}` });
+    }
     if (Object.keys(researchOptions).length) {
       let allowedResearch = Object.keys(researchOptions).filter(key => !!researchOptions[key]).map(key => {
         const research = {
@@ -48955,6 +49036,9 @@ return {
     const buttonsList = selectors.getAllButtons(true);
     const allowedResearch = getAllowedResearch().map(tech => {
       let button = buttonsList.find(button => reactUtil.getNearestKey(button, 7) === keyGen.research.key(tech.key));
+      if (tech.key === 'moonlight_night') {
+        logger({ msgLevel: 'warn', msg: `[debug] moonlight_night button found=${!!button} prio=${tech.prio}` });
+      }
       return {
         ...tech,
         button
@@ -48985,7 +49069,10 @@ return {
         var researched = false;
         for (let i = 0; i < buttonsList.length; i++) {
           const research = buttonsList[i];
-          const shouldCheckDangerousFight = state.options.pages[CONSTANTS.PAGES.RESEARCH].subpages[CONSTANTS.SUBPAGES.RESEARCH].options.dangerousFights || smartBuildPlanner.shouldGateDangerousResearch(research.key);
+          const shouldCheckDangerousFight = smartBuildPlanner.isDangerousResearchOverridden(research.key) ? false : (state.options.pages[CONSTANTS.PAGES.RESEARCH].subpages[CONSTANTS.SUBPAGES.RESEARCH].options.dangerousFights || smartBuildPlanner.shouldGateDangerousResearch(research.key));
+          if (research.key === 'moonlight_night') {
+            logger({ msgLevel: 'warn', msg: `[debug] moonlight_night loop reached, shouldCheckDangerousFight=${shouldCheckDangerousFight}, confirm=${!!research.confirm}` });
+          }
           if (shouldCheckDangerousFight && dangerousFightsMapping[research.key]) {
             const canWinBattle = armyCalculator.canWinBattle(dangerousFightsMapping[research.key], true, false, state.options.autoSortArmy.enabled);
             if (canWinBattle) {

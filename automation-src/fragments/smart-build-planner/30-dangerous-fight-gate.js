@@ -49,5 +49,13 @@ const getBlockedDangerousFights = options => {
 const shouldGateDangerousResearch = researchKey => {
   const options = getOptions();
   if (!options.enabled || !smartBuildDangerousFights[researchKey]) return false;
+  const goal = getGoal(options);
+  if ((goal.dangerousResearchOverrides || []).includes(researchKey)) return false;
   return true;
+};
+const isDangerousResearchOverridden = researchKey => {
+  const options = getOptions();
+  if (!options.enabled) return false;
+  const goal = getGoal(options);
+  return (goal.dangerousResearchOverrides || []).includes(researchKey);
 };
