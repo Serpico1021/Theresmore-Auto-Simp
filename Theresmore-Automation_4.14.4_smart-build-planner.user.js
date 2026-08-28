@@ -48453,7 +48453,8 @@ return {
   getResearchTargets,
   getExploreTargets,
   getPrayerTargets,
-  shouldGateDangerousResearch
+  shouldGateDangerousResearch,
+  isDangerousResearchOverridden
 };
 
   })();
@@ -49030,9 +49031,6 @@ return {
   const getAllowedResearch = () => {
     const configuredResearchOptions = state.options.pages[CONSTANTS.PAGES.RESEARCH].subpages[CONSTANTS.SUBPAGES.RESEARCH].options;
     const researchOptions = smartBuildPlanner.getResearchTargets(configuredResearchOptions) || configuredResearchOptions;
-    if ('moonlight_night' in researchOptions) {
-      logger({ msgLevel: 'warn', msg: `[debug] moonlight_night research priority=${researchOptions.moonlight_night}` });
-    }
     if (Object.keys(researchOptions).length) {
       let allowedResearch = Object.keys(researchOptions).filter(key => !!researchOptions[key]).map(key => {
         const research = {
@@ -49054,9 +49052,6 @@ return {
     const buttonsList = selectors.getAllButtons(true);
     const allowedResearch = getAllowedResearch().map(tech => {
       let button = buttonsList.find(button => reactUtil.getNearestKey(button, 7) === keyGen.research.key(tech.key));
-      if (tech.key === 'moonlight_night') {
-        logger({ msgLevel: 'warn', msg: `[debug] moonlight_night button found=${!!button} prio=${tech.prio}` });
-      }
       return {
         ...tech,
         button
@@ -49088,9 +49083,6 @@ return {
         for (let i = 0; i < buttonsList.length; i++) {
           const research = buttonsList[i];
           const shouldCheckDangerousFight = smartBuildPlanner.isDangerousResearchOverridden(research.key) ? false : (state.options.pages[CONSTANTS.PAGES.RESEARCH].subpages[CONSTANTS.SUBPAGES.RESEARCH].options.dangerousFights || smartBuildPlanner.shouldGateDangerousResearch(research.key));
-          if (research.key === 'moonlight_night') {
-            logger({ msgLevel: 'warn', msg: `[debug] moonlight_night loop reached, shouldCheckDangerousFight=${shouldCheckDangerousFight}, confirm=${!!research.confirm}` });
-          }
           if (shouldCheckDangerousFight && dangerousFightsMapping[research.key]) {
             const canWinBattle = armyCalculator.canWinBattle(dangerousFightsMapping[research.key], true, false, state.options.autoSortArmy.enabled);
             if (canWinBattle) {

@@ -4,5 +4,6 @@ return {
   getResearchTargets,
   getExploreTargets,
   getPrayerTargets,
-  shouldGateDangerousResearch
+  shouldGateDangerousResearch,
+  isDangerousResearchOverridden
 };
