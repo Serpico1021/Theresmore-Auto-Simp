@@ -47351,10 +47351,10 @@ const smartBuildRoutes = {
   moonlightNight: {
     label: 'Moonlight Night',
     buildingTargets: [
-      { id: 'common_house', priority: 9, reason: 'moonlight whitelist' },
-      { id: 'quarry', priority: 8, reason: 'moonlight whitelist' },
-      { id: 'artisan_workshop', priority: 8, reason: 'moonlight whitelist' },
-      { id: 'watchman_outpost', priority: 10, reason: 'moonlight gate' }
+      { id: 'common_house', priority: 9, reason: { key: 'whitelist' } },
+      { id: 'quarry', priority: 8, reason: { key: 'whitelist' } },
+      { id: 'artisan_workshop', priority: 8, reason: { key: 'whitelist' } },
+      { id: 'watchman_outpost', priority: 10, reason: { key: 'gate' } }
     ],
     supportTargets: [
       { id: 'guild_of_craftsmen', priority: 6 },
@@ -47362,7 +47362,9 @@ const smartBuildRoutes = {
       { id: 'farm', priority: 5 },
       { id: 'carpenter_workshop', priority: 5 },
       { id: 'grocery', priority: 5 },
-      { id: 'stable', priority: 5 }
+      { id: 'stable', priority: 5 },
+      { id: 'lumberjack_camp', priority: 6 },
+      { id: 'titan_work_area', priority: 7 }
     ]
   }
 };
@@ -47443,7 +47445,7 @@ const getRouteTargets = route => {
   if (!route) return [];
   return [...(route.buildingTargets || []), ...(route.supportTargets || [])];
 };
-const expandPrerequisiteTargets = (seedEntries, reasonLabel = 'target') => {
+const expandPrerequisiteTargets = (seedEntries, reasonLabel = { key: 'target' }) => {
   if (!seedEntries || !seedEntries.length) return [];
   const byId = {};
   const visiting = {};
@@ -47468,8 +47470,8 @@ const expandPrerequisiteTargets = (seedEntries, reasonLabel = 'target') => {
         id: req.id,
         target: Math.max(1, Number(req.value) || 1),
         priority: Math.min(10, priority + 1),
-        reason: `prerequisite for ${entry.id}`
-      }, Math.min(10, priority + 1), `prerequisite for ${entry.id}`);
+        reason: { key: 'prerequisiteFor', targetId: entry.id }
+      }, Math.min(10, priority + 1), { key: 'prerequisiteFor', targetId: entry.id });
     });
     visiting[entry.id] = false;
   };
@@ -47478,7 +47480,7 @@ const expandPrerequisiteTargets = (seedEntries, reasonLabel = 'target') => {
 };
 const getExpandedRouteTargets = route => {
   if (!route) return [];
-  return expandPrerequisiteTargets(getRouteTargets(route), 'route target');
+  return expandPrerequisiteTargets(getRouteTargets(route), { key: 'routeTarget' });
 };
 const getExpandedGoalFocusTargets = goal => {
   if (!goal.buildingFocus || !goal.buildingFocus.length) return [];
@@ -47486,9 +47488,9 @@ const getExpandedGoalFocusTargets = goal => {
     id,
     target: 1,
     priority: 6,
-    reason: 'goal building focus'
+    reason: { key: 'goalBuildingFocus' }
   }));
-  return expandPrerequisiteTargets(seeds, 'goal building focus');
+  return expandPrerequisiteTargets(seeds, { key: 'goalBuildingFocus' });
 };
 const getRouteEntry = (building, route) => getExpandedRouteTargets(route).find(entry => entry.id === building.id);
 const getGoalTechs = goal => (goal.targetTechs || []).map(techId => tech.find(technology => technology.id === techId)).filter(Boolean);
@@ -47543,7 +47545,7 @@ const computeShortestPath = (options, resourceMap) => {
       if (res.speed <= 0) {
         const producer = findDirectProducer(req.id);
         if (producer) {
-          const producerNode = resolveBuilding(producer.id, getCount(producer) + 1, `bootstrap producer for ${req.id}`);
+          const producerNode = resolveBuilding(producer.id, getCount(producer) + 1, { key: 'bootstrapProducer', resourceId: req.id });
           maxPrereqLayer = Math.max(maxPrereqLayer, producerNode.layer);
         } else {
           blocked = blocked || { type: 'resource-speed', resourceId: req.id };
@@ -47559,13 +47561,13 @@ const computeShortestPath = (options, resourceMap) => {
       if (req.type === 'building') {
         const prereq = buildings.find(candidate => candidate.id === req.id);
         if (!prereq || getCount(prereq) >= req.value) return;
-        const prereqNode = resolveBuilding(req.id, req.value, `prerequisite for ${ownerId}`);
+        const prereqNode = resolveBuilding(req.id, req.value, { key: 'prerequisiteFor', targetId: ownerId });
         maxPrereqLayer = Math.max(maxPrereqLayer, prereqNode.layer);
         return;
       }
       if (isUnlockCompleted(req.type, req.id)) return;
       if (req.type === 'tech') {
-        const techNode = resolveTech(req.id, `prerequisite for ${ownerId}`);
+        const techNode = resolveTech(req.id, { key: 'prerequisiteFor', targetId: ownerId });
         maxPrereqLayer = Math.max(maxPrereqLayer, techNode.layer);
         return;
       }
@@ -47623,7 +47625,7 @@ const computeShortestPath = (options, resourceMap) => {
     return node;
   };
   if (goal) {
-    getGoalTechs(goal).forEach(technology => resolveTech(technology.id, 'goal target tech'));
+    getGoalTechs(goal).forEach(technology => resolveTech(technology.id, { key: 'goalTargetTech' }));
     getExpandedGoalFocusTargets(goal).forEach(entry => resolveBuilding(entry.id, entry.target, entry.reason));
   }
   if (route) getExpandedRouteTargets(route).forEach(entry => resolveBuilding(entry.id, entry.target, entry.reason));
@@ -49878,6 +49880,373 @@ const manualNG = async () => {
   ${data.subkey ? `data-subkey="${data.subkey}"` : ''}
   >${options.join('')}</select>`;
   };
+// Goal Path panel: renders smartBuildPlanner.getPathSnapshot() as a dependency ladder and
+// lets the user force-override a building's target.
+//
+// Building/tech/resource names always come from the live translate() (this project's base
+// template has no English data at all -- its i18n.en values are already the Chinese text
+// from the user's localized game files, keyed the same as upstream -- so there is nothing to
+// toggle for those). The EN/中文 switch below only affects this panel's own authored chrome
+// text (rung labels, reason phrasing, buttons); reqType vocabulary (legacy/prayer/magic) was
+// cross-checked against the same localized game files for consistency.
+const GOAL_PATH_LANG_STORAGE_KEY = 'smartBuildGoalPathLang';
+const GOAL_PATH_REQ_TYPE_LABEL = {
+  legacy: { en: 'legacy', zh: '传承' },
+  prayer: { en: 'prayer', zh: '祈祷' },
+  magic: { en: 'magic', zh: '魔法' }
+};
+
+const GOAL_PATH_I18N = {
+  en: {
+    title: 'Path to',
+    emptyState: 'This view is only available for the Moonlight Night goal. Select it in Smart Build settings to see your path.',
+    activeOverrides: 'Active overrides',
+    noOverrides: '— everything else follows the computed path',
+    summit: '☾ Summit',
+    summitHint: '— the goal itself',
+    rung: n => `Rung ${n}`,
+    rungNowHint: '— do these now',
+    kindBuilding: 'BLD',
+    kindTech: 'TECH',
+    alreadyMet: 'Already met',
+    forceTarget: 'Force target',
+    overridesComputed: target => `overrides computed target of ${target}`,
+    reasonPlaceholder: 'Why did you adjust these targets? e.g. "Bumped Common House to 8 — ran out of housing before hitting the tech gate."',
+    reasons: {
+      whitelist: () => 'Moonlight whitelist',
+      gate: () => 'Moonlight gate',
+      routeTarget: () => 'Route target',
+      goalBuildingFocus: () => 'Goal building focus',
+      prerequisiteFor: targetId => `Prerequisite for ${translate(targetId) || targetId}`,
+      goalTargetTech: () => 'Goal target tech',
+      bootstrapProducer: resourceId => `Bootstrap producer for ${translate(resourceId, 'res_') || resourceId}`
+    },
+    blocked: {
+      'resource-cap': resourceId => `Storage too small for ${translate(resourceId, 'res_') || resourceId}`,
+      'resource-speed': resourceId => `Produces nothing yet for ${translate(resourceId, 'res_') || resourceId}`,
+      structural: (reqType, reqId) => `Locked by ${(GOAL_PATH_REQ_TYPE_LABEL[reqType] || {}).en || reqType}: ${translate(reqId) || reqId}`
+    }
+  },
+  zh: {
+    title: '通往',
+    emptyState: '该视图仅支持 Moonlight Night 目标，请先在智能建造设置里选择该目标。',
+    activeOverrides: '生效中的强制覆盖',
+    noOverrides: '——其余节点均按计算结果执行',
+    summit: '☾ 山顶',
+    summitHint: '——目标本身',
+    rung: n => `第 ${n} 阶`,
+    rungNowHint: '——现在就做这些',
+    kindBuilding: '建筑',
+    kindTech: '科技',
+    alreadyMet: '已达标',
+    forceTarget: '强制目标',
+    overridesComputed: target => `覆盖计算出的目标值 ${target}`,
+    reasonPlaceholder: '为什么调整了这些目标？例如：“把普通民居调到 8——在到达科技门槛前住房就不够了。”',
+    reasons: {
+      whitelist: () => '月色白名单',
+      gate: () => '月色关卡',
+      routeTarget: () => '路线目标',
+      goalBuildingFocus: () => '目标重点建筑',
+      prerequisiteFor: targetId => `${translate(targetId) || targetId}的前置条件`,
+      goalTargetTech: () => '目标科技',
+      bootstrapProducer: resourceId => `${translate(resourceId, 'res_') || resourceId}产出的启动建筑`
+    },
+    blocked: {
+      'resource-cap': resourceId => `${translate(resourceId, 'res_') || resourceId}的仓储上限不够`,
+      'resource-speed': resourceId => `${translate(resourceId, 'res_') || resourceId}目前产出为 0`,
+      structural: (reqType, reqId) => `被${(GOAL_PATH_REQ_TYPE_LABEL[reqType] || {}).zh || reqType}锁定：${translate(reqId) || reqId}`
+    }
+  }
+};
+
+const getGoalPathLang = () => {
+  try {
+    return localStorage.get(GOAL_PATH_LANG_STORAGE_KEY) || 'en';
+  } catch (e) {
+    return 'en';
+  }
+};
+const setGoalPathLang = lang => {
+  try {
+    localStorage.set(GOAL_PATH_LANG_STORAGE_KEY, lang);
+  } catch (e) {}
+};
+
+const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+})[char]);
+
+const goalPathNodeLabel = node => translate(node.id, node.kind === 'tech' ? 'tec_' : '') || node.id;
+
+const goalPathReasonText = (reason, lang) => {
+  const formatter = GOAL_PATH_I18N[lang].reasons[reason.key];
+  if (!formatter) return reason.key;
+  if (reason.key === 'prerequisiteFor') return formatter(reason.targetId);
+  if (reason.key === 'bootstrapProducer') return formatter(reason.resourceId);
+  return formatter();
+};
+
+const goalPathBlockClass = blockReason => {
+  if (!blockReason) return '';
+  if (blockReason.type === 'resource-cap') return 'gp-reason-cap';
+  if (blockReason.type === 'resource-speed') return 'gp-reason-speed';
+  return 'gp-reason-structural';
+};
+
+const goalPathBlockText = (blockReason, lang) => {
+  if (!blockReason) return '';
+  const formatter = GOAL_PATH_I18N[lang].blocked[blockReason.type];
+  if (!formatter) return blockReason.type;
+  if (blockReason.type === 'structural') return formatter(blockReason.reqType, blockReason.reqId);
+  return formatter(blockReason.resourceId);
+};
+
+const renderGoalPathNode = (node, lang, forcedTargets) => {
+  const t = GOAL_PATH_I18N[lang];
+  const statusClass = node.status === 'met' ? 'gp-st-met' : node.status === 'blocked' ? `gp-st-blocked ${goalPathBlockClass(node.blockReason)}` : 'gp-st-queued';
+  const kindLabel = node.kind === 'tech' ? t.kindTech : t.kindBuilding;
+  const name = escapeHtml(goalPathNodeLabel(node));
+  const reasonLine = node.reasons && node.reasons.length
+    ? `<div class="gp-node-reason">${escapeHtml(goalPathReasonText(node.reasons[node.reasons.length - 1], lang))}</div>`
+    : '';
+  const hasOverride = node.kind === 'building' && Object.prototype.hasOwnProperty.call(forcedTargets, node.id);
+  let extra = '';
+  if (node.status === 'met') {
+    extra = `<div class="gp-node-met-tag">✓ ${escapeHtml(t.alreadyMet)}</div>`;
+  } else if (node.status === 'blocked') {
+    extra = `<div class="gp-node-tag"><span class="dot"></span>${escapeHtml(goalPathBlockText(node.blockReason, lang))}</div>`;
+  } else if (node.kind === 'building') {
+    const overrideId = `gp-ov-${node.id}`;
+    const overrideValue = hasOverride ? forcedTargets[node.id] : node.target;
+    extra = `<div class="gp-node-override">
+      <input type="checkbox" id="${overrideId}" class="gp-override-toggle" data-node-id="${node.id}" ${hasOverride ? 'checked' : ''}>
+      <label for="${overrideId}"><span class="box"></span>${escapeHtml(t.forceTarget)}</label>
+      <div class="gp-override-fields">
+        <input type="number" class="gp-override-value" data-node-id="${node.id}" value="${overrideValue}" min="0" max="999" step="1">
+        <span>${escapeHtml(t.overridesComputed(node.target))}</span>
+      </div>
+    </div>`;
+  }
+  return `<div class="gp-node ${statusClass}${hasOverride ? ' gp-has-override' : ''}">
+    <div class="gp-node-top">
+      <div class="gp-node-name"><span class="gp-node-kind">${escapeHtml(kindLabel)}</span>${name}</div>
+      <div class="gp-node-count">${node.current} / <b>${node.target}</b></div>
+    </div>
+    ${reasonLine}
+    ${extra}
+  </div>`;
+};
+
+const persistGoalPathOverrides = () => {
+  try {
+    localStorage.set('options', state.options);
+  } catch (e) {}
+};
+
+const setGoalPathOverride = (nodeId, value) => {
+  if (!state.options.smartBuild) state.options.smartBuild = {};
+  if (!state.options.smartBuild.forcedTargets) state.options.smartBuild.forcedTargets = {};
+  state.options.smartBuild.forcedTargets[nodeId] = value;
+  persistGoalPathOverrides();
+};
+
+const removeGoalPathOverride = nodeId => {
+  if (state.options.smartBuild && state.options.smartBuild.forcedTargets) {
+    delete state.options.smartBuild.forcedTargets[nodeId];
+    persistGoalPathOverrides();
+  }
+};
+
+const wireGoalPathLadderEvents = container => {
+  [...container.querySelectorAll('.gp-override-toggle')].forEach(checkbox => {
+    checkbox.addEventListener('change', () => {
+      const nodeId = checkbox.dataset.nodeId;
+      const valueInput = container.querySelector(`.gp-override-value[data-node-id="${nodeId}"]`);
+      if (checkbox.checked) {
+        setGoalPathOverride(nodeId, Number(valueInput ? valueInput.value : 0));
+      } else {
+        removeGoalPathOverride(nodeId);
+      }
+      renderGoalPathOverrides();
+    });
+  });
+  [...container.querySelectorAll('.gp-override-value')].forEach(input => {
+    input.addEventListener('change', () => {
+      const nodeId = input.dataset.nodeId;
+      const checkbox = container.querySelector(`.gp-override-toggle[data-node-id="${nodeId}"]`);
+      if (checkbox && checkbox.checked) {
+        setGoalPathOverride(nodeId, Number(input.value));
+        renderGoalPathOverrides();
+      }
+    });
+  });
+};
+
+const renderGoalPathLadder = () => {
+  const lang = getGoalPathLang();
+  const t = GOAL_PATH_I18N[lang];
+  const container = document.querySelector('#taGoalPathLadder');
+  if (!container) return;
+  const snapshot = smartBuildPlanner.getPathSnapshot();
+  if (!snapshot.nodes.length) {
+    container.innerHTML = `<p class="gp-empty">${escapeHtml(t.emptyState)}</p>`;
+    return;
+  }
+  const forcedTargets = (state.options.smartBuild && state.options.smartBuild.forcedTargets) || {};
+  const byLayer = {};
+  snapshot.nodes.forEach(node => {
+    (byLayer[node.layer] = byLayer[node.layer] || []).push(node);
+  });
+  const layers = Object.keys(byLayer).map(Number).sort((a, b) => a - b);
+  const summitLayer = layers[layers.length - 1];
+  const rungsHtml = layers.map(layer => {
+    const nodes = byLayer[layer];
+    const isSummit = layer === summitLayer && layer > 0;
+    const isNow = layer === 0;
+    const nodesHtml = nodes.map(node => renderGoalPathNode(node, lang, forcedTargets)).join('');
+    if (isSummit) {
+      return `<div class="gp-rung gp-is-summit">
+        <div class="gp-rung-label">${escapeHtml(t.summit)} <span class="gp-rung-hint">${escapeHtml(t.summitHint)}</span></div>
+        <div class="gp-node-grid">${nodesHtml}</div>
+      </div>`;
+    }
+    return `<div class="gp-rung ${isNow ? 'gp-is-now' : ''}">
+      <div class="gp-rung-num">${layer}</div>
+      <div class="gp-rung-label">${escapeHtml(t.rung(layer))}${isNow ? ` <span class="gp-rung-hint">${escapeHtml(t.rungNowHint)}</span>` : ''}</div>
+      <div class="gp-node-grid">${nodesHtml}</div>
+    </div>`;
+  }).reverse().join('');
+  container.innerHTML = `<div class="gp-ladder">${rungsHtml}</div>`;
+  wireGoalPathLadderEvents(container);
+};
+
+const renderGoalPathOverrides = () => {
+  const lang = getGoalPathLang();
+  const t = GOAL_PATH_I18N[lang];
+  const container = document.querySelector('#taGoalPathOverrides');
+  if (!container) return;
+  const forcedTargets = (state.options.smartBuild && state.options.smartBuild.forcedTargets) || {};
+  const ids = Object.keys(forcedTargets);
+  const chips = ids.map(id => `<span class="gp-override-chip" data-node-id="${id}">${escapeHtml(id)} → ${forcedTargets[id]}<button type="button" class="gp-remove-override" data-node-id="${id}" title="Remove override">✕</button></span>`).join('');
+  const emptyHint = ids.length ? '' : `<span class="empty-hint">${escapeHtml(t.noOverrides)}</span>`;
+  container.innerHTML = `<span class="label">${escapeHtml(t.activeOverrides)}</span>${chips}${emptyHint}`;
+  [...container.querySelectorAll('.gp-remove-override')].forEach(button => {
+    button.addEventListener('click', () => {
+      removeGoalPathOverride(button.dataset.nodeId);
+      refreshGoalPathTab();
+    });
+  });
+};
+
+const refreshGoalPathTab = () => {
+  renderGoalPathLadder();
+  renderGoalPathOverrides();
+};
+
+const exportGoalPathData = () => {
+  const snapshot = smartBuildPlanner.getPathSnapshot();
+  const forcedTargets = (state.options.smartBuild && state.options.smartBuild.forcedTargets) || {};
+  const reasonBox = document.querySelector('#taGoalPathReason');
+  const payload = {
+    exportedAt: new Date().toISOString(),
+    goal: snapshot.goal,
+    nodes: snapshot.nodes,
+    forcedTargets,
+    notes: reasonBox ? reasonBox.value : ''
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {
+    type: 'application/json'
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `theresmore-goal-path-${snapshot.goal || 'export'}-${Date.now()}.json`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
+const applyGoalPathLang = lang => {
+  setGoalPathLang(lang);
+  const root = document.querySelector('#taGoalPathTabContent');
+  if (root) root.setAttribute('data-ui-lang', lang);
+  [...document.querySelectorAll('.gp-lang-btn')].forEach(btn => {
+    btn.classList.toggle('is-active', btn.dataset.setLang === lang);
+  });
+  const textarea = document.querySelector('#taGoalPathReason');
+  if (textarea) textarea.setAttribute('placeholder', GOAL_PATH_I18N[lang].reasonPlaceholder);
+  refreshGoalPathTab();
+};
+
+const initGoalPathTab = () => {
+  [...document.querySelectorAll('.gp-lang-btn')].forEach(btn => {
+    btn.addEventListener('click', () => applyGoalPathLang(btn.dataset.setLang));
+  });
+  const refreshButton = document.querySelector('#taGoalPathRefresh');
+  if (refreshButton) refreshButton.addEventListener('click', refreshGoalPathTab);
+  const clearButton = document.querySelector('#taGoalPathClearOverrides');
+  if (clearButton) {
+    clearButton.addEventListener('click', () => {
+      if (state.options.smartBuild) state.options.smartBuild.forcedTargets = {};
+      persistGoalPathOverrides();
+      refreshGoalPathTab();
+    });
+  }
+  const exportButton = document.querySelector('#taGoalPathExport');
+  if (exportButton) exportButton.addEventListener('click', exportGoalPathData);
+  const tabRadio = document.querySelector('#topLevelOptions-goalPath');
+  if (tabRadio) tabRadio.addEventListener('change', refreshGoalPathTab);
+  applyGoalPathLang(getGoalPathLang());
+};
+const GOAL_AUTOMATION_PRESETS = {
+  moonlightNight: {
+    ancestor: 'ancestor_researcher',
+    path: 'humans'
+  }
+};
+
+const syncAutomationOptionDom = (setting, key, value) => {
+  const el = document.querySelector(`.option[data-setting="${setting}"][data-key="${key}"]`);
+  if (!el) return;
+  if (el.type === 'checkbox') {
+    el.checked = !!value;
+  } else {
+    el.value = value;
+  }
+};
+
+const applyGoalAutomationPreset = goalId => {
+  const preset = GOAL_AUTOMATION_PRESETS[goalId];
+  if (!preset) return;
+  state.options.ancestor = { enabled: true, selected: preset.ancestor };
+  state.options.path = { enabled: true, selected: preset.path };
+  state.options.prestige.enabled = true;
+  localStorage.set('options', state.options);
+
+  syncAutomationOptionDom('ancestor', 'enabled', true);
+  syncAutomationOptionDom('ancestor', 'selected', preset.ancestor);
+  syncAutomationOptionDom('path', 'enabled', true);
+  syncAutomationOptionDom('path', 'selected', preset.path);
+  syncAutomationOptionDom('prestige', 'enabled', true);
+
+  logger({
+    msgLevel: 'log',
+    msg: `Goal automation preset applied for ${goalId}: auto-ancestor/auto-path/auto-prestige enabled.`
+  });
+};
+
+const initGoalAutomationPreset = () => {
+  applyGoalAutomationPreset(state.options.smartBuild.goal);
+  const goalSelect = document.querySelector('.option[data-setting="smartBuild"][data-key="goal"]');
+  if (goalSelect) {
+    goalSelect.addEventListener('change', () => applyGoalAutomationPreset(goalSelect.value));
+  }
+};
   const createPanel$1 = startFunction => {
     start$1 = startFunction;
     const saveTextarea = document.createElement('textarea');
@@ -49948,6 +50317,147 @@ const manualNG = async () => {
 
         </div>
       </div>
+
+          <div class="taTab">
+            <input type="radio" name="topLevelOptions" id="topLevelOptions-goalPath" class="taTab-switch">
+            <label for="topLevelOptions-goalPath" class="taTab-label">&#9790; <span data-lang="en">Goal Path</span><span data-lang="zh">目标路径</span></label>
+            <div class="taTab-content">
+              <div id="taGoalPathTabContent" class="gp-panel" data-ui-lang="en">
+                <style>
+                  #taGoalPathTabContent { --gp-bg: #171d26; --gp-surface: #1d2530; --gp-surface-raised: #242e3b; --gp-border: #2a3441;
+                    --gp-accent: #2dd4bf; --gp-accent-soft: rgba(45, 212, 191, 0.14); --gp-accent-dim: #1b8f82;
+                    --gp-text: #e7edf3; --gp-text-muted: #8a97a8; --gp-text-faint: #5c6879;
+                    --gp-good: #34d399; --gp-warn-cap: #f2b84b; --gp-warn-cap-soft: rgba(242, 184, 75, 0.12);
+                    --gp-warn-speed: #fb923c; --gp-warn-speed-soft: rgba(251, 146, 60, 0.12);
+                    --gp-blocked: #fb6f92; --gp-blocked-soft: rgba(251, 111, 146, 0.12);
+                    background: var(--gp-bg); color: var(--gp-text); padding: 14px; border-radius: 8px; }
+                  #taGoalPathTabContent[data-ui-lang="en"] [data-lang="zh"],
+                  #taGoalPathTabContent[data-ui-lang="zh"] [data-lang="en"] { display: none; }
+                  #taGoalPathTabContent .gp-header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 4px; }
+                  #taGoalPathTabContent .gp-title { font-size: 20px; font-weight: 700; margin: 0; }
+                  #taGoalPathTabContent .gp-title .gp-goal-name { color: var(--gp-accent); }
+                  #taGoalPathTabContent .gp-subtitle { color: var(--gp-text-muted); font-size: 12.5px; margin: 4px 0 16px; }
+                  #taGoalPathTabContent .gp-lang-toggle { display: inline-flex; align-items: center; background: var(--gp-surface);
+                    border: 1px solid var(--gp-border); border-radius: 999px; padding: 2px; flex-shrink: 0; }
+                  #taGoalPathTabContent .gp-lang-btn { font-size: 11px; letter-spacing: 0.03em; padding: 5px 12px; border-radius: 999px;
+                    color: var(--gp-text-faint); cursor: pointer; background: none; border: none; }
+                  #taGoalPathTabContent .gp-lang-btn.is-active { background: var(--gp-accent); color: #05201c; }
+                  #taGoalPathTabContent .gp-override-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 10px 12px;
+                    margin-bottom: 16px; background: var(--gp-surface); border: 1px solid var(--gp-border); border-radius: 8px; }
+                  #taGoalPathTabContent .gp-override-strip .label { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.08em;
+                    color: var(--gp-text-faint); margin-right: 4px; }
+                  #taGoalPathTabContent .gp-override-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--gp-accent-soft);
+                    border: 1px solid var(--gp-accent-dim); color: var(--gp-accent); border-radius: 999px; padding: 3px 6px 3px 10px; font-size: 12px; }
+                  #taGoalPathTabContent .gp-remove-override { background: none; border: none; cursor: pointer; color: var(--gp-accent); border-radius: 999px; }
+                  #taGoalPathTabContent .gp-override-strip .empty-hint { color: var(--gp-text-faint); font-size: 12px; }
+                  #taGoalPathTabContent .gp-toolbar { display: flex; justify-content: flex-end; margin-bottom: 10px; }
+                  #taGoalPathTabContent .gp-btn { font-size: 12.5px; font-weight: 600; padding: 6px 14px; border-radius: 6px;
+                    border: 1px solid var(--gp-border); cursor: pointer; background: transparent; color: var(--gp-text-muted); }
+                  #taGoalPathTabContent .gp-btn-primary { background: var(--gp-accent); color: #05201c; border-color: var(--gp-accent); }
+                  #taGoalPathTabContent .gp-empty { color: var(--gp-text-muted); font-size: 13px; padding: 20px; text-align: center; }
+                  #taGoalPathTabContent .gp-ladder { position: relative; padding-left: 34px; }
+                  #taGoalPathTabContent .gp-ladder::before { content: ""; position: absolute; left: 12px; top: 6px; bottom: 6px; width: 2px;
+                    background: linear-gradient(to top, var(--gp-border), var(--gp-accent-dim) 85%, var(--gp-accent)); }
+                  #taGoalPathTabContent .gp-rung { position: relative; margin-bottom: 22px; }
+                  #taGoalPathTabContent .gp-rung::before { content: ""; position: absolute; left: -34px; top: 14px; width: 24px; height: 2px; background: var(--gp-border); }
+                  #taGoalPathTabContent .gp-rung.gp-is-summit::before { background: var(--gp-accent); }
+                  #taGoalPathTabContent .gp-rung-num { position: absolute; left: -46px; top: 2px; width: 26px; height: 26px; border-radius: 50%;
+                    background: var(--gp-surface); border: 1px solid var(--gp-border); display: grid; place-items: center; font-size: 11px; color: var(--gp-text-muted); }
+                  #taGoalPathTabContent .gp-rung.gp-is-now .gp-rung-num { border-color: var(--gp-accent); color: var(--gp-accent); box-shadow: 0 0 0 3px var(--gp-accent-soft); }
+                  #taGoalPathTabContent .gp-rung.gp-is-summit .gp-rung-num { background: var(--gp-accent); color: #05201c; border-color: var(--gp-accent); }
+                  #taGoalPathTabContent .gp-rung-label { display: flex; align-items: baseline; gap: 8px; margin: 0 0 10px; font-size: 11.5px;
+                    text-transform: uppercase; letter-spacing: 0.08em; color: var(--gp-text-faint); }
+                  #taGoalPathTabContent .gp-rung.gp-is-now .gp-rung-label { color: var(--gp-accent); }
+                  #taGoalPathTabContent .gp-rung-hint { text-transform: none; letter-spacing: 0; font-size: 12px; color: var(--gp-text-muted); }
+                  #taGoalPathTabContent .gp-rung.gp-is-summit { padding: 16px 18px 18px; border-radius: 12px; background: var(--gp-surface);
+                    border: 1px solid var(--gp-accent-dim); box-shadow: 0 0 32px -12px rgba(45,212,191,0.35); }
+                  #taGoalPathTabContent .gp-node-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+                  #taGoalPathTabContent .gp-node { position: relative; background: var(--gp-surface); border: 1px solid var(--gp-border);
+                    border-left: 3px solid var(--gp-text-faint); border-radius: 8px; padding: 10px 12px; }
+                  #taGoalPathTabContent .gp-node.gp-st-met { border-left-color: var(--gp-good); }
+                  #taGoalPathTabContent .gp-node.gp-st-queued { border-left-color: var(--gp-accent); }
+                  #taGoalPathTabContent .gp-node.gp-st-blocked.gp-reason-cap { border-left-color: var(--gp-warn-cap); }
+                  #taGoalPathTabContent .gp-node.gp-st-blocked.gp-reason-speed { border-left-color: var(--gp-warn-speed); }
+                  #taGoalPathTabContent .gp-node.gp-st-blocked.gp-reason-structural { border-left-color: var(--gp-blocked); }
+                  #taGoalPathTabContent .gp-node-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+                  #taGoalPathTabContent .gp-node-name { font-size: 13.5px; font-weight: 600; }
+                  #taGoalPathTabContent .gp-node-kind { display: inline-block; font-size: 9.5px; letter-spacing: 0.04em; color: var(--gp-text-faint);
+                    border: 1px solid var(--gp-border); border-radius: 3px; padding: 0 4px; margin-right: 6px; }
+                  #taGoalPathTabContent .gp-node-count { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--gp-text-muted); white-space: nowrap; }
+                  #taGoalPathTabContent .gp-node-count b { color: var(--gp-text); }
+                  #taGoalPathTabContent .gp-node.gp-st-met .gp-node-count, #taGoalPathTabContent .gp-node.gp-st-met .gp-node-count b { color: var(--gp-good); }
+                  #taGoalPathTabContent .gp-node-reason { margin-top: 6px; font-size: 11.5px; color: var(--gp-text-faint); }
+                  #taGoalPathTabContent .gp-node-tag { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 11px; padding: 3px 8px; border-radius: 5px; }
+                  #taGoalPathTabContent .gp-node-tag .dot { width: 6px; height: 6px; border-radius: 50%; }
+                  #taGoalPathTabContent .gp-node.gp-reason-cap .gp-node-tag { background: var(--gp-warn-cap-soft); color: var(--gp-warn-cap); }
+                  #taGoalPathTabContent .gp-node.gp-reason-cap .gp-node-tag .dot { background: var(--gp-warn-cap); }
+                  #taGoalPathTabContent .gp-node.gp-reason-speed .gp-node-tag { background: var(--gp-warn-speed-soft); color: var(--gp-warn-speed); }
+                  #taGoalPathTabContent .gp-node.gp-reason-speed .gp-node-tag .dot { background: var(--gp-warn-speed); }
+                  #taGoalPathTabContent .gp-node.gp-reason-structural .gp-node-tag { background: var(--gp-blocked-soft); color: var(--gp-blocked); }
+                  #taGoalPathTabContent .gp-node.gp-reason-structural .gp-node-tag .dot { background: var(--gp-blocked); }
+                  #taGoalPathTabContent .gp-node-met-tag { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 11px; color: var(--gp-good); }
+                  #taGoalPathTabContent .gp-node-override { margin-top: 8px; }
+                  #taGoalPathTabContent .gp-node-override > input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
+                  #taGoalPathTabContent .gp-node-override label { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--gp-text-faint); cursor: pointer; }
+                  #taGoalPathTabContent .gp-node-override .box { width: 13px; height: 13px; border: 1px solid var(--gp-border); border-radius: 3px; display: inline-block; }
+                  #taGoalPathTabContent .gp-node-override input:checked ~ label .box { background: var(--gp-accent); border-color: var(--gp-accent); }
+                  #taGoalPathTabContent .gp-override-fields { display: none; align-items: center; gap: 6px; margin-top: 8px; }
+                  #taGoalPathTabContent .gp-node-override input:checked ~ .gp-override-fields { display: flex; }
+                  #taGoalPathTabContent .gp-override-fields input[type="number"] { width: 64px; background: var(--gp-surface-raised);
+                    border: 1px solid var(--gp-border); border-radius: 4px; color: var(--gp-text); padding: 3px 6px; font-size: 12px; }
+                  #taGoalPathTabContent .gp-override-fields span { font-size: 11px; color: var(--gp-text-faint); }
+                  #taGoalPathTabContent .gp-node.gp-has-override { border-left-color: var(--gp-accent); box-shadow: inset 0 0 0 1px rgba(45,212,191,0.25); }
+                  #taGoalPathTabContent .gp-footer { margin-top: 24px; padding: 14px 16px; background: var(--gp-surface); border: 1px solid var(--gp-border); border-radius: 10px; }
+                  #taGoalPathTabContent .gp-footer h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gp-text-faint); margin: 0 0 8px; font-weight: 600; }
+                  #taGoalPathTabContent .gp-reason-box { width: 100%; min-height: 50px; resize: vertical; background: var(--gp-surface-raised);
+                    border: 1px solid var(--gp-border); border-radius: 6px; color: var(--gp-text); font-size: 12.5px; padding: 8px 10px; }
+                  #taGoalPathTabContent .gp-footer-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
+                </style>
+
+                <div class="gp-header">
+                  <h2 class="gp-title">
+                    <span data-lang="en">Path to <span class="gp-goal-name">Moonlight Night</span></span>
+                    <span data-lang="zh">通往<span class="gp-goal-name">月色之夜</span>之路</span>
+                  </h2>
+                  <div class="gp-lang-toggle" role="group" aria-label="Panel language">
+                    <button type="button" class="gp-lang-btn is-active" data-set-lang="en">EN</button>
+                    <button type="button" class="gp-lang-btn" data-set-lang="zh">中文</button>
+                  </div>
+                </div>
+                <p class="gp-subtitle">
+                  <span data-lang="en">Rungs are computed, not chosen — climb from rung 0 at the bottom to the summit. Priority follows rung order automatically.</span>
+                  <span data-lang="zh">阶梯是算出来的，不是选出来的——从最底部的第 0 阶往上爬到山顶，优先级由阶梯顺序自动决定。</span>
+                </p>
+
+                <div class="gp-override-strip" id="taGoalPathOverrides"></div>
+
+                <div class="gp-toolbar">
+                  <button type="button" class="gp-btn" id="taGoalPathRefresh">
+                    <span data-lang="en">Refresh</span><span data-lang="zh">刷新</span>
+                  </button>
+                </div>
+
+                <div id="taGoalPathLadder"></div>
+
+                <div class="gp-footer">
+                  <h3><span data-lang="en">Export for review</span><span data-lang="zh">导出以供检查</span></h3>
+                  <textarea
+                    class="gp-reason-box"
+                    id="taGoalPathReason"
+                    placeholder="Why did you adjust these targets? e.g. &quot;Bumped Common House to 8 — ran out of housing before hitting the tech gate.&quot;"
+                  ></textarea>
+                  <div class="gp-footer-actions">
+                    <button type="button" class="gp-btn" id="taGoalPathClearOverrides">
+                      <span data-lang="en">Clear overrides</span><span data-lang="zh">清除所有覆盖</span>
+                    </button>
+                    <button type="button" class="gp-btn gp-btn-primary" id="taGoalPathExport">
+                      <span data-lang="en">Export path + notes (JSON)</span><span data-lang="zh">导出路径与备注 (JSON)</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
       <div class="taTab">
         <input type="radio" name="topLevelOptions" id="topLevelOptions-${CONSTANTS.PAGES.RESEARCH}" class="taTab-switch">
@@ -50562,6 +51072,8 @@ const manualNG = async () => {
     document.querySelector('#saveOptionsAndClose').addEventListener('click', saveOptionsAndClose);
     document.querySelector('#exportOptions').addEventListener('click', exportOptions);
     document.querySelector('#importOptions').addEventListener('click', importOptions);
+    initGoalPathTab();
+    initGoalAutomationPreset();
 
     // Cheats
     document.querySelector('button.maxResources').addEventListener('click', cheats.maxResources);

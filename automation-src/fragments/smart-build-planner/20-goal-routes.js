@@ -4,7 +4,7 @@ const getRouteTargets = route => {
   if (!route) return [];
   return [...(route.buildingTargets || []), ...(route.supportTargets || [])];
 };
-const expandPrerequisiteTargets = (seedEntries, reasonLabel = 'target') => {
+const expandPrerequisiteTargets = (seedEntries, reasonLabel = { key: 'target' }) => {
   if (!seedEntries || !seedEntries.length) return [];
   const byId = {};
   const visiting = {};
@@ -29,8 +29,8 @@ const expandPrerequisiteTargets = (seedEntries, reasonLabel = 'target') => {
         id: req.id,
         target: Math.max(1, Number(req.value) || 1),
         priority: Math.min(10, priority + 1),
-        reason: `prerequisite for ${entry.id}`
-      }, Math.min(10, priority + 1), `prerequisite for ${entry.id}`);
+        reason: { key: 'prerequisiteFor', targetId: entry.id }
+      }, Math.min(10, priority + 1), { key: 'prerequisiteFor', targetId: entry.id });
     });
     visiting[entry.id] = false;
   };
@@ -39,7 +39,7 @@ const expandPrerequisiteTargets = (seedEntries, reasonLabel = 'target') => {
 };
 const getExpandedRouteTargets = route => {
   if (!route) return [];
-  return expandPrerequisiteTargets(getRouteTargets(route), 'route target');
+  return expandPrerequisiteTargets(getRouteTargets(route), { key: 'routeTarget' });
 };
 const getExpandedGoalFocusTargets = goal => {
   if (!goal.buildingFocus || !goal.buildingFocus.length) return [];
@@ -47,9 +47,9 @@ const getExpandedGoalFocusTargets = goal => {
     id,
     target: 1,
     priority: 6,
-    reason: 'goal building focus'
+    reason: { key: 'goalBuildingFocus' }
   }));
-  return expandPrerequisiteTargets(seeds, 'goal building focus');
+  return expandPrerequisiteTargets(seeds, { key: 'goalBuildingFocus' });
 };
 const getRouteEntry = (building, route) => getExpandedRouteTargets(route).find(entry => entry.id === building.id);
 const getGoalTechs = goal => (goal.targetTechs || []).map(techId => tech.find(technology => technology.id === techId)).filter(Boolean);

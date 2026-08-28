@@ -25,10 +25,10 @@ const smartBuildRoutes = {
   moonlightNight: {
     label: 'Moonlight Night',
     buildingTargets: [
-      { id: 'common_house', priority: 9, reason: 'moonlight whitelist' },
-      { id: 'quarry', priority: 8, reason: 'moonlight whitelist' },
-      { id: 'artisan_workshop', priority: 8, reason: 'moonlight whitelist' },
-      { id: 'watchman_outpost', priority: 10, reason: 'moonlight gate' }
+      { id: 'common_house', priority: 9, reason: { key: 'whitelist' } },
+      { id: 'quarry', priority: 8, reason: { key: 'whitelist' } },
+      { id: 'artisan_workshop', priority: 8, reason: { key: 'whitelist' } },
+      { id: 'watchman_outpost', priority: 10, reason: { key: 'gate' } }
     ],
     supportTargets: [
       { id: 'guild_of_craftsmen', priority: 6 },
@@ -36,7 +36,9 @@ const smartBuildRoutes = {
       { id: 'farm', priority: 5 },
       { id: 'carpenter_workshop', priority: 5 },
       { id: 'grocery', priority: 5 },
-      { id: 'stable', priority: 5 }
+      { id: 'stable', priority: 5 },
+      { id: 'lumberjack_camp', priority: 6 },
+      { id: 'titan_work_area', priority: 7 }
     ]
   }
 };

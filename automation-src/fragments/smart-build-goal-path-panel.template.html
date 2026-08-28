@@ -1,0 +1,140 @@
+          <div class="taTab">
+            <input type="radio" name="topLevelOptions" id="topLevelOptions-goalPath" class="taTab-switch">
+            <label for="topLevelOptions-goalPath" class="taTab-label">&#9790; <span data-lang="en">Goal Path</span><span data-lang="zh">目标路径</span></label>
+            <div class="taTab-content">
+              <div id="taGoalPathTabContent" class="gp-panel" data-ui-lang="en">
+                <style>
+                  #taGoalPathTabContent { --gp-bg: #171d26; --gp-surface: #1d2530; --gp-surface-raised: #242e3b; --gp-border: #2a3441;
+                    --gp-accent: #2dd4bf; --gp-accent-soft: rgba(45, 212, 191, 0.14); --gp-accent-dim: #1b8f82;
+                    --gp-text: #e7edf3; --gp-text-muted: #8a97a8; --gp-text-faint: #5c6879;
+                    --gp-good: #34d399; --gp-warn-cap: #f2b84b; --gp-warn-cap-soft: rgba(242, 184, 75, 0.12);
+                    --gp-warn-speed: #fb923c; --gp-warn-speed-soft: rgba(251, 146, 60, 0.12);
+                    --gp-blocked: #fb6f92; --gp-blocked-soft: rgba(251, 111, 146, 0.12);
+                    background: var(--gp-bg); color: var(--gp-text); padding: 14px; border-radius: 8px; }
+                  #taGoalPathTabContent[data-ui-lang="en"] [data-lang="zh"],
+                  #taGoalPathTabContent[data-ui-lang="zh"] [data-lang="en"] { display: none; }
+                  #taGoalPathTabContent .gp-header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 4px; }
+                  #taGoalPathTabContent .gp-title { font-size: 20px; font-weight: 700; margin: 0; }
+                  #taGoalPathTabContent .gp-title .gp-goal-name { color: var(--gp-accent); }
+                  #taGoalPathTabContent .gp-subtitle { color: var(--gp-text-muted); font-size: 12.5px; margin: 4px 0 16px; }
+                  #taGoalPathTabContent .gp-lang-toggle { display: inline-flex; align-items: center; background: var(--gp-surface);
+                    border: 1px solid var(--gp-border); border-radius: 999px; padding: 2px; flex-shrink: 0; }
+                  #taGoalPathTabContent .gp-lang-btn { font-size: 11px; letter-spacing: 0.03em; padding: 5px 12px; border-radius: 999px;
+                    color: var(--gp-text-faint); cursor: pointer; background: none; border: none; }
+                  #taGoalPathTabContent .gp-lang-btn.is-active { background: var(--gp-accent); color: #05201c; }
+                  #taGoalPathTabContent .gp-override-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 10px 12px;
+                    margin-bottom: 16px; background: var(--gp-surface); border: 1px solid var(--gp-border); border-radius: 8px; }
+                  #taGoalPathTabContent .gp-override-strip .label { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.08em;
+                    color: var(--gp-text-faint); margin-right: 4px; }
+                  #taGoalPathTabContent .gp-override-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--gp-accent-soft);
+                    border: 1px solid var(--gp-accent-dim); color: var(--gp-accent); border-radius: 999px; padding: 3px 6px 3px 10px; font-size: 12px; }
+                  #taGoalPathTabContent .gp-remove-override { background: none; border: none; cursor: pointer; color: var(--gp-accent); border-radius: 999px; }
+                  #taGoalPathTabContent .gp-override-strip .empty-hint { color: var(--gp-text-faint); font-size: 12px; }
+                  #taGoalPathTabContent .gp-toolbar { display: flex; justify-content: flex-end; margin-bottom: 10px; }
+                  #taGoalPathTabContent .gp-btn { font-size: 12.5px; font-weight: 600; padding: 6px 14px; border-radius: 6px;
+                    border: 1px solid var(--gp-border); cursor: pointer; background: transparent; color: var(--gp-text-muted); }
+                  #taGoalPathTabContent .gp-btn-primary { background: var(--gp-accent); color: #05201c; border-color: var(--gp-accent); }
+                  #taGoalPathTabContent .gp-empty { color: var(--gp-text-muted); font-size: 13px; padding: 20px; text-align: center; }
+                  #taGoalPathTabContent .gp-ladder { position: relative; padding-left: 34px; }
+                  #taGoalPathTabContent .gp-ladder::before { content: ""; position: absolute; left: 12px; top: 6px; bottom: 6px; width: 2px;
+                    background: linear-gradient(to top, var(--gp-border), var(--gp-accent-dim) 85%, var(--gp-accent)); }
+                  #taGoalPathTabContent .gp-rung { position: relative; margin-bottom: 22px; }
+                  #taGoalPathTabContent .gp-rung::before { content: ""; position: absolute; left: -34px; top: 14px; width: 24px; height: 2px; background: var(--gp-border); }
+                  #taGoalPathTabContent .gp-rung.gp-is-summit::before { background: var(--gp-accent); }
+                  #taGoalPathTabContent .gp-rung-num { position: absolute; left: -46px; top: 2px; width: 26px; height: 26px; border-radius: 50%;
+                    background: var(--gp-surface); border: 1px solid var(--gp-border); display: grid; place-items: center; font-size: 11px; color: var(--gp-text-muted); }
+                  #taGoalPathTabContent .gp-rung.gp-is-now .gp-rung-num { border-color: var(--gp-accent); color: var(--gp-accent); box-shadow: 0 0 0 3px var(--gp-accent-soft); }
+                  #taGoalPathTabContent .gp-rung.gp-is-summit .gp-rung-num { background: var(--gp-accent); color: #05201c; border-color: var(--gp-accent); }
+                  #taGoalPathTabContent .gp-rung-label { display: flex; align-items: baseline; gap: 8px; margin: 0 0 10px; font-size: 11.5px;
+                    text-transform: uppercase; letter-spacing: 0.08em; color: var(--gp-text-faint); }
+                  #taGoalPathTabContent .gp-rung.gp-is-now .gp-rung-label { color: var(--gp-accent); }
+                  #taGoalPathTabContent .gp-rung-hint { text-transform: none; letter-spacing: 0; font-size: 12px; color: var(--gp-text-muted); }
+                  #taGoalPathTabContent .gp-rung.gp-is-summit { padding: 16px 18px 18px; border-radius: 12px; background: var(--gp-surface);
+                    border: 1px solid var(--gp-accent-dim); box-shadow: 0 0 32px -12px rgba(45,212,191,0.35); }
+                  #taGoalPathTabContent .gp-node-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+                  #taGoalPathTabContent .gp-node { position: relative; background: var(--gp-surface); border: 1px solid var(--gp-border);
+                    border-left: 3px solid var(--gp-text-faint); border-radius: 8px; padding: 10px 12px; }
+                  #taGoalPathTabContent .gp-node.gp-st-met { border-left-color: var(--gp-good); }
+                  #taGoalPathTabContent .gp-node.gp-st-queued { border-left-color: var(--gp-accent); }
+                  #taGoalPathTabContent .gp-node.gp-st-blocked.gp-reason-cap { border-left-color: var(--gp-warn-cap); }
+                  #taGoalPathTabContent .gp-node.gp-st-blocked.gp-reason-speed { border-left-color: var(--gp-warn-speed); }
+                  #taGoalPathTabContent .gp-node.gp-st-blocked.gp-reason-structural { border-left-color: var(--gp-blocked); }
+                  #taGoalPathTabContent .gp-node-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+                  #taGoalPathTabContent .gp-node-name { font-size: 13.5px; font-weight: 600; }
+                  #taGoalPathTabContent .gp-node-kind { display: inline-block; font-size: 9.5px; letter-spacing: 0.04em; color: var(--gp-text-faint);
+                    border: 1px solid var(--gp-border); border-radius: 3px; padding: 0 4px; margin-right: 6px; }
+                  #taGoalPathTabContent .gp-node-count { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--gp-text-muted); white-space: nowrap; }
+                  #taGoalPathTabContent .gp-node-count b { color: var(--gp-text); }
+                  #taGoalPathTabContent .gp-node.gp-st-met .gp-node-count, #taGoalPathTabContent .gp-node.gp-st-met .gp-node-count b { color: var(--gp-good); }
+                  #taGoalPathTabContent .gp-node-reason { margin-top: 6px; font-size: 11.5px; color: var(--gp-text-faint); }
+                  #taGoalPathTabContent .gp-node-tag { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 11px; padding: 3px 8px; border-radius: 5px; }
+                  #taGoalPathTabContent .gp-node-tag .dot { width: 6px; height: 6px; border-radius: 50%; }
+                  #taGoalPathTabContent .gp-node.gp-reason-cap .gp-node-tag { background: var(--gp-warn-cap-soft); color: var(--gp-warn-cap); }
+                  #taGoalPathTabContent .gp-node.gp-reason-cap .gp-node-tag .dot { background: var(--gp-warn-cap); }
+                  #taGoalPathTabContent .gp-node.gp-reason-speed .gp-node-tag { background: var(--gp-warn-speed-soft); color: var(--gp-warn-speed); }
+                  #taGoalPathTabContent .gp-node.gp-reason-speed .gp-node-tag .dot { background: var(--gp-warn-speed); }
+                  #taGoalPathTabContent .gp-node.gp-reason-structural .gp-node-tag { background: var(--gp-blocked-soft); color: var(--gp-blocked); }
+                  #taGoalPathTabContent .gp-node.gp-reason-structural .gp-node-tag .dot { background: var(--gp-blocked); }
+                  #taGoalPathTabContent .gp-node-met-tag { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 11px; color: var(--gp-good); }
+                  #taGoalPathTabContent .gp-node-override { margin-top: 8px; }
+                  #taGoalPathTabContent .gp-node-override > input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
+                  #taGoalPathTabContent .gp-node-override label { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--gp-text-faint); cursor: pointer; }
+                  #taGoalPathTabContent .gp-node-override .box { width: 13px; height: 13px; border: 1px solid var(--gp-border); border-radius: 3px; display: inline-block; }
+                  #taGoalPathTabContent .gp-node-override input:checked ~ label .box { background: var(--gp-accent); border-color: var(--gp-accent); }
+                  #taGoalPathTabContent .gp-override-fields { display: none; align-items: center; gap: 6px; margin-top: 8px; }
+                  #taGoalPathTabContent .gp-node-override input:checked ~ .gp-override-fields { display: flex; }
+                  #taGoalPathTabContent .gp-override-fields input[type="number"] { width: 64px; background: var(--gp-surface-raised);
+                    border: 1px solid var(--gp-border); border-radius: 4px; color: var(--gp-text); padding: 3px 6px; font-size: 12px; }
+                  #taGoalPathTabContent .gp-override-fields span { font-size: 11px; color: var(--gp-text-faint); }
+                  #taGoalPathTabContent .gp-node.gp-has-override { border-left-color: var(--gp-accent); box-shadow: inset 0 0 0 1px rgba(45,212,191,0.25); }
+                  #taGoalPathTabContent .gp-footer { margin-top: 24px; padding: 14px 16px; background: var(--gp-surface); border: 1px solid var(--gp-border); border-radius: 10px; }
+                  #taGoalPathTabContent .gp-footer h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gp-text-faint); margin: 0 0 8px; font-weight: 600; }
+                  #taGoalPathTabContent .gp-reason-box { width: 100%; min-height: 50px; resize: vertical; background: var(--gp-surface-raised);
+                    border: 1px solid var(--gp-border); border-radius: 6px; color: var(--gp-text); font-size: 12.5px; padding: 8px 10px; }
+                  #taGoalPathTabContent .gp-footer-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
+                </style>
+
+                <div class="gp-header">
+                  <h2 class="gp-title">
+                    <span data-lang="en">Path to <span class="gp-goal-name">Moonlight Night</span></span>
+                    <span data-lang="zh">通往<span class="gp-goal-name">月色之夜</span>之路</span>
+                  </h2>
+                  <div class="gp-lang-toggle" role="group" aria-label="Panel language">
+                    <button type="button" class="gp-lang-btn is-active" data-set-lang="en">EN</button>
+                    <button type="button" class="gp-lang-btn" data-set-lang="zh">中文</button>
+                  </div>
+                </div>
+                <p class="gp-subtitle">
+                  <span data-lang="en">Rungs are computed, not chosen — climb from rung 0 at the bottom to the summit. Priority follows rung order automatically.</span>
+                  <span data-lang="zh">阶梯是算出来的，不是选出来的——从最底部的第 0 阶往上爬到山顶，优先级由阶梯顺序自动决定。</span>
+                </p>
+
+                <div class="gp-override-strip" id="taGoalPathOverrides"></div>
+
+                <div class="gp-toolbar">
+                  <button type="button" class="gp-btn" id="taGoalPathRefresh">
+                    <span data-lang="en">Refresh</span><span data-lang="zh">刷新</span>
+                  </button>
+                </div>
+
+                <div id="taGoalPathLadder"></div>
+
+                <div class="gp-footer">
+                  <h3><span data-lang="en">Export for review</span><span data-lang="zh">导出以供检查</span></h3>
+                  <textarea
+                    class="gp-reason-box"
+                    id="taGoalPathReason"
+                    placeholder="Why did you adjust these targets? e.g. &quot;Bumped Common House to 8 — ran out of housing before hitting the tech gate.&quot;"
+                  ></textarea>
+                  <div class="gp-footer-actions">
+                    <button type="button" class="gp-btn" id="taGoalPathClearOverrides">
+                      <span data-lang="en">Clear overrides</span><span data-lang="zh">清除所有覆盖</span>
+                    </button>
+                    <button type="button" class="gp-btn gp-btn-primary" id="taGoalPathExport">
+                      <span data-lang="en">Export path + notes (JSON)</span><span data-lang="zh">导出路径与备注 (JSON)</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>

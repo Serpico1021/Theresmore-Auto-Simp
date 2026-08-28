@@ -25,11 +25,19 @@ $plannerInner = ($plannerInnerFiles | ForEach-Object {
 $smartBuildPlanner = $dataTables.TrimEnd() + "`n  const smartBuildPlanner = (() => {`n" + $plannerInner + "`n  })();`n"
 
 $smartBuildPanel = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'smart-build-panel.template.html')
+$smartBuildGoalPathPanel = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'smart-build-goal-path-panel.template.html')
+$smartBuildGoalPathScript = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'smart-build-goal-path-panel.js')
+$smartBuildGoalAutomationPreset = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'smart-build-goal-automation-preset.js')
 
 $bundle = $base.
   Replace('      /* @@SMART_BUILD_OPTIONS@@ */', $smartBuildOptions.TrimEnd()).
   Replace('  /* @@SMART_BUILD_PLANNER_MODULE@@ */', $smartBuildPlanner.TrimEnd()).
-  Replace('          <!-- @@SMART_BUILD_PANEL@@ -->', $smartBuildPanel.TrimEnd())
+  Replace('          <!-- @@SMART_BUILD_PANEL@@ -->', $smartBuildPanel.TrimEnd()).
+  Replace('      <!-- @@SMART_BUILD_GOAL_PATH_TAB@@ -->', $smartBuildGoalPathPanel.TrimEnd()).
+  Replace('  /* @@SMART_BUILD_GOAL_PATH_SCRIPT@@ */', $smartBuildGoalPathScript.TrimEnd()).
+  Replace('  /* @@SMART_BUILD_GOAL_AUTOMATION_PRESET@@ */', $smartBuildGoalAutomationPreset.TrimEnd()).
+  Replace('    /* @@SMART_BUILD_GOAL_PATH_INIT@@ */', '    initGoalPathTab();').
+  Replace('    /* @@SMART_BUILD_GOAL_AUTOMATION_PRESET_INIT@@ */', '    initGoalAutomationPreset();')
 
 $missingMarkers = [regex]::Matches($bundle, '@@SMART_BUILD_[A-Z_]+@@')
 if ($missingMarkers.Count -gt 0) {

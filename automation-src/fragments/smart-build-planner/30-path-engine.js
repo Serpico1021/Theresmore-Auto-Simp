@@ -48,7 +48,7 @@ const computeShortestPath = (options, resourceMap) => {
       if (res.speed <= 0) {
         const producer = findDirectProducer(req.id);
         if (producer) {
-          const producerNode = resolveBuilding(producer.id, getCount(producer) + 1, `bootstrap producer for ${req.id}`);
+          const producerNode = resolveBuilding(producer.id, getCount(producer) + 1, { key: 'bootstrapProducer', resourceId: req.id });
           maxPrereqLayer = Math.max(maxPrereqLayer, producerNode.layer);
         } else {
           blocked = blocked || { type: 'resource-speed', resourceId: req.id };
@@ -64,13 +64,13 @@ const computeShortestPath = (options, resourceMap) => {
       if (req.type === 'building') {
         const prereq = buildings.find(candidate => candidate.id === req.id);
         if (!prereq || getCount(prereq) >= req.value) return;
-        const prereqNode = resolveBuilding(req.id, req.value, `prerequisite for ${ownerId}`);
+        const prereqNode = resolveBuilding(req.id, req.value, { key: 'prerequisiteFor', targetId: ownerId });
         maxPrereqLayer = Math.max(maxPrereqLayer, prereqNode.layer);
         return;
       }
       if (isUnlockCompleted(req.type, req.id)) return;
       if (req.type === 'tech') {
-        const techNode = resolveTech(req.id, `prerequisite for ${ownerId}`);
+        const techNode = resolveTech(req.id, { key: 'prerequisiteFor', targetId: ownerId });
         maxPrereqLayer = Math.max(maxPrereqLayer, techNode.layer);
         return;
       }
@@ -128,7 +128,7 @@ const computeShortestPath = (options, resourceMap) => {
     return node;
   };
   if (goal) {
-    getGoalTechs(goal).forEach(technology => resolveTech(technology.id, 'goal target tech'));
+    getGoalTechs(goal).forEach(technology => resolveTech(technology.id, { key: 'goalTargetTech' }));
     getExpandedGoalFocusTargets(goal).forEach(entry => resolveBuilding(entry.id, entry.target, entry.reason));
   }
   if (route) getExpandedRouteTargets(route).forEach(entry => resolveBuilding(entry.id, entry.target, entry.reason));

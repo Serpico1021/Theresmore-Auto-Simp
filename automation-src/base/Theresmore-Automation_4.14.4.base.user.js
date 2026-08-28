@@ -49460,6 +49460,8 @@ const manualNG = async () => {
   ${data.subkey ? `data-subkey="${data.subkey}"` : ''}
   >${options.join('')}</select>`;
   };
+  /* @@SMART_BUILD_GOAL_PATH_SCRIPT@@ */
+  /* @@SMART_BUILD_GOAL_AUTOMATION_PRESET@@ */
   const createPanel$1 = startFunction => {
     start$1 = startFunction;
     const saveTextarea = document.createElement('textarea');
@@ -49530,6 +49532,8 @@ const manualNG = async () => {
 
         </div>
       </div>
+
+      <!-- @@SMART_BUILD_GOAL_PATH_TAB@@ -->
 
       <div class="taTab">
         <input type="radio" name="topLevelOptions" id="topLevelOptions-${CONSTANTS.PAGES.RESEARCH}" class="taTab-switch">
@@ -50090,6 +50094,8 @@ const manualNG = async () => {
     document.querySelector('#saveOptionsAndClose').addEventListener('click', saveOptionsAndClose);
     document.querySelector('#exportOptions').addEventListener('click', exportOptions);
     document.querySelector('#importOptions').addEventListener('click', importOptions);
+    /* @@SMART_BUILD_GOAL_PATH_INIT@@ */
+    /* @@SMART_BUILD_GOAL_AUTOMATION_PRESET_INIT@@ */
 
     // Cheats
     document.querySelector('button.maxResources').addEventListener('click', cheats.maxResources);
