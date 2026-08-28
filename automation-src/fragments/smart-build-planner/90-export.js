@@ -1,9 +1,10 @@
 return {
   getTargets,
-  getUnitTargets,
   getResearchTargets,
-  getExploreTargets,
-  getPrayerTargets,
+  getUnitTargets: () => null,
+  getExploreTargets: () => null,
+  getPrayerTargets: () => null,
+  isDangerousResearchOverridden,
   shouldGateDangerousResearch,
-  isDangerousResearchOverridden
+  getPathSnapshot
 };

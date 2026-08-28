@@ -1,4 +1,4 @@
-const getGoal = options => smartBuildGoals[options.goal] || smartBuildGoals.progress;
+const getGoal = options => smartBuildGoals[options.goal] || null;
 const getRoute = options => smartBuildRoutes[options.goal] || null;
 const getRouteTargets = route => {
   if (!route) return [];
@@ -53,7 +53,3 @@ const getExpandedGoalFocusTargets = goal => {
 };
 const getRouteEntry = (building, route) => getExpandedRouteTargets(route).find(entry => entry.id === building.id);
 const getGoalTechs = goal => (goal.targetTechs || []).map(techId => tech.find(technology => technology.id === techId)).filter(Boolean);
-const getGoalDangerousFights = goal => (goal.targetTechs || []).filter(techId => smartBuildDangerousFights[techId]).map(techId => ({
-  techId,
-  fightId: smartBuildDangerousFights[techId]
-}));

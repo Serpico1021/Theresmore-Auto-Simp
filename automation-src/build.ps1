@@ -15,12 +15,8 @@ $dataTables = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $plannerDi
 $plannerInnerFiles = @(
   '10-game-state-adapter.js',
   '20-goal-routes.js',
-  '30-dangerous-fight-gate.js',
-  '40-build-scoring.js',
-  '50-unit-scoring.js',
-  '60-research-scoring.js',
-  '70-explore-scoring.js',
-  '80-prayer-scoring.js',
+  '30-path-engine.js',
+  '40-path-output.js',
   '90-export.js'
 )
 $plannerInner = ($plannerInnerFiles | ForEach-Object {

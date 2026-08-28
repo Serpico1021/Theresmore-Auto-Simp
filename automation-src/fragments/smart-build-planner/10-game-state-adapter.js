@@ -58,6 +58,10 @@ const isUnlockCompleted = (type, id) => {
   if (type === 'legacy') return hasIndexedOrRunItem(id, ['leg_']);
   return false;
 };
+const getCompletedLegacyIds = () => (typeof legacies !== 'undefined' ? legacies : [])
+  .filter(legacy => isUnlockCompleted('legacy', legacy.id))
+  .map(legacy => legacy.id)
+  .sort();
 const hasStageGate = building => (building.req || []).some(req => req.type !== 'resource');
 const getCurrentStageIndex = () => {
   const unlockedAges = buildings.filter(building => building.age !== 100 && hasStageGate(building) && isBuildingUnlocked(building)).map(building => building.age).filter(age => Number.isFinite(age));
