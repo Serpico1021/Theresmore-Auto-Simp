@@ -47405,6 +47405,13 @@ const taVersion = "4.14.4";
       const numeric = entry ? Number(entry.value) : button.count || 0;
       return Number.isFinite(numeric) ? numeric : 0;
     };
+    const getCurrentBuildingCount = buildingKey => {
+      const gameData = reactUtil.getGameData();
+      const idx = gameData && gameData.idxs && gameData.idxs.buildings ? gameData.idxs.buildings[buildingKey] : undefined;
+      const entry = typeof idx === 'undefined' || !gameData.run || !gameData.run.buildings ? null : gameData.run.buildings[idx];
+      const numeric = entry ? Number(entry.value) : 0;
+      return Number.isFinite(numeric) ? numeric : 0;
+    };
 
     const hasNatureGift = () => {
       const gameData = reactUtil.getGameData();
@@ -47524,7 +47531,10 @@ const taVersion = "4.14.4";
                 shouldBuild = true;
               }
             } else if (!button.building.isSafe && button.building.requires.length) {
-              shouldBuild = !button.building.requires.find(req => !resources.get(req.resource) || resources.get(req.resource)[req.parameter] <= req.minValue);
+              const food = resources.get('food');
+              const canUseNextHouseToAddFarmer = button.building.key === 'common_house' &&
+                state.options.smartBuild && state.options.smartBuild.enabled && getCurrentBuildingCount('farm') >= 1 && food && food.speed > 0;
+              shouldBuild = canUseNextHouseToAddFarmer || !button.building.requires.find(req => !resources.get(req.resource) || resources.get(req.resource)[req.parameter] <= req.minValue);
             }
             if (shouldBuild) {
               if (buildsThisPass >= maxBuildsThisPass) {
