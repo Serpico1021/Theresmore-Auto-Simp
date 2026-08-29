@@ -29,6 +29,7 @@ assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: professorAssigne
 const routeAssignedJobs = professorAssignedJobs.map(job => job.key === 'supplier' ? { ...job, current: 1 } : job);
 assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: routeAssignedJobs, resourceSpeeds: safeResources }).jobs[0].key, 'carpenter');
 assert.strictEqual(planner.planJobs({ goal: 'moonlightNight', jobs: [{ key: 'farmer', current: 0, max: 99, maxAvailable: 1, resourcesGenerated: [{ id: 'food', value: 1.6 }] }, ...jobs], resourceSpeeds: safeResources }).jobs[0].key, 'farmer');
+assert.strictEqual(planner.planJobs({ goal: 'progress', jobs: [{ key: 'farmer', current: 0, max: 99, maxAvailable: 1, resourcesGenerated: [{ id: 'food', value: 1.6 }] }, ...jobs], resourceSpeeds: safeResources }).jobs[0].key, 'farmer');
 
 const productionJobs = [
   { key: 'lumberjack', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'wood', value: 0.7 }] },

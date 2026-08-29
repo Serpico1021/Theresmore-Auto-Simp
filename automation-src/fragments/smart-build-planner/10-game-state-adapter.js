@@ -44,12 +44,10 @@ const getAssignedJobCount = jobId => {
   const numeric = entry ? Number(entry.value ?? entry.current ?? entry.count) : 0;
   return Number.isFinite(numeric) && numeric > 0 ? numeric : 0;
 };
-const hasAssignedFarmer = () => getAssignedJobCount('farmer') >= 1;
 const getFoodSecurityBlockReason = (options, buildingId, count) => {
   if (buildingId !== 'common_house' || count < 1 || !isFoodSecurityGateEnabled(options)) return null;
   const farm = buildings.find(candidate => candidate.id === 'farm');
   if (!farm || getCount(farm) < 1) return { type: 'food-security', requirement: 'farm' };
-  if (!hasAssignedFarmer()) return { type: 'food-security', requirement: 'farmer' };
   return null;
 };
 const hasIndexedOrRunItem = (id, prefixes = []) => {

@@ -20,7 +20,8 @@ const getTargets = (subpage, manualOptions = {}) => {
   const targets = {};
   buildings.filter(building => building.tab === allowedTab).forEach(building => {
     const node = path.nodesById[`building:${building.id}`];
-    const canExpandCommonHouse = building.id === 'common_house' && isFoodSecurityGateEnabled(options) && hasAssignedFarmer();
+    const farm = buildings.find(candidate => candidate.id === 'farm');
+    const canExpandCommonHouse = building.id === 'common_house' && isFoodSecurityGateEnabled(options) && farm && getCount(farm) >= 1;
     if (!node || node.status === 'met') {
       if (node && node.status === 'met' && canExpandCommonHouse) {
         targets[building.id] = Math.min(options.maxTarget, 15);
