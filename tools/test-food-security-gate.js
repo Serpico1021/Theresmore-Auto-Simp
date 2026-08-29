@@ -47,7 +47,10 @@ const makePlanner = ({ goal, houseCount, farmCount, farmerCount, includePopulati
     `smartBuildRoutes[${JSON.stringify(goal)}].supportTargets = [{ id: 'farm', target: 1, priority: 5 }];`,
     plannerSource.at(-1)
   ];
-  return vm.runInNewContext(`(() => { ${source.join('\n')} })()`, context);
+  const planner = vm.runInNewContext(`(() => { ${source.join('\n')} })()`, context);
+  planner.__gameData = gameData;
+  planner.__resourceValues = resourceValues;
+  return planner;
 };
 
 const assert = (condition, message) => {
@@ -67,6 +70,12 @@ const progressNode = nodeFor(makePlanner({ goal: 'progress', houseCount: 1, farm
 assert(progressNode && progressNode.status !== 'blocked', 'progress: food security gate must be disabled');
 const missingPopulationNode = nodeFor(makePlanner({ goal: 'moonlightNight', houseCount: 1, farmCount: 1, farmerCount: 0, includePopulation: false }), 'common_house');
 assert(missingPopulationNode.status !== 'blocked', 'population state must not affect the farm-only gate');
+const cachePlanner = makePlanner({ goal: 'moonlightNight', houseCount: 0, farmCount: 0, farmerCount: 0, resources: { wood: 0, food: 0 } });
+assert(nodeFor(cachePlanner, 'common_house').blockReason.requirement === 'first-house-materials', 'first house should initially be blocked');
+cachePlanner.__resourceValues.wood = 25;
+cachePlanner.__resourceValues.food = 58;
+assert(nodeFor(cachePlanner, 'common_house').status !== 'blocked', 'resource changes must invalidate the cached first-house gate');
+assert(nodeFor(cachePlanner, 'common_house').reasons.length < 10, 'path reasons must not contain repeated entries');
 const forcedPlanner = makePlanner({ goal: 'moonlightNight', houseCount: 1, farmCount: 0, farmerCount: 0, forcedTargets: { common_house: 80 } });
 assert(forcedPlanner.getTargets('city').common_house === 0, 'forced target must not bypass food security gate');
 

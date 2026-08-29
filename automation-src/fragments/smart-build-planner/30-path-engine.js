@@ -36,6 +36,11 @@ const computeShortestPath = (options, resourceMap) => {
     if (!nodesById[key]) nodesById[key] = createPathNode(kind, id);
     return nodesById[key];
   };
+  const addNodeReason = (node, reason) => {
+    if (!reason) return;
+    const signature = JSON.stringify(reason);
+    if (!node.reasons.some(existing => JSON.stringify(existing) === signature)) node.reasons.push(reason);
+  };
   const resolveResourceReqs = (reqs, count) => {
     let maxPrereqLayer = -1;
     let blocked = null;
@@ -94,12 +99,14 @@ const computeShortestPath = (options, resourceMap) => {
     if (!building) return null;
     const node = getOrCreateNode('building', buildingId);
     node.targetValue = Math.max(node.targetValue, targetValue);
-    if (reason) node.reasons.push(reason);
+    addNodeReason(node, reason);
     if (visiting[node.key]) return node;
+    if (node.status !== 'pending' && node.targetValue <= (node.resolvedTargetValue || 0)) return node;
     const count = getCount(building);
     if (count >= node.targetValue) {
       node.status = 'met';
       node.layer = 0;
+      node.resolvedTargetValue = node.targetValue;
       return node;
     }
     const foodSecurityBlockReason = getFoodSecurityBlockReason(options, buildingId, count);
@@ -119,18 +126,21 @@ const computeShortestPath = (options, resourceMap) => {
     node.status = blocked ? 'blocked' : 'queued';
     node.blockReason = blocked || null;
     node.layer = maxPrereqLayer + 1;
+    node.resolvedTargetValue = node.targetValue;
     return node;
   };
   const resolveTech = (techId, reason) => {
     const technology = tech.find(candidate => candidate.id === techId);
     if (!technology) return null;
     const node = getOrCreateNode('tech', techId);
-    if (reason) node.reasons.push(reason);
+    addNodeReason(node, reason);
     node.targetValue = 1;
     if (visiting[node.key]) return node;
+    if (node.status !== 'pending' && node.resolvedTargetValue === 1) return node;
     if (isTechCompleted(techId)) {
       node.status = 'met';
       node.layer = 0;
+      node.resolvedTargetValue = 1;
       return node;
     }
     visiting[node.key] = true;
@@ -143,6 +153,7 @@ const computeShortestPath = (options, resourceMap) => {
     node.status = blocked ? 'blocked' : 'queued';
     node.blockReason = blocked || null;
     node.layer = maxPrereqLayer + 1;
+    node.resolvedTargetValue = 1;
     return node;
   };
   if (goal) {
@@ -156,9 +167,11 @@ const getPathFingerprint = (options, resourceMap) => {
   const legacyIds = getCompletedLegacyIds();
   const resourceSignature = smartBuildResources.map(id => {
     const res = resourceMap[id];
-    return res ? `${id}:${res.speed}:${res.max}` : `${id}:-`;
+    return res ? `${id}:${res.current}:${res.speed}:${res.max}` : `${id}:-`;
   });
-  return [options.goal, ...legacyIds, ...resourceSignature].join('|');
+  const buildingSignature = buildings.map(building => `${building.id}:${getCount(building)}`);
+  const techSignature = tech.filter(technology => isTechCompleted(technology.id)).map(technology => technology.id).sort();
+  return [options.goal, ...legacyIds, ...buildingSignature, ...techSignature, ...resourceSignature].join('|');
 };
 let pathCache = { fingerprint: null, path: null };
 const getPath = (options, resourceMap) => {
