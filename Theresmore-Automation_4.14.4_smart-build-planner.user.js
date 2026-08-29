@@ -47348,6 +47348,7 @@ const smartBuildGoals = {
     targetTechs: ['architecture', 'establish_boundaries', 'moonlight_night']
   }
 };
+smartBuildGoals.fastNgPlus = { ...smartBuildGoals.moonlightNight };
 const smartBuildRoutes = {
   moonlightNight: {
     label: 'Moonlight Night',
@@ -47359,7 +47360,8 @@ const smartBuildRoutes = {
     ],
     supportTargets: [
       { id: 'guild_of_craftsmen', priority: 6 },
-      { id: 'university', priority: 5 },
+      { id: 'university', priority: 5, target: 3 },
+      { id: 'mansion', priority: 5, target: 4 },
       { id: 'farm', priority: 5, target: 5 },
       { id: 'carpenter_workshop', priority: 5 },
       { id: 'grocery', priority: 5 },
@@ -47370,6 +47372,7 @@ const smartBuildRoutes = {
     ]
   }
 };
+smartBuildRoutes.fastNgPlus = { ...smartBuildRoutes.moonlightNight, label: 'Speed NG+' };
   const smartBuildPlanner = (() => {
 const getOptions = () => ({
   ...smartBuildDefaults,
@@ -50256,7 +50259,26 @@ const GOAL_AUTOMATION_PRESETS = {
   moonlightNight: {
     ancestor: 'ancestor_researcher',
     path: 'humans'
+  },
+  fastNgPlus: {
+    ancestor: 'ancestor_researcher',
+    path: 'humans',
+    ngplus: 25
   }
+};
+
+const DEFAULT_GOAL_LEGACY_PRIORITIES = {
+  gift_nature: 6,
+  strong_workers: 5,
+  guild_craftsmen: 7
+};
+
+const getGoalLegacyPriorities = () => {
+  if (typeof legacies === 'undefined') return {};
+  return Object.fromEntries(legacies.map(legacy => [
+    legacy.id,
+    DEFAULT_GOAL_LEGACY_PRIORITIES[legacy.id] || 4
+  ]));
 };
 
 const syncAutomationOptionDom = (setting, key, value) => {
@@ -50275,6 +50297,14 @@ const applyGoalAutomationPreset = goalId => {
   state.options.ancestor = { enabled: true, selected: preset.ancestor };
   state.options.path = { enabled: true, selected: preset.path };
   state.options.prestige.enabled = true;
+  state.options.prestige.options = {
+    ...getGoalLegacyPriorities(),
+    ...(state.options.prestige.options || {})
+  };
+  if (preset.ngplus !== undefined) {
+    state.options.ngplus.enabled = true;
+    state.options.ngplus.value = preset.ngplus;
+  }
   localStorage.set('options', state.options);
 
   syncAutomationOptionDom('ancestor', 'enabled', true);
@@ -50282,6 +50312,10 @@ const applyGoalAutomationPreset = goalId => {
   syncAutomationOptionDom('path', 'enabled', true);
   syncAutomationOptionDom('path', 'selected', preset.path);
   syncAutomationOptionDom('prestige', 'enabled', true);
+  if (preset.ngplus !== undefined) {
+    syncAutomationOptionDom('ngplus', 'enabled', true);
+    syncAutomationOptionDom('ngplus', 'value', preset.ngplus);
+  }
 
   logger({
     msgLevel: 'log',
@@ -51057,6 +51091,7 @@ const initGoalAutomationPreset = () => {
               <select class="option dark:bg-mydark-200" data-setting="smartBuild" data-key="goal">
                 <option value="progress">Progress game stages</option>
                 <option value="moonlightNight">Moonlight Night</option>
+                <option value="fastNgPlus">速刷超转生</option>
                 <option value="druid">Druid Route</option>
                 <option value="gloriousRetirement">Glorious Retirement</option>
                 <option value="annihilator">Launch Annihilator</option>

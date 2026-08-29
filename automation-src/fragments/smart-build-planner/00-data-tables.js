@@ -21,6 +21,7 @@ const smartBuildGoals = {
     targetTechs: ['architecture', 'establish_boundaries', 'moonlight_night']
   }
 };
+smartBuildGoals.fastNgPlus = { ...smartBuildGoals.moonlightNight };
 const smartBuildRoutes = {
   moonlightNight: {
     label: 'Moonlight Night',
@@ -32,7 +33,8 @@ const smartBuildRoutes = {
     ],
     supportTargets: [
       { id: 'guild_of_craftsmen', priority: 6 },
-      { id: 'university', priority: 5 },
+      { id: 'university', priority: 5, target: 3 },
+      { id: 'mansion', priority: 5, target: 4 },
       { id: 'farm', priority: 5, target: 5 },
       { id: 'carpenter_workshop', priority: 5 },
       { id: 'grocery', priority: 5 },
@@ -43,3 +45,4 @@ const smartBuildRoutes = {
     ]
   }
 };
+smartBuildRoutes.fastNgPlus = { ...smartBuildRoutes.moonlightNight, label: 'Speed NG+' };
