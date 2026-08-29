@@ -47537,7 +47537,10 @@ const taVersion = "4.14.4";
               const food = resources.get('food');
               const canUseNextHouseToAddFarmer = button.building.key === 'common_house' &&
                 state.options.smartBuild && state.options.smartBuild.enabled && getCurrentBuildingCount('farm') >= 1 && food && food.speed > 0;
-              shouldBuild = canUseNextHouseToAddFarmer || !button.building.requires.find(req => !resources.get(req.resource) || resources.get(req.resource)[req.parameter] <= req.minValue);
+              const wood = resources.get('wood');
+              const canBuildFirstHouseWithReserve = button.building.key === 'common_house' && button.count < 1 && smartGoal &&
+                wood && Number(wood.current) > 24 && food && Number(food.current) > 57.5;
+              shouldBuild = canBuildFirstHouseWithReserve || canUseNextHouseToAddFarmer || !button.building.requires.find(req => !resources.get(req.resource) || resources.get(req.resource)[req.parameter] <= req.minValue);
             }
             if (shouldBuild) {
               if (buildsThisPass >= maxBuildsThisPass) {
