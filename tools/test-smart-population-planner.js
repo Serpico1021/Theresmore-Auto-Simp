@@ -23,7 +23,26 @@ const jobs = [
   { key: 'professor', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'research', value: 6 }], resourcesUsed: [{ id: 'gold', value: -3 }] },
   { key: 'carpenter', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'building_material', value: 2 }], resourcesUsed: [] }
 ];
-assert.strictEqual(JSON.stringify(planner.planJobs({ goal: 'fastNgPlus', jobs, resourceSpeeds: safeResources }).jobs.map(job => job.key)), JSON.stringify(['carpenter', 'professor', 'supplier']));
+assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs, resourceSpeeds: safeResources }).jobs[0].key, 'carpenter');
+assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: jobs.map(job => job.key === 'carpenter' ? { ...job, current: 1 } : job), resourceSpeeds: safeResources }).jobs[0].key, 'professor');
+
+const productionJobs = [
+  { key: 'lumberjack', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'wood', value: 0.7 }] },
+  { key: 'quarryman', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'stone', value: 0.6 }] },
+  { key: 'miner', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'copper', value: 0.5 }, { id: 'iron', value: 0.3 }] },
+  { key: 'artisan', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'tools', value: 0.3 }] },
+  { key: 'farmer', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'food', value: 1.6 }] }
+];
+assert.strictEqual(planner.planJobs({ goal: 'moonlightNight', jobs: productionJobs, resourceSpeeds: safeResources }).jobs[0].key, 'lumberjack');
+assert.strictEqual(planner.planJobs({ goal: 'moonlightNight', jobs: productionJobs, resourceSpeeds: safeResources, balanceCursor: 1 }).jobs[0].key, 'quarryman');
+
+const carpenterSupport = [
+  { key: 'lumberjack', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'wood', value: 0.7 }] },
+  { key: 'quarryman', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'stone', value: 0.6 }] },
+  { key: 'artisan', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'tools', value: 0.3 }] }
+];
+const unsafeResources = { ...safeResources, wood: 0, stone: 0, tools: 0 };
+assert.strictEqual(planner.planJobs({ goal: 'moonlightNight', jobs: carpenterSupport, resourceSpeeds: unsafeResources }).jobs[0].key, 'lumberjack');
 
 const snapshot = planner.getSnapshot({ goal: 'fastNgPlus', jobs: [], unassigned: 0, resourceSpeeds: safeResources });
 planner.resetSnapshot();

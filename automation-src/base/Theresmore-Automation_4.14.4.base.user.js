@@ -47768,6 +47768,7 @@ const taVersion = "4.14.4";
     if (!needsAdjustment && summary.unassigned <= 0) return;
     allowedJobs = visibleJobs;
     let availableJobs = getAllAvailableJobs();
+    let balanceCursor = 0;
     while (!state.scriptPaused && availableJobs.length) {
       const currentContainer = selectors.getActivePageContent();
       const currentSummary = getPopulationSummary(currentContainer);
@@ -47775,7 +47776,8 @@ const taVersion = "4.14.4";
       const plan = smartPopulationPlanner.planJobs({
         goal: state.options.smartBuild.goal,
         jobs: availableJobs,
-        resourceSpeeds: getSmartResourceSpeeds()
+        resourceSpeeds: getSmartResourceSpeeds(),
+        balanceCursor
       });
       const job = plan.jobs.find(candidate => candidate.container && candidate.container.querySelector('button.btn-green'));
       if (!job) break;
@@ -47783,6 +47785,12 @@ const taVersion = "4.14.4";
       logger({ msgLevel: 'log', msg: `Assigning smart worker as ${job.id}` });
       await sleep(25);
       if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) return;
+      if (plan.phase === 'balance') {
+        const index = smartPopulationPlanner.balanceJobs.indexOf(job.key || job.id);
+        balanceCursor = index >= 0 ? (index + 1) % smartPopulationPlanner.balanceJobs.length : balanceCursor;
+      } else {
+        balanceCursor = 0;
+      }
       availableJobs = getAllAvailableJobs();
     }
   };

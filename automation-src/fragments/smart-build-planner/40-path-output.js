@@ -20,12 +20,22 @@ const getTargets = (subpage, manualOptions = {}) => {
   const targets = {};
   buildings.filter(building => building.tab === allowedTab).forEach(building => {
     const node = path.nodesById[`building:${building.id}`];
+    const canExpandCommonHouse = building.id === 'common_house' && isFoodSecurityGateEnabled(options) && hasAssignedFarmer();
     if (!node || node.status === 'met') {
+      if (node && node.status === 'met' && canExpandCommonHouse) {
+        targets[building.id] = Math.min(options.maxTarget, getCount(building) + 1);
+        targets[`prio_${building.id}`] = 1;
+        return;
+      }
       targets[building.id] = 0;
       targets[`prio_${building.id}`] = 0;
       return;
     }
-    targets[building.id] = node.status === 'blocked' ? 0 : node.targetValue;
+    let targetValue = node.targetValue;
+    if (canExpandCommonHouse) {
+      targetValue = Math.max(targetValue, Math.min(options.maxTarget, getCount(building) + 1));
+    }
+    targets[building.id] = node.status === 'blocked' ? 0 : targetValue;
     targets[`prio_${building.id}`] = node.status === 'blocked' ? 0 : layerToPriority(node.layer);
   });
   Object.entries(getGoalBuildingMinimums(options.goal)).forEach(([id, minimum]) => {
