@@ -48201,7 +48201,7 @@ const smartPopulationPlanner = (() => {
               refreshButtons = true;
               await sleep(25);
               if (!navigation.checkPage(CONSTANTS.PAGES.BUILD)) return;
-              if (isFirstFarm) {
+              if (isFirstFarm || popAdjustBuildingList.includes(button.building.key)) {
                 await navigation.switchPage(CONSTANTS.PAGES.POPULATION);
                 if (navigation.checkPage(CONSTANTS.PAGES.POPULATION)) {
                   if (isSmartPopulationEnabled()) lastSmartPopulationCheck = new Date().getTime();
