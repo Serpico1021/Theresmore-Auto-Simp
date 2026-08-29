@@ -28,15 +28,20 @@ const isFoodSecurityGateEnabled = options => ['moonlightNight', 'fastNgPlus'].in
 const getAssignedJobCount = jobId => {
   const gameData = reactUtil.getGameData && reactUtil.getGameData();
   if (!gameData) return 0;
-  const population = gameData.run && Array.isArray(gameData.run.population) ? gameData.run.population : [];
+  const rawPopulation = gameData.run && gameData.run.population;
+  const population = Array.isArray(rawPopulation)
+    ? rawPopulation
+    : rawPopulation && typeof rawPopulation === 'object'
+      ? Object.values(rawPopulation)
+      : [];
+  const normalizeJobId = value => String(value || '').replace(/^(population_|pop_)/, '');
+  const matchesJob = item => item && normalizeJobId(item.id || item.key || item.job) === jobId;
   const populationIndex = gameData.idxs && gameData.idxs.population ? gameData.idxs.population : {};
-  const indexKeys = [jobId, `population_${jobId}`];
-  const index = indexKeys.map(key => populationIndex[key]).find(value => typeof value === 'number');
-  const indexedEntry = typeof index === 'number' ? population[index] : null;
-  const entry = indexedEntry && [jobId, `population_${jobId}`].includes(indexedEntry.id)
-    ? indexedEntry
-    : population.find(item => item && [jobId, `population_${jobId}`].includes(item.id || item.key));
-  const numeric = entry ? Number(entry.value) : 0;
+  const indexKeys = [jobId, `population_${jobId}`, `pop_${jobId}`];
+  const index = indexKeys.map(key => populationIndex[key]).find(value => Number.isInteger(Number(value)));
+  const indexedEntry = typeof index !== 'undefined' ? population[Number(index)] : null;
+  const entry = matchesJob(indexedEntry) ? indexedEntry : population.find(matchesJob);
+  const numeric = entry ? Number(entry.value ?? entry.current ?? entry.count) : 0;
   return Number.isFinite(numeric) && numeric > 0 ? numeric : 0;
 };
 const hasAssignedFarmer = () => getAssignedJobCount('farmer') >= 1;
