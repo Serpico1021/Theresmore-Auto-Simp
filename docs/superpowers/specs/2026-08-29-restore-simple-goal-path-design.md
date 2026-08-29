@@ -7,6 +7,7 @@
 ## 范围
 
 - 将 `automation-src/fragments/smart-build-planner/30-path-engine.js` 恢复到 `e779e4b` 基线逻辑。
+- 将与路径引擎接口耦合的 `automation-src/fragments/smart-build-planner/40-path-output.js` 同步恢复到 `e779e4b`，避免输出层引用已删除的优化符号。
 - 将 `automation-src/fragments/smart-build-planner/00-data-tables.js` 恢复到 `e779e4b` 基线目标与路线数据。
 - 保留当前 Goal Path 面板、手动强制目标及其它外围功能，包括面板当前的多原因显示改动。
 - 重新生成根目录用户脚本并执行 Node 语法检查。
