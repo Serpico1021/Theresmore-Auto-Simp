@@ -50258,7 +50258,8 @@ const initGoalPathTab = () => {
 const GOAL_AUTOMATION_PRESETS = {
   moonlightNight: {
     ancestor: 'ancestor_researcher',
-    path: 'humans'
+    path: 'humans',
+    ngplus: false
   },
   fastNgPlus: {
     ancestor: 'ancestor_researcher',
@@ -50298,12 +50299,12 @@ const applyGoalAutomationPreset = goalId => {
   state.options.path = { enabled: true, selected: preset.path };
   state.options.prestige.enabled = true;
   state.options.prestige.options = {
-    ...getGoalLegacyPriorities(),
-    ...(state.options.prestige.options || {})
+    ...(state.options.prestige.options || {}),
+    ...getGoalLegacyPriorities()
   };
   if (preset.ngplus !== undefined) {
-    state.options.ngplus.enabled = true;
-    state.options.ngplus.value = preset.ngplus;
+    state.options.ngplus.enabled = !!preset.ngplus;
+    if (preset.ngplus) state.options.ngplus.value = preset.ngplus;
   }
   localStorage.set('options', state.options);
 
@@ -50313,8 +50314,8 @@ const applyGoalAutomationPreset = goalId => {
   syncAutomationOptionDom('path', 'selected', preset.path);
   syncAutomationOptionDom('prestige', 'enabled', true);
   if (preset.ngplus !== undefined) {
-    syncAutomationOptionDom('ngplus', 'enabled', true);
-    syncAutomationOptionDom('ngplus', 'value', preset.ngplus);
+    syncAutomationOptionDom('ngplus', 'enabled', !!preset.ngplus);
+    if (preset.ngplus) syncAutomationOptionDom('ngplus', 'value', preset.ngplus);
   }
 
   logger({
