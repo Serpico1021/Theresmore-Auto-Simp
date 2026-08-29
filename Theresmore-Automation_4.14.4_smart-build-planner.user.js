@@ -48450,9 +48450,12 @@ const smartPopulationPlanner = (() => {
   const isSmartPopulationEnabled = () => !!(state.options.smartBuild && state.options.smartBuild.enabled && state.options.smartBuild.populationEnabled !== false);
   const getPopulationSummary = container => {
     const summary = container.querySelector('div > span.ml-2');
-    if (!summary) return { unassigned: 0 };
-    const values = summary.textContent.split('/').map(value => numberParser.parse(value.trim()));
-    return { unassigned: Number(values[0]) || 0, total: Number(values[1]) || 0 };
+    if (summary) {
+      const values = summary.textContent.split('/').map(value => numberParser.parse(value.trim()));
+      if (Number.isFinite(values[0])) return { unassigned: values[0] || 0, total: Number(values[1]) || 0 };
+    }
+    const fallbackUnassigned = typeof getAssignedJobCount === 'function' ? getAssignedJobCount('unemployed') : 0;
+    return { unassigned: fallbackUnassigned, total: 0 };
   };
   const getSmartVisibleJobs = container => [...container.querySelectorAll('h5')].map(title => {
     const jobKey = reactUtil.getNearestKey(title, 7);
