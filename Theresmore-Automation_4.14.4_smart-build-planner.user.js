@@ -48093,6 +48093,7 @@ const smartPopulationPlanner = (() => {
                 refreshButtons = true;
                 break;
               }
+              const isFirstFarm = button.building.key === 'farm' && button.count < 1;
               if (state.options.turbo.enabled && state.MainStore) {
                 state.MainStore.BuildingsStore.addBuilding(button.building.key);
               } else {
@@ -48110,6 +48111,14 @@ const smartPopulationPlanner = (() => {
               refreshButtons = true;
               await sleep(25);
               if (!navigation.checkPage(CONSTANTS.PAGES.BUILD)) return;
+              if (isFirstFarm) {
+                await navigation.switchPage(CONSTANTS.PAGES.POPULATION);
+                if (navigation.checkPage(CONSTANTS.PAGES.POPULATION)) {
+                  if (isSmartPopulationEnabled()) lastSmartPopulationCheck = new Date().getTime();
+                  await executeAction$4();
+                }
+                return;
+              }
             }
           }
           await sleep(1400);

@@ -47463,6 +47463,7 @@ const taVersion = "4.14.4";
                 refreshButtons = true;
                 break;
               }
+              const isFirstFarm = button.building.key === 'farm' && button.count < 1;
               if (state.options.turbo.enabled && state.MainStore) {
                 state.MainStore.BuildingsStore.addBuilding(button.building.key);
               } else {
@@ -47480,6 +47481,14 @@ const taVersion = "4.14.4";
               refreshButtons = true;
               await sleep(25);
               if (!navigation.checkPage(CONSTANTS.PAGES.BUILD)) return;
+              if (isFirstFarm) {
+                await navigation.switchPage(CONSTANTS.PAGES.POPULATION);
+                if (navigation.checkPage(CONSTANTS.PAGES.POPULATION)) {
+                  if (isSmartPopulationEnabled()) lastSmartPopulationCheck = new Date().getTime();
+                  await executeAction$4();
+                }
+                return;
+              }
             }
           }
           await sleep(1400);

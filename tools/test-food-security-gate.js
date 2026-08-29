@@ -58,14 +58,14 @@ const nodeFor = (planner, id) => planner.getPathSnapshot().nodes.find(node => no
 for (const goal of ['moonlightNight', 'fastNgPlus']) {
   assert(nodeFor(makePlanner({ goal, houseCount: 0, farmCount: 0, farmerCount: 0 }), 'common_house').status !== 'blocked', `${goal}: first house should be allowed`);
   assert(nodeFor(makePlanner({ goal, houseCount: 1, farmCount: 0, farmerCount: 0 }), 'common_house').blockReason.requirement === 'farm', `${goal}: missing farm should block`);
-  assert(nodeFor(makePlanner({ goal, houseCount: 1, farmCount: 1, farmerCount: 0 }), 'common_house').blockReason.requirement === 'farmer', `${goal}: missing farmer should block`);
-  assert(nodeFor(makePlanner({ goal, houseCount: 1, farmCount: 1, farmerCount: 1 }), 'common_house').status !== 'blocked', `${goal}: assigned farmer should unblock`);
+  assert(nodeFor(makePlanner({ goal, houseCount: 1, farmCount: 1, farmerCount: 0 }), 'common_house').status !== 'blocked', `${goal}: farm should be sufficient to unblock`);
+  assert(nodeFor(makePlanner({ goal, houseCount: 1, farmCount: 1, farmerCount: 1 }), 'common_house').status !== 'blocked', `${goal}: assigned farmer should remain unblocked`);
 }
 
 const progressNode = nodeFor(makePlanner({ goal: 'progress', houseCount: 1, farmCount: 0, farmerCount: 0 }), 'common_house');
 assert(progressNode && progressNode.status !== 'blocked', 'progress: food security gate must be disabled');
 const missingPopulationNode = nodeFor(makePlanner({ goal: 'moonlightNight', houseCount: 1, farmCount: 1, farmerCount: 0, includePopulation: false }), 'common_house');
-assert(missingPopulationNode.blockReason.requirement === 'farmer', 'missing population state must fail closed');
+assert(missingPopulationNode.status !== 'blocked', 'population state must not affect the farm-only gate');
 const forcedPlanner = makePlanner({ goal: 'moonlightNight', houseCount: 1, farmCount: 0, farmerCount: 0, forcedTargets: { common_house: 80 } });
 assert(forcedPlanner.getTargets('city').common_house === 0, 'forced target must not bypass food security gate');
 
