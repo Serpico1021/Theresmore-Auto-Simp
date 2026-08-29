@@ -48045,20 +48045,41 @@ const smartPopulationPlanner = (() => {
       });
     };
 
+    const getFirstHouseGoldSpeed = () => {
+      const baseSpeed = 0.2;
+      const gameData = reactUtil.getGameData();
+      const modifiers = gameData && gameData.run && Array.isArray(gameData.run.modifiers) ? gameData.run.modifiers : [];
+      let flatBonus = 0;
+      let percentBonus = 0;
+      modifiers.filter(modifier => modifier && (modifier.id === 'common_house' || modifier.id === 'bui_common_house')).forEach(modifier => {
+        const entries = Array.isArray(modifier.mods) ? modifier.mods : [modifier];
+        entries.forEach(entry => {
+          if (!entry || (entry.id !== 'gold' && entry.gen !== 'gold')) return;
+          const value = Number(entry.value);
+          if (!Number.isFinite(value)) return;
+          if (entry.perc) percentBonus += value;
+          else flatBonus += value;
+        });
+      });
+      return Math.max(0.01, (baseSpeed + flatBonus) * (1 + percentBonus / 100));
+    };
+
     const secureFirstFarmMaterials = async () => {
       if (hasNatureGift()) return;
-      const farmData = buildings.find(building => building.id === 'farm');
-      if (!farmData || !farmData.req) return;
       const manualButtons = {
+        food: document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600 > button:nth-child(1)"),
         wood: document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600 > button:nth-child(2)"),
         stone: document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600 > button:nth-child(3)")
       };
-      for (const resourceId of ['wood', 'stone']) {
-        const requirement = farmData.req.find(req => req.type === 'resource' && req.id === resourceId);
+      const goldSpeed = getFirstHouseGoldSpeed();
+      const foodReserve = Math.ceil((10 / goldSpeed) * 1.15);
+      const targets = { wood: 24, food: foodReserve };
+      for (const resourceId of ['wood', 'food']) {
         const resource = resources.get(resourceId);
         const button = manualButtons[resourceId];
-        if (!requirement || !resource || !button) continue;
-        const missing = Math.max(0, Math.ceil(Number(requirement.value) - Number(resource.current)));
+        const target = targets[resourceId];
+        if (!resource || !button || !Number.isFinite(target)) continue;
+        const missing = Math.max(0, Math.ceil(target - Number(resource.current)));
         const available = Math.max(0, Math.floor(Number(resource.max) - Number(resource.current)));
         for (let clicks = 0; clicks < Math.min(missing, available); clicks++) {
           button.click();
@@ -48095,11 +48116,18 @@ const smartPopulationPlanner = (() => {
       const firstHouse = buttons.find(button => button.building.key === 'common_house' && button.count < 1);
       const firstFarm = buttons.find(button => button.building.key === 'farm' && button.count < 1);
       if (firstHouse && firstFarm && !hasNatureGift()) {
-        await secureFirstFarmMaterials();
-        logger({
-          msgLevel: 'log',
-          msg: 'Collected fixed wood/stone materials for the first farm before building the first common house'
-        });
+        try {
+          await secureFirstFarmMaterials();
+          logger({
+            msgLevel: 'log',
+            msg: 'Collected first-farm wood and first-house food reserve before building the first common house'
+          });
+        } catch (error) {
+          logger({
+            msgLevel: 'debug',
+            msg: `First-farm material fallback skipped: ${error.message}`
+          });
+        }
       }
       if (buttons.length) {
         while (!state.scriptPaused && buttons.length && buildsThisPass < maxBuildsThisPass) {
