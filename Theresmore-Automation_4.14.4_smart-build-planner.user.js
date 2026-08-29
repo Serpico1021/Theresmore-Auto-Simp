@@ -48694,7 +48694,7 @@ const smartPopulationPlanner = (() => {
   var Population = {
     page: CONSTANTS.PAGES.POPULATION,
     enabled: () => userEnabled$4() && navigation.hasPage(CONSTANTS.PAGES.POPULATION) &&
-      (isSmartPopulationEnabled() ? shouldCheckSmartPopulation() : (hasUnassignedPopulation() || shouldRebalance())) &&
+      (isSmartPopulationEnabled() ? (hasUnassignedPopulation() || shouldCheckSmartPopulation()) : (hasUnassignedPopulation() || shouldRebalance())) &&
       (isSmartPopulationEnabled() || getAllJobs().length),
     action: async () => {
       await navigation.switchPage(CONSTANTS.PAGES.POPULATION);
