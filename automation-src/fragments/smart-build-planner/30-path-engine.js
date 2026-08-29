@@ -14,6 +14,8 @@ const findDirectProducer = resourceId => buildings.find(building =>
   isBuildingUnlocked(building) &&
   (building.gen || []).some(gen => gen.type === 'resource' && gen.id === resourceId && gen.value > 0));
 const layerToPriority = layer => Math.max(1, 9 - Math.max(0, layer));
+const findJobProducer = resourceId => typeof jobs !== 'undefined' && jobs.find(job =>
+  (job.gen || []).some(gen => gen.type === 'resource' && gen.id === resourceId && gen.value > 0));
 const createPathNode = (kind, id) => ({
   kind,
   id,
@@ -51,7 +53,16 @@ const computeShortestPath = (options, resourceMap) => {
           const producerNode = resolveBuilding(producer.id, getCount(producer) + 1, { key: 'bootstrapProducer', resourceId: req.id });
           maxPrereqLayer = Math.max(maxPrereqLayer, producerNode.layer);
         } else {
-          blocked = blocked || { type: 'resource-speed', resourceId: req.id };
+          const jobProducer = findJobProducer(req.id);
+          if (jobProducer) {
+            const buildingReq = (jobProducer.req || []).find(candidate => candidate.type === 'building');
+            if (buildingReq) {
+              const producerNode = resolveBuilding(buildingReq.id, buildingReq.value, { key: 'bootstrapJobProducer', resourceId: req.id });
+              maxPrereqLayer = Math.max(maxPrereqLayer, producerNode ? producerNode.layer : 0);
+            }
+          } else {
+            blocked = blocked || { type: 'resource-speed', resourceId: req.id };
+          }
         }
       }
     });
