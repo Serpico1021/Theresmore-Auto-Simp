@@ -47716,14 +47716,16 @@ const taVersion = "4.14.4";
   };
 
   const hasUnassignedPopulation = () => {
+    if (typeof getAssignedJobCount === 'function' && getAssignedJobCount('unemployed') > 0) return true;
     let unassignedPopulation = false;
     const navButtons = navigation.getPagesSelector();
     const pageIndex = CONSTANTS.PAGES_INDEX[CONSTANTS.PAGES.POPULATION];
     navButtons.forEach(button => {
       if (reactUtil.getBtnIndex(button, 1) === pageIndex) {
         const indicator = button.querySelector('span');
-        const value = indicator ? numberParser.parse(indicator.innerText || indicator.textContent || '') : 0;
-        unassignedPopulation = Number.isFinite(value) && value > 0;
+        const text = indicator ? (indicator.innerText || indicator.textContent || '').trim() : '';
+        const value = text ? numberParser.parse(text) : 0;
+        if (Number.isFinite(value) && value > 0) unassignedPopulation = true;
       }
     });
     return unassignedPopulation;
