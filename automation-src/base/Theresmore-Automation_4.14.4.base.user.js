@@ -47761,7 +47761,7 @@ const taVersion = "4.14.4";
   });
   const userEnabled$4 = () => {
     if (isSmartPopulationEnabled()) {
-      return state.options.pages[CONSTANTS.PAGES.POPULATION].enabled || false;
+      return true;
     }
     if (!localStorage.get('popAdjust'))
       return false;
