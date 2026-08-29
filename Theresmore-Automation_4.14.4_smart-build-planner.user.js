@@ -50659,12 +50659,14 @@ const initGoalPathTab = () => {
 };
 const GOAL_AUTOMATION_PRESETS = {
   moonlightNight: {
-    ancestor: 'ancestor_researcher',
+    // Both fast routes deliberately start with the food-focused ancestor.
+    // The path selection remains the human route and is independent from the ancestor.
+    ancestor: 'ancestor_farmer',
     path: 'humans',
     ngplus: false
   },
   fastNgPlus: {
-    ancestor: 'ancestor_researcher',
+    ancestor: 'ancestor_farmer',
     path: 'humans',
     ngplus: 25
   }

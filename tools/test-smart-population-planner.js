@@ -28,6 +28,13 @@ const professorAssignedJobs = jobs.map(job => job.key === 'professor' ? { ...job
 assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: professorAssignedJobs, resourceSpeeds: safeResources }).jobs[0].key, 'professor');
 const professorFilledJobs = professorAssignedJobs.map(job => job.key === 'professor' ? { ...job, current: 3 } : job);
 assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: professorFilledJobs, resourceSpeeds: safeResources }).jobs[0].key, 'supplier');
+// Supplier is a route requirement in its own right; it must remain assignable
+// immediately after NG+ even when the craftsmen guild is absent.
+assert.strictEqual(planner.planJobs({
+  goal: 'fastNgPlus',
+  jobs: [{ key: 'supplier', current: 0, max: 99, maxAvailable: 1, resourcesGenerated: [{ id: 'supplies', value: 0.4 }], resourcesUsed: [] }],
+  resourceSpeeds: { ...safeResources, supplies: 0 }
+}).jobs[0].key, 'supplier');
 const routeAssignedJobs = professorFilledJobs.map(job => job.key === 'supplier' ? { ...job, current: 1 } : job);
 assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: routeAssignedJobs, resourceSpeeds: safeResources }).jobs[0].key, 'carpenter');
 const allRouteJobs = routeAssignedJobs.map(job => job.key === 'carpenter' ? { ...job, current: 1 } : job);
