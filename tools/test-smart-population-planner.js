@@ -28,6 +28,9 @@ const professorAssignedJobs = jobs.map(job => job.key === 'professor' ? { ...job
 assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: professorAssignedJobs, resourceSpeeds: safeResources }).jobs[0].key, 'supplier');
 const routeAssignedJobs = professorAssignedJobs.map(job => job.key === 'supplier' ? { ...job, current: 1 } : job);
 assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: routeAssignedJobs, resourceSpeeds: safeResources }).jobs[0].key, 'carpenter');
+const allRouteJobs = routeAssignedJobs.map(job => job.key === 'carpenter' ? { ...job, current: 1 } : job);
+const cowSafetyJobs = [...allRouteJobs, { key: 'breeder', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'cow', value: 1 }], resourcesUsed: [] }];
+assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: cowSafetyJobs, resourceSpeeds: { ...safeResources, cow: -0.5 } }).jobs[0].key, 'breeder');
 assert.strictEqual(planner.planJobs({ goal: 'moonlightNight', jobs: [{ key: 'farmer', current: 0, max: 99, maxAvailable: 1, resourcesGenerated: [{ id: 'food', value: 1.6 }] }, ...jobs], resourceSpeeds: safeResources }).jobs[0].key, 'farmer');
 assert.strictEqual(planner.planJobs({ goal: 'progress', jobs: [{ key: 'farmer', current: 0, max: 99, maxAvailable: 1, resourcesGenerated: [{ id: 'food', value: 1.6 }] }, ...jobs], resourceSpeeds: safeResources }).jobs[0].key, 'farmer');
 

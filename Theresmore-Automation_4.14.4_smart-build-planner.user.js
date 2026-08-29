@@ -47869,7 +47869,9 @@ const smartPopulationPlanner = (() => {
   const getJobProduction = (job, resourceId) => (job.resourcesGenerated || [])
     .filter(resource => resource.id === resourceId)
     .reduce((total, resource) => total + (Number(resource.value) || 0), 0);
-  const getJobDelta = getJobProduction;
+  const getJobDelta = (job, resourceId) => getJobProduction(job, resourceId) + (job.resourcesUsed || [])
+    .filter(resource => resource.id === resourceId)
+    .reduce((total, resource) => total + (Number(resource.value) || 0), 0);
   const canApplyJob = (job, resourceSpeeds) => Object.entries(resourceRules).every(([id, rule]) => {
     const generated = getJobProduction(job, id);
     const used = (job.resourcesUsed || []).filter(resource => resource.id === id)
@@ -48363,7 +48365,9 @@ const smartPopulationPlanner = (() => {
     const pageIndex = CONSTANTS.PAGES_INDEX[CONSTANTS.PAGES.POPULATION];
     navButtons.forEach(button => {
       if (reactUtil.getBtnIndex(button, 1) === pageIndex) {
-        unassignedPopulation = !!button.querySelector('span');
+        const indicator = button.querySelector('span');
+        const value = indicator ? numberParser.parse(indicator.innerText || indicator.textContent || '') : 0;
+        unassignedPopulation = Number.isFinite(value) && value > 0;
       }
     });
     return unassignedPopulation;
@@ -48448,6 +48452,10 @@ const smartPopulationPlanner = (() => {
   let lastSmartPopulationCheck = 0;
   const shouldCheckSmartPopulation = () => !lastSmartPopulationCheck || lastSmartPopulationCheck + 5000 <= new Date().getTime();
   const isSmartPopulationEnabled = () => !!(state.options.smartBuild && state.options.smartBuild.enabled && state.options.smartBuild.populationEnabled !== false);
+  const shouldRunSmartPopulation = () => {
+    if (hasUnassignedPopulation()) return true;
+    return Object.values(getSmartResourceSpeeds()).some(speed => Number(speed) < 0);
+  };
   const getPopulationSummary = container => {
     const summary = container.querySelector('div > span.ml-2');
     if (summary) {
@@ -48694,7 +48702,7 @@ const smartPopulationPlanner = (() => {
   var Population = {
     page: CONSTANTS.PAGES.POPULATION,
     enabled: () => userEnabled$4() && navigation.hasPage(CONSTANTS.PAGES.POPULATION) &&
-      (isSmartPopulationEnabled() ? (hasUnassignedPopulation() || shouldCheckSmartPopulation()) : (hasUnassignedPopulation() || shouldRebalance())) &&
+      (isSmartPopulationEnabled() ? shouldRunSmartPopulation() : (hasUnassignedPopulation() || shouldRebalance())) &&
       (isSmartPopulationEnabled() || getAllJobs().length),
     action: async () => {
       await navigation.switchPage(CONSTANTS.PAGES.POPULATION);

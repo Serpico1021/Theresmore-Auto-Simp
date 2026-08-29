@@ -40,7 +40,9 @@ const smartPopulationPlanner = (() => {
   const getJobProduction = (job, resourceId) => (job.resourcesGenerated || [])
     .filter(resource => resource.id === resourceId)
     .reduce((total, resource) => total + (Number(resource.value) || 0), 0);
-  const getJobDelta = getJobProduction;
+  const getJobDelta = (job, resourceId) => getJobProduction(job, resourceId) + (job.resourcesUsed || [])
+    .filter(resource => resource.id === resourceId)
+    .reduce((total, resource) => total + (Number(resource.value) || 0), 0);
   const canApplyJob = (job, resourceSpeeds) => Object.entries(resourceRules).every(([id, rule]) => {
     const generated = getJobProduction(job, id);
     const used = (job.resourcesUsed || []).filter(resource => resource.id === id)
