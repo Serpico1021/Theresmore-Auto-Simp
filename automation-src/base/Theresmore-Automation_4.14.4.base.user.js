@@ -50849,7 +50849,8 @@ const manualNG = async () => {
       await tasks.autoPath();
       const pagesToCheck = [];
       Object.keys(state.options.pages).forEach(page => {
-        if (state.options.pages[page].enabled || page === CONSTANTS.PAGES.RESEARCH) {
+        const smartPopulationPage = page === CONSTANTS.PAGES.POPULATION && isSmartPopulationEnabled();
+        if (state.options.pages[page].enabled || page === CONSTANTS.PAGES.RESEARCH || smartPopulationPage) {
           if (pages[page]) {
             pagesToCheck.push(page);
           }
