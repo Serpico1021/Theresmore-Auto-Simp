@@ -28,6 +28,14 @@ const getTargets = (subpage, manualOptions = {}) => {
     targets[building.id] = node.status === 'blocked' ? 0 : node.targetValue;
     targets[`prio_${building.id}`] = node.status === 'blocked' ? 0 : layerToPriority(node.layer);
   });
+  Object.entries(getGoalBuildingMinimums(options.goal)).forEach(([id, minimum]) => {
+    const building = buildings.find(candidate => candidate.id === id);
+    if (!building || building.tab !== allowedTab) return;
+    if (getCount(building) < minimum) {
+      targets[id] = Math.max(targets[id] || 0, minimum);
+      targets[`prio_${id}`] = Math.max(targets[`prio_${id}`] || 0, 9);
+    }
+  });
   applyForcedTargets(targets, options.forcedTargets, allowedTab);
   buildings.filter(building => building.tab === allowedTab).forEach(building => {
     const blockReason = getFoodSecurityBlockReason(options, building.id, getCount(building));
@@ -48,6 +56,9 @@ const getResearchTargets = (manualOptions = {}) => {
   tech.forEach(technology => {
     const node = path.nodesById[`tech:${technology.id}`];
     targets[technology.id] = (!node || node.status === 'met') ? 0 : layerToPriority(node.layer);
+  });
+  getMandatoryGoalTechs(options.goal).forEach(technology => {
+    if (!isTechCompleted(technology.id)) targets[technology.id] = Math.max(targets[technology.id] || 0, 9);
   });
   return targets;
 };

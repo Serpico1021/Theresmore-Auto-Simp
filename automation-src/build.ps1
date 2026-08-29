@@ -9,6 +9,7 @@ $fragmentsPath = Join-Path $PSScriptRoot 'fragments'
 
 $base = Get-Content -Raw -Encoding UTF8 -LiteralPath $basePath
 $smartBuildOptions = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'smart-build-options.js')
+$smartPopulationPlanner = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'smart-build-population-planner.js')
 
 $plannerDir = Join-Path $fragmentsPath 'smart-build-planner'
 $dataTables = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $plannerDir '00-data-tables.js')
@@ -32,6 +33,7 @@ $smartBuildGoalAutomationPreset = Get-Content -Raw -Encoding UTF8 -LiteralPath (
 $bundle = $base.
   Replace('      /* @@SMART_BUILD_OPTIONS@@ */', $smartBuildOptions.TrimEnd()).
   Replace('  /* @@SMART_BUILD_PLANNER_MODULE@@ */', $smartBuildPlanner.TrimEnd()).
+  Replace('  /* @@SMART_POPULATION_PLANNER@@ */', $smartPopulationPlanner.TrimEnd()).
   Replace('          <!-- @@SMART_BUILD_PANEL@@ -->', $smartBuildPanel.TrimEnd()).
   Replace('      <!-- @@SMART_BUILD_GOAL_PATH_TAB@@ -->', $smartBuildGoalPathPanel.TrimEnd()).
   Replace('  /* @@SMART_BUILD_GOAL_PATH_SCRIPT@@ */', $smartBuildGoalPathScript.TrimEnd()).

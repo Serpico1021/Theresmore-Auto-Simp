@@ -22,6 +22,7 @@ const smartBuildGoals = {
   }
 };
 smartBuildGoals.fastNgPlus = { ...smartBuildGoals.moonlightNight };
+smartBuildGoals.titanThenFastNgPlus = { targetTechs: [], buildingFocus: [] };
 const smartBuildRoutes = {
   moonlightNight: {
     label: 'Moonlight Night',
@@ -46,3 +47,4 @@ const smartBuildRoutes = {
   }
 };
 smartBuildRoutes.fastNgPlus = { ...smartBuildRoutes.moonlightNight, label: 'Speed NG+' };
+smartBuildRoutes.titanThenFastNgPlus = { label: 'Titan then Speed NG+ (reserved)', buildingTargets: [], supportTargets: [] };

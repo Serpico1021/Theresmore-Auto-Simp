@@ -244,6 +244,7 @@ const taVersion = "4.14.4";
       },
       smartBuild: {
         enabled: true,
+        populationEnabled: true,
         goal: 'progress',
         strategy: 'balanced',
         risk: 'normal',
@@ -47349,6 +47350,7 @@ const smartBuildGoals = {
   }
 };
 smartBuildGoals.fastNgPlus = { ...smartBuildGoals.moonlightNight };
+smartBuildGoals.titanThenFastNgPlus = { targetTechs: [], buildingFocus: [] };
 const smartBuildRoutes = {
   moonlightNight: {
     label: 'Moonlight Night',
@@ -47373,6 +47375,7 @@ const smartBuildRoutes = {
   }
 };
 smartBuildRoutes.fastNgPlus = { ...smartBuildRoutes.moonlightNight, label: 'Speed NG+' };
+smartBuildRoutes.titanThenFastNgPlus = { label: 'Titan then Speed NG+ (reserved)', buildingTargets: [], supportTargets: [] };
   const smartBuildPlanner = (() => {
 const getOptions = () => ({
   ...smartBuildDefaults,
@@ -47465,6 +47468,9 @@ const getCurrentStageIndex = () => {
 
 const getGoal = options => smartBuildGoals[options.goal] || null;
 const getRoute = options => smartBuildRoutes[options.goal] || null;
+const getGoalBuildingMinimums = goal => goal && ['moonlightNight', 'fastNgPlus'].includes(goal)
+  ? { house_workers: 12, monument: 12, city_hall: 2 }
+  : {};
 const getRouteTargets = route => {
   if (!route) return [];
   return [...(route.buildingTargets || []), ...(route.supportTargets || [])];
@@ -47525,6 +47531,11 @@ const getGoalTechEntries = goal => [
   technology: tech.find(technology => technology.id === entry.id),
   reason: entry.reason
 })).filter(entry => entry.technology);
+const getMandatoryGoalTechs = goal => {
+  if (!goal || !['moonlightNight', 'fastNgPlus'].includes(goal)) return [];
+  return tech.filter(technology => technology.id === 'house_of_workers' ||
+    (technology.id.startsWith('heirloom_') && (technology.req || []).some(req => req.type === 'building' && req.id === 'monument')));
+};
 
 const isDangerousResearchOverridden = researchKey => {
   const options = getOptions();
@@ -47715,6 +47726,14 @@ const getTargets = (subpage, manualOptions = {}) => {
     targets[building.id] = node.status === 'blocked' ? 0 : node.targetValue;
     targets[`prio_${building.id}`] = node.status === 'blocked' ? 0 : layerToPriority(node.layer);
   });
+  Object.entries(getGoalBuildingMinimums(options.goal)).forEach(([id, minimum]) => {
+    const building = buildings.find(candidate => candidate.id === id);
+    if (!building || building.tab !== allowedTab) return;
+    if (getCount(building) < minimum) {
+      targets[id] = Math.max(targets[id] || 0, minimum);
+      targets[`prio_${id}`] = Math.max(targets[`prio_${id}`] || 0, 9);
+    }
+  });
   applyForcedTargets(targets, options.forcedTargets, allowedTab);
   buildings.filter(building => building.tab === allowedTab).forEach(building => {
     const blockReason = getFoodSecurityBlockReason(options, building.id, getCount(building));
@@ -47735,6 +47754,9 @@ const getResearchTargets = (manualOptions = {}) => {
   tech.forEach(technology => {
     const node = path.nodesById[`tech:${technology.id}`];
     targets[technology.id] = (!node || node.status === 'met') ? 0 : layerToPriority(node.layer);
+  });
+  getMandatoryGoalTechs(options.goal).forEach(technology => {
+    if (!isTechCompleted(technology.id)) targets[technology.id] = Math.max(targets[technology.id] || 0, 9);
   });
   return targets;
 };
@@ -47774,6 +47796,90 @@ return {
 };
 
   })();
+const smartPopulationPlanner = (() => {
+  const resourceRules = {
+    food: { minimum: 1, priority: 100 },
+    wood: { minimum: 1, priority: 90 },
+    stone: { minimum: 1, priority: 90 },
+    copper: { minimum: 1, priority: 90 },
+    iron: { minimum: 1, priority: 90 },
+    tools: { minimum: 1, priority: 90 },
+    cow: { minimum: 0, priority: 70 },
+    horse: { minimum: 0, priority: 70 },
+    building_material: { minimum: 1, priority: 120 },
+    crystal: { minimum: 1, priority: 120 },
+    supplies: { minimum: 1, priority: 120 }
+  };
+  const routeJobs = {
+    moonlightNight: ['carpenter', 'professor', 'supplier'],
+    fastNgPlus: ['carpenter', 'professor', 'supplier'],
+    titanThenFastNgPlus: []
+  };
+  let lastSnapshot = null;
+
+  const getResourceRules = () => Object.fromEntries(Object.entries(resourceRules).map(([id, rule]) => [id, { ...rule }]));
+  const getRouteJobs = goal => [...(routeJobs[goal] || [])];
+  const getSpeed = (resourceSpeeds, id) => {
+    const value = resourceSpeeds && resourceSpeeds[id];
+    return Number.isFinite(Number(value)) ? Number(value) : 0;
+  };
+  const isResourceSafe = resourceSpeeds => Object.entries(resourceRules).every(([id, rule]) => getSpeed(resourceSpeeds, id) > rule.minimum);
+  const getResourceDeficit = resourceSpeeds => Object.entries(resourceRules)
+    .map(([id, rule]) => ({ id, ...rule, deficit: rule.minimum - getSpeed(resourceSpeeds, id) }))
+    .filter(item => item.deficit >= 0)
+    .sort((a, b) => b.priority - a.priority || b.deficit - a.deficit);
+  const getJobProduction = (job, resourceId) => (job.resourcesGenerated || [])
+    .filter(resource => resource.id === resourceId)
+    .reduce((total, resource) => total + (Number(resource.value) || 0), 0);
+  const canApplyJob = (job, resourceSpeeds) => Object.entries(resourceRules).every(([id, rule]) => {
+    const generated = getJobProduction(job, id);
+    const used = (job.resourcesUsed || []).filter(resource => resource.id === id)
+      .reduce((total, resource) => total + (Number(resource.value) || 0), 0);
+    const nextSpeed = getSpeed(resourceSpeeds, id) + generated + used;
+    return nextSpeed > rule.minimum || generated + used >= 0;
+  });
+  const createPriorityMap = (goal, jobs, resourceSpeeds) => {
+    const priorities = {};
+    jobs.forEach((job, index) => { priorities[job.key || job.id] = index; });
+    const route = getRouteJobs(goal);
+    route.forEach((jobId, index) => { priorities[jobId] = 1000 - index; });
+    getResourceDeficit(resourceSpeeds).forEach((deficit, index) => {
+      jobs.filter(job => getJobProduction(job, deficit.id) > 0).forEach(job => {
+        const key = job.key || job.id;
+        priorities[key] = Math.max(priorities[key] || 0, 2000 - index);
+      });
+    });
+    return priorities;
+  };
+  const planJobs = ({ goal, jobs = [], resourceSpeeds = {} }) => {
+    const priorityMap = createPriorityMap(goal, jobs, resourceSpeeds);
+    const candidates = jobs.filter(job => Number(job.current) < Math.min(Number(job.max) || 0, Number(job.maxAvailable) || 0));
+    const deficits = getResourceDeficit(resourceSpeeds);
+    const sorted = candidates.filter(job => canApplyJob(job, resourceSpeeds)).sort((a, b) => {
+      const aKey = a.key || a.id;
+      const bKey = b.key || b.id;
+      return (priorityMap[bKey] || 0) - (priorityMap[aKey] || 0) || Number(a.current) - Number(b.current);
+    });
+    return { jobs: sorted, deficits, resourcesSafe: isResourceSafe(resourceSpeeds), priorityMap };
+  };
+  const normalizeJobSignature = jobs => (jobs || []).map(job => `${job.key || job.id}:${job.maxAvailable}`).sort().join(',');
+  const getSnapshot = ({ goal, jobs = [], unassigned = 0, resourceSpeeds = {} }) => ({
+    goal,
+    jobs: normalizeJobSignature(jobs),
+    unassigned: Number(unassigned) || 0,
+    resourceSpeeds: Object.keys(resourceRules).map(id => `${id}:${getSpeed(resourceSpeeds, id)}`).join(',')
+  });
+  const shouldRebalance = (snapshot, previous = lastSnapshot) => {
+    const changed = hasStructuralChange(snapshot, previous);
+    const hasUnassigned = snapshot.unassigned > 0;
+    lastSnapshot = snapshot;
+    return changed || hasUnassigned;
+  };
+  const hasStructuralChange = (snapshot, previous = lastSnapshot) =>
+    !previous || snapshot.goal !== previous.goal || snapshot.jobs !== previous.jobs;
+  const resetSnapshot = () => { lastSnapshot = null; };
+  return { getResourceRules, getRouteJobs, getSnapshot, shouldRebalance, hasStructuralChange, planJobs, resetSnapshot };
+})();
 
   const getBuildSubpage = subpage => {
     const getBuildingsList = () => {
@@ -47853,13 +47959,6 @@ return {
 		'statue_virtue', 'pilgrim_camp', 'mana_extractors', 'beacon_light', 'light_turret',
 		'probe_system', 'arcane_school', 'underground_house', 'light_square_b', 'mining_area'
 		];
-    const isMoonlightNightSmartBuild = () => state.options.smartBuild && state.options.smartBuild.enabled && state.options.smartBuild.goal === 'moonlightNight';
-    const hasVisibleBuildingButton = buildingId => selectors.getAllButtons(false).some(element => reactUtil.getNearestKey(element, 6) === keyGen.building.key(buildingId));
-    const shouldBuildMoonlightCommonHouse = button => {
-      if (!isMoonlightNightSmartBuild() || button.building.key !== 'common_house') return null;
-      if (!hasVisibleBuildingButton('farm')) return !button.count || button.count < 3;
-      return true;
-    };
     const getSmartBuildMaxExtra = () => {
       if (!state.options.smartBuild || !state.options.smartBuild.enabled) return Infinity;
       const configured = Number(state.options.smartBuild.maxExtra) || 3;
@@ -47929,10 +48028,6 @@ return {
               }
             } else if (!button.building.isSafe && button.building.requires.length) {
               shouldBuild = !button.building.requires.find(req => !resources.get(req.resource) || resources.get(req.resource)[req.parameter] <= req.minValue);
-              if (button.building.key === 'common_house') {
-                const moonlightCommonHouseDecision = shouldBuildMoonlightCommonHouse(button);
-                shouldBuild = moonlightCommonHouseDecision === null ? true : moonlightCommonHouseDecision;
-              }
             }
             if (shouldBuild) {
               if (buildsThisPass >= maxBuildsThisPass) {
@@ -48149,6 +48244,9 @@ return {
     };
   });
   const userEnabled$4 = () => {
+    if (isSmartPopulationEnabled()) {
+      return state.options.pages[CONSTANTS.PAGES.POPULATION].enabled || false;
+    }
     if (!localStorage.get('popAdjust'))
       return false;
     localStorage.remove('popAdjust');
@@ -48189,7 +48287,81 @@ return {
     });
     return availableJobs;
   };
+  let lastSmartPopulationCheck = 0;
+  const shouldCheckSmartPopulation = () => !lastSmartPopulationCheck || lastSmartPopulationCheck + 5000 <= new Date().getTime();
+  const isSmartPopulationEnabled = () => !!(state.options.smartBuild && state.options.smartBuild.enabled && state.options.smartBuild.populationEnabled !== false);
+  const getPopulationSummary = container => {
+    const summary = container.querySelector('div > span.ml-2');
+    if (!summary) return { unassigned: 0 };
+    const values = summary.textContent.split('/').map(value => numberParser.parse(value.trim()));
+    return { unassigned: Number(values[0]) || 0, total: Number(values[1]) || 0 };
+  };
+  const getSmartVisibleJobs = container => [...container.querySelectorAll('h5')].map(title => {
+    const jobKey = reactUtil.getNearestKey(title, 7);
+    const source = allJobs.find(job => keyGen.population.key(job.key) === jobKey);
+    if (!source) return null;
+    const holder = title.parentElement && title.parentElement.parentElement;
+    const values = holder && holder.querySelector('input') ? holder.querySelector('input').value.split('/') : [];
+    return {
+      ...source,
+      max: 999,
+      prio: 0,
+      container: holder,
+      current: numberParser.parse((values[0] || '0').trim()),
+      maxAvailable: numberParser.parse((values[1] || '0').trim())
+    };
+  }).filter(job => job && job.container);
+  const getSmartResourceSpeeds = () => Object.fromEntries(Object.keys(smartPopulationPlanner.getResourceRules()).map(id => {
+    const resource = resources.get(id);
+    return [id, resource ? Number(resource.speed) || 0 : 0];
+  }));
+  const executeSmartPopulationAction = async () => {
+    const container = selectors.getActivePageContent();
+    const visibleJobs = getSmartVisibleJobs(container);
+    if (!visibleJobs.length) return;
+    const summary = getPopulationSummary(container);
+    const snapshot = smartPopulationPlanner.getSnapshot({
+      goal: state.options.smartBuild.goal,
+      jobs: visibleJobs,
+      unassigned: summary.unassigned,
+      resourceSpeeds: getSmartResourceSpeeds()
+    });
+    const structuralChange = smartPopulationPlanner.hasStructuralChange(snapshot);
+    const needsAdjustment = smartPopulationPlanner.shouldRebalance(snapshot);
+    if (structuralChange && summary.unassigned <= 0) {
+      const unassignAllButton = document.querySelector('div.flex.justify-center.mx-auto.pt-3.font-bold.text-lg > button');
+      if (unassignAllButton) {
+        unassignAllButton.click();
+        logger({ msgLevel: 'log', msg: 'Rebalancing population after a new job slot appeared' });
+        await sleep(20);
+      }
+    }
+    if (!needsAdjustment && summary.unassigned <= 0) return;
+    allowedJobs = visibleJobs;
+    let availableJobs = getAllAvailableJobs();
+    while (!state.scriptPaused && availableJobs.length) {
+      const currentContainer = selectors.getActivePageContent();
+      const currentSummary = getPopulationSummary(currentContainer);
+      if (currentSummary.unassigned <= 0) break;
+      const plan = smartPopulationPlanner.planJobs({
+        goal: state.options.smartBuild.goal,
+        jobs: availableJobs,
+        resourceSpeeds: getSmartResourceSpeeds()
+      });
+      const job = plan.jobs.find(candidate => candidate.container && candidate.container.querySelector('button.btn-green'));
+      if (!job) break;
+      job.container.querySelector('button.btn-green').click();
+      logger({ msgLevel: 'log', msg: `Assigning smart worker as ${job.id}` });
+      await sleep(25);
+      if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) return;
+      availableJobs = getAllAvailableJobs();
+    }
+  };
   const executeAction$4 = async () => {
+    if (isSmartPopulationEnabled()) {
+      await executeSmartPopulationAction();
+      return;
+    }
     allowedJobs = getAllJobs();
     if (allowedJobs.length && shouldRebalance()) {
       const unassignAllButton = document.querySelector('div.flex.justify-center.mx-auto.pt-3.font-bold.text-lg > button');
@@ -48352,10 +48524,15 @@ return {
   };
   var Population = {
     page: CONSTANTS.PAGES.POPULATION,
-    enabled: () => userEnabled$4() && navigation.hasPage(CONSTANTS.PAGES.POPULATION) && (hasUnassignedPopulation() || shouldRebalance()) && getAllJobs().length,
+    enabled: () => userEnabled$4() && navigation.hasPage(CONSTANTS.PAGES.POPULATION) &&
+      (isSmartPopulationEnabled() ? shouldCheckSmartPopulation() : (hasUnassignedPopulation() || shouldRebalance())) &&
+      (isSmartPopulationEnabled() || getAllJobs().length),
     action: async () => {
       await navigation.switchPage(CONSTANTS.PAGES.POPULATION);
-      if (navigation.checkPage(CONSTANTS.PAGES.POPULATION)) await executeAction$4();
+      if (navigation.checkPage(CONSTANTS.PAGES.POPULATION)) {
+        if (isSmartPopulationEnabled()) lastSmartPopulationCheck = new Date().getTime();
+        await executeAction$4();
+      }
     }
   };
 
@@ -51121,12 +51298,16 @@ const initGoalAutomationPreset = () => {
             <div class="mb-2"><label>Enabled:
               <input type="checkbox" data-setting="smartBuild" data-key="enabled" class="option" />
             </label></div>
+            <div class="mb-2"><label>Smart population:
+              <input type="checkbox" data-setting="smartBuild" data-key="populationEnabled" class="option" />
+            </label></div>
             <div class="mb-2">
               Goal:
               <select class="option dark:bg-mydark-200" data-setting="smartBuild" data-key="goal">
                 <option value="progress">Progress game stages</option>
                 <option value="moonlightNight">Moonlight Night</option>
                 <option value="fastNgPlus">速刷超转生</option>
+                <option value="titanThenFastNgPlus">泰坦建筑后速刷（预留）</option>
                 <option value="druid">Druid Route</option>
                 <option value="gloriousRetirement">Glorious Retirement</option>
                 <option value="annihilator">Launch Annihilator</option>

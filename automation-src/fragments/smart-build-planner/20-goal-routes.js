@@ -1,5 +1,8 @@
 const getGoal = options => smartBuildGoals[options.goal] || null;
 const getRoute = options => smartBuildRoutes[options.goal] || null;
+const getGoalBuildingMinimums = goal => goal && ['moonlightNight', 'fastNgPlus'].includes(goal)
+  ? { house_workers: 12, monument: 12, city_hall: 2 }
+  : {};
 const getRouteTargets = route => {
   if (!route) return [];
   return [...(route.buildingTargets || []), ...(route.supportTargets || [])];
@@ -60,3 +63,8 @@ const getGoalTechEntries = goal => [
   technology: tech.find(technology => technology.id === entry.id),
   reason: entry.reason
 })).filter(entry => entry.technology);
+const getMandatoryGoalTechs = goal => {
+  if (!goal || !['moonlightNight', 'fastNgPlus'].includes(goal)) return [];
+  return tech.filter(technology => technology.id === 'house_of_workers' ||
+    (technology.id.startsWith('heirloom_') && (technology.req || []).some(req => req.type === 'building' && req.id === 'monument')));
+};

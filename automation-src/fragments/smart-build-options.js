@@ -1,5 +1,6 @@
 ﻿      smartBuild: {
         enabled: true,
+        populationEnabled: true,
         goal: 'progress',
         strategy: 'balanced',
         risk: 'normal',

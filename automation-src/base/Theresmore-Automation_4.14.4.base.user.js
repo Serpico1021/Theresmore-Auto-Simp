@@ -47308,6 +47308,7 @@ const taVersion = "4.14.4";
   };
 
   /* @@SMART_BUILD_PLANNER_MODULE@@ */
+  /* @@SMART_POPULATION_PLANNER@@ */
 
   const getBuildSubpage = subpage => {
     const getBuildingsList = () => {
@@ -47387,13 +47388,6 @@ const taVersion = "4.14.4";
 		'statue_virtue', 'pilgrim_camp', 'mana_extractors', 'beacon_light', 'light_turret',
 		'probe_system', 'arcane_school', 'underground_house', 'light_square_b', 'mining_area'
 		];
-    const isMoonlightNightSmartBuild = () => state.options.smartBuild && state.options.smartBuild.enabled && state.options.smartBuild.goal === 'moonlightNight';
-    const hasVisibleBuildingButton = buildingId => selectors.getAllButtons(false).some(element => reactUtil.getNearestKey(element, 6) === keyGen.building.key(buildingId));
-    const shouldBuildMoonlightCommonHouse = button => {
-      if (!isMoonlightNightSmartBuild() || button.building.key !== 'common_house') return null;
-      if (!hasVisibleBuildingButton('farm')) return !button.count || button.count < 3;
-      return true;
-    };
     const getSmartBuildMaxExtra = () => {
       if (!state.options.smartBuild || !state.options.smartBuild.enabled) return Infinity;
       const configured = Number(state.options.smartBuild.maxExtra) || 3;
@@ -47463,10 +47457,6 @@ const taVersion = "4.14.4";
               }
             } else if (!button.building.isSafe && button.building.requires.length) {
               shouldBuild = !button.building.requires.find(req => !resources.get(req.resource) || resources.get(req.resource)[req.parameter] <= req.minValue);
-              if (button.building.key === 'common_house') {
-                const moonlightCommonHouseDecision = shouldBuildMoonlightCommonHouse(button);
-                shouldBuild = moonlightCommonHouseDecision === null ? true : moonlightCommonHouseDecision;
-              }
             }
             if (shouldBuild) {
               if (buildsThisPass >= maxBuildsThisPass) {
@@ -47683,6 +47673,9 @@ const taVersion = "4.14.4";
     };
   });
   const userEnabled$4 = () => {
+    if (isSmartPopulationEnabled()) {
+      return state.options.pages[CONSTANTS.PAGES.POPULATION].enabled || false;
+    }
     if (!localStorage.get('popAdjust'))
       return false;
     localStorage.remove('popAdjust');
@@ -47723,7 +47716,81 @@ const taVersion = "4.14.4";
     });
     return availableJobs;
   };
+  let lastSmartPopulationCheck = 0;
+  const shouldCheckSmartPopulation = () => !lastSmartPopulationCheck || lastSmartPopulationCheck + 5000 <= new Date().getTime();
+  const isSmartPopulationEnabled = () => !!(state.options.smartBuild && state.options.smartBuild.enabled && state.options.smartBuild.populationEnabled !== false);
+  const getPopulationSummary = container => {
+    const summary = container.querySelector('div > span.ml-2');
+    if (!summary) return { unassigned: 0 };
+    const values = summary.textContent.split('/').map(value => numberParser.parse(value.trim()));
+    return { unassigned: Number(values[0]) || 0, total: Number(values[1]) || 0 };
+  };
+  const getSmartVisibleJobs = container => [...container.querySelectorAll('h5')].map(title => {
+    const jobKey = reactUtil.getNearestKey(title, 7);
+    const source = allJobs.find(job => keyGen.population.key(job.key) === jobKey);
+    if (!source) return null;
+    const holder = title.parentElement && title.parentElement.parentElement;
+    const values = holder && holder.querySelector('input') ? holder.querySelector('input').value.split('/') : [];
+    return {
+      ...source,
+      max: 999,
+      prio: 0,
+      container: holder,
+      current: numberParser.parse((values[0] || '0').trim()),
+      maxAvailable: numberParser.parse((values[1] || '0').trim())
+    };
+  }).filter(job => job && job.container);
+  const getSmartResourceSpeeds = () => Object.fromEntries(Object.keys(smartPopulationPlanner.getResourceRules()).map(id => {
+    const resource = resources.get(id);
+    return [id, resource ? Number(resource.speed) || 0 : 0];
+  }));
+  const executeSmartPopulationAction = async () => {
+    const container = selectors.getActivePageContent();
+    const visibleJobs = getSmartVisibleJobs(container);
+    if (!visibleJobs.length) return;
+    const summary = getPopulationSummary(container);
+    const snapshot = smartPopulationPlanner.getSnapshot({
+      goal: state.options.smartBuild.goal,
+      jobs: visibleJobs,
+      unassigned: summary.unassigned,
+      resourceSpeeds: getSmartResourceSpeeds()
+    });
+    const structuralChange = smartPopulationPlanner.hasStructuralChange(snapshot);
+    const needsAdjustment = smartPopulationPlanner.shouldRebalance(snapshot);
+    if (structuralChange && summary.unassigned <= 0) {
+      const unassignAllButton = document.querySelector('div.flex.justify-center.mx-auto.pt-3.font-bold.text-lg > button');
+      if (unassignAllButton) {
+        unassignAllButton.click();
+        logger({ msgLevel: 'log', msg: 'Rebalancing population after a new job slot appeared' });
+        await sleep(20);
+      }
+    }
+    if (!needsAdjustment && summary.unassigned <= 0) return;
+    allowedJobs = visibleJobs;
+    let availableJobs = getAllAvailableJobs();
+    while (!state.scriptPaused && availableJobs.length) {
+      const currentContainer = selectors.getActivePageContent();
+      const currentSummary = getPopulationSummary(currentContainer);
+      if (currentSummary.unassigned <= 0) break;
+      const plan = smartPopulationPlanner.planJobs({
+        goal: state.options.smartBuild.goal,
+        jobs: availableJobs,
+        resourceSpeeds: getSmartResourceSpeeds()
+      });
+      const job = plan.jobs.find(candidate => candidate.container && candidate.container.querySelector('button.btn-green'));
+      if (!job) break;
+      job.container.querySelector('button.btn-green').click();
+      logger({ msgLevel: 'log', msg: `Assigning smart worker as ${job.id}` });
+      await sleep(25);
+      if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) return;
+      availableJobs = getAllAvailableJobs();
+    }
+  };
   const executeAction$4 = async () => {
+    if (isSmartPopulationEnabled()) {
+      await executeSmartPopulationAction();
+      return;
+    }
     allowedJobs = getAllJobs();
     if (allowedJobs.length && shouldRebalance()) {
       const unassignAllButton = document.querySelector('div.flex.justify-center.mx-auto.pt-3.font-bold.text-lg > button');
@@ -47886,10 +47953,15 @@ const taVersion = "4.14.4";
   };
   var Population = {
     page: CONSTANTS.PAGES.POPULATION,
-    enabled: () => userEnabled$4() && navigation.hasPage(CONSTANTS.PAGES.POPULATION) && (hasUnassignedPopulation() || shouldRebalance()) && getAllJobs().length,
+    enabled: () => userEnabled$4() && navigation.hasPage(CONSTANTS.PAGES.POPULATION) &&
+      (isSmartPopulationEnabled() ? shouldCheckSmartPopulation() : (hasUnassignedPopulation() || shouldRebalance())) &&
+      (isSmartPopulationEnabled() || getAllJobs().length),
     action: async () => {
       await navigation.switchPage(CONSTANTS.PAGES.POPULATION);
-      if (navigation.checkPage(CONSTANTS.PAGES.POPULATION)) await executeAction$4();
+      if (navigation.checkPage(CONSTANTS.PAGES.POPULATION)) {
+        if (isSmartPopulationEnabled()) lastSmartPopulationCheck = new Date().getTime();
+        await executeAction$4();
+      }
     }
   };
 
