@@ -25,10 +25,18 @@ const getTargets = (subpage, manualOptions = {}) => {
       targets[`prio_${building.id}`] = 0;
       return;
     }
-    targets[building.id] = node.targetValue;
-    targets[`prio_${building.id}`] = layerToPriority(node.layer);
+    targets[building.id] = node.status === 'blocked' ? 0 : node.targetValue;
+    targets[`prio_${building.id}`] = node.status === 'blocked' ? 0 : layerToPriority(node.layer);
   });
-  return applyForcedTargets(targets, options.forcedTargets, allowedTab);
+  applyForcedTargets(targets, options.forcedTargets, allowedTab);
+  buildings.filter(building => building.tab === allowedTab).forEach(building => {
+    const blockReason = getFoodSecurityBlockReason(options, building.id, getCount(building));
+    if (blockReason) {
+      targets[building.id] = 0;
+      targets[`prio_${building.id}`] = 0;
+    }
+  });
+  return targets;
 };
 const getResearchTargets = (manualOptions = {}) => {
   const options = getOptions();

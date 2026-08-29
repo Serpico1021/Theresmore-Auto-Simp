@@ -24,6 +24,25 @@ const getUnitCount = unit => {
   const armyData = armyIndex !== null && typeof armyIndex !== 'undefined' && gameData.run && gameData.run.army ? gameData.run.army[armyIndex] : null;
   return armyData ? armyData.value : 0;
 };
+const isFoodSecurityGateEnabled = options => ['moonlightNight', 'fastNgPlus'].includes(options && options.goal);
+const getAssignedJobCount = jobId => {
+  const gameData = reactUtil.getGameData && reactUtil.getGameData();
+  if (!gameData) return 0;
+  const population = gameData.run && Array.isArray(gameData.run.population) ? gameData.run.population : [];
+  const index = gameData.idxs && gameData.idxs.population ? gameData.idxs.population[jobId] : undefined;
+  const indexedEntry = typeof index === 'number' ? population[index] : null;
+  const entry = indexedEntry && indexedEntry.id === jobId ? indexedEntry : population.find(item => item && item.id === jobId);
+  const numeric = entry ? Number(entry.value) : 0;
+  return Number.isFinite(numeric) && numeric > 0 ? numeric : 0;
+};
+const hasAssignedFarmer = () => getAssignedJobCount('farmer') >= 1;
+const getFoodSecurityBlockReason = (options, buildingId, count) => {
+  if (buildingId !== 'common_house' || count < 1 || !isFoodSecurityGateEnabled(options)) return null;
+  const farm = buildings.find(candidate => candidate.id === 'farm');
+  if (!farm || getCount(farm) < 1) return { type: 'food-security', requirement: 'farm' };
+  if (!hasAssignedFarmer()) return { type: 'food-security', requirement: 'farmer' };
+  return null;
+};
 const hasIndexedOrRunItem = (id, prefixes = []) => {
   const gameData = reactUtil.getGameData && reactUtil.getGameData();
   if (!gameData) return false;

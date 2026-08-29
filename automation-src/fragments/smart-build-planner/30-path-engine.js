@@ -91,6 +91,13 @@ const computeShortestPath = (options, resourceMap) => {
       node.layer = 0;
       return node;
     }
+    const foodSecurityBlockReason = getFoodSecurityBlockReason(options, buildingId, count);
+    if (foodSecurityBlockReason) {
+      node.status = 'blocked';
+      node.blockReason = foodSecurityBlockReason;
+      node.layer = 0;
+      return node;
+    }
     visiting[node.key] = true;
     const req = building.req || [];
     const structural = resolveStructuralReqs(req, buildingId);

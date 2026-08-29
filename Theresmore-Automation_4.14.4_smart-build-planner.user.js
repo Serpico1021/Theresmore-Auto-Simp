@@ -47400,6 +47400,25 @@ const getUnitCount = unit => {
   const armyData = armyIndex !== null && typeof armyIndex !== 'undefined' && gameData.run && gameData.run.army ? gameData.run.army[armyIndex] : null;
   return armyData ? armyData.value : 0;
 };
+const isFoodSecurityGateEnabled = options => ['moonlightNight', 'fastNgPlus'].includes(options && options.goal);
+const getAssignedJobCount = jobId => {
+  const gameData = reactUtil.getGameData && reactUtil.getGameData();
+  if (!gameData) return 0;
+  const population = gameData.run && Array.isArray(gameData.run.population) ? gameData.run.population : [];
+  const index = gameData.idxs && gameData.idxs.population ? gameData.idxs.population[jobId] : undefined;
+  const indexedEntry = typeof index === 'number' ? population[index] : null;
+  const entry = indexedEntry && indexedEntry.id === jobId ? indexedEntry : population.find(item => item && item.id === jobId);
+  const numeric = entry ? Number(entry.value) : 0;
+  return Number.isFinite(numeric) && numeric > 0 ? numeric : 0;
+};
+const hasAssignedFarmer = () => getAssignedJobCount('farmer') >= 1;
+const getFoodSecurityBlockReason = (options, buildingId, count) => {
+  if (buildingId !== 'common_house' || count < 1 || !isFoodSecurityGateEnabled(options)) return null;
+  const farm = buildings.find(candidate => candidate.id === 'farm');
+  if (!farm || getCount(farm) < 1) return { type: 'food-security', requirement: 'farm' };
+  if (!hasAssignedFarmer()) return { type: 'food-security', requirement: 'farmer' };
+  return null;
+};
 const hasIndexedOrRunItem = (id, prefixes = []) => {
   const gameData = reactUtil.getGameData && reactUtil.getGameData();
   if (!gameData) return false;
@@ -47600,6 +47619,13 @@ const computeShortestPath = (options, resourceMap) => {
       node.layer = 0;
       return node;
     }
+    const foodSecurityBlockReason = getFoodSecurityBlockReason(options, buildingId, count);
+    if (foodSecurityBlockReason) {
+      node.status = 'blocked';
+      node.blockReason = foodSecurityBlockReason;
+      node.layer = 0;
+      return node;
+    }
     visiting[node.key] = true;
     const req = building.req || [];
     const structural = resolveStructuralReqs(req, buildingId);
@@ -47686,10 +47712,18 @@ const getTargets = (subpage, manualOptions = {}) => {
       targets[`prio_${building.id}`] = 0;
       return;
     }
-    targets[building.id] = node.targetValue;
-    targets[`prio_${building.id}`] = layerToPriority(node.layer);
+    targets[building.id] = node.status === 'blocked' ? 0 : node.targetValue;
+    targets[`prio_${building.id}`] = node.status === 'blocked' ? 0 : layerToPriority(node.layer);
   });
-  return applyForcedTargets(targets, options.forcedTargets, allowedTab);
+  applyForcedTargets(targets, options.forcedTargets, allowedTab);
+  buildings.filter(building => building.tab === allowedTab).forEach(building => {
+    const blockReason = getFoodSecurityBlockReason(options, building.id, getCount(building));
+    if (blockReason) {
+      targets[building.id] = 0;
+      targets[`prio_${building.id}`] = 0;
+    }
+  });
+  return targets;
 };
 const getResearchTargets = (manualOptions = {}) => {
   const options = getOptions();
