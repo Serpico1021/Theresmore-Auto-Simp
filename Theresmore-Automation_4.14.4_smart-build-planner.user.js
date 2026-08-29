@@ -47406,6 +47406,21 @@ const getUnitCount = unit => {
   return armyData ? armyData.value : 0;
 };
 const isFoodSecurityGateEnabled = options => ['moonlightNight', 'fastNgPlus'].includes(options && options.goal);
+const FIRST_HOUSE_WOOD_RESERVE = 24;
+const FIRST_HOUSE_FOOD_RESERVE = 57.5;
+const getFirstHouseMaterialBlockReason = () => {
+  const wood = resources.get('wood');
+  const food = resources.get('food');
+  const woodReady = wood && Number(wood.current) > FIRST_HOUSE_WOOD_RESERVE;
+  const foodReady = food && Number(food.current) > FIRST_HOUSE_FOOD_RESERVE;
+  if (woodReady && foodReady) return null;
+  return {
+    type: 'food-security',
+    requirement: 'first-house-materials',
+    woodMinimum: FIRST_HOUSE_WOOD_RESERVE,
+    foodMinimum: FIRST_HOUSE_FOOD_RESERVE
+  };
+};
 const getAssignedJobCount = jobId => {
   const gameData = reactUtil.getGameData && reactUtil.getGameData();
   if (!gameData) return 0;
@@ -47426,7 +47441,8 @@ const getAssignedJobCount = jobId => {
   return Number.isFinite(numeric) && numeric > 0 ? numeric : 0;
 };
 const getFoodSecurityBlockReason = (options, buildingId, count) => {
-  if (buildingId !== 'common_house' || count < 1 || !isFoodSecurityGateEnabled(options)) return null;
+  if (buildingId !== 'common_house' || !isFoodSecurityGateEnabled(options)) return null;
+  if (count < 1) return getFirstHouseMaterialBlockReason();
   const farm = buildings.find(candidate => candidate.id === 'farm');
   if (!farm || getCount(farm) < 1) return { type: 'food-security', requirement: 'farm' };
   return null;
@@ -48094,7 +48110,7 @@ const smartPopulationPlanner = (() => {
       };
       const goldSpeed = getFirstHouseGoldSpeed();
       const foodReserve = Math.ceil((10 / goldSpeed) * 1.15);
-      const targets = { wood: 24, food: foodReserve };
+       const targets = { wood: 24.01, food: foodReserve + 0.01 };
       for (const resourceId of ['wood', 'food']) {
         const resource = resources.get(resourceId);
         const button = manualButtons[resourceId];
@@ -48110,7 +48126,26 @@ const smartPopulationPlanner = (() => {
     };
 
     const executeAction = async () => {
-      let buttons = getAllButtons();
+      let buttons;
+      const smartBuild = state.options.smartBuild;
+      const smartGoal = smartBuild && smartBuild.enabled && ['moonlightNight', 'fastNgPlus'].includes(smartBuild.goal);
+      const firstHouse = getCurrentBuildingCount('common_house') < 1;
+      const firstFarm = getCurrentBuildingCount('farm') < 1;
+      if (smartGoal && firstHouse && firstFarm && !hasNatureGift()) {
+        try {
+          await secureFirstFarmMaterials();
+          logger({
+            msgLevel: 'log',
+            msg: 'Collected first-farm wood and first-house food reserve before building the first common house'
+          });
+        } catch (error) {
+          logger({
+            msgLevel: 'debug',
+            msg: `First-farm material fallback skipped: ${error.message}`
+          });
+        }
+      }
+      buttons = getAllButtons();
       let guidedStart = state.options.guidedStart.enabled;
       let buildsThisPass = 0;
       const maxBuildsThisPass = getSmartBuildMaxExtra();
@@ -48132,22 +48167,6 @@ const smartPopulationPlanner = (() => {
           if (watchedButtons.length == 0) {
             guidedStart = false;
           }
-        }
-      }
-      const firstHouse = buttons.find(button => button.building.key === 'common_house' && button.count < 1);
-      const firstFarm = buttons.find(button => button.building.key === 'farm' && button.count < 1);
-      if (firstHouse && firstFarm && !hasNatureGift()) {
-        try {
-          await secureFirstFarmMaterials();
-          logger({
-            msgLevel: 'log',
-            msg: 'Collected first-farm wood and first-house food reserve before building the first common house'
-          });
-        } catch (error) {
-          logger({
-            msgLevel: 'debug',
-            msg: `First-farm material fallback skipped: ${error.message}`
-          });
         }
       }
       if (buttons.length) {

@@ -13,7 +13,7 @@ const plannerSource = [
   'automation-src/fragments/smart-build-planner/90-export.js'
 ].map(fragment);
 
-const makePlanner = ({ goal, houseCount, farmCount, farmerCount, includePopulation = true, forcedTargets = {} }) => {
+const makePlanner = ({ goal, houseCount, farmCount, farmerCount, includePopulation = true, forcedTargets = {}, resources: resourceValues = {} }) => {
   const buildings = [
     { id: 'common_house', tab: 1, req: [] },
     { id: 'farm', tab: 1, req: [] }
@@ -29,7 +29,7 @@ const makePlanner = ({ goal, houseCount, farmCount, farmerCount, includePopulati
       population
     }
   };
-  const resourceStore = { get: () => ({ current: 100, max: 100, speed: 1 }) };
+  const resourceStore = { get: id => ({ current: resourceValues[id] ?? 100, max: 100, speed: 1 }) };
   const context = {
     buildings,
     tech: [],
@@ -56,7 +56,8 @@ const assert = (condition, message) => {
 const nodeFor = (planner, id) => planner.getPathSnapshot().nodes.find(node => node.kind === 'building' && node.id === id);
 
 for (const goal of ['moonlightNight', 'fastNgPlus']) {
-  assert(nodeFor(makePlanner({ goal, houseCount: 0, farmCount: 0, farmerCount: 0 }), 'common_house').status !== 'blocked', `${goal}: first house should be allowed`);
+  assert(nodeFor(makePlanner({ goal, houseCount: 0, farmCount: 0, farmerCount: 0, resources: { wood: 24, food: 57.5 } }), 'common_house').blockReason.requirement === 'first-house-materials', `${goal}: first house should wait for material reserve`);
+  assert(nodeFor(makePlanner({ goal, houseCount: 0, farmCount: 0, farmerCount: 0, resources: { wood: 25, food: 58 } }), 'common_house').status !== 'blocked', `${goal}: first house should be allowed after material reserve`);
   assert(nodeFor(makePlanner({ goal, houseCount: 1, farmCount: 0, farmerCount: 0 }), 'common_house').blockReason.requirement === 'farm', `${goal}: missing farm should block`);
   assert(nodeFor(makePlanner({ goal, houseCount: 1, farmCount: 1, farmerCount: 0 }), 'common_house').status !== 'blocked', `${goal}: farm should be sufficient to unblock`);
   assert(nodeFor(makePlanner({ goal, houseCount: 1, farmCount: 1, farmerCount: 1 }), 'common_house').status !== 'blocked', `${goal}: assigned farmer should remain unblocked`);

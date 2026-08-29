@@ -47450,7 +47450,7 @@ const taVersion = "4.14.4";
       };
       const goldSpeed = getFirstHouseGoldSpeed();
       const foodReserve = Math.ceil((10 / goldSpeed) * 1.15);
-      const targets = { wood: 24, food: foodReserve };
+       const targets = { wood: 24.01, food: foodReserve + 0.01 };
       for (const resourceId of ['wood', 'food']) {
         const resource = resources.get(resourceId);
         const button = manualButtons[resourceId];
@@ -47466,7 +47466,26 @@ const taVersion = "4.14.4";
     };
 
     const executeAction = async () => {
-      let buttons = getAllButtons();
+      let buttons;
+      const smartBuild = state.options.smartBuild;
+      const smartGoal = smartBuild && smartBuild.enabled && ['moonlightNight', 'fastNgPlus'].includes(smartBuild.goal);
+      const firstHouse = getCurrentBuildingCount('common_house') < 1;
+      const firstFarm = getCurrentBuildingCount('farm') < 1;
+      if (smartGoal && firstHouse && firstFarm && !hasNatureGift()) {
+        try {
+          await secureFirstFarmMaterials();
+          logger({
+            msgLevel: 'log',
+            msg: 'Collected first-farm wood and first-house food reserve before building the first common house'
+          });
+        } catch (error) {
+          logger({
+            msgLevel: 'debug',
+            msg: `First-farm material fallback skipped: ${error.message}`
+          });
+        }
+      }
+      buttons = getAllButtons();
       let guidedStart = state.options.guidedStart.enabled;
       let buildsThisPass = 0;
       const maxBuildsThisPass = getSmartBuildMaxExtra();
@@ -47488,22 +47507,6 @@ const taVersion = "4.14.4";
           if (watchedButtons.length == 0) {
             guidedStart = false;
           }
-        }
-      }
-      const firstHouse = buttons.find(button => button.building.key === 'common_house' && button.count < 1);
-      const firstFarm = buttons.find(button => button.building.key === 'farm' && button.count < 1);
-      if (firstHouse && firstFarm && !hasNatureGift()) {
-        try {
-          await secureFirstFarmMaterials();
-          logger({
-            msgLevel: 'log',
-            msg: 'Collected first-farm wood and first-house food reserve before building the first common house'
-          });
-        } catch (error) {
-          logger({
-            msgLevel: 'debug',
-            msg: `First-farm material fallback skipped: ${error.message}`
-          });
         }
       }
       if (buttons.length) {
