@@ -23,8 +23,8 @@ const getTargets = (subpage, manualOptions = {}) => {
     const canExpandCommonHouse = building.id === 'common_house' && isFoodSecurityGateEnabled(options) && hasAssignedFarmer();
     if (!node || node.status === 'met') {
       if (node && node.status === 'met' && canExpandCommonHouse) {
-        targets[building.id] = Math.min(options.maxTarget, getCount(building) + 1);
-        targets[`prio_${building.id}`] = 1;
+        targets[building.id] = Math.min(options.maxTarget, 15);
+        targets[`prio_${building.id}`] = 9;
         return;
       }
       targets[building.id] = 0;
@@ -33,7 +33,7 @@ const getTargets = (subpage, manualOptions = {}) => {
     }
     let targetValue = node.targetValue;
     if (canExpandCommonHouse) {
-      targetValue = Math.max(targetValue, Math.min(options.maxTarget, getCount(building) + 1));
+      targetValue = Math.max(targetValue, Math.min(options.maxTarget, 15));
     }
     targets[building.id] = node.status === 'blocked' ? 0 : targetValue;
     targets[`prio_${building.id}`] = node.status === 'blocked' ? 0 : layerToPriority(node.layer);

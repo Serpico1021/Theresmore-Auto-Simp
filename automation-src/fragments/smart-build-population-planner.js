@@ -64,6 +64,8 @@ const smartPopulationPlanner = (() => {
   const isAvailable = job => Number(job.current) < Math.min(Number(job.max) || 0, Number(job.maxAvailable) || 0);
   const getRouteJob = (goal, jobs) => {
     const minimums = getRouteMinimums(goal);
+    const farmer = jobs.find(job => (job.key || job.id) === 'farmer');
+    if (farmer && isAvailable(farmer) && Number(farmer.current) < 1) return farmer;
     return getRouteJobs(goal).map(id => jobs.find(job => (job.key || job.id) === id))
       .find(job => job && isAvailable(job) && Number(job.current) < (minimums[job.key || job.id] || 1));
   };

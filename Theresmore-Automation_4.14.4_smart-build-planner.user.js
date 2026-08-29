@@ -47355,6 +47355,7 @@ const smartBuildRoutes = {
   moonlightNight: {
     label: 'Moonlight Night',
     buildingTargets: [
+      { id: 'farm', priority: 10, target: 1, reason: { key: 'food-security' } },
       { id: 'common_house', priority: 9, reason: { key: 'whitelist' } },
       { id: 'quarry', priority: 8, target: 5, reason: { key: 'whitelist' } },
       { id: 'artisan_workshop', priority: 8, reason: { key: 'whitelist' } },
@@ -47721,8 +47722,8 @@ const getTargets = (subpage, manualOptions = {}) => {
     const canExpandCommonHouse = building.id === 'common_house' && isFoodSecurityGateEnabled(options) && hasAssignedFarmer();
     if (!node || node.status === 'met') {
       if (node && node.status === 'met' && canExpandCommonHouse) {
-        targets[building.id] = Math.min(options.maxTarget, getCount(building) + 1);
-        targets[`prio_${building.id}`] = 1;
+        targets[building.id] = Math.min(options.maxTarget, 15);
+        targets[`prio_${building.id}`] = 9;
         return;
       }
       targets[building.id] = 0;
@@ -47731,7 +47732,7 @@ const getTargets = (subpage, manualOptions = {}) => {
     }
     let targetValue = node.targetValue;
     if (canExpandCommonHouse) {
-      targetValue = Math.max(targetValue, Math.min(options.maxTarget, getCount(building) + 1));
+      targetValue = Math.max(targetValue, Math.min(options.maxTarget, 15));
     }
     targets[building.id] = node.status === 'blocked' ? 0 : targetValue;
     targets[`prio_${building.id}`] = node.status === 'blocked' ? 0 : layerToPriority(node.layer);
@@ -47872,6 +47873,8 @@ const smartPopulationPlanner = (() => {
   const isAvailable = job => Number(job.current) < Math.min(Number(job.max) || 0, Number(job.maxAvailable) || 0);
   const getRouteJob = (goal, jobs) => {
     const minimums = getRouteMinimums(goal);
+    const farmer = jobs.find(job => (job.key || job.id) === 'farmer');
+    if (farmer && isAvailable(farmer) && Number(farmer.current) < 1) return farmer;
     return getRouteJobs(goal).map(id => jobs.find(job => (job.key || job.id) === id))
       .find(job => job && isAvailable(job) && Number(job.current) < (minimums[job.key || job.id] || 1));
   };

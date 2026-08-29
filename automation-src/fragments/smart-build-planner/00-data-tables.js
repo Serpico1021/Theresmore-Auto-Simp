@@ -27,6 +27,7 @@ const smartBuildRoutes = {
   moonlightNight: {
     label: 'Moonlight Night',
     buildingTargets: [
+      { id: 'farm', priority: 10, target: 1, reason: { key: 'food-security' } },
       { id: 'common_house', priority: 9, reason: { key: 'whitelist' } },
       { id: 'quarry', priority: 8, target: 5, reason: { key: 'whitelist' } },
       { id: 'artisan_workshop', priority: 8, reason: { key: 'whitelist' } },
