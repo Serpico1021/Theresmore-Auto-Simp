@@ -48036,6 +48036,37 @@ const smartPopulationPlanner = (() => {
       return Number.isFinite(numeric) ? numeric : 0;
     };
 
+    const hasNatureGift = () => {
+      const gameData = reactUtil.getGameData();
+      const ownedLegacies = gameData && gameData.LegacyStore && gameData.LegacyStore.ownedLegacies;
+      return Array.isArray(ownedLegacies) && ownedLegacies.some(legacy => {
+        const id = typeof legacy === 'string' ? legacy : legacy && (legacy.id || legacy.key);
+        return id === 'gift_nature' || id === 'leg_gift_nature';
+      });
+    };
+
+    const secureFirstFarmMaterials = async () => {
+      if (hasNatureGift()) return;
+      const farmData = buildings.find(building => building.id === 'farm');
+      if (!farmData || !farmData.req) return;
+      const manualButtons = {
+        wood: document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600 > button:nth-child(2)"),
+        stone: document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600 > button:nth-child(3)")
+      };
+      for (const resourceId of ['wood', 'stone']) {
+        const requirement = farmData.req.find(req => req.type === 'resource' && req.id === resourceId);
+        const resource = resources.get(resourceId);
+        const button = manualButtons[resourceId];
+        if (!requirement || !resource || !button) continue;
+        const missing = Math.max(0, Math.ceil(Number(requirement.value) - Number(resource.current)));
+        const available = Math.max(0, Math.floor(Number(resource.max) - Number(resource.current)));
+        for (let clicks = 0; clicks < Math.min(missing, available); clicks++) {
+          button.click();
+          await sleep(10);
+        }
+      }
+    };
+
     const executeAction = async () => {
       let buttons = getAllButtons();
       let guidedStart = state.options.guidedStart.enabled;
@@ -48060,6 +48091,15 @@ const smartPopulationPlanner = (() => {
             guidedStart = false;
           }
         }
+      }
+      const firstHouse = buttons.find(button => button.building.key === 'common_house' && button.count < 1);
+      const firstFarm = buttons.find(button => button.building.key === 'farm' && button.count < 1);
+      if (firstHouse && firstFarm && !hasNatureGift()) {
+        await secureFirstFarmMaterials();
+        logger({
+          msgLevel: 'log',
+          msg: 'Collected fixed wood/stone materials for the first farm before building the first common house'
+        });
       }
       if (buttons.length) {
         while (!state.scriptPaused && buttons.length && buildsThisPass < maxBuildsThisPass) {
