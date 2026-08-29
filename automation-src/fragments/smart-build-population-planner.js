@@ -13,8 +13,8 @@ const smartPopulationPlanner = (() => {
     supplies: { minimum: 1, priority: 120 }
   };
   const routeJobs = {
-    moonlightNight: ['carpenter', 'professor', 'supplier'],
-    fastNgPlus: ['carpenter', 'professor', 'supplier'],
+    moonlightNight: ['professor', 'supplier', 'carpenter'],
+    fastNgPlus: ['professor', 'supplier', 'carpenter'],
     titanThenFastNgPlus: []
   };
   const routeMinimums = {
@@ -22,7 +22,7 @@ const smartPopulationPlanner = (() => {
     fastNgPlus: { professor: 1, supplier: 1, carpenter: 1 }
   };
   const balanceJobs = ['lumberjack', 'quarryman', 'miner', 'artisan'];
-  const safetyResourceIds = ['food', 'wood', 'stone', 'copper', 'iron', 'tools', 'cow', 'horse'];
+  const safetyResourceIds = ['food', 'wood', 'stone', 'copper', 'iron', 'tools'];
   let lastSnapshot = null;
 
   const getResourceRules = () => Object.fromEntries(Object.entries(resourceRules).map(([id, rule]) => [id, { ...rule }]));
@@ -70,7 +70,8 @@ const smartPopulationPlanner = (() => {
       .find(job => job && isAvailable(job) && Number(job.current) < (minimums[job.key || job.id] || 1));
   };
   const getSafetyJob = (jobs, resourceSpeeds) => {
-    const deficits = getResourceDeficit(resourceSpeeds).filter(item => safetyResourceIds.includes(item.id));
+    const safetyIds = [...safetyResourceIds, ...['cow', 'horse'].filter(id => jobs.some(job => getJobDelta(job, id) < 0))];
+    const deficits = getResourceDeficit(resourceSpeeds).filter(item => safetyIds.includes(item.id));
     for (const deficit of deficits) {
       const candidate = jobs.filter(job => isAvailable(job) && getJobDelta(job, deficit.id) > 0 && canApplyJob(job, resourceSpeeds))
         .sort((a, b) => balanceJobs.indexOf(a.key || a.id) - balanceJobs.indexOf(b.key || b.id))[0];

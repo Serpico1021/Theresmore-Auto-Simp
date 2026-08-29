@@ -11,7 +11,7 @@ const rules = planner.getResourceRules();
 for (const id of ['food', 'wood', 'stone', 'copper', 'iron', 'tools']) assert.strictEqual(rules[id].minimum, 1);
 for (const id of ['cow', 'horse']) assert.strictEqual(rules[id].minimum, 0);
 for (const id of ['building_material', 'crystal', 'supplies']) assert(rules[id].priority > rules.wood.priority);
-assert.strictEqual(JSON.stringify(planner.getRouteJobs('fastNgPlus')), JSON.stringify(['carpenter', 'professor', 'supplier']));
+assert.strictEqual(JSON.stringify(planner.getRouteJobs('fastNgPlus')), JSON.stringify(['professor', 'supplier', 'carpenter']));
 assert.strictEqual(JSON.stringify(planner.getRouteJobs('titanThenFastNgPlus')), JSON.stringify([]));
 
 const safeResources = {
@@ -23,8 +23,11 @@ const jobs = [
   { key: 'professor', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'research', value: 6 }], resourcesUsed: [{ id: 'gold', value: -3 }] },
   { key: 'carpenter', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'building_material', value: 2 }], resourcesUsed: [] }
 ];
-assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs, resourceSpeeds: safeResources }).jobs[0].key, 'carpenter');
-assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: jobs.map(job => job.key === 'carpenter' ? { ...job, current: 1 } : job), resourceSpeeds: safeResources }).jobs[0].key, 'professor');
+assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs, resourceSpeeds: safeResources }).jobs[0].key, 'professor');
+const professorAssignedJobs = jobs.map(job => job.key === 'professor' ? { ...job, current: 1 } : job);
+assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: professorAssignedJobs, resourceSpeeds: safeResources }).jobs[0].key, 'supplier');
+const routeAssignedJobs = professorAssignedJobs.map(job => job.key === 'supplier' ? { ...job, current: 1 } : job);
+assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: routeAssignedJobs, resourceSpeeds: safeResources }).jobs[0].key, 'carpenter');
 assert.strictEqual(planner.planJobs({ goal: 'moonlightNight', jobs: [{ key: 'farmer', current: 0, max: 99, maxAvailable: 1, resourcesGenerated: [{ id: 'food', value: 1.6 }] }, ...jobs], resourceSpeeds: safeResources }).jobs[0].key, 'farmer');
 
 const productionJobs = [

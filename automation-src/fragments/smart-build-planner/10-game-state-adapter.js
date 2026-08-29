@@ -29,9 +29,13 @@ const getAssignedJobCount = jobId => {
   const gameData = reactUtil.getGameData && reactUtil.getGameData();
   if (!gameData) return 0;
   const population = gameData.run && Array.isArray(gameData.run.population) ? gameData.run.population : [];
-  const index = gameData.idxs && gameData.idxs.population ? gameData.idxs.population[jobId] : undefined;
+  const populationIndex = gameData.idxs && gameData.idxs.population ? gameData.idxs.population : {};
+  const indexKeys = [jobId, `population_${jobId}`];
+  const index = indexKeys.map(key => populationIndex[key]).find(value => typeof value === 'number');
   const indexedEntry = typeof index === 'number' ? population[index] : null;
-  const entry = indexedEntry && indexedEntry.id === jobId ? indexedEntry : population.find(item => item && item.id === jobId);
+  const entry = indexedEntry && [jobId, `population_${jobId}`].includes(indexedEntry.id)
+    ? indexedEntry
+    : population.find(item => item && [jobId, `population_${jobId}`].includes(item.id || item.key));
   const numeric = entry ? Number(entry.value) : 0;
   return Number.isFinite(numeric) && numeric > 0 ? numeric : 0;
 };
