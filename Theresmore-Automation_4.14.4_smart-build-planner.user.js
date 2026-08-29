@@ -48450,11 +48450,23 @@ const smartPopulationPlanner = (() => {
     return availableJobs;
   };
   let lastSmartPopulationCheck = 0;
+  let lastSmartNegativeResourceSignature = '';
   const shouldCheckSmartPopulation = () => !lastSmartPopulationCheck || lastSmartPopulationCheck + 5000 <= new Date().getTime();
   const isSmartPopulationEnabled = () => !!(state.options.smartBuild && state.options.smartBuild.enabled && state.options.smartBuild.populationEnabled !== false);
   const shouldRunSmartPopulation = () => {
     if (hasUnassignedPopulation()) return true;
-    return Object.values(getSmartResourceSpeeds()).some(speed => Number(speed) < 0);
+    const negativeSignature = Object.entries(getSmartResourceSpeeds())
+      .filter(([, speed]) => Number(speed) < 0)
+      .map(([id]) => id)
+      .sort()
+      .join(',');
+    if (!negativeSignature) {
+      lastSmartNegativeResourceSignature = '';
+      return false;
+    }
+    if (negativeSignature === lastSmartNegativeResourceSignature) return false;
+    lastSmartNegativeResourceSignature = negativeSignature;
+    return true;
   };
   const getPopulationSummary = container => {
     const summary = container.querySelector('div > span.ml-2');
