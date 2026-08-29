@@ -18,8 +18,8 @@ const smartPopulationPlanner = (() => {
     titanThenFastNgPlus: []
   };
   const routeMinimums = {
-    moonlightNight: { professor: 1, supplier: 1, carpenter: 1 },
-    fastNgPlus: { professor: 1, supplier: 1, carpenter: 1 }
+    moonlightNight: { professor: 3, supplier: 1, carpenter: 1 },
+    fastNgPlus: { professor: 3, supplier: 1, carpenter: 1 }
   };
   const balanceJobs = ['lumberjack', 'quarryman', 'miner', 'artisan'];
   const safetyResourceIds = ['food', 'wood', 'stone', 'copper', 'iron', 'tools'];
@@ -64,12 +64,12 @@ const smartPopulationPlanner = (() => {
     return priorities;
   };
   const isAvailable = job => Number(job.current) < Math.min(Number(job.max) || 0, Number(job.maxAvailable) || 0);
-  const getRouteJob = (goal, jobs) => {
+  const getRouteJob = (goal, jobs, resourceSpeeds) => {
     const minimums = getRouteMinimums(goal);
     const farmer = jobs.find(job => (job.key || job.id) === 'farmer');
-    if (farmer && isAvailable(farmer) && Number(farmer.current) < 1) return farmer;
+    if (farmer && isAvailable(farmer) && Number(farmer.current) < 1 && canApplyJob(farmer, resourceSpeeds)) return farmer;
     return getRouteJobs(goal).map(id => jobs.find(job => (job.key || job.id) === id))
-      .find(job => job && isAvailable(job) && Number(job.current) < (minimums[job.key || job.id] || 1));
+      .find(job => job && isAvailable(job) && Number(job.current) < (minimums[job.key || job.id] || 1) && canApplyJob(job, resourceSpeeds));
   };
   const getSafetyJob = (jobs, resourceSpeeds) => {
     const safetyIds = [...safetyResourceIds, ...['cow', 'horse'].filter(id => jobs.some(job => getJobDelta(job, id) < 0))];
@@ -90,7 +90,7 @@ const smartPopulationPlanner = (() => {
     const priorityMap = createPriorityMap(goal, jobs, resourceSpeeds);
     const candidates = jobs.filter(isAvailable);
     const deficits = getResourceDeficit(resourceSpeeds);
-    const routeJob = getRouteJob(goal, candidates);
+    const routeJob = getRouteJob(goal, candidates, resourceSpeeds);
     if (routeJob) return { jobs: [routeJob], deficits, resourcesSafe: false, phase: 'route', nextBalanceCursor: 0, priorityMap };
     const safetyJob = getSafetyJob(candidates, resourceSpeeds);
     if (safetyJob) return { jobs: [safetyJob], deficits, resourcesSafe: false, phase: 'safety', nextBalanceCursor: 0, priorityMap };

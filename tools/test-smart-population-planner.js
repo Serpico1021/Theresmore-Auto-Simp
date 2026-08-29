@@ -15,7 +15,7 @@ assert.strictEqual(JSON.stringify(planner.getRouteJobs('fastNgPlus')), JSON.stri
 assert.strictEqual(JSON.stringify(planner.getRouteJobs('titanThenFastNgPlus')), JSON.stringify([]));
 
 const safeResources = {
-  food: 2, wood: 2, stone: 2, copper: 2, iron: 2, tools: 2,
+  food: 2, wood: 2, stone: 2, copper: 2, iron: 2, tools: 2, gold: 10,
   cow: 1, horse: 1, building_material: 2, crystal: 2, supplies: 2
 };
 const jobs = [
@@ -25,8 +25,10 @@ const jobs = [
 ];
 assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs, resourceSpeeds: safeResources }).jobs[0].key, 'professor');
 const professorAssignedJobs = jobs.map(job => job.key === 'professor' ? { ...job, current: 1 } : job);
-assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: professorAssignedJobs, resourceSpeeds: safeResources }).jobs[0].key, 'supplier');
-const routeAssignedJobs = professorAssignedJobs.map(job => job.key === 'supplier' ? { ...job, current: 1 } : job);
+assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: professorAssignedJobs, resourceSpeeds: safeResources }).jobs[0].key, 'professor');
+const professorFilledJobs = professorAssignedJobs.map(job => job.key === 'professor' ? { ...job, current: 3 } : job);
+assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: professorFilledJobs, resourceSpeeds: safeResources }).jobs[0].key, 'supplier');
+const routeAssignedJobs = professorFilledJobs.map(job => job.key === 'supplier' ? { ...job, current: 1 } : job);
 assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: routeAssignedJobs, resourceSpeeds: safeResources }).jobs[0].key, 'carpenter');
 const allRouteJobs = routeAssignedJobs.map(job => job.key === 'carpenter' ? { ...job, current: 1 } : job);
 const cowSafetyJobs = [...allRouteJobs, { key: 'breeder', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'cow', value: 1 }], resourcesUsed: [] }];
