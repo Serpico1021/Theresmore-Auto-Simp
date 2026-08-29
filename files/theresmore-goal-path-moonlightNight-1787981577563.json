@@ -1,0 +1,673 @@
+{
+  "exportedAt": "2026-08-29T05:07:45.962Z",
+  "goal": "moonlightNight",
+  "nodes": [
+    {
+      "kind": "building",
+      "id": "common_house",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 3,
+      "target": 15,
+      "reasons": [
+        {
+          "key": "goalBuildingFocus"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "end_ancient_era"
+        },
+        {
+          "key": "whitelist"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "farm",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 1,
+      "target": 16,
+      "reasons": [
+        {
+          "key": "goalBuildingFocus"
+        },
+        {
+          "key": "routeTarget"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "breeding"
+        },
+        {
+          "key": "foodCoverageForMoonlightNight"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "lumberjack_camp",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalBuildingFocus"
+        },
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "quarry",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 1,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "goalBuildingFocus"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mining"
+        },
+        {
+          "key": "whitelist"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "artisan_workshop",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 53,
+      "reasons": [
+        {
+          "key": "goalBuildingFocus"
+        },
+        {
+          "key": "resourceCapBridge",
+          "resourceId": "tools"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "end_ancient_era"
+        },
+        {
+          "key": "whitelist"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "writing",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "school"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mathematic"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "religion"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mining",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mine"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "bronze_working"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "architecture_titan_t"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mathematic",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "currency"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "religion",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "end_ancient_era"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "breeding",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "stable"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "mine",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 80,
+      "reasons": [
+        {
+          "key": "goalBuildingFocus"
+        },
+        {
+          "key": "resourceCapBridge",
+          "resourceId": "copper"
+        },
+        {
+          "key": "resourceCapBridge",
+          "resourceId": "iron"
+        },
+        {
+          "key": "resourceBridge"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "currency",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "marketplace"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "architecture_titan_t",
+      "layer": 2,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "architecture_titan"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "titan_work_area"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "marketplace",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 49,
+      "reasons": [
+        {
+          "key": "resourceCapBridge",
+          "resourceId": "tools"
+        },
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "bronze_working",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "iron_working"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "servitude"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "school",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalBuildingFocus"
+        },
+        {
+          "key": "resourceCapBridge"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "iron_working",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "end_ancient_era"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "stable",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "titan_work_area",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "servitude",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "supportTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "end_ancient_era",
+      "layer": 5,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "city_center_unit"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "city_center_unit",
+      "layer": 6,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 12,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "city_center"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "city_center",
+      "layer": 7,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "feudalism"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "feudalism",
+      "layer": 8,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "architecture"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "education"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "architecture",
+      "layer": 9,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "establish_boundaries"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "carpenter_workshop"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "education",
+      "layer": 9,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "food_conservation"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "university"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "guild"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "establish_boundaries",
+      "layer": 10,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "herald_canava"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "food_conservation",
+      "layer": 10,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "grocery"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "carpenter_workshop",
+      "layer": 10,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 9,
+      "reasons": [
+        {
+          "key": "resourceCapBridge",
+          "resourceId": "building_material"
+        },
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "guild",
+      "layer": 10,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "craftsmen_guild"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "herald_canava",
+      "layer": 11,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "watchman_outpost"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "grocery",
+      "layer": 11,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "resourceCapBridge",
+          "resourceId": "supplies"
+        },
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "university",
+      "layer": 11,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 4,
+      "reasons": [
+        {
+          "key": "resourceCapBridge",
+          "resourceId": "crystal"
+        },
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "craftsmen_guild",
+      "layer": 11,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "guild_craftsmen"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "guild_of_craftsmen"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "watchman_outpost",
+      "layer": 12,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 4,
+      "reasons": [
+        {
+          "key": "goalBuildingFocus"
+        },
+        {
+          "key": "gate"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "moonlight_night"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "guild_of_craftsmen",
+      "layer": 12,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "moonlight_night",
+      "layer": 13,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    }
+  ],
+  "forcedTargets": {
+    "farm": 11
+  },
+  "notes": ""
+}

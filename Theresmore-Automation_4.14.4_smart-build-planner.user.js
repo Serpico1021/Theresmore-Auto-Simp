@@ -47337,43 +47337,14 @@ const smartBuildDefaults = {
   armyMaxTarget: 250,
   maxTarget: 80,
   maxWaitSeconds: 180,
-  manualResourceClicksPerSecond: 8,
   forcedTargets: {}
 };
 const smartBuildResources = ['food', 'wood', 'stone', 'gold', 'research', 'tools', 'copper', 'iron', 'cow', 'horse', 'mana', 'building_material', 'faith', 'supplies', 'crystal', 'steel', 'saltpetre', 'natronite'];
 const smartBuildGoals = {
   moonlightNight: {
     dangerousResearchOverrides: ['moonlight_night'],
-    postGoalBoundaryTechs: ['moonlight_night', 'end_feudal_era'],
-    allowedBridgeBuildings: [
-      'common_house',
-      'farm',
-      'lumberjack_camp',
-      'quarry',
-      'mine',
-      'artisan_workshop',
-      'school',
-      'marketplace',
-      'carpenter_workshop',
-      'grocery',
-      'university',
-      'guild_of_craftsmen',
-      'steelworks',
-      'stable',
-      'titan_work_area',
-      'watchman_outpost'
-    ],
-    capProviderPreferences: {
-      research: ['school', 'university'],
-      gold: ['marketplace', 'artisan_workshop'],
-      tools: ['marketplace', 'artisan_workshop'],
-      building_material: ['carpenter_workshop'],
-      supplies: ['grocery'],
-      steel: ['steelworks']
-    },
-    resourceFocus: ['research', 'food', 'wood', 'stone', 'copper', 'iron', 'tools'],
-    buildingFocus: ['common_house', 'farm', 'lumberjack_camp', 'quarry', 'mine', 'artisan_workshop', 'school', 'watchman_outpost'],
-    supportTechs: ['servitude'],
+    resourceFocus: ['research', 'food', 'wood', 'stone', 'iron', 'tools'],
+    buildingFocus: ['common_house', 'quarry', 'artisan_workshop', 'watchman_outpost'],
     targetTechs: ['architecture', 'establish_boundaries', 'moonlight_night']
   }
 };
@@ -47383,16 +47354,13 @@ const smartBuildRoutes = {
     buildingTargets: [
       { id: 'common_house', priority: 9, reason: { key: 'whitelist' } },
       { id: 'quarry', priority: 8, reason: { key: 'whitelist' } },
-      { id: 'mine', priority: 8, reason: { key: 'resourceBridge' } },
       { id: 'artisan_workshop', priority: 8, reason: { key: 'whitelist' } },
-      { id: 'school', priority: 8, reason: { key: 'resourceCapBridge' } },
       { id: 'watchman_outpost', priority: 10, reason: { key: 'gate' } }
     ],
     supportTargets: [
       { id: 'guild_of_craftsmen', priority: 6 },
       { id: 'university', priority: 5 },
-      { id: 'marketplace', priority: 5 },
-      { id: 'farm', priority: 8 },
+      { id: 'farm', priority: 5 },
       { id: 'carpenter_workshop', priority: 5 },
       { id: 'grocery', priority: 5 },
       { id: 'stable', priority: 5 },
@@ -47547,78 +47515,9 @@ const getResourceCost = (req, count = 0) => {
   if (!value) return 0;
   return value * (req.multi ? Math.pow(req.multi, count) : 1);
 };
-const buildingProducesResource = (building, resourceId) => (building.gen || []).some(gen =>
-  gen.value > 0 && (
-    gen.type === 'resource' && gen.id === resourceId ||
-    gen.type === 'modifier' && gen.type_gen === 'resource' && gen.gen === resourceId
-  ));
-const buildingRaisesResourceCap = (building, resourceId) => (building.gen || []).some(gen =>
-  gen.type === 'cap' && gen.id === resourceId && gen.value > 0);
-const getResourceCapValue = (building, resourceId) => (building.gen || [])
-  .filter(gen => gen.type === 'cap' && gen.id === resourceId)
-  .reduce((total, gen) => total + (Number(gen.value) || 0), 0);
-const getResourceGenValue = (building, resourceId) => (building.gen || [])
-  .filter(gen => gen.type === 'resource' && gen.id === resourceId)
-  .reduce((total, gen) => total + (Number(gen.value) || 0), 0);
-const techDependsOnAny = (techId, forbiddenTechIds, seen = {}) => {
-  if (!techId || !forbiddenTechIds || !forbiddenTechIds.length) return false;
-  if (forbiddenTechIds.includes(techId)) return true;
-  if (seen[`tech:${techId}`]) return false;
-  seen[`tech:${techId}`] = true;
-  const technology = tech.find(candidate => candidate.id === techId);
-  if (!technology) return false;
-  return (technology.req || []).some(req => {
-    if (req.type === 'tech') return techDependsOnAny(req.id, forbiddenTechIds, seen);
-    if (req.type === 'building') return buildingDependsOnAnyTech(req.id, forbiddenTechIds, seen);
-    return false;
-  });
-};
-const buildingDependsOnAnyTech = (buildingId, forbiddenTechIds, seen = {}) => {
-  if (!buildingId || !forbiddenTechIds || !forbiddenTechIds.length) return false;
-  if (seen[`building:${buildingId}`]) return false;
-  seen[`building:${buildingId}`] = true;
-  const building = buildings.find(candidate => candidate.id === buildingId);
-  if (!building) return false;
-  return (building.req || []).some(req => {
-    if (req.type === 'tech') return techDependsOnAny(req.id, forbiddenTechIds, seen);
-    if (req.type === 'building') return buildingDependsOnAnyTech(req.id, forbiddenTechIds, seen);
-    return false;
-  });
-};
-const isAllowedGoalBridge = (building, goal) => {
-  const allowedBridgeBuildings = (goal && goal.allowedBridgeBuildings) || [];
-  if (allowedBridgeBuildings.length && !allowedBridgeBuildings.includes(building.id)) return false;
-  const forbiddenTechIds = (goal && goal.postGoalBoundaryTechs) || [];
-  return !buildingDependsOnAnyTech(building.id, forbiddenTechIds, {});
-};
-const isBridgeReason = reason => reason && ['bootstrapProducer', 'resourceBridge', 'resourceCapBridge', 'foodCoverageForMoonlightNight'].includes(reason.key);
-const isAllowedPathNodeForGoal = (node, goal) => {
-  if (!goal || !node) return true;
-  const forbiddenTechIds = goal.postGoalBoundaryTechs || [];
-  if (node.kind === 'tech') return !forbiddenTechIds.includes(node.id) || (goal.targetTechs || []).includes(node.id);
-  if (buildingDependsOnAnyTech(node.id, forbiddenTechIds, {})) return false;
-  const allowedBridgeBuildings = goal.allowedBridgeBuildings || [];
-  if (allowedBridgeBuildings.length && (node.reasons || []).some(isBridgeReason) && !allowedBridgeBuildings.includes(node.id)) return false;
-  return true;
-};
-const findDirectProducer = (resourceId, goal) => buildings.find(building =>
-  buildingProducesResource(building, resourceId) && isAllowedGoalBridge(building, goal));
-const findCapProvider = (resourceId, goal) => {
-  const candidates = buildings.filter(building =>
-    buildingRaisesResourceCap(building, resourceId) && isAllowedGoalBridge(building, goal));
-  const preferred = (goal && goal.capProviderPreferences && goal.capProviderPreferences[resourceId]) || [];
-  if (preferred.length) {
-    const byPreference = preferred.map(id => candidates.find(building => building.id === id)).filter(Boolean);
-    if (byPreference.length) {
-      return byPreference.sort((a, b) => {
-        const unlockedDelta = Number(isBuildingUnlocked(b)) - Number(isBuildingUnlocked(a));
-        if (unlockedDelta) return unlockedDelta;
-        return getResourceCapValue(b, resourceId) - getResourceCapValue(a, resourceId);
-      })[0];
-    }
-  }
-  return candidates.sort((a, b) => getResourceCapValue(b, resourceId) - getResourceCapValue(a, resourceId))[0];
-};
+const findDirectProducer = resourceId => buildings.find(building =>
+  isBuildingUnlocked(building) &&
+  (building.gen || []).some(gen => gen.type === 'resource' && gen.id === resourceId && gen.value > 0));
 const layerToPriority = layer => Math.max(1, 9 - Math.max(0, layer));
 const createPathNode = (kind, id) => ({
   kind,
@@ -47635,18 +47534,6 @@ const computeShortestPath = (options, resourceMap) => {
   const route = getRoute(options);
   const nodesById = {};
   const visiting = {};
-  const projectedResourceCaps = {};
-  const getProjectedResourceCap = resourceId => {
-    if (typeof projectedResourceCaps[resourceId] !== 'undefined') return projectedResourceCaps[resourceId];
-    const res = resourceMap[resourceId];
-    projectedResourceCaps[resourceId] = res ? Number(res.max) || 0 : 0;
-    return projectedResourceCaps[resourceId];
-  };
-  const addReason = (node, reason) => {
-    if (!reason) return;
-    const key = JSON.stringify(reason);
-    if (!(node.reasons || []).some(existing => JSON.stringify(existing) === key)) node.reasons.push(reason);
-  };
   const getOrCreateNode = (kind, id) => {
     const key = `${kind}:${id}`;
     if (!nodesById[key]) nodesById[key] = createPathNode(kind, id);
@@ -47659,26 +47546,12 @@ const computeShortestPath = (options, resourceMap) => {
       const res = resourceMap[req.id];
       const cost = getResourceCost(req, count);
       if (!cost) return;
-      const availableCap = getProjectedResourceCap(req.id);
-      if (!res || availableCap < cost) {
-        const capProvider = findCapProvider(req.id, goal);
-        if (capProvider) {
-          const capGain = getResourceCapValue(capProvider, req.id);
-          const missingCap = Math.max(0, cost - availableCap);
-          const extraCount = capGain > 0 ? Math.max(1, Math.ceil(missingCap / capGain)) : 1;
-          const providerNode = nodesById[`building:${capProvider.id}`];
-          const currentTarget = Math.max(getCount(capProvider), providerNode ? providerNode.targetValue : 0);
-          const targetValue = Math.min(options.maxTarget || 80, currentTarget + extraCount);
-          projectedResourceCaps[req.id] = availableCap + Math.max(0, targetValue - currentTarget) * capGain;
-          const capNode = resolveBuilding(capProvider.id, targetValue, { key: 'resourceCapBridge', resourceId: req.id });
-          maxPrereqLayer = Math.max(maxPrereqLayer, capNode.layer);
-        } else {
-          blocked = blocked || { type: 'resource-cap', resourceId: req.id };
-        }
+      if (!res || res.max < cost) {
+        blocked = blocked || { type: 'resource-cap', resourceId: req.id };
         return;
       }
       if (res.speed <= 0) {
-        const producer = findDirectProducer(req.id, goal);
+        const producer = findDirectProducer(req.id);
         if (producer) {
           const producerNode = resolveBuilding(producer.id, getCount(producer) + 1, { key: 'bootstrapProducer', resourceId: req.id });
           maxPrereqLayer = Math.max(maxPrereqLayer, producerNode.layer);
@@ -47715,7 +47588,7 @@ const computeShortestPath = (options, resourceMap) => {
     if (!building) return null;
     const node = getOrCreateNode('building', buildingId);
     node.targetValue = Math.max(node.targetValue, targetValue);
-    addReason(node, reason);
+    if (reason) node.reasons.push(reason);
     if (visiting[node.key]) return node;
     const count = getCount(building);
     if (count >= node.targetValue) {
@@ -47739,7 +47612,7 @@ const computeShortestPath = (options, resourceMap) => {
     const technology = tech.find(candidate => candidate.id === techId);
     if (!technology) return null;
     const node = getOrCreateNode('tech', techId);
-    addReason(node, reason);
+    if (reason) node.reasons.push(reason);
     node.targetValue = 1;
     if (visiting[node.key]) return node;
     if (isTechCompleted(techId)) {
@@ -47759,26 +47632,11 @@ const computeShortestPath = (options, resourceMap) => {
     node.layer = maxPrereqLayer + 1;
     return node;
   };
-  const applyMoonlightNightFoodCoverage = () => {
-    if (options.goal !== 'moonlightNight') return;
-    const farm = buildings.find(candidate => candidate.id === 'farm');
-    const commonHouse = buildings.find(candidate => candidate.id === 'common_house');
-    if (!farm || !commonHouse || !isBuildingUnlocked(farm)) return;
-    const food = resourceMap.food;
-    const foodSpeed = food ? Number(food.speed) || 0 : 0;
-    const commonHouseNode = nodesById['building:common_house'];
-    const commonHouseTarget = Math.max(getCount(commonHouse), commonHouseNode ? commonHouseNode.targetValue : 0);
-    const commonHouseFoodUse = Math.abs(getResourceGenValue(commonHouse, 'food')) || 1;
-    const currentFoodShortfall = Math.max(0, Math.ceil((foodSpeed * -1) / commonHouseFoodUse));
-    const target = Math.min(options.maxTarget || 80, Math.max(getCount(farm), commonHouseTarget + 1, getCount(commonHouse) + currentFoodShortfall + 1));
-    if (target > getCount(farm)) {
-      resolveBuilding('farm', target, { key: 'foodCoverageForMoonlightNight' });
-    }
-  };
-  if (goal) getExpandedGoalFocusTargets(goal).forEach(entry => resolveBuilding(entry.id, entry.target, entry.reason));
+  if (goal) {
+    getGoalTechs(goal).forEach(technology => resolveTech(technology.id, { key: 'goalTargetTech' }));
+    getExpandedGoalFocusTargets(goal).forEach(entry => resolveBuilding(entry.id, entry.target, entry.reason));
+  }
   if (route) getExpandedRouteTargets(route).forEach(entry => resolveBuilding(entry.id, entry.target, entry.reason));
-  applyMoonlightNightFoodCoverage();
-  if (goal) getGoalTechEntries(goal).forEach(entry => resolveTech(entry.technology.id, entry.reason));
   return { nodesById };
 };
 const getPathFingerprint = (options, resourceMap) => {
@@ -47819,7 +47677,7 @@ const getTargets = (subpage, manualOptions = {}) => {
   const targets = {};
   buildings.filter(building => building.tab === allowedTab).forEach(building => {
     const node = path.nodesById[`building:${building.id}`];
-    if (!node || node.status === 'met' || !isAllowedPathNodeForGoal(node, getGoal(options))) {
+    if (!node || node.status === 'met') {
       targets[building.id] = 0;
       targets[`prio_${building.id}`] = 0;
       return;
@@ -47835,11 +47693,10 @@ const getResearchTargets = (manualOptions = {}) => {
   if (!getGoal(options)) return null;
   const resourceMap = getResourceMap();
   const path = getPath(options, resourceMap);
-  const goal = getGoal(options);
   const targets = {};
   tech.forEach(technology => {
     const node = path.nodesById[`tech:${technology.id}`];
-    targets[technology.id] = (!node || node.status === 'met' || !isAllowedPathNodeForGoal(node, goal)) ? 0 : layerToPriority(node.layer);
+    targets[technology.id] = (!node || node.status === 'met') ? 0 : layerToPriority(node.layer);
   });
   return targets;
 };
@@ -47849,7 +47706,7 @@ const getPathSnapshot = () => {
   if (!goal) return { goal: options.goal, nodes: [] };
   const resourceMap = getResourceMap();
   const path = getPath(options, resourceMap);
-  const nodes = Object.values(path.nodesById).filter(node => isAllowedPathNodeForGoal(node, goal)).map(node => {
+  const nodes = Object.values(path.nodesById).map(node => {
     const current = node.kind === 'building'
       ? getCount(buildings.find(candidate => candidate.id === node.id))
       : (isTechCompleted(node.id) ? 1 : 0);
@@ -50200,8 +50057,9 @@ const renderGoalPathNode = (node, lang, forcedTargets) => {
   const statusClass = node.status === 'met' ? 'gp-st-met' : node.status === 'blocked' ? `gp-st-blocked ${goalPathBlockClass(node.blockReason)}` : 'gp-st-queued';
   const kindLabel = node.kind === 'tech' ? t.kindTech : t.kindBuilding;
   const name = escapeHtml(goalPathNodeLabel(node));
-  const reasonLine = node.reasons && node.reasons.length
-    ? `<div class="gp-node-reason">${escapeHtml(goalPathReasonText(node.reasons[node.reasons.length - 1], lang))}</div>`
+  const reasonTexts = (node.reasons || []).map(reason => goalPathReasonText(reason, lang)).filter(Boolean);
+  const reasonLine = reasonTexts.length
+    ? `<div class="gp-node-reason">${escapeHtml([...new Set(reasonTexts)].join(' / '))}</div>`
     : '';
   const hasOverride = node.kind === 'building' && Object.prototype.hasOwnProperty.call(forcedTargets, node.id);
   let extra = '';

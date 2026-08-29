@@ -137,8 +137,9 @@ const renderGoalPathNode = (node, lang, forcedTargets) => {
   const statusClass = node.status === 'met' ? 'gp-st-met' : node.status === 'blocked' ? `gp-st-blocked ${goalPathBlockClass(node.blockReason)}` : 'gp-st-queued';
   const kindLabel = node.kind === 'tech' ? t.kindTech : t.kindBuilding;
   const name = escapeHtml(goalPathNodeLabel(node));
-  const reasonLine = node.reasons && node.reasons.length
-    ? `<div class="gp-node-reason">${escapeHtml(goalPathReasonText(node.reasons[node.reasons.length - 1], lang))}</div>`
+  const reasonTexts = (node.reasons || []).map(reason => goalPathReasonText(reason, lang)).filter(Boolean);
+  const reasonLine = reasonTexts.length
+    ? `<div class="gp-node-reason">${escapeHtml([...new Set(reasonTexts)].join(' / '))}</div>`
     : '';
   const hasOverride = node.kind === 'building' && Object.prototype.hasOwnProperty.call(forcedTargets, node.id);
   let extra = '';

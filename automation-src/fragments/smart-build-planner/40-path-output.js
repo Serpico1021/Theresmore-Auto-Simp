@@ -20,7 +20,7 @@ const getTargets = (subpage, manualOptions = {}) => {
   const targets = {};
   buildings.filter(building => building.tab === allowedTab).forEach(building => {
     const node = path.nodesById[`building:${building.id}`];
-    if (!node || node.status === 'met' || !isAllowedPathNodeForGoal(node, getGoal(options))) {
+    if (!node || node.status === 'met') {
       targets[building.id] = 0;
       targets[`prio_${building.id}`] = 0;
       return;
@@ -36,11 +36,10 @@ const getResearchTargets = (manualOptions = {}) => {
   if (!getGoal(options)) return null;
   const resourceMap = getResourceMap();
   const path = getPath(options, resourceMap);
-  const goal = getGoal(options);
   const targets = {};
   tech.forEach(technology => {
     const node = path.nodesById[`tech:${technology.id}`];
-    targets[technology.id] = (!node || node.status === 'met' || !isAllowedPathNodeForGoal(node, goal)) ? 0 : layerToPriority(node.layer);
+    targets[technology.id] = (!node || node.status === 'met') ? 0 : layerToPriority(node.layer);
   });
   return targets;
 };
@@ -50,7 +49,7 @@ const getPathSnapshot = () => {
   if (!goal) return { goal: options.goal, nodes: [] };
   const resourceMap = getResourceMap();
   const path = getPath(options, resourceMap);
-  const nodes = Object.values(path.nodesById).filter(node => isAllowedPathNodeForGoal(node, goal)).map(node => {
+  const nodes = Object.values(path.nodesById).map(node => {
     const current = node.kind === 'building'
       ? getCount(buildings.find(candidate => candidate.id === node.id))
       : (isTechCompleted(node.id) ? 1 : 0);
