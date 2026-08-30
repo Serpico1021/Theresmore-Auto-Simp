@@ -7,7 +7,7 @@
 // @match       https://theresmoregame.g8hh.com.cn/
 // @license     MIT
 // @run-at      document-idle
-// @version     1.0.0.1
+// @version     1.0.0.3
 // @homepage    https://github.com/Theresmore-Automation/Theresmore-Automation
 // @author      Theresmore Automation team
 // @grant       none
@@ -53,7 +53,7 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WIT
 
 */
 
-const taVersion = "1.0.0.1";
+const taVersion = "1.0.0.3";
 
 
 (function () {
@@ -48118,11 +48118,7 @@ const smartPopulationPlanner = (() => {
 		'statue_virtue', 'pilgrim_camp', 'mana_extractors', 'beacon_light', 'light_turret',
 		'probe_system', 'arcane_school', 'underground_house', 'light_square_b', 'mining_area'
 		];
-    const getSmartBuildMaxExtra = () => {
-      if (!state.options.smartBuild || !state.options.smartBuild.enabled) return Infinity;
-      const configured = Number(state.options.smartBuild.maxExtra) || 3;
-      return Math.max(1, configured);
-    };
+    const isPopulationSensitiveBuilding = building => Boolean(building && popAdjustBuildingList.includes(building.key));
     const getButtonCount = button => {
       const countEl = button.element.querySelector('span.right-0');
       if (countEl) {
@@ -48217,8 +48213,6 @@ const smartPopulationPlanner = (() => {
       }
       buttons = getAllButtons();
       let guidedStart = state.options.guidedStart.enabled;
-      let buildsThisPass = 0;
-      const maxBuildsThisPass = getSmartBuildMaxExtra();
       if (guidedStart) {
         if (reactUtil.getGameData().ResourcesStore.resources.findIndex(x => x.id == 'copper') > -1) {
           guidedStart = false;
@@ -48240,75 +48234,55 @@ const smartPopulationPlanner = (() => {
         }
       }
       if (buttons.length) {
-        while (!state.scriptPaused && buttons.length && buildsThisPass < maxBuildsThisPass) {
-          let refreshButtons = false;
-          const highestPrio = buttons[0].building.prio;
-          const highestPrioBuildings = buttons.filter(button => button.building.prio === highestPrio);
-          buttons = buttons.filter(button => button.building.prio < highestPrio);
-          while (!state.scriptPaused && highestPrioBuildings.length) {
-            let shouldBuild = true;
-            const button = highestPrioBuildings.shift();
-            button.count = getButtonCount(button);
-            if (button.count >= button.building.max) {
-              continue;
-            }
-            if (guidedStart) {
-              shouldBuild = false;
-              if (button.building.key === 'common_house' && (!button.count || button.count < 3)) {
-                shouldBuild = true;
-              } else if (button.building.key === 'farm' && (!button.count || button.count < 1)) {
-                shouldBuild = true;
-              } else if (button.building.key === 'lumberjack_camp' && (!button.count || button.count < 1)) {
-                shouldBuild = true;
-              } else if (button.building.key === 'quarry' && (!button.count || button.count < 1)) {
-                shouldBuild = true;
-              }
-            } else if (!button.building.isSafe && button.building.requires.length) {
-              const food = resources.get('food');
-              const canUseNextHouseToAddFarmer = button.building.key === 'common_house' &&
-                state.options.smartBuild && state.options.smartBuild.enabled && getCurrentBuildingCount('farm') >= 1 && food && food.speed > 0;
-              const wood = resources.get('wood');
-              const canBuildFirstHouseWithReserve = button.building.key === 'common_house' && button.count < 1 && smartGoal &&
-                wood && Number(wood.current) > 24 && food && Number(food.current) > 57.5;
-              shouldBuild = canBuildFirstHouseWithReserve || canUseNextHouseToAddFarmer || !button.building.requires.find(req => !resources.get(req.resource) || resources.get(req.resource)[req.parameter] <= req.minValue);
-            }
-            if (shouldBuild) {
-              if (buildsThisPass >= maxBuildsThisPass) {
-                refreshButtons = true;
-                break;
-              }
-              const isFirstFarm = button.building.key === 'farm' && button.count < 1;
-              if (state.options.turbo.enabled && state.MainStore) {
-                state.MainStore.BuildingsStore.addBuilding(button.building.key);
-              } else {
-                button.element.click();
-              }
-              buildsThisPass += 1;
-
-			  if (popAdjustBuildingList.includes(button.building.key))
-				  localStorage.set("popAdjust", true);
-
-              logger({
-                msgLevel: 'log',
-                msg: `Building ${button.building.id}`
-              });
-              refreshButtons = true;
-              await sleep(25);
-              if (!navigation.checkPage(CONSTANTS.PAGES.BUILD)) return;
-              if (isFirstFarm || popAdjustBuildingList.includes(button.building.key)) {
-                await navigation.switchPage(CONSTANTS.PAGES.POPULATION);
-                if (navigation.checkPage(CONSTANTS.PAGES.POPULATION)) {
-                  if (isSmartPopulationEnabled()) lastSmartPopulationCheck = new Date().getTime();
-                  await executeAction$4();
-                }
-                return;
-              }
-            }
+        const shouldBuildButton = button => {
+          button.count = getButtonCount(button);
+          if (button.count >= button.building.max) return false;
+          if (guidedStart) {
+            return (button.building.key === 'common_house' && button.count < 3) ||
+              (button.building.key === 'farm' && button.count < 1) ||
+              (button.building.key === 'lumberjack_camp' && button.count < 1) ||
+              (button.building.key === 'quarry' && button.count < 1);
+          }
+          if (!button.building.isSafe && button.building.requires.length) {
+            const food = resources.get('food');
+            const canUseNextHouseToAddFarmer = button.building.key === 'common_house' &&
+              state.options.smartBuild && state.options.smartBuild.enabled && getCurrentBuildingCount('farm') >= 1 && food && food.speed > 0;
+            const wood = resources.get('wood');
+            const canBuildFirstHouseWithReserve = button.building.key === 'common_house' && button.count < 1 && smartGoal &&
+              wood && Number(wood.current) > 24 && food && Number(food.current) > 57.5;
+            return canBuildFirstHouseWithReserve || canUseNextHouseToAddFarmer ||
+              !button.building.requires.find(req => !resources.get(req.resource) || resources.get(req.resource)[req.parameter] <= req.minValue);
+          }
+          return true;
+        };
+        const adjustPopulation = async () => {
+          localStorage.set("popAdjust", true);
+          await navigation.switchPage(CONSTANTS.PAGES.POPULATION);
+          if (navigation.checkPage(CONSTANTS.PAGES.POPULATION)) {
+            if (isSmartPopulationEnabled()) lastSmartPopulationCheck = new Date().getTime();
+            await executeAction$4();
+          }
+        };
+        while (!state.scriptPaused && buttons.length) {
+          const button = buttons.find(shouldBuildButton);
+          if (!button) break;
+          const wasPopulationSensitive = isPopulationSensitiveBuilding(button.building);
+          if (state.options.turbo.enabled && state.MainStore) {
+            state.MainStore.BuildingsStore.addBuilding(button.building.key);
+          } else {
+            button.element.click();
+          }
+          logger({ msgLevel: 'log', msg: `Building ${button.building.id}` });
+          await sleep(25);
+          if (!navigation.checkPage(CONSTANTS.PAGES.BUILD)) return;
+          buttons = getAllButtons();
+          if (!wasPopulationSensitive) continue;
+          const nextButton = buttons[0];
+          if (!nextButton || !isPopulationSensitiveBuilding(nextButton.building) || !shouldBuildButton(nextButton)) {
+            await adjustPopulation();
+            return;
           }
           await sleep(1400);
-          if (refreshButtons) {
-            buttons = getAllButtons();
-          }
         }
       }
       const buildingsList = getBuildingsList();
