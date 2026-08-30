@@ -69,3 +69,9 @@ Do not hand-edit the generated userscript for smart-build changes unless the tas
 - 本项目仅允许使用 `brainstorming` 和 `frontend-design` 两个 Superpowers skill。
 - 除上述两个 skill 外，不得调用或引入其他 Superpowers skill；非界面任务无需调用 `frontend-design`。
 
+## Userscript Version Constraint
+
+- 当前 userscript 版本为 `1.0.0.1`，必须同时更新基础模板中的 `@version` 和 `taVersion`。
+- 后续每次功能、行为或用户可见逻辑更新都必须递增版本号的最后一段；若最后一段达到约定上限，则递增前一段并将后续段归零。
+- 修改 `automation-src` 后必须重新构建生成 userscript，并确认生成文件中的版本号与基础模板一致。
+
