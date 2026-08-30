@@ -47871,8 +47871,8 @@ const smartPopulationPlanner = (() => {
     supplies: { minimum: 1, priority: 120 }
   };
   const routeJobs = {
-    moonlightNight: ['professor', 'supplier', 'carpenter'],
-    fastNgPlus: ['professor', 'supplier', 'carpenter'],
+    moonlightNight: ['professor', 'carpenter', 'supplier'],
+    fastNgPlus: ['professor', 'carpenter', 'supplier'],
     titanThenFastNgPlus: []
   };
   const routeMinimums = {
@@ -47908,11 +47908,20 @@ const smartPopulationPlanner = (() => {
     const nextSpeed = getSpeed(resourceSpeeds, id) + generated + used;
     return nextSpeed > rule.minimum || generated + used >= 0;
   });
+  const getCapacity = job => Math.max(0, Math.min(Number(job.max) || 0, Number(job.maxAvailable) || 0) - (Number(job.current) || 0));
+  const addJobProjection = (resourceSpeeds, job, count) => {
+    Object.keys(resourceRules).forEach(id => { resourceSpeeds[id] = getSpeed(resourceSpeeds, id) + getJobDelta(job, id) * count; });
+  };
+  const addAllocation = (allocations, job, count, allocatedCounts = null) => {
+    if (!job || count <= 0) return;
+    allocations.push({ ...job, assignCount: count });
+    const key = job.key || job.id;
+    if (allocatedCounts) allocatedCounts[key] = (allocatedCounts[key] || 0) + count;
+  };
   const createPriorityMap = (goal, jobs, resourceSpeeds) => {
     const priorities = {};
     jobs.forEach((job, index) => { priorities[job.key || job.id] = index; });
-    const route = getRouteJobs(goal);
-    route.forEach((jobId, index) => { priorities[jobId] = 1000 - index; });
+    getRouteJobs(goal).forEach((jobId, index) => { priorities[jobId] = 1000 - index; });
     getResourceDeficit(resourceSpeeds).forEach((deficit, index) => {
       jobs.filter(job => getJobProduction(job, deficit.id) > 0).forEach(job => {
         const key = job.key || job.id;
@@ -47922,47 +47931,96 @@ const smartPopulationPlanner = (() => {
     return priorities;
   };
   const isAvailable = job => Number(job.current) < Math.min(Number(job.max) || 0, Number(job.maxAvailable) || 0);
-  const getRouteJob = (goal, jobs, resourceSpeeds) => {
-    const minimums = getRouteMinimums(goal);
-    const farmer = jobs.find(job => (job.key || job.id) === 'farmer');
-    if (farmer && isAvailable(farmer) && Number(farmer.current) < 1 && canApplyJob(farmer, resourceSpeeds)) return farmer;
-    return getRouteJobs(goal).map(id => jobs.find(job => (job.key || job.id) === id))
-      .find(job => job && isAvailable(job) && Number(job.current) < (minimums[job.key || job.id] || 1) && canApplyJob(job, resourceSpeeds));
-  };
-  const getSafetyJob = (jobs, resourceSpeeds) => {
+  const getSafetyCandidate = (jobs, resourceSpeeds, capacityFn = getCapacity) => {
     const safetyIds = [...safetyResourceIds, ...['cow', 'horse'].filter(id => jobs.some(job => getJobDelta(job, id) < 0))];
-    const deficits = getResourceDeficit(resourceSpeeds).filter(item => safetyIds.includes(item.id));
-    for (const deficit of deficits) {
-      const candidate = jobs.filter(job => isAvailable(job) && getJobDelta(job, deficit.id) > 0 && canApplyJob(job, resourceSpeeds))
-        .sort((a, b) => balanceJobs.indexOf(a.key || a.id) - balanceJobs.indexOf(b.key || b.id))[0];
-      if (candidate) return candidate;
-    }
-    return null;
+    const deficit = getResourceDeficit(resourceSpeeds).find(item => safetyIds.includes(item.id));
+    if (!deficit) return null;
+    return jobs.filter(job => capacityFn(job) > 0 && getJobDelta(job, deficit.id) > 0 && canApplyJob(job, resourceSpeeds))
+      .sort((a, b) => balanceJobs.indexOf(a.key || a.id) - balanceJobs.indexOf(b.key || b.id))[0] || null;
+  };
+  const getSafetyAllocationCount = (job, resourceSpeeds) => {
+    const useful = getResourceDeficit(resourceSpeeds).map(deficit => ({ deficit, delta: getJobDelta(job, deficit.id) }))
+      .filter(item => item.delta > 0);
+    return useful.length ? Math.max(1, Math.min(...useful.map(item => Math.ceil(item.deficit.deficit / item.delta)))) : 1;
   };
   const allSafetyResourcesSafe = resourceSpeeds => safetyResourceIds.every(id => {
     const rule = resourceRules[id];
-    if (!rule) return true;
-    return getSpeed(resourceSpeeds, id) > rule.minimum;
+    return !rule || getSpeed(resourceSpeeds, id) > rule.minimum;
   });
-  const planJobs = ({ goal, jobs = [], resourceSpeeds = {}, balanceCursor = 0 }) => {
+  const planJobs = ({ goal, jobs = [], unassigned = 1, resourceSpeeds = {}, balanceCursor = 0 }) => {
     const priorityMap = createPriorityMap(goal, jobs, resourceSpeeds);
     const candidates = jobs.filter(isAvailable);
     const deficits = getResourceDeficit(resourceSpeeds);
-    const routeJob = getRouteJob(goal, candidates, resourceSpeeds);
-    if (routeJob) return { jobs: [routeJob], deficits, resourcesSafe: false, phase: 'route', nextBalanceCursor: 0, priorityMap };
-    const safetyJob = getSafetyJob(candidates, resourceSpeeds);
-    if (safetyJob) return { jobs: [safetyJob], deficits, resourcesSafe: false, phase: 'safety', nextBalanceCursor: 0, priorityMap };
-    const start = Number.isInteger(balanceCursor) && balanceCursor >= 0 ? balanceCursor % balanceJobs.length : 0;
-    const balancedJob = balanceJobs.map((_, offset) => balanceJobs[(start + offset) % balanceJobs.length])
-      .map(id => candidates.find(job => (job.key || job.id) === id && canApplyJob(job, resourceSpeeds)))
-      .find(Boolean);
-    if (balancedJob) return { jobs: [balancedJob], deficits, resourcesSafe: allSafetyResourcesSafe(resourceSpeeds), phase: 'balance', nextBalanceCursor: (balanceJobs.indexOf(balancedJob.key || balancedJob.id) + 1) % balanceJobs.length, priorityMap };
-    const sorted = candidates.filter(job => canApplyJob(job, resourceSpeeds)).sort((a, b) => {
+    const projectedSpeeds = Object.fromEntries(Object.keys(resourceRules).map(id => [id, getSpeed(resourceSpeeds, id)]));
+    const allocations = [];
+    const allocatedCounts = {};
+    let remaining = Math.max(0, Number(unassigned));
+    const take = count => Math.max(0, Math.min(count, remaining));
+    const findJob = id => candidates.find(job => (job.key || job.id) === id);
+    const capacity = job => Math.max(0, getCapacity(job) - (allocatedCounts[job.key || job.id] || 0));
+
+    const farmer = findJob('farmer');
+    if (farmer && remaining > 0 && Number(farmer.current) < 1) {
+      const count = take(Math.min(1, capacity(farmer)));
+      addAllocation(allocations, farmer, count, allocatedCounts);
+      addJobProjection(projectedSpeeds, farmer, count);
+      remaining -= count;
+    }
+    const minimums = getRouteMinimums(goal);
+    for (const id of getRouteJobs(goal)) {
+      if (remaining <= 0) break;
+      const job = findJob(id);
+      if (!job) continue;
+      const count = take(Math.min(capacity(job), Math.max(0, (minimums[id] || 1) - Number(job.current || 0))));
+      addAllocation(allocations, job, count, allocatedCounts);
+      addJobProjection(projectedSpeeds, job, count);
+      remaining -= count;
+    }
+    while (remaining > 0) {
+      const safetyJob = getSafetyCandidate(candidates, projectedSpeeds, capacity);
+      if (!safetyJob) break;
+      const count = take(Math.min(capacity(safetyJob), getSafetyAllocationCount(safetyJob, projectedSpeeds)));
+      if (!count) break;
+      addAllocation(allocations, safetyJob, count, allocatedCounts);
+      addJobProjection(projectedSpeeds, safetyJob, count);
+      remaining -= count;
+    }
+    let cursor = Number.isInteger(balanceCursor) && balanceCursor >= 0 ? balanceCursor % balanceJobs.length : 0;
+    while (remaining > 0) {
+      const balancedJob = balanceJobs.map((_, offset) => balanceJobs[(cursor + offset) % balanceJobs.length])
+        .map(id => candidates.find(job => (job.key || job.id) === id && capacity(job) > 0 && canApplyJob(job, projectedSpeeds)))
+        .find(Boolean);
+      if (!balancedJob) break;
+      addAllocation(allocations, balancedJob, 1, allocatedCounts);
+      addJobProjection(projectedSpeeds, balancedJob, 1);
+      remaining -= 1;
+      cursor = (balanceJobs.indexOf(balancedJob.key || balancedJob.id) + 1) % balanceJobs.length;
+    }
+    const routeIds = getRouteJobs(goal);
+    const sorted = candidates.filter(job => capacity(job) > 0 && !routeIds.includes(job.key || job.id) && canApplyJob(job, projectedSpeeds)).sort((a, b) => {
       const aKey = a.key || a.id;
       const bKey = b.key || b.id;
       return (priorityMap[bKey] || 0) - (priorityMap[aKey] || 0) || Number(a.current) - Number(b.current);
     });
-    return { jobs: sorted, deficits, resourcesSafe: allSafetyResourcesSafe(resourceSpeeds), phase: 'balance', nextBalanceCursor: 0, priorityMap };
+    sorted.forEach(job => {
+      if (remaining <= 0) return;
+      const count = take(Math.min(capacity(job), remaining));
+      addAllocation(allocations, job, count, allocatedCounts);
+      addJobProjection(projectedSpeeds, job, count);
+      remaining -= count;
+    });
+    const hasRoute = allocations.some(item => routeIds.includes(item.key || item.id));
+    const hasSafety = allocations.some(item => !routeIds.includes(item.key || item.id) && !['farmer', ...balanceJobs].includes(item.key || item.id));
+    const last = allocations[allocations.length - 1];
+    const lastIndex = last ? balanceJobs.indexOf(last.key || last.id) : -1;
+    return {
+      jobs: allocations,
+      deficits,
+      resourcesSafe: allSafetyResourcesSafe(projectedSpeeds),
+      phase: hasRoute ? 'route' : hasSafety ? 'safety' : 'balance',
+      nextBalanceCursor: lastIndex >= 0 ? (lastIndex + 1) % balanceJobs.length : 0,
+      priorityMap
+    };
   };
   const normalizeJobSignature = jobs => (jobs || []).map(job => `${job.key || job.id}:${job.maxAvailable}`).sort().join(',');
   const getSnapshot = ({ goal, jobs = [], unassigned = 0, resourceSpeeds = {} }) => ({
@@ -47977,8 +48035,7 @@ const smartPopulationPlanner = (() => {
     lastSnapshot = snapshot;
     return changed || hasUnassigned;
   };
-  const hasStructuralChange = (snapshot, previous = lastSnapshot) =>
-    !previous || snapshot.goal !== previous.goal || snapshot.jobs !== previous.jobs;
+  const hasStructuralChange = (snapshot, previous = lastSnapshot) => !previous || snapshot.goal !== previous.goal || snapshot.jobs !== previous.jobs;
   const resetSnapshot = () => { lastSnapshot = null; };
   return { getResourceRules, getRouteJobs, getRouteMinimums, getSnapshot, shouldRebalance, hasStructuralChange, planJobs, resetSnapshot, balanceJobs };
 })();
@@ -48565,21 +48622,27 @@ const smartPopulationPlanner = (() => {
       const plan = smartPopulationPlanner.planJobs({
         goal: state.options.smartBuild.goal,
         jobs: availableJobs,
+        unassigned: currentSummary.unassigned,
         resourceSpeeds: getSmartResourceSpeeds(),
         balanceCursor
       });
-      const job = plan.jobs.find(candidate => candidate.container && candidate.container.querySelector('button.btn-green'));
-      if (!job) break;
-      job.container.querySelector('button.btn-green').click();
-      logger({ msgLevel: 'log', msg: `Assigning smart worker as ${job.id}` });
-      await sleep(25);
-      if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) return;
-      if (plan.phase === 'balance') {
-        const index = smartPopulationPlanner.balanceJobs.indexOf(job.key || job.id);
-        balanceCursor = index >= 0 ? (index + 1) % smartPopulationPlanner.balanceJobs.length : balanceCursor;
-      } else {
-        balanceCursor = 0;
+      if (!plan.jobs.length) break;
+      let assigned = false;
+      for (const job of plan.jobs) {
+        const count = Math.max(0, Number(job.assignCount) || 1);
+        for (let index = 0; index < count && !state.scriptPaused; index += 1) {
+          const currentJob = getAllAvailableJobs().find(candidate => (candidate.key || candidate.id) === (job.key || job.id));
+          const button = currentJob && currentJob.container && currentJob.container.querySelector('button.btn-green');
+          if (!button) break;
+          button.click();
+          assigned = true;
+          logger({ msgLevel: 'log', msg: `Assigning smart worker as ${job.id}` });
+          await sleep(25);
+          if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) return;
+        }
       }
+      if (!assigned) break;
+      balanceCursor = plan.phase === 'balance' ? plan.nextBalanceCursor : 0;
       availableJobs = getAllAvailableJobs();
     }
   };

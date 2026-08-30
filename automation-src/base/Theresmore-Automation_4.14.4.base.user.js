@@ -47892,21 +47892,27 @@ const taVersion = "4.14.4";
       const plan = smartPopulationPlanner.planJobs({
         goal: state.options.smartBuild.goal,
         jobs: availableJobs,
+        unassigned: currentSummary.unassigned,
         resourceSpeeds: getSmartResourceSpeeds(),
         balanceCursor
       });
-      const job = plan.jobs.find(candidate => candidate.container && candidate.container.querySelector('button.btn-green'));
-      if (!job) break;
-      job.container.querySelector('button.btn-green').click();
-      logger({ msgLevel: 'log', msg: `Assigning smart worker as ${job.id}` });
-      await sleep(25);
-      if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) return;
-      if (plan.phase === 'balance') {
-        const index = smartPopulationPlanner.balanceJobs.indexOf(job.key || job.id);
-        balanceCursor = index >= 0 ? (index + 1) % smartPopulationPlanner.balanceJobs.length : balanceCursor;
-      } else {
-        balanceCursor = 0;
+      if (!plan.jobs.length) break;
+      let assigned = false;
+      for (const job of plan.jobs) {
+        const count = Math.max(0, Number(job.assignCount) || 1);
+        for (let index = 0; index < count && !state.scriptPaused; index += 1) {
+          const currentJob = getAllAvailableJobs().find(candidate => (candidate.key || candidate.id) === (job.key || job.id));
+          const button = currentJob && currentJob.container && currentJob.container.querySelector('button.btn-green');
+          if (!button) break;
+          button.click();
+          assigned = true;
+          logger({ msgLevel: 'log', msg: `Assigning smart worker as ${job.id}` });
+          await sleep(25);
+          if (!navigation.checkPage(CONSTANTS.PAGES.POPULATION)) return;
+        }
       }
+      if (!assigned) break;
+      balanceCursor = plan.phase === 'balance' ? plan.nextBalanceCursor : 0;
       availableJobs = getAllAvailableJobs();
     }
   };

@@ -11,7 +11,7 @@ const rules = planner.getResourceRules();
 for (const id of ['food', 'wood', 'stone', 'copper', 'iron', 'tools']) assert.strictEqual(rules[id].minimum, 1);
 for (const id of ['cow', 'horse']) assert.strictEqual(rules[id].minimum, 0);
 for (const id of ['building_material', 'crystal', 'supplies']) assert(rules[id].priority > rules.wood.priority);
-assert.strictEqual(JSON.stringify(planner.getRouteJobs('fastNgPlus')), JSON.stringify(['professor', 'supplier', 'carpenter']));
+assert.strictEqual(JSON.stringify(planner.getRouteJobs('fastNgPlus')), JSON.stringify(['professor', 'carpenter', 'supplier']));
 assert.strictEqual(JSON.stringify(planner.getRouteJobs('titanThenFastNgPlus')), JSON.stringify([]));
 
 const safeResources = {
@@ -23,25 +23,32 @@ const jobs = [
   { key: 'professor', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'research', value: 6 }], resourcesUsed: [{ id: 'gold', value: -3 }] },
   { key: 'carpenter', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'building_material', value: 2 }], resourcesUsed: [] }
 ];
-assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs, resourceSpeeds: safeResources }).jobs[0].key, 'professor');
-const professorAssignedJobs = jobs.map(job => job.key === 'professor' ? { ...job, current: 1 } : job);
-assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: professorAssignedJobs, resourceSpeeds: safeResources }).jobs[0].key, 'professor');
-const professorFilledJobs = professorAssignedJobs.map(job => job.key === 'professor' ? { ...job, current: 3 } : job);
-assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: professorFilledJobs, resourceSpeeds: safeResources }).jobs[0].key, 'supplier');
+const stagedPlan = planner.planJobs({ goal: 'fastNgPlus', jobs, unassigned: 8, resourceSpeeds: safeResources });
+assert.strictEqual(JSON.stringify(stagedPlan.jobs.map(job => [job.key, job.assignCount])), JSON.stringify([['professor', 3], ['carpenter', 1], ['supplier', 1]]));
+const stagedFoodJobs = [
+  { key: 'farmer', current: 0, max: 99, maxAvailable: 5, resourcesGenerated: [{ id: 'food', value: 1.6 }] },
+  { key: 'professor', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'research', value: 6 }], resourcesUsed: [] },
+  { key: 'carpenter', current: 0, max: 99, maxAvailable: 1, resourcesGenerated: [{ id: 'building_material', value: 2 }], resourcesUsed: [] },
+  { key: 'supplier', current: 0, max: 99, maxAvailable: 1, resourcesGenerated: [{ id: 'supplies', value: 2 }], resourcesUsed: [{ id: 'food', value: -3 }] }
+];
+const stagedFoodPlan = planner.planJobs({ goal: 'fastNgPlus', jobs: stagedFoodJobs, unassigned: 8, resourceSpeeds: { ...safeResources, food: 0 } });
+assert.strictEqual(JSON.stringify(stagedFoodPlan.jobs.map(job => [job.key, job.assignCount])), JSON.stringify([['farmer', 1], ['professor', 3], ['carpenter', 1], ['supplier', 1], ['farmer', 2]]));
+const professorFilledJobs = jobs.map(job => job.key === 'professor' ? { ...job, current: 3 } : job);
 // Supplier is a route requirement in its own right; it must remain assignable
 // immediately after NG+ even when the craftsmen guild is absent.
 assert.strictEqual(planner.planJobs({
   goal: 'fastNgPlus',
   jobs: [{ key: 'supplier', current: 0, max: 99, maxAvailable: 1, resourcesGenerated: [{ id: 'supplies', value: 0.4 }], resourcesUsed: [] }],
+  unassigned: 1,
   resourceSpeeds: { ...safeResources, supplies: 0 }
 }).jobs[0].key, 'supplier');
 const routeAssignedJobs = professorFilledJobs.map(job => job.key === 'supplier' ? { ...job, current: 1 } : job);
-assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: routeAssignedJobs, resourceSpeeds: safeResources }).jobs[0].key, 'carpenter');
+assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: routeAssignedJobs, unassigned: 1, resourceSpeeds: safeResources }).jobs[0].key, 'carpenter');
 const allRouteJobs = routeAssignedJobs.map(job => job.key === 'carpenter' ? { ...job, current: 1 } : job);
 const cowSafetyJobs = [...allRouteJobs, { key: 'breeder', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'cow', value: 1 }], resourcesUsed: [] }];
-assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: cowSafetyJobs, resourceSpeeds: { ...safeResources, cow: -0.5 } }).jobs[0].key, 'breeder');
-assert.strictEqual(planner.planJobs({ goal: 'moonlightNight', jobs: [{ key: 'farmer', current: 0, max: 99, maxAvailable: 1, resourcesGenerated: [{ id: 'food', value: 1.6 }] }, ...jobs], resourceSpeeds: safeResources }).jobs[0].key, 'farmer');
-assert.strictEqual(planner.planJobs({ goal: 'progress', jobs: [{ key: 'farmer', current: 0, max: 99, maxAvailable: 1, resourcesGenerated: [{ id: 'food', value: 1.6 }] }, ...jobs], resourceSpeeds: safeResources }).jobs[0].key, 'farmer');
+assert.strictEqual(planner.planJobs({ goal: 'fastNgPlus', jobs: cowSafetyJobs, unassigned: 1, resourceSpeeds: { ...safeResources, cow: -0.5 } }).jobs[0].key, 'breeder');
+assert.strictEqual(planner.planJobs({ goal: 'moonlightNight', jobs: [{ key: 'farmer', current: 0, max: 99, maxAvailable: 1, resourcesGenerated: [{ id: 'food', value: 1.6 }] }, ...jobs], unassigned: 1, resourceSpeeds: safeResources }).jobs[0].key, 'farmer');
+assert.strictEqual(planner.planJobs({ goal: 'progress', jobs: [{ key: 'farmer', current: 0, max: 99, maxAvailable: 1, resourcesGenerated: [{ id: 'food', value: 1.6 }] }, ...jobs], unassigned: 1, resourceSpeeds: safeResources }).jobs[0].key, 'farmer');
 
 const productionJobs = [
   { key: 'lumberjack', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'wood', value: 0.7 }] },

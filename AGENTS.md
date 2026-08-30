@@ -64,3 +64,8 @@ node --check C:\Users\240076\Desktop\Code\2026\CODEX\THERESMORE\Theresmore-Autom
 
 Do not hand-edit the generated userscript for smart-build changes unless the task is explicitly about regenerating or repairing the base template. Prefer editing fragments and rebuilding.
 
+## Superpowers Skill Constraint
+
+- 本项目仅允许使用 `brainstorming` 和 `frontend-design` 两个 Superpowers skill。
+- 除上述两个 skill 外，不得调用或引入其他 Superpowers skill；非界面任务无需调用 `frontend-design`。
+
