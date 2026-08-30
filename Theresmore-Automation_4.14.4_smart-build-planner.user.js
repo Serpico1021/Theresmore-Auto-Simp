@@ -7,7 +7,7 @@
 // @match       https://theresmoregame.g8hh.com.cn/
 // @license     MIT
 // @run-at      document-idle
-// @version     1.0.0.3
+// @version     1.0.0.4
 // @homepage    https://github.com/Theresmore-Automation/Theresmore-Automation
 // @author      Theresmore Automation team
 // @grant       none
@@ -53,7 +53,7 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WIT
 
 */
 
-const taVersion = "1.0.0.3";
+const taVersion = "1.0.0.4";
 
 
 (function () {
@@ -48267,8 +48267,15 @@ const smartPopulationPlanner = (() => {
           const button = buttons.find(shouldBuildButton);
           if (!button) break;
           const wasPopulationSensitive = isPopulationSensitiveBuilding(button.building);
+          const buildingKey = button.building.key;
+          const previousCount = getButtonCount(button);
+          const buttonWasUnavailable = button.element.classList.contains('btn-off') || button.element.disabled;
+          if (buttonWasUnavailable) {
+            if (wasPopulationSensitive) await adjustPopulation();
+            return;
+          }
           if (state.options.turbo.enabled && state.MainStore) {
-            state.MainStore.BuildingsStore.addBuilding(button.building.key);
+            state.MainStore.BuildingsStore.addBuilding(buildingKey);
           } else {
             button.element.click();
           }
@@ -48276,6 +48283,12 @@ const smartPopulationPlanner = (() => {
           await sleep(25);
           if (!navigation.checkPage(CONSTANTS.PAGES.BUILD)) return;
           buttons = getAllButtons();
+          const updatedButton = buttons.find(candidate => candidate.building.key === buildingKey);
+          const currentCount = updatedButton ? getButtonCount(updatedButton) : getCurrentBuildingCount(buildingKey);
+          if (!(currentCount > previousCount)) {
+            if (wasPopulationSensitive) await adjustPopulation();
+            return;
+          }
           if (!wasPopulationSensitive) continue;
           const nextButton = buttons[0];
           if (!nextButton || !isPopulationSensitiveBuilding(nextButton.building) || !shouldBuildButton(nextButton)) {

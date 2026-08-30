@@ -10,6 +10,8 @@ assert(source.includes('!shouldBuildButton(nextButton)'), 'safety-lock lookahead
 assert(source.includes('buttons = getAllButtons();'), 'post-build button refresh missing');
 assert(!source.includes('buildsThisPass < maxBuildsThisPass'), 'population-sensitive batch must not stop at maxExtra');
 assert(!source.includes('lastBuiltPopulationSensitive && buildsThisPass >= maxBuildsThisPass'), 'population-sensitive batch must not hand off at maxExtra');
+assert(source.includes('buttonWasUnavailable'), 'unavailable building gate missing');
+assert(source.includes('currentCount > previousCount'), 'build success check missing');
 assert(source.includes('await adjustPopulation();'), 'population adjustment handoff missing');
 
 console.log('smart build batching tests passed');

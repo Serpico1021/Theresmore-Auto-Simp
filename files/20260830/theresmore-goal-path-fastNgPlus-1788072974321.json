@@ -1,0 +1,335 @@
+{
+  "exportedAt": "2026-08-30T04:53:38.000Z",
+  "goal": "fastNgPlus",
+  "nodes": [
+    {
+      "kind": "tech",
+      "id": "architecture",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "establish_boundaries",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "servitude",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "watchman_outpost",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "resource-cap",
+        "resourceId": "supplies"
+      },
+      "current": 0,
+      "target": 4,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "moonlight_night"
+        },
+        {
+          "key": "goalBuildingFocus"
+        },
+        {
+          "key": "gate"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "common_house",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 15,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalBuildingFocus"
+        },
+        {
+          "key": "whitelist"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "quarry",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "goalBuildingFocus"
+        },
+        {
+          "key": "whitelist"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "artisan_workshop",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalBuildingFocus"
+        },
+        {
+          "key": "whitelist"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "farm",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "house_workers",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 12,
+      "target": 12,
+      "reasons": [
+        {
+          "key": "whitelist"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "craftsmen_guild",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "guild_craftsmen"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "guild_of_craftsmen"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "carpenter_workshop",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "bootstrapJobProducer",
+          "resourceId": "building_material"
+        },
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "stable",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "lumberjack_camp",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "mine",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "architecture_titan_t",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "architecture_titan"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "titan_work_area"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "moonlight_night",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "guild_of_craftsmen",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "university",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "mansion",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 4,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "grocery",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "titan_work_area",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    }
+  ],
+  "forcedTargets": {},
+  "notes": ""
+}
