@@ -35,7 +35,7 @@ const smartPopulationPlanner = (() => {
   const isResourceSafe = resourceSpeeds => Object.entries(resourceRules).every(([id, rule]) => getSpeed(resourceSpeeds, id) > rule.minimum);
   const getResourceDeficit = resourceSpeeds => Object.entries(resourceRules)
     .map(([id, rule]) => ({ id, ...rule, deficit: rule.minimum - getSpeed(resourceSpeeds, id) }))
-    .filter(item => item.deficit >= 0)
+    .filter(item => item.deficit > 0)
     .sort((a, b) => b.priority - a.priority || b.deficit - a.deficit);
   const getJobProduction = (job, resourceId) => (job.resourcesGenerated || [])
     .filter(resource => resource.id === resourceId)

@@ -7,7 +7,7 @@
 // @match       https://theresmoregame.g8hh.com.cn/
 // @license     MIT
 // @run-at      document-idle
-// @version     1.0.0.4
+// @version     1.0.0.6
 // @homepage    https://github.com/Theresmore-Automation/Theresmore-Automation
 // @author      Theresmore Automation team
 // @grant       none
@@ -53,7 +53,7 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WIT
 
 */
 
-const taVersion = "1.0.0.4";
+const taVersion = "1.0.0.6";
 
 
 (function () {
@@ -47533,6 +47533,17 @@ const taVersion = "1.0.0.4";
             await executeAction$4();
           }
         };
+        const waitForBuildingCountIncrease = async (buildingKey, previousCount) => {
+          const timeoutMs = 2000;
+          const pollIntervalMs = 100;
+          const startedAt = Date.now();
+          while (!state.scriptPaused && Date.now() - startedAt < timeoutMs) {
+            if (!navigation.checkPage(CONSTANTS.PAGES.BUILD)) return false;
+            if (getCurrentBuildingCount(buildingKey) > previousCount) return true;
+            await sleep(pollIntervalMs);
+          }
+          return getCurrentBuildingCount(buildingKey) > previousCount;
+        };
         while (!state.scriptPaused && buttons.length) {
           const button = buttons.find(shouldBuildButton);
           if (!button) break;
@@ -47550,8 +47561,11 @@ const taVersion = "1.0.0.4";
             button.element.click();
           }
           logger({ msgLevel: 'log', msg: `Building ${button.building.id}` });
-          await sleep(25);
-          if (!navigation.checkPage(CONSTANTS.PAGES.BUILD)) return;
+          const buildSucceeded = await waitForBuildingCountIncrease(buildingKey, previousCount);
+          if (!buildSucceeded) {
+            if (wasPopulationSensitive) await adjustPopulation();
+            return;
+          }
           buttons = getAllButtons();
           const updatedButton = buttons.find(candidate => candidate.building.key === buildingKey);
           const currentCount = updatedButton ? getButtonCount(updatedButton) : getCurrentBuildingCount(buildingKey);

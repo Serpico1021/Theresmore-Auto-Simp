@@ -68,6 +68,21 @@ const carpenterSupport = [
 ];
 const unsafeResources = { ...safeResources, wood: 0, stone: 0, tools: 0 };
 assert.strictEqual(planner.planJobs({ goal: 'moonlightNight', jobs: carpenterSupport, resourceSpeeds: unsafeResources }).jobs[0].key, 'lumberjack');
+const woodShortageJobs = productionJobs;
+const woodShortagePlan = planner.planJobs({
+  goal: 'moonlightNight',
+  jobs: woodShortageJobs,
+  unassigned: 8,
+  resourceSpeeds: { ...safeResources, wood: -2 }
+});
+assert.strictEqual(JSON.stringify(woodShortagePlan.jobs.map(job => [job.key, job.assignCount])), JSON.stringify([
+  ['farmer', 1],
+  ['lumberjack', 3],
+  ['quarryman', 1],
+  ['miner', 1],
+  ['artisan', 1],
+  ['quarryman', 1]
+]));
 
 const snapshot = planner.getSnapshot({ goal: 'fastNgPlus', jobs: [], unassigned: 0, resourceSpeeds: safeResources });
 planner.resetSnapshot();

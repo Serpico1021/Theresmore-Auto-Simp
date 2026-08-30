@@ -11,6 +11,9 @@ assert(source.includes('buttons = getAllButtons();'), 'post-build button refresh
 assert(!source.includes('buildsThisPass < maxBuildsThisPass'), 'population-sensitive batch must not stop at maxExtra');
 assert(!source.includes('lastBuiltPopulationSensitive && buildsThisPass >= maxBuildsThisPass'), 'population-sensitive batch must not hand off at maxExtra');
 assert(source.includes('buttonWasUnavailable'), 'unavailable building gate missing');
+assert(source.includes('const timeoutMs = 2000'), 'construction result timeout missing');
+assert(source.includes('const pollIntervalMs = 100'), 'construction result polling interval missing');
+assert(source.includes('waitForBuildingCountIncrease'), 'construction result polling helper missing');
 assert(source.includes('currentCount > previousCount'), 'build success check missing');
 assert(source.includes('await adjustPopulation();'), 'population adjustment handoff missing');
 
