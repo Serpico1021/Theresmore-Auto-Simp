@@ -16,11 +16,13 @@ assert(source.includes('const pollIntervalMs = 100'), 'construction result polli
 assert(source.includes('waitForBuildingCountIncrease'), 'construction result polling helper missing');
 assert(source.includes('currentCount > previousCount'), 'build success check missing');
 assert(source.includes('const isResearchButtonAvailable = button =>'), 'research availability predicate missing');
-assert(source.includes('hasAvailableResearch()'), 'research availability gate missing');
+assert(source.includes('isResearchButtonAvailable(tech.button)'), 'research action must filter disabled buttons after entering the research page');
+assert(source.includes('researchProbeIntervalMs'), 'research probing needs a cooldown when no button is available');
 assert(source.includes("document.querySelectorAll('#maintabs-container button.btn')"), 'research preflight must inspect mounted research buttons');
 assert(source.includes("completeFirstAgricultureResearch"), 'first-house agriculture flow missing');
 assert(source.includes("isTechCompleted('agricolture')"), 'first-house agriculture completion check missing');
 assert(source.includes("Researching agricolture before continuing after the first common house"), 'first-house agriculture log missing');
 assert(source.includes('await adjustPopulation();'), 'population adjustment handoff missing');
+assert(source.includes("'city_center_unit'"), 'city center component must remain inside the population-sensitive batch boundary');
 
 console.log('smart build batching tests passed');

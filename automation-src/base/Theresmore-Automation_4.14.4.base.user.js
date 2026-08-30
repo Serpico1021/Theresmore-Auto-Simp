@@ -7,7 +7,7 @@
 // @match       https://theresmoregame.g8hh.com.cn/
 // @license     MIT
 // @run-at      document-idle
-// @version     1.0.0.8
+// @version     1.0.0.10
 // @homepage    https://github.com/Theresmore-Automation/Theresmore-Automation
 // @author      Theresmore Automation team
 // @grant       none
@@ -53,7 +53,7 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WIT
 
 */
 
-const taVersion = "1.0.0.8";
+const taVersion = "1.0.0.10";
 
 
 (function () {
@@ -47386,7 +47386,7 @@ const taVersion = "1.0.0.8";
 		'extensive_cultivation_b', 'steel_mills_b', 'crystal_farm_b', 'elf_village', 'elf_town',
 		'elf_encampment', 'dock', 'custom_house', 'financial_center', 'estates',
 		'statue_virtue', 'pilgrim_camp', 'mana_extractors', 'beacon_light', 'light_turret',
-		'probe_system', 'arcane_school', 'underground_house', 'light_square_b', 'mining_area'
+		'probe_system', 'arcane_school', 'underground_house', 'light_square_b', 'mining_area', 'city_center_unit'
 		];
     const isPopulationSensitiveBuilding = building => Boolean(building && popAdjustBuildingList.includes(building.key));
     const getButtonCount = button => {
@@ -48176,7 +48176,7 @@ const taVersion = "1.0.0.8";
         ...tech,
         button
       };
-    }).filter(tech => tech.button).sort((a, b) => b.prio - a.prio);
+    }).filter(tech => tech.button && isResearchButtonAvailable(tech.button)).sort((a, b) => b.prio - a.prio);
     return allowedResearch;
   };
   const getAllResearchButtons = () => {
@@ -48322,10 +48322,12 @@ const taVersion = "1.0.0.8";
     }
     return false;
   };
+  const researchProbeIntervalMs = 1000;
   var ResearchResearch = {
     page: CONSTANTS.PAGES.RESEARCH,
     subpage: CONSTANTS.SUBPAGES.RESEARCH,
-    enabled: () => userEnabled$3() && navigation.hasPage(CONSTANTS.PAGES.RESEARCH) && hasResearches() && hasAvailableResearch(),
+    enabled: () => userEnabled$3() && navigation.hasPage(CONSTANTS.PAGES.RESEARCH) && getAllowedResearch().length && hasResearches() &&
+      new Date().getTime() - (state.lastVisited[`${CONSTANTS.PAGES.RESEARCH}${CONSTANTS.SUBPAGES.RESEARCH}`] || 0) >= researchProbeIntervalMs,
     action: async () => {
       await navigation.switchSubPage(CONSTANTS.SUBPAGES.RESEARCH, CONSTANTS.PAGES.RESEARCH);
       if (navigation.checkPage(CONSTANTS.PAGES.RESEARCH, CONSTANTS.SUBPAGES.RESEARCH)) await executeAction$3();
