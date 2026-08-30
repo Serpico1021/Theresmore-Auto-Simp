@@ -47346,7 +47346,7 @@ const smartBuildGoals = {
     dangerousResearchOverrides: ['moonlight_night'],
     resourceFocus: ['research', 'food', 'wood', 'stone', 'iron', 'tools'],
     buildingFocus: ['common_house', 'quarry', 'artisan_workshop', 'watchman_outpost'],
-    targetTechs: ['architecture', 'establish_boundaries', 'moonlight_night']
+    targetTechs: ['architecture', 'establish_boundaries', 'servitude', 'moonlight_night']
   }
 };
 smartBuildGoals.fastNgPlus = { ...smartBuildGoals.moonlightNight };
