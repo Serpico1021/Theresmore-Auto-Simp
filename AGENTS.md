@@ -10,6 +10,7 @@
 - 单个命令优先控制在 30 秒内；可能耗时的构建、测试或搜索必须拆成可观察的独立命令。
 - 可能超过 30 秒的任务要提前说明，并确保 60 秒内发送一次进度更新，避免无反馈触发 `Reconnecting...` 或 `Request timed out`。
 - 禁止无界等待；命令超时后保留已获得结果，缩小范围分段继续执行。
+- Git commit 提交信息优先使用中文，内容应简洁说明本次变更。
 
 ## Output Location
 
@@ -71,7 +72,7 @@ Do not hand-edit the generated userscript for smart-build changes unless the tas
 
 ## Userscript Version Constraint
 
-- 当前 userscript 版本为 `1.0.0.1`，必须同时更新基础模板中的 `@version` 和 `taVersion`。
+- 当前 userscript 版本为 `1.0.0.8`，必须同时更新基础模板中的 `@version` 和 `taVersion`。
 - 后续每次功能、行为或用户可见逻辑更新都必须递增版本号的最后一段；若最后一段达到约定上限，则递增前一段并将后续段归零。
 - 修改 `automation-src` 后必须重新构建生成 userscript，并确认生成文件中的版本号与基础模板一致。
 

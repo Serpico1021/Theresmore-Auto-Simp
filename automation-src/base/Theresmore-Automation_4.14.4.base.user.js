@@ -7,7 +7,7 @@
 // @match       https://theresmoregame.g8hh.com.cn/
 // @license     MIT
 // @run-at      document-idle
-// @version     1.0.0.6
+// @version     1.0.0.8
 // @homepage    https://github.com/Theresmore-Automation/Theresmore-Automation
 // @author      Theresmore Automation team
 // @grant       none
@@ -53,7 +53,7 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WIT
 
 */
 
-const taVersion = "1.0.0.6";
+const taVersion = "1.0.0.8";
 
 
 (function () {
@@ -47544,6 +47544,30 @@ const taVersion = "1.0.0.6";
           }
           return getCurrentBuildingCount(buildingKey) > previousCount;
         };
+        const completeFirstAgricultureResearch = async () => {
+          if (isTechCompleted('agricolture')) return true;
+          await navigation.switchSubPage(CONSTANTS.SUBPAGES.RESEARCH, CONSTANTS.PAGES.RESEARCH);
+          if (!navigation.checkPage(CONSTANTS.PAGES.RESEARCH, CONSTANTS.SUBPAGES.RESEARCH)) return false;
+          const timeoutMs = 300000;
+          const pollIntervalMs = 1000;
+          const startedAt = Date.now();
+          while (!state.scriptPaused && Date.now() - startedAt < timeoutMs) {
+            if (isTechCompleted('agricolture')) return true;
+            const agricultureButton = selectors.getAllButtons(true).find(button => reactUtil.getNearestKey(button, 7) === keyGen.research.key('agricolture'));
+            if (agricultureButton && isResearchButtonAvailable(agricultureButton)) {
+              if (state.options.turbo.enabled && state.MainStore) {
+                state.MainStore.TechsStore.addTech('agricolture');
+              } else {
+                agricultureButton.click();
+              }
+              logger({ msgLevel: 'log', msg: 'Researching agricolture before continuing after the first common house' });
+              await sleep(100);
+            } else {
+              await sleep(pollIntervalMs);
+            }
+          }
+          return isTechCompleted('agricolture');
+        };
         while (!state.scriptPaused && buttons.length) {
           const button = buttons.find(shouldBuildButton);
           if (!button) break;
@@ -47571,6 +47595,13 @@ const taVersion = "1.0.0.6";
           const currentCount = updatedButton ? getButtonCount(updatedButton) : getCurrentBuildingCount(buildingKey);
           if (!(currentCount > previousCount)) {
             if (wasPopulationSensitive) await adjustPopulation();
+            return;
+          }
+          if (buildingKey === 'common_house' && firstHouse) {
+            const agricultureCompleted = await completeFirstAgricultureResearch();
+            if (agricultureCompleted) {
+              await navigation.switchSubPage(subpage, CONSTANTS.PAGES.BUILD);
+            }
             return;
           }
           if (!wasPopulationSensitive) continue;
@@ -48149,7 +48180,7 @@ const taVersion = "1.0.0.6";
     return allowedResearch;
   };
   const getAllResearchButtons = () => {
-    const buttonsList = selectors.getAllButtons(false);
+    const buttonsList = [...document.querySelectorAll('#maintabs-container button.btn')];
     const allowedResearch = getAllowedResearch().map(tech => {
       let button = buttonsList.find(button => reactUtil.getNearestKey(button, 7) === keyGen.research.key(tech.key));
       return {
@@ -48159,6 +48190,13 @@ const taVersion = "1.0.0.6";
     }).filter(tech => tech.button).sort((a, b) => b.prio - a.prio);
     return allowedResearch;
   };
+  const isResearchButtonAvailable = button => button &&
+    !button.disabled &&
+    !button.classList.contains('btn-off') &&
+    !button.classList.contains('btn-off-cap') &&
+    !button.classList.contains('btn-progress') &&
+    button.getAttribute('aria-disabled') !== 'true';
+  const hasAvailableResearch = () => getAllResearchButtons().some(research => isResearchButtonAvailable(research.button));
   const awaitResearch = 50;
 
   const executeAction$3 = async () => {
@@ -48287,7 +48325,7 @@ const taVersion = "1.0.0.6";
   var ResearchResearch = {
     page: CONSTANTS.PAGES.RESEARCH,
     subpage: CONSTANTS.SUBPAGES.RESEARCH,
-    enabled: () => userEnabled$3() && navigation.hasPage(CONSTANTS.PAGES.RESEARCH) && getAllowedResearch().length && hasResearches(),
+    enabled: () => userEnabled$3() && navigation.hasPage(CONSTANTS.PAGES.RESEARCH) && hasResearches() && hasAvailableResearch(),
     action: async () => {
       await navigation.switchSubPage(CONSTANTS.SUBPAGES.RESEARCH, CONSTANTS.PAGES.RESEARCH);
       if (navigation.checkPage(CONSTANTS.PAGES.RESEARCH, CONSTANTS.SUBPAGES.RESEARCH)) await executeAction$3();

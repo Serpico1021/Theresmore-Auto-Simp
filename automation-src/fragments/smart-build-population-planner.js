@@ -129,9 +129,13 @@ const smartPopulationPlanner = (() => {
     }
     let cursor = Number.isInteger(balanceCursor) && balanceCursor >= 0 ? balanceCursor % balanceJobs.length : 0;
     while (remaining > 0) {
-      const balancedJob = balanceJobs.map((_, offset) => balanceJobs[(cursor + offset) % balanceJobs.length])
+      const balancedOrder = balanceJobs.map((_, offset) => balanceJobs[(cursor + offset) % balanceJobs.length]);
+      const balancedCandidates = balancedOrder
         .map(id => candidates.find(job => (job.key || job.id) === id && capacity(job) > 0 && canApplyJob(job, projectedSpeeds)))
-        .find(Boolean);
+        .filter(Boolean);
+      if (!balancedCandidates.length) break;
+      const lowestCount = Math.min(...balancedCandidates.map(job => (Number(job.current) || 0) + (allocatedCounts[job.key || job.id] || 0)));
+      const balancedJob = balancedCandidates.find(job => (Number(job.current) || 0) + (allocatedCounts[job.key || job.id] || 0) === lowestCount);
       if (!balancedJob) break;
       addAllocation(allocations, balancedJob, 1, allocatedCounts);
       addJobProjection(projectedSpeeds, balancedJob, 1);

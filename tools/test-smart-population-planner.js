@@ -60,6 +60,8 @@ const productionJobs = [
 const balancedProductionJobs = productionJobs.map(job => job.key === 'farmer' ? { ...job, current: 1 } : job);
 assert.strictEqual(planner.planJobs({ goal: 'moonlightNight', jobs: balancedProductionJobs, resourceSpeeds: safeResources }).jobs[0].key, 'lumberjack');
 assert.strictEqual(planner.planJobs({ goal: 'moonlightNight', jobs: balancedProductionJobs, resourceSpeeds: safeResources, balanceCursor: 1 }).jobs[0].key, 'quarryman');
+const oneReleasedJobs = balancedProductionJobs.map(job => ({ ...job, maxAvailable: 99, current: job.key === 'lumberjack' ? 16 : job.key === 'quarryman' ? 10 : 11 }));
+assert.strictEqual(planner.planJobs({ goal: 'moonlightNight', jobs: oneReleasedJobs, unassigned: 1, resourceSpeeds: safeResources }).jobs[0].key, 'quarryman');
 
 const carpenterSupport = [
   { key: 'lumberjack', current: 0, max: 99, maxAvailable: 3, resourcesGenerated: [{ id: 'wood', value: 0.7 }] },
