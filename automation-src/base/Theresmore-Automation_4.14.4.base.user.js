@@ -47420,46 +47420,52 @@ const taVersion = "1.0.0.10";
       });
     };
 
-    const getFirstHouseGoldSpeed = () => {
-      const baseSpeed = 0.2;
-      const gameData = reactUtil.getGameData();
-      const modifiers = gameData && gameData.run && Array.isArray(gameData.run.modifiers) ? gameData.run.modifiers : [];
-      let flatBonus = 0;
-      let percentBonus = 0;
-      modifiers.filter(modifier => modifier && (modifier.id === 'common_house' || modifier.id === 'bui_common_house')).forEach(modifier => {
-        const entries = Array.isArray(modifier.mods) ? modifier.mods : [modifier];
-        entries.forEach(entry => {
-          if (!entry || (entry.id !== 'gold' && entry.gen !== 'gold')) return;
-          const value = Number(entry.value);
-          if (!Number.isFinite(value)) return;
-          if (entry.perc) percentBonus += value;
-          else flatBonus += value;
-        });
+    const FIRST_HOUSE_WOOD_RESERVE = 24;
+    const FIRST_HOUSE_FOOD_RESERVE = 57.5;
+
+    const getManualGatherButtons = () => {
+      const keyed = {};
+      document.querySelectorAll('button').forEach(button => {
+        const key = reactUtil.getNearestKey(button, 6);
+        if (key && keyGen.manual.check(key)) keyed[keyGen.manual.id(key)] = button;
       });
-      return Math.max(0.01, (baseSpeed + flatBonus) * (1 + percentBonus / 100));
+      const fallbackContainer = document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600");
+      const fallback = {
+        food: fallbackContainer && fallbackContainer.querySelector('button:nth-child(1)'),
+        wood: fallbackContainer && fallbackContainer.querySelector('button:nth-child(2)'),
+        stone: fallbackContainer && fallbackContainer.querySelector('button:nth-child(3)')
+      };
+      ['food', 'wood', 'stone'].forEach(id => {
+        if (!keyed[id] && fallback[id]) keyed[id] = fallback[id];
+      });
+      return keyed;
     };
 
     const secureFirstFarmMaterials = async () => {
       if (hasNatureGift()) return;
-      const manualButtons = {
-        food: document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600 > button:nth-child(1)"),
-        wood: document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600 > button:nth-child(2)"),
-        stone: document.querySelector("#root > div.flex.flex-wrap.w-full.mx-auto.p-2.lg\\:p-3 > div.w-full.lg\\:w-4\\/12.xl\\:w-1\\/4.order-1.lg\\:order-3.z-20.lg\\:pl-2 > div > div.order-2.flex.flex-wrap.gap-3.min-w-full.mt-3.py-3.px-16.lg\\:px-3.shadow.rounded-lg.ring-1.ring-gray-300.dark\\:ring-mydark-200.bg-gray-100.dark\\:bg-mydark-600 > button:nth-child(3)")
-      };
-      const goldSpeed = getFirstHouseGoldSpeed();
-      const foodReserve = Math.ceil((10 / goldSpeed) * 1.15);
-       const targets = { wood: 24.01, food: foodReserve + 0.01 };
+      const manualButtons = getManualGatherButtons();
+      const targets = { wood: FIRST_HOUSE_WOOD_RESERVE + 0.01, food: FIRST_HOUSE_FOOD_RESERVE + 0.01 };
       for (const resourceId of ['wood', 'food']) {
         const resource = resources.get(resourceId);
         const button = manualButtons[resourceId];
         const target = targets[resourceId];
-        if (!resource || !button || !Number.isFinite(target)) continue;
+        if (!resource || !button || !Number.isFinite(target)) {
+          logger({
+            msgLevel: 'debug',
+            msg: `First-farm material gather skipped for ${resourceId}: ${!resource ? 'resource unreadable' : !button ? 'gather button not found' : 'invalid target'}`
+          });
+          continue;
+        }
         const missing = Math.max(0, Math.ceil(target - Number(resource.current)));
         const available = Math.max(0, Math.floor(Number(resource.max) - Number(resource.current)));
         for (let clicks = 0; clicks < Math.min(missing, available); clicks++) {
           button.click();
           await sleep(10);
         }
+        logger({
+          msgLevel: 'debug',
+          msg: `First-farm material gather ${resourceId}: target=${target}, before=${resource.current}, clicked=${Math.min(missing, available)}`
+        });
       }
     };
 
@@ -47521,7 +47527,7 @@ const taVersion = "1.0.0.10";
               state.options.smartBuild && state.options.smartBuild.enabled && getCurrentBuildingCount('farm') >= 1 && food && food.speed > 0;
             const wood = resources.get('wood');
             const canBuildFirstHouseWithReserve = button.building.key === 'common_house' && button.count < 1 && smartGoal &&
-              wood && Number(wood.current) > 24 && food && Number(food.current) > 57.5;
+              wood && Number(wood.current) > FIRST_HOUSE_WOOD_RESERVE && food && Number(food.current) > FIRST_HOUSE_FOOD_RESERVE;
             return canBuildFirstHouseWithReserve || canUseNextHouseToAddFarmer ||
               !button.building.requires.find(req => !resources.get(req.resource) || resources.get(req.resource)[req.parameter] <= req.minValue);
           }
