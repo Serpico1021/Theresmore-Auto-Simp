@@ -4,7 +4,7 @@ const isDangerousResearchOverridden = researchKey => {
   const goal = getGoal(options);
   return !!goal && (goal.dangerousResearchOverrides || []).includes(researchKey);
 };
-const shouldGateDangerousResearch = () => false;
+const shouldGateDangerousResearch = researchKey => !!dangerousFightsMapping[researchKey];
 const getResourceCost = (req, count = 0) => {
   const value = Number(req.value) || 0;
   if (!value) return 0;

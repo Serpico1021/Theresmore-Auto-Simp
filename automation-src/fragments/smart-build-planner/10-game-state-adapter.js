@@ -98,6 +98,7 @@ const isUnlockCompleted = (type, id) => {
   if (type === 'tech' || type === 'research') return isTechCompleted(id);
   if (type === 'prayer' || type === 'magic') return hasIndexedOrRunItem(id, ['fai_']);
   if (type === 'legacy') return hasIndexedOrRunItem(id, ['leg_']);
+  if (type === 'enemy') return hasIndexedOrRunItem(id);
   return false;
 };
 const getCompletedLegacyIds = () => (typeof legacies !== 'undefined' ? legacies : [])

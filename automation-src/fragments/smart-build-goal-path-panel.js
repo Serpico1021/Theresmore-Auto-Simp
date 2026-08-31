@@ -17,7 +17,7 @@ const GOAL_PATH_REQ_TYPE_LABEL = {
 const GOAL_PATH_I18N = {
   en: {
     title: 'Path to',
-    emptyState: 'This view is only available for the Moonlight Night goal. Select it in Smart Build settings to see your path.',
+    emptyState: 'This view needs a Smart Build goal selected (Moonlight Night / Speed NG+ / Annihilator) to show your path.',
     activeOverrides: 'Active overrides',
     noOverrides: '— everything else follows the computed path',
     summit: '☾ Summit',
@@ -51,7 +51,7 @@ const GOAL_PATH_I18N = {
   },
   zh: {
     title: '通往',
-    emptyState: '该视图仅支持 Moonlight Night 目标，请先在智能建造设置里选择该目标。',
+    emptyState: '该视图需要先在智能建造设置里选择一个目标（Moonlight Night / 速刷超转生 / 灭世）才能显示路线。',
     activeOverrides: '生效中的强制覆盖',
     noOverrides: '——其余节点均按计算结果执行',
     summit: '☾ 山顶',

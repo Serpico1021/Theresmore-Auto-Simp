@@ -1,7 +1,7 @@
 ﻿      smartBuild: {
         enabled: true,
         populationEnabled: true,
-        goal: 'progress',
+        goal: 'moonlightNight',
         strategy: 'balanced',
         risk: 'normal',
         manualOverrides: false,

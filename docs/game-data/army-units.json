@@ -1,0 +1,5061 @@
+[
+  {
+    "name": "城市",
+    "type": "定居点",
+    "attack": 1,
+    "defense": 50,
+    "splash": 20,
+    "trample": 0,
+    "defaultOrder": 0,
+    "troopType": null,
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "城市的防御",
+    "programId": "settlement_defenses"
+  },
+  {
+    "name": "侦察兵",
+    "type": "侦查",
+    "attack": 2,
+    "defense": 2,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": null,
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "箭术",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 400
+      },
+      {
+        "type": "资源",
+        "content": "食物",
+        "qty": 200
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 200
+      },
+      {
+        "name": "食物",
+        "value": 100
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.1
+      }
+    ],
+    "description": "侦察小队亲如一家",
+    "programId": "scout"
+  },
+  {
+    "name": "探险家",
+    "type": "侦查",
+    "attack": 5,
+    "defense": 5,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": null,
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "公会",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 1000
+      },
+      {
+        "type": "资源",
+        "content": "补给",
+        "qty": 100
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 400
+      },
+      {
+        "name": "补给",
+        "value": 20
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.2
+      }
+    ],
+    "description": "经验丰富的侦察兵",
+    "programId": "explorer"
+  },
+  {
+    "name": "无人机",
+    "type": "侦查",
+    "attack": 10,
+    "defense": 10,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": null,
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "无人机",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "钠红石",
+        "qty": 100
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "钠红石",
+        "value": 50
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "研究点",
+        "value": 5
+      }
+    ],
+    "description": "机械侦察兵",
+    "programId": "drone_u"
+  },
+  {
+    "name": "使魔",
+    "type": "侦查",
+    "attack": 4,
+    "defense": 4,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": null,
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "泽尼克斯的使魔",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "食物",
+        "qty": 100
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 100
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "食物",
+        "value": 100
+      },
+      {
+        "name": "法力",
+        "value": 100
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "研究点",
+        "value": 0.4
+      }
+    ],
+    "description": "泽尼克斯的使魔是魔宠，它们非常善于侦察",
+    "programId": "familiar"
+  },
+  {
+    "name": "间谍",
+    "type": "间谍",
+    "attack": 7,
+    "defense": 3,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": null,
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "间谍行动",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 1000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 100
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.1
+      }
+    ],
+    "description": "欺骗大师",
+    "programId": "spy"
+  },
+  {
+    "name": "弓箭手",
+    "type": "军队",
+    "attack": 3,
+    "defense": 2,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "箭术",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 200
+      },
+      {
+        "type": "资源",
+        "content": "木材",
+        "qty": 100
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 20
+      },
+      {
+        "name": "食物",
+        "value": 20
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.2
+      }
+    ],
+    "description": "弓箭手可以在安全距离内攻击敌军并降低他们的士气",
+    "programId": "archer"
+  },
+  {
+    "name": "投石机",
+    "type": "军队",
+    "attack": 14,
+    "defense": 2,
+    "splash": 2,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "战争",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 800
+      },
+      {
+        "type": "资源",
+        "content": "木材",
+        "qty": 1000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 80
+      },
+      {
+        "name": "食物",
+        "value": 50
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "黄金",
+        "value": -5
+      }
+    ],
+    "description": "第一种炮兵",
+    "programId": "battering_ram"
+  },
+  {
+    "name": "弩手",
+    "type": "军队",
+    "attack": 11,
+    "defense": 6,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "弩",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 1000
+      },
+      {
+        "type": "资源",
+        "content": "木材",
+        "qty": 400
+      },
+      {
+        "type": "资源",
+        "content": "补给",
+        "qty": 50
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 40
+      },
+      {
+        "name": "食物",
+        "value": 40
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.5
+      }
+    ],
+    "description": "比弓箭手更强，可以精准射击敌人，并击穿他们的护甲",
+    "programId": "crossbowman"
+  },
+  {
+    "name": "巨型投石机",
+    "type": "军队",
+    "attack": 28,
+    "defense": 3,
+    "splash": 3,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "攻城技术",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 1200
+      },
+      {
+        "type": "资源",
+        "content": "木材",
+        "qty": 2000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 100
+      },
+      {
+        "name": "食物",
+        "value": 100
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "黄金",
+        "value": -10
+      }
+    ],
+    "description": "随着弹道学的发展，我们可以部署巨型投石机了。它们的攻击力相当强大",
+    "programId": "trebuchet"
+  },
+  {
+    "name": "白色连队",
+    "type": "军队",
+    "attack": 18,
+    "defense": 11,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "白色连队",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 2500
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 75
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "黄金",
+        "value": -5
+      }
+    ],
+    "description": "精锐弓手，装备长弓",
+    "programId": "white_company"
+  },
+  {
+    "name": "战略家",
+    "type": "军队",
+    "attack": 72,
+    "defense": 12,
+    "splash": 4,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "祈祷",
+        "content": "境域行者泽尼克斯",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 7500
+      },
+      {
+        "type": "资源",
+        "content": "水晶",
+        "qty": 400
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 1000
+      },
+      {
+        "name": "水晶",
+        "value": 300
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "法力",
+        "value": 3
+      },
+      {
+        "name": "食物",
+        "value": -3
+      },
+      {
+        "name": "黄金",
+        "value": -12
+      }
+    ],
+    "description": "精于战略，也精通在后方施放法术",
+    "programId": "strategist"
+  },
+  {
+    "name": "法师",
+    "type": "军队",
+    "attack": 48,
+    "defense": 1,
+    "splash": 3,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "祈祷",
+        "content": "法师",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "信念",
+        "qty": 1250
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 1000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "信念",
+        "value": 500
+      },
+      {
+        "name": "法力",
+        "value": 250
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "法力",
+        "value": 1.2
+      },
+      {
+        "name": "黄金",
+        "value": -4
+      }
+    ],
+    "description": "脆弱，但是攻击力惊人",
+    "programId": "mage_u"
+  },
+  {
+    "name": "火绳枪兵",
+    "type": "军队",
+    "attack": 16,
+    "defense": 7,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "火药",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 1500
+      },
+      {
+        "type": "资源",
+        "content": "硝石",
+        "qty": 100
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 80
+      },
+      {
+        "name": "食物",
+        "value": 40
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.9
+      }
+    ],
+    "description": "装备火绳枪的士兵，攻击力出色",
+    "programId": "arquebusier"
+  },
+  {
+    "name": "大炮",
+    "type": "军队",
+    "attack": 42,
+    "defense": 4,
+    "splash": 4,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "军事科学",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 2000
+      },
+      {
+        "type": "资源",
+        "content": "钢",
+        "qty": 200
+      },
+      {
+        "type": "资源",
+        "content": "硝石",
+        "qty": 200
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 200
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "黄金",
+        "value": -15
+      }
+    ],
+    "description": "许多大炮形成的强大火力网可以在接触之前就轰碎敌军",
+    "programId": "bombard"
+  },
+  {
+    "name": "加农炮",
+    "type": "军队",
+    "attack": 88,
+    "defense": 8,
+    "splash": 5,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "野战炮",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 5000
+      },
+      {
+        "type": "资源",
+        "content": "硝石",
+        "qty": 1000
+      },
+      {
+        "type": "资源",
+        "content": "钢",
+        "qty": 500
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 500
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "黄金",
+        "value": -30
+      }
+    ],
+    "description": "野战炮的炮火将在敌人的耳朵和噩梦中回响",
+    "programId": "cannon"
+  },
+  {
+    "name": "火炮",
+    "type": "军队",
+    "attack": 160,
+    "defense": 15,
+    "splash": 6,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "金属合金",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 15000
+      },
+      {
+        "type": "资源",
+        "content": "硝石",
+        "qty": 5000
+      },
+      {
+        "type": "资源",
+        "content": "钢",
+        "qty": 5000
+      },
+      {
+        "type": "资源",
+        "content": "钠红石",
+        "qty": 2500
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 1000
+      },
+      {
+        "name": "钠红石",
+        "value": 200
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "黄金",
+        "value": -40
+      }
+    ],
+    "description": "让敌人们尝尝炮火雨吧",
+    "programId": "artillery"
+  },
+  {
+    "name": "大法师",
+    "type": "军队",
+    "attack": 260,
+    "defense": 120,
+    "splash": 7,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "祈祷",
+        "content": "大法师",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "信念",
+        "qty": 7000
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 7000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "信念",
+        "value": 1200
+      },
+      {
+        "name": "法力",
+        "value": 1200
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -12
+      },
+      {
+        "name": "黄金",
+        "value": -24
+      },
+      {
+        "name": "法力",
+        "value": 7
+      },
+      {
+        "name": "水晶",
+        "value": 3
+      }
+    ],
+    "description": "感受魔法的力量吧",
+    "programId": "archmage_u"
+  },
+  {
+    "name": "游击兵",
+    "type": "军队",
+    "attack": 22,
+    "defense": 15,
+    "splash": 3,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "游击战",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "食物",
+        "qty": 1500
+      },
+      {
+        "type": "资源",
+        "content": "补给",
+        "qty": 750
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 200
+      },
+      {
+        "name": "食物",
+        "value": 100
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": 1
+      }
+    ],
+    "description": "有了弓和剑，他们就能在森林中一直生存下去",
+    "programId": "ranger"
+  },
+  {
+    "name": "精灵战士",
+    "type": "军队",
+    "attack": 62,
+    "defense": 55,
+    "splash": 3,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "精灵战士",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "补给",
+        "qty": 2000
+      },
+      {
+        "type": "资源",
+        "content": "水晶",
+        "qty": 2000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "补给",
+        "value": 250
+      },
+      {
+        "name": "水晶",
+        "value": 150
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -4
+      }
+    ],
+    "description": "硕果仅存的精灵是非常强大的战士",
+    "programId": "elf_warrior"
+  },
+  {
+    "name": "神射手",
+    "type": "军队",
+    "attack": 35,
+    "defense": 15,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "战壕",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 3500
+      },
+      {
+        "type": "资源",
+        "content": "硝石",
+        "qty": 500
+      },
+      {
+        "type": "资源",
+        "content": "补给",
+        "qty": 500
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 125
+      },
+      {
+        "name": "食物",
+        "value": 75
+      },
+      {
+        "name": "补给",
+        "value": 25
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -1.5
+      }
+    ],
+    "description": "精锐射手。我们都是神枪手，每一颗子弹消灭一个敌人",
+    "programId": "marksman"
+  },
+  {
+    "name": "长弓手",
+    "type": "军队",
+    "attack": 91,
+    "defense": 2,
+    "splash": 2,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "长弓手",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 8000
+      },
+      {
+        "type": "资源",
+        "content": "木材",
+        "qty": 8000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 450
+      },
+      {
+        "name": "食物",
+        "value": 100
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -2.25
+      }
+    ],
+    "description": "射程很远，且致命",
+    "programId": "longbowman"
+  },
+  {
+    "name": "机枪手",
+    "type": "军队",
+    "attack": 90,
+    "defense": 35,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "机枪",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 7000
+      },
+      {
+        "type": "资源",
+        "content": "钠红石",
+        "qty": 750
+      },
+      {
+        "type": "资源",
+        "content": "辉烬",
+        "qty": 200
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 150
+      },
+      {
+        "name": "法力",
+        "value": 50
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -1.5
+      },
+      {
+        "name": "法力",
+        "value": -0.7
+      }
+    ],
+    "description": "魔法子弹的地狱之火攻向敌人",
+    "programId": "machine_gun_u"
+  },
+  {
+    "name": "长矛兵",
+    "type": "军队",
+    "attack": 2,
+    "defense": 7,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "青铜加工",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 200
+      },
+      {
+        "type": "资源",
+        "content": "木材",
+        "qty": 150
+      },
+      {
+        "type": "资源",
+        "content": "铜",
+        "qty": 50
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 30
+      },
+      {
+        "name": "食物",
+        "value": 25
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.2
+      }
+    ],
+    "description": "廉价的前排部队，防御力很不错",
+    "programId": "spearman"
+  },
+  {
+    "name": "方阵步兵",
+    "type": "军队",
+    "attack": 6,
+    "defense": 20,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "方阵步兵",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 200
+      },
+      {
+        "type": "资源",
+        "content": "木材",
+        "qty": 150
+      },
+      {
+        "type": "资源",
+        "content": "铁",
+        "qty": 150
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 30
+      },
+      {
+        "name": "食物",
+        "value": 30
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.3
+      }
+    ],
+    "description": "组成盾墙以抵御敌人",
+    "programId": "phalanx"
+  },
+  {
+    "name": "武僧",
+    "type": "军队",
+    "attack": 3,
+    "defense": 13,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "祈祷",
+        "content": "远古之僧",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "信念",
+        "qty": 800
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 400
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "食物",
+        "value": 10
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.4
+      }
+    ],
+    "description": "纪律严明，在战斗中令人生畏",
+    "programId": "warrior_monk"
+  },
+  {
+    "name": "持盾卫士",
+    "type": "军队",
+    "attack": 5,
+    "defense": 23,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "青铜加工",
+        "qty": 1
+      },
+      {
+        "type": "传承",
+        "content": "持盾卫士",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 350
+      },
+      {
+        "type": "资源",
+        "content": "木材",
+        "qty": 350
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 30
+      },
+      {
+        "name": "食物",
+        "value": 30
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.4
+      }
+    ],
+    "description": "大盾牌，大防御",
+    "programId": "shieldbearer"
+  },
+  {
+    "name": "牧师",
+    "type": "军队",
+    "attack": 1,
+    "defense": 36,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "宗教",
+        "qty": 1
+      },
+      {
+        "type": "传承",
+        "content": "牧师",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "食物",
+        "qty": 800
+      },
+      {
+        "type": "资源",
+        "content": "信念",
+        "qty": 800
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "食物",
+        "value": 80
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -1
+      },
+      {
+        "name": "黄金",
+        "value": -1
+      }
+    ],
+    "description": "在后方鼓励和祝福士兵",
+    "programId": "priest"
+  },
+  {
+    "name": "神圣魔像",
+    "type": "军队",
+    "attack": 8,
+    "defense": 22,
+    "splash": 0,
+    "trample": 0.5,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "祈祷",
+        "content": "制造神圣魔像",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "石头",
+        "qty": 2000
+      },
+      {
+        "type": "资源",
+        "content": "信念",
+        "qty": 1000
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 800
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "法力",
+        "value": 100
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "法力",
+        "value": -1.5
+      }
+    ],
+    "description": "使用魔法驱动的强大石战士",
+    "programId": "sacred_golem"
+  },
+  {
+    "name": "武装商队",
+    "type": "军队",
+    "attack": 3,
+    "defense": 44,
+    "splash": 0,
+    "trample": 0.5,
+    "defaultOrder": 2,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "祈祷",
+        "content": "武装商队",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "木材",
+        "qty": 10000
+      },
+      {
+        "type": "资源",
+        "content": "钢",
+        "qty": 2000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "木材",
+        "value": 120
+      },
+      {
+        "name": "钢",
+        "value": 60
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "黄金",
+        "value": 3
+      }
+    ],
+    "description": "武装商队",
+    "programId": "armored_caravan_u"
+  },
+  {
+    "name": "圣职者",
+    "type": "军队",
+    "attack": 8,
+    "defense": 24,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "圣职者军团",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "信念",
+        "qty": 1800
+      },
+      {
+        "type": "资源",
+        "content": "水晶",
+        "qty": 200
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "食物",
+        "value": 60
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -1
+      }
+    ],
+    "description": "登攀者世界的精锐宗教部队，他们的大盾和护甲可以有效保护他们",
+    "programId": "cleric"
+  },
+  {
+    "name": "主宰",
+    "type": "军队",
+    "attack": 15,
+    "defense": 50,
+    "splash": 0,
+    "trample": 0.5,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "青铜加工",
+        "qty": 1
+      },
+      {
+        "type": "传承",
+        "content": "主宰",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "食物",
+        "qty": 600
+      },
+      {
+        "type": "资源",
+        "content": "奶牛",
+        "qty": 600
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 400
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "食物",
+        "value": 150
+      },
+      {
+        "name": "法力",
+        "value": 150
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -2
+      },
+      {
+        "name": "法力",
+        "value": -2
+      }
+    ],
+    "description": "亡者巨型怪物",
+    "programId": "juggernaut"
+  },
+  {
+    "name": "圣斗士",
+    "type": "军队",
+    "attack": 28,
+    "defense": 56,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "祈祷",
+        "content": "圣斗士",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "信念",
+        "qty": 2500
+      },
+      {
+        "type": "资源",
+        "content": "钢",
+        "qty": 500
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "信念",
+        "value": 200
+      },
+      {
+        "name": "食物",
+        "value": 100
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "水晶",
+        "value": 0.1
+      },
+      {
+        "name": "食物",
+        "value": -1.5
+      }
+    ],
+    "description": "信仰是他们的武器，他们是邪恶的克星",
+    "programId": "paladin"
+  },
+  {
+    "name": "巨兽",
+    "type": "军队",
+    "attack": 24,
+    "defense": 98,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "钢铁之躯",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "钢",
+        "qty": 3000
+      },
+      {
+        "type": "资源",
+        "content": "硝石",
+        "qty": 1500
+      },
+      {
+        "type": "资源",
+        "content": "钠红石",
+        "qty": 1000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "硝石",
+        "value": 100
+      },
+      {
+        "name": "钠红石",
+        "value": 100
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -6
+      }
+    ],
+    "description": "钢铁之躯的巨兽。与邪恶的斗争中人类能够利用的最强大存在",
+    "programId": "behemoth"
+  },
+  {
+    "name": "远古炎魔",
+    "type": "军队",
+    "attack": 150,
+    "defense": 750,
+    "splash": 8,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "远古炎魔",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "食物",
+        "qty": 10000
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 10000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "食物",
+        "value": 1000
+      },
+      {
+        "name": "法力",
+        "value": 1000
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "铁",
+        "value": 5
+      },
+      {
+        "name": "钢",
+        "value": 2
+      },
+      {
+        "name": "食物",
+        "value": -50
+      },
+      {
+        "name": "法力",
+        "value": -50
+      }
+    ],
+    "description": "身披铠甲的恶魔，听命于人类",
+    "programId": "ancient_balor"
+  },
+  {
+    "name": "走私者",
+    "type": "军队",
+    "attack": 2,
+    "defense": 52,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "不义之财",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 250
+      },
+      {
+        "type": "资源",
+        "content": "工具",
+        "qty": 250
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 25
+      },
+      {
+        "name": "工具",
+        "value": 15
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.2
+      }
+    ],
+    "description": "来自城市的贫民窟，深谐生存之道",
+    "programId": "smuggler"
+  },
+  {
+    "name": "法力堡垒",
+    "type": "军队",
+    "attack": 20,
+    "defense": 2250,
+    "splash": 12,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "祈祷",
+        "content": "法力堡垒",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "石头",
+        "qty": 25000
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 20000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "石头",
+        "value": 10000
+      },
+      {
+        "name": "法力",
+        "value": 10000
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "法力",
+        "value": -150
+      }
+    ],
+    "description": "由法力构成的据点",
+    "programId": "mana_fortress_u"
+  },
+  {
+    "name": "大教长",
+    "type": "军队",
+    "attack": 400,
+    "defense": 900,
+    "splash": 7,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "肉盾",
+    "trainingReqs": [
+      {
+        "type": "建筑",
+        "content": "象牙塔",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "信念",
+        "qty": 25000
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 25000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "信念",
+        "value": 15000
+      },
+      {
+        "name": "法力",
+        "value": 15000
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "黄金",
+        "value": 35
+      },
+      {
+        "name": "法力",
+        "value": 35
+      },
+      {
+        "name": "水晶",
+        "value": 7
+      },
+      {
+        "name": "钠红石",
+        "value": 7
+      }
+    ],
+    "description": "登攀者世界的信仰代表",
+    "programId": "high_prelate_u"
+  },
+  {
+    "name": "战士",
+    "type": "军队",
+    "attack": 8,
+    "defense": 8,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "青铜加工",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 400
+      },
+      {
+        "type": "资源",
+        "content": "铜",
+        "qty": 200
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 40
+      },
+      {
+        "name": "食物",
+        "value": 40
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.4
+      }
+    ],
+    "description": "远古时代的步兵",
+    "programId": "warrior"
+  },
+  {
+    "name": "佣兵",
+    "type": "军队",
+    "attack": 12,
+    "defense": 8,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "佣兵团",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 2500
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 150
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "黄金",
+        "value": -5
+      }
+    ],
+    "description": "为出价最高的人服务的老兵",
+    "programId": "mercenary_veteran"
+  },
+  {
+    "name": "重装战士",
+    "type": "军队",
+    "attack": 12,
+    "defense": 12,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "铁加工",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 800
+      },
+      {
+        "type": "资源",
+        "content": "铁",
+        "qty": 300
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 70
+      },
+      {
+        "name": "食物",
+        "value": 70
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.6
+      }
+    ],
+    "description": "远古时代最好的士兵。攻守兼备",
+    "programId": "heavy_warrior"
+  },
+  {
+    "name": "卡纳瓦护卫",
+    "type": "军队",
+    "attack": 15,
+    "defense": 15,
+    "splash": 0,
+    "trample": 0.5,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "卡纳瓦护卫",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 2000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 50
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "黄金",
+        "value": -5
+      }
+    ],
+    "description": "重甲佣兵团，他们的双手剑可以对敌阵造成严重的破坏",
+    "programId": "canava_guard"
+  },
+  {
+    "name": "超重装战士",
+    "type": "军队",
+    "attack": 18,
+    "defense": 14,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "板甲",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 1500
+      },
+      {
+        "type": "资源",
+        "content": "钢",
+        "qty": 250
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 120
+      },
+      {
+        "name": "食物",
+        "value": 80
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.8
+      }
+    ],
+    "description": "重装战士的进化形态，装备有护甲和钢制武器",
+    "programId": "man_at_arms"
+  },
+  {
+    "name": "线列步兵",
+    "type": "军队",
+    "attack": 34,
+    "defense": 22,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "燧发枪",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 2500
+      },
+      {
+        "type": "资源",
+        "content": "硝石",
+        "qty": 500
+      },
+      {
+        "type": "资源",
+        "content": "补给",
+        "qty": 250
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 250
+      },
+      {
+        "name": "食物",
+        "value": 120
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -1.4
+      }
+    ],
+    "description": "装备火枪的步兵排列成一排进行作战",
+    "programId": "line_infantry"
+  },
+  {
+    "name": "调查兵团士兵",
+    "type": "军队",
+    "attack": 82,
+    "defense": 18,
+    "splash": 0,
+    "trample": 0.75,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "维度装置",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 2000
+      },
+      {
+        "type": "资源",
+        "content": "硝石",
+        "qty": 1000
+      },
+      {
+        "type": "资源",
+        "content": "钠红石",
+        "qty": 500
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 200
+      },
+      {
+        "name": "钠红石",
+        "value": 100
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -1.8
+      }
+    ],
+    "description": "墙外的你们就是我们的猎物！",
+    "programId": "jager"
+  },
+  {
+    "name": "定居点民兵",
+    "type": "军队",
+    "attack": 7,
+    "defense": 8,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "新世界民兵",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 100
+      },
+      {
+        "type": "资源",
+        "content": "硝石",
+        "qty": 10
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 15
+      },
+      {
+        "name": "食物",
+        "value": 5
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.1
+      }
+    ],
+    "description": "新世界民兵。容易招募，尽职尽责",
+    "programId": "colonial_militia"
+  },
+  {
+    "name": "步枪手",
+    "type": "军队",
+    "attack": 68,
+    "defense": 55,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "步枪手",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 5000
+      },
+      {
+        "type": "资源",
+        "content": "钠红石",
+        "qty": 750
+      },
+      {
+        "type": "资源",
+        "content": "辉烬",
+        "qty": 100
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "食物",
+        "value": 200
+      },
+      {
+        "name": "法力",
+        "value": 75
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -1.6
+      },
+      {
+        "name": "法力",
+        "value": -0.6
+      }
+    ],
+    "description": "人类的新前排部队",
+    "programId": "rifleman_u"
+  },
+  {
+    "name": "战斗天使",
+    "type": "军队",
+    "attack": 38,
+    "defense": 36,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "神圣之怒",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "信念",
+        "qty": 2000
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 600
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "信念",
+        "value": 100
+      },
+      {
+        "name": "法力",
+        "value": 100
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "法力",
+        "value": -1
+      }
+    ],
+    "description": "战场的神圣之怒",
+    "programId": "battle_angel"
+  },
+  {
+    "name": "指挥官",
+    "type": "军队",
+    "attack": 30,
+    "defense": 26,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 3,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "战争",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 2500
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 200
+      },
+      {
+        "name": "食物",
+        "value": 120
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -2
+      },
+      {
+        "name": "黄金",
+        "value": -10
+      }
+    ],
+    "description": "军队真正的领袖",
+    "programId": "commander"
+  },
+  {
+    "name": "驯服的灯神",
+    "type": "军队",
+    "attack": 40,
+    "defense": 40,
+    "splash": 4,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "祈祷",
+        "content": "渴望战斗",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 1000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "法力",
+        "value": 100
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "法力",
+        "value": -5
+      }
+    ],
+    "description": "灯神已经被驯服，准备与我们并肩作战",
+    "programId": "tamed_djinn"
+  },
+  {
+    "name": "将军",
+    "type": "军队",
+    "attack": 60,
+    "defense": 100,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 3,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "建筑",
+        "content": "军官训练场",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 15000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 1000
+      },
+      {
+        "name": "食物",
+        "value": 500
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -10
+      },
+      {
+        "name": "黄金",
+        "value": -30
+      }
+    ],
+    "description": "光杆司令",
+    "programId": "general"
+  },
+  {
+    "name": "炽天使",
+    "type": "军队",
+    "attack": 450,
+    "defense": 400,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "炽天使",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "信念",
+        "qty": 10000
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 5000
+      },
+      {
+        "type": "资源",
+        "content": "水晶",
+        "qty": 2000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "信念",
+        "value": 1500
+      },
+      {
+        "name": "法力",
+        "value": 1500
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "研究点",
+        "value": 15
+      },
+      {
+        "name": "水晶",
+        "value": 1.5
+      },
+      {
+        "name": "法力",
+        "value": -25
+      }
+    ],
+    "description": "拥有最强的神力",
+    "programId": "seraphim"
+  },
+  {
+    "name": "窃魂者尼哈鲁尔",
+    "type": "军队",
+    "attack": 1200,
+    "defense": 150,
+    "splash": 8,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [
+      {
+        "type": "祈祷",
+        "content": "召唤尼哈鲁尔",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 12500
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "法力",
+        "value": 6000
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "法力",
+        "value": -360
+      }
+    ],
+    "description": "大巫妖尼哈鲁尔暂时为人类而战！",
+    "programId": "nikharul_soulstealer"
+  },
+  {
+    "name": "轻骑兵",
+    "type": "军队",
+    "attack": 10,
+    "defense": 4,
+    "splash": 0,
+    "trample": 0.6,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "饲育",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 400
+      },
+      {
+        "type": "资源",
+        "content": "食物",
+        "qty": 300
+      },
+      {
+        "type": "资源",
+        "content": "马",
+        "qty": 25
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 60
+      },
+      {
+        "name": "食物",
+        "value": 40
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.8
+      }
+    ],
+    "description": "轻骑兵可以有效对付射手",
+    "programId": "light_cavarly"
+  },
+  {
+    "name": "骑士",
+    "type": "军队",
+    "attack": 26,
+    "defense": 22,
+    "splash": 0,
+    "trample": 0.7000000000000001,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "骑士精神",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 3000
+      },
+      {
+        "type": "资源",
+        "content": "钢",
+        "qty": 250
+      },
+      {
+        "type": "资源",
+        "content": "马",
+        "qty": 50
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 120
+      },
+      {
+        "name": "食物",
+        "value": 100
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -1.8
+      }
+    ],
+    "description": "封建时代的精锐士兵，攻守兼备",
+    "programId": "knight"
+  },
+  {
+    "name": "甲胄骑兵",
+    "type": "军队",
+    "attack": 18,
+    "defense": 48,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "说服贵族",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 2000
+      },
+      {
+        "type": "资源",
+        "content": "钢",
+        "qty": 500
+      },
+      {
+        "type": "资源",
+        "content": "马",
+        "qty": 75
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 150
+      },
+      {
+        "name": "补给",
+        "value": 50
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -0.8
+      },
+      {
+        "name": "黄金",
+        "value": -0.8
+      }
+    ],
+    "description": "西部王国的贵族们是全副武装的骑士",
+    "programId": "cataphract"
+  },
+  {
+    "name": "重骑兵",
+    "type": "军队",
+    "attack": 36,
+    "defense": 28,
+    "splash": 0,
+    "trample": 0.8,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "重骑兵",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 5000
+      },
+      {
+        "type": "资源",
+        "content": "钢",
+        "qty": 500
+      },
+      {
+        "type": "资源",
+        "content": "马",
+        "qty": 200
+      },
+      {
+        "type": "资源",
+        "content": "硝石",
+        "qty": 200
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 200
+      },
+      {
+        "name": "食物",
+        "value": 200
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -2.8
+      }
+    ],
+    "description": "这些强大的骑兵部队身披重甲，装备有利剑和火枪，他们将主宰战场",
+    "programId": "cuirassier"
+  },
+  {
+    "name": "钢铁骑士",
+    "type": "军队",
+    "attack": 52,
+    "defense": 44,
+    "splash": 0,
+    "trample": 0.9,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "人类DNA",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 10000
+      },
+      {
+        "type": "资源",
+        "content": "钢",
+        "qty": 5000
+      },
+      {
+        "type": "资源",
+        "content": "马",
+        "qty": 500
+      },
+      {
+        "type": "资源",
+        "content": "水晶",
+        "qty": 500
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "食物",
+        "value": 250
+      },
+      {
+        "name": "水晶",
+        "value": 100
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "食物",
+        "value": -5
+      }
+    ],
+    "description": "全身被钢铁覆盖的骑士骑着经过改良的战马",
+    "programId": "steel_rider"
+  },
+  {
+    "name": "加里亚德团长",
+    "type": "军队",
+    "attack": 80,
+    "defense": 65,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "加里亚德团长",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "黄金",
+        "qty": 10000
+      },
+      {
+        "type": "资源",
+        "content": "马",
+        "qty": 3000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "黄金",
+        "value": 1000
+      },
+      {
+        "name": "补给",
+        "value": 1000
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "黄金",
+        "value": 30
+      }
+    ],
+    "description": "他是希望的象征，邪恶黑暗世界中的灯塔",
+    "programId": "cpt_galliard"
+  },
+  {
+    "name": "命运之化身",
+    "type": "军队",
+    "attack": 1250,
+    "defense": 1000,
+    "splash": 5,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "命运之化身",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "信念",
+        "qty": 90000
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 90000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "信念",
+        "value": 9000
+      },
+      {
+        "name": "法力",
+        "value": 9000
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "信念",
+        "value": 25
+      },
+      {
+        "name": "法力",
+        "value": 25
+      }
+    ],
+    "description": "命运亲自前来我方助阵",
+    "programId": "avatar_fate_u"
+  },
+  {
+    "name": "“猩红灾厄”维戈洛斯",
+    "type": "军队",
+    "attack": 3200,
+    "defense": 3600,
+    "splash": 15,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "骑兵",
+    "trainingReqs": [
+      {
+        "type": "研究",
+        "content": "“猩红灾厄”维戈洛斯",
+        "qty": 1
+      },
+      {
+        "type": "资源",
+        "content": "法力",
+        "qty": 100000
+      }
+    ],
+    "attackCosts": [
+      {
+        "name": "法力",
+        "value": 10000
+      }
+    ],
+    "upkeepCosts": [
+      {
+        "name": "黄金",
+        "value": 500
+      },
+      {
+        "name": "法力",
+        "value": 500
+      }
+    ],
+    "description": "这条巨龙被认为已经逃往世界深处，但其实并未溃退消失，而是被召唤了",
+    "programId": "vaelgoroth_u"
+  },
+  {
+    "name": "远古巨人",
+    "type": "敌人",
+    "attack": 250,
+    "defense": 16000,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 3,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "ancient_giant",
+    "programId": "ancient_giant"
+  },
+  {
+    "name": "远古鬼魂",
+    "type": "敌人",
+    "attack": 140,
+    "defense": 34,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "ancient_ghost",
+    "programId": "ancient_ghost"
+  },
+  {
+    "name": "远古军团",
+    "type": "敌人",
+    "attack": 26,
+    "defense": 158,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "ancient_legionary",
+    "programId": "ancient_legionary"
+  },
+  {
+    "name": "蝎子人",
+    "type": "敌人",
+    "attack": 46,
+    "defense": 63,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "aqrabuamelu",
+    "programId": "aqrabuamelu"
+  },
+  {
+    "name": "大恶魔",
+    "type": "敌人",
+    "attack": 90,
+    "defense": 52,
+    "splash": 2,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "archdemon",
+    "programId": "archdemon"
+  },
+  {
+    "name": "大巫妖",
+    "type": "敌人",
+    "attack": 120,
+    "defense": 90,
+    "splash": 8,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "archlich",
+    "programId": "archlich"
+  },
+  {
+    "name": "球形闪电",
+    "type": "敌人",
+    "attack": 55,
+    "defense": 20,
+    "splash": 2,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "ball_lightning",
+    "programId": "ball_lightning"
+  },
+  {
+    "name": "炎魔",
+    "type": "敌人",
+    "attack": 195,
+    "defense": 150,
+    "splash": 5,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "balor",
+    "programId": "balor"
+  },
+  {
+    "name": "强盗",
+    "type": "敌人",
+    "attack": 3,
+    "defense": 4,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "组织不善的不法分子，不算什么真正的威胁",
+    "programId": "bandit"
+  },
+  {
+    "name": "野蛮人天选者",
+    "type": "敌人",
+    "attack": 30,
+    "defense": 12,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "barbarian_chosen",
+    "programId": "barbarian_chosen"
+  },
+  {
+    "name": "野蛮人鼓手",
+    "type": "敌人",
+    "attack": 6,
+    "defense": 18,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "barbarian_drummer",
+    "programId": "barbarian_drummer"
+  },
+  {
+    "name": "野蛮人首领",
+    "type": "敌人",
+    "attack": 48,
+    "defense": 22,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "barbarian_leader",
+    "programId": "barbarian_leader"
+  },
+  {
+    "name": "野蛮人之王",
+    "type": "敌人",
+    "attack": 76,
+    "defense": 56,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 3,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "barbarian_king",
+    "programId": "barbarian_king"
+  },
+  {
+    "name": "野蛮人战士",
+    "type": "敌人",
+    "attack": 13,
+    "defense": 6,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "barbarian_warrior",
+    "programId": "barbarian_warrior"
+  },
+  {
+    "name": "莫德凯·暗棘男爵",
+    "type": "敌人",
+    "attack": 915,
+    "defense": 1750,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 3,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "baron_mordecai_darkthorn",
+    "programId": "baron_mordecai_darkthorn"
+  },
+  {
+    "name": "蛇怪",
+    "type": "敌人",
+    "attack": 35,
+    "defense": 16,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "basilisk",
+    "programId": "basilisk"
+  },
+  {
+    "name": "黑暗巫师",
+    "type": "敌人",
+    "attack": 52,
+    "defense": 22,
+    "splash": 5,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "black_mage",
+    "programId": "black_mage"
+  },
+  {
+    "name": "熊地精",
+    "type": "敌人",
+    "attack": 7,
+    "defense": 16,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "bugbear",
+    "programId": "bugbear"
+  },
+  {
+    "name": "熊地精酋长",
+    "type": "敌人",
+    "attack": 44,
+    "defense": 32,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "bugbear_chieftain",
+    "programId": "bugbear_chieftain"
+  },
+  {
+    "name": "鲨蜥兽",
+    "type": "敌人",
+    "attack": 140,
+    "defense": 110,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "bulette",
+    "programId": "bulette"
+  },
+  {
+    "name": "骑射手",
+    "type": "敌人",
+    "attack": 18,
+    "defense": 10,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "cavarly_archer",
+    "programId": "cavarly_archer"
+  },
+  {
+    "name": "着魔的居民",
+    "type": "敌人",
+    "attack": 4,
+    "defense": 4,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "一个目光呆滞的村民",
+    "programId": "charmed_dweller"
+  },
+  {
+    "name": "独眼巨人",
+    "type": "敌人",
+    "attack": 25,
+    "defense": 76,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "cyclop",
+    "programId": "cyclop"
+  },
+  {
+    "name": "邪教大师",
+    "type": "敌人",
+    "attack": 80,
+    "defense": 55,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "cult_master",
+    "programId": "cult_master"
+  },
+  {
+    "name": "大名",
+    "type": "敌人",
+    "attack": 90,
+    "defense": 90,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "daimyo",
+    "programId": "daimyo"
+  },
+  {
+    "name": "黑暗骑士",
+    "type": "敌人",
+    "attack": 250,
+    "defense": 250,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "dark_knight",
+    "programId": "dark_knight"
+  },
+  {
+    "name": "炎骑士领主",
+    "type": "敌人",
+    "attack": 6000,
+    "defense": 9000,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 3,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "dark_knight_lord",
+    "programId": "dark_knight_lord"
+  },
+  {
+    "name": "女恶魔",
+    "type": "敌人",
+    "attack": 50,
+    "defense": 80,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "使用黑魔法的女士，她可以让任何男人服从她的意志",
+    "programId": "demoness"
+  },
+  {
+    "name": "恶魔火枪手",
+    "type": "敌人",
+    "attack": 20,
+    "defense": 20,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "demonic_musketeer",
+    "programId": "demonic_musketeer"
+  },
+  {
+    "name": "逃兵",
+    "type": "敌人",
+    "attack": 7,
+    "defense": 6,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "曾经是一个王国的士兵，现在只为自己而活了。他们还保留着精良的装备",
+    "programId": "deserter"
+  },
+  {
+    "name": "脏鼠",
+    "type": "敌人",
+    "attack": 1,
+    "defense": 1,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "dirty_rat",
+    "programId": "dirty_rat"
+  },
+  {
+    "name": "灯神",
+    "type": "敌人",
+    "attack": 46,
+    "defense": 36,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "djinn",
+    "programId": "djinn"
+  },
+  {
+    "name": "龙人潜袭者",
+    "type": "敌人",
+    "attack": 20,
+    "defense": 10,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "draconic_diver",
+    "programId": "draconic_diver"
+  },
+  {
+    "name": "龙人首领",
+    "type": "敌人",
+    "attack": 80,
+    "defense": 65,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "draconic_leader",
+    "programId": "draconic_leader"
+  },
+  {
+    "name": "龙人巫师",
+    "type": "敌人",
+    "attack": 32,
+    "defense": 10,
+    "splash": 2,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "draconic_mage",
+    "programId": "draconic_mage"
+  },
+  {
+    "name": "龙人战士",
+    "type": "敌人",
+    "attack": 8,
+    "defense": 14,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "draconic_warrior",
+    "programId": "draconic_warrior"
+  },
+  {
+    "name": "土元素",
+    "type": "敌人",
+    "attack": 20,
+    "defense": 48,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "一块会行动的坚固岩石",
+    "programId": "earth_elemental"
+  },
+  {
+    "name": "永恒守卫",
+    "type": "敌人",
+    "attack": 22,
+    "defense": 84,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "eternal_guardian",
+    "programId": "eternal_guardian"
+  },
+  {
+    "name": "双头巨人",
+    "type": "敌人",
+    "attack": 39,
+    "defense": 67,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "ettin",
+    "programId": "ettin"
+  },
+  {
+    "name": "无面恐怖‌",
+    "type": "敌人",
+    "attack": 76,
+    "defense": 108,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "faceless_horror",
+    "programId": "faceless_horror"
+  },
+  {
+    "name": "堕天使",
+    "type": "敌人",
+    "attack": 150,
+    "defense": 100,
+    "splash": 5,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "fallen_angel",
+    "programId": "fallen_angel"
+  },
+  {
+    "name": "火元素",
+    "type": "敌人",
+    "attack": 28,
+    "defense": 28,
+    "splash": 2,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "它的吐息非常炽热，会留下熔岩池",
+    "programId": "fire_elemental"
+  },
+  {
+    "name": "火蜥蜴",
+    "type": "敌人",
+    "attack": 32,
+    "defense": 20,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "fire_salamander",
+    "programId": "fire_salamander"
+  },
+  {
+    "name": "冰元素",
+    "type": "敌人",
+    "attack": 20,
+    "defense": 42,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "冰元素会在自身周围产生冰之光环",
+    "programId": "frost_elemental"
+  },
+  {
+    "name": "冰霜巨人",
+    "type": "敌人",
+    "attack": 112,
+    "defense": 140,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "frost_giant",
+    "programId": "frost_giant"
+  },
+  {
+    "name": "加里亚德",
+    "type": "敌人",
+    "attack": 70,
+    "defense": 120,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "galliard",
+    "programId": "galliard"
+  },
+  {
+    "name": "石像鬼",
+    "type": "敌人",
+    "attack": 8,
+    "defense": 28,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "gargoyle",
+    "programId": "gargoyle"
+  },
+  {
+    "name": "恶魂",
+    "type": "敌人",
+    "attack": 6,
+    "defense": 8,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "比食尸鬼聪明一些",
+    "programId": "ghast"
+  },
+  {
+    "name": "食尸鬼",
+    "type": "敌人",
+    "attack": 4,
+    "defense": 5,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "永远渴望新鲜的血肉",
+    "programId": "ghoul"
+  },
+  {
+    "name": "鬼魂",
+    "type": "敌人",
+    "attack": 5,
+    "defense": 5,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "被诅咒的灵魂，注定要永远游荡",
+    "programId": "ghost"
+  },
+  {
+    "name": "巨型死亡机器人",
+    "type": "敌人",
+    "attack": 6000,
+    "defense": 8000,
+    "splash": 5,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "giant_death_robot",
+    "programId": "giant_death_robot"
+  },
+  {
+    "name": "巨蛇",
+    "type": "敌人",
+    "attack": 16,
+    "defense": 8,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "它的缠绕甚至能够杀死登攀者世界的一只三头牛",
+    "programId": "giant_snake"
+  },
+  {
+    "name": "巨蜘蛛",
+    "type": "敌人",
+    "attack": 10,
+    "defense": 8,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "它巨大的蛛网甚至可以抓住狮鹫",
+    "programId": "giant_spider"
+  },
+  {
+    "name": "巨黄蜂",
+    "type": "敌人",
+    "attack": 8,
+    "defense": 4,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "giant_wasp",
+    "programId": "giant_wasp"
+  },
+  {
+    "name": "豺狼人首领",
+    "type": "敌人",
+    "attack": 23,
+    "defense": 18,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "gnoll_leader",
+    "programId": "gnoll_leader"
+  },
+  {
+    "name": "豺狼人掠夺者",
+    "type": "敌人",
+    "attack": 6,
+    "defense": 5,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "gnoll_raider",
+    "programId": "gnoll_raider"
+  },
+  {
+    "name": "地精掠夺者",
+    "type": "敌人",
+    "attack": 3,
+    "defense": 3,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "士气低落，容易逃跑",
+    "programId": "goblin_marauder"
+  },
+  {
+    "name": "地精大王",
+    "type": "敌人",
+    "attack": 20,
+    "defense": 15,
+    "splash": 5,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "goblin_overlord",
+    "programId": "goblin_overlord"
+  },
+  {
+    "name": "地精战士",
+    "type": "敌人",
+    "attack": 3,
+    "defense": 4,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "比掠夺者的装备好一些，他们守卫着地精营地",
+    "programId": "goblin_warrior"
+  },
+  {
+    "name": "地精狼骑兵",
+    "type": "敌人",
+    "attack": 6,
+    "defense": 7,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "goblin_wolfrider",
+    "programId": "goblin_wolfrider"
+  },
+  {
+    "name": "魔像",
+    "type": "敌人",
+    "attack": 11,
+    "defense": 42,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "golem",
+    "programId": "golem"
+  },
+  {
+    "name": "蛇发女妖",
+    "type": "敌人",
+    "attack": 950,
+    "defense": 600,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "gorgon",
+    "programId": "gorgon"
+  },
+  {
+    "name": "高等恶魔",
+    "type": "敌人",
+    "attack": 16,
+    "defense": 16,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 3,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "greater_demon",
+    "programId": "greater_demon"
+  },
+  {
+    "name": "狮鹫",
+    "type": "敌人",
+    "attack": 42,
+    "defense": 58,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "griffin",
+    "programId": "griffin"
+  },
+  {
+    "name": "古鲁德",
+    "type": "敌人",
+    "attack": 250,
+    "defense": 180,
+    "splash": 6,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "gulud",
+    "programId": "gulud"
+  },
+  {
+    "name": "恶孽之手",
+    "type": "敌人",
+    "attack": 950,
+    "defense": 8000,
+    "splash": 7,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "hand_evil",
+    "programId": "hand_evil"
+  },
+  {
+    "name": "鹰身女妖",
+    "type": "敌人",
+    "attack": 6,
+    "defense": 6,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "鹰身女妖会使用歌声魅惑人类，并吞噬靠太近的可怜虫",
+    "programId": "harpy"
+  },
+  {
+    "name": "山巨人",
+    "type": "敌人",
+    "attack": 20,
+    "defense": 36,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "错误迈上了荒山，把大树当棍棒用",
+    "programId": "hill_giant"
+  },
+  {
+    "name": "淘气鬼弓箭手",
+    "type": "敌人",
+    "attack": 11,
+    "defense": 4,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "hobgoblin_archer",
+    "programId": "hobgoblin_archer"
+  },
+  {
+    "name": "淘气鬼酋长",
+    "type": "敌人",
+    "attack": 20,
+    "defense": 34,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "hobgoblin_chieftain",
+    "programId": "hobgoblin_chieftain"
+  },
+  {
+    "name": "淘气鬼士兵",
+    "type": "敌人",
+    "attack": 6,
+    "defense": 12,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "hobgoblin_grunt",
+    "programId": "hobgoblin_grunt"
+  },
+  {
+    "name": "多头蛇",
+    "type": "敌人",
+    "attack": 950,
+    "defense": 900,
+    "splash": 4,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "hydra",
+    "programId": "hydra"
+  },
+  {
+    "name": "悬浮坦克",
+    "type": "敌人",
+    "attack": 30,
+    "defense": 120,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "hover_tank",
+    "programId": "hover_tank"
+  },
+  {
+    "name": "巨门",
+    "type": "敌人",
+    "attack": 120,
+    "defense": 80000,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "immense_door",
+    "programId": "immense_door"
+  },
+  {
+    "name": "小鬼",
+    "type": "敌人",
+    "attack": 3,
+    "defense": 1,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "会发射火球的淘气飞行小恶魔",
+    "programId": "imp"
+  },
+  {
+    "name": "刀侍武士",
+    "type": "敌人",
+    "attack": 26,
+    "defense": 28,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "katana_samurai",
+    "programId": "katana_samurai"
+  },
+  {
+    "name": "狗头人",
+    "type": "敌人",
+    "attack": 3,
+    "defense": 2,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "狗头人是人型爬行动物，喜欢亮闪闪的东西。它们经常选择服侍邪恶的远古巨龙",
+    "programId": "kobold"
+  },
+  {
+    "name": "精英狗头人",
+    "type": "敌人",
+    "attack": 5,
+    "defense": 12,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "为国王而战的狗头人，经过了精心训练",
+    "programId": "kobold_champion"
+  },
+  {
+    "name": "狗头人之王",
+    "type": "敌人",
+    "attack": 42,
+    "defense": 48,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "狗头人之王，马格里斯",
+    "programId": "kobold_king"
+  },
+  {
+    "name": "科里根矮妖投石者",
+    "type": "敌人",
+    "attack": 3,
+    "defense": 2,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "korrigan_slinger",
+    "programId": "korrigan_slinger"
+  },
+  {
+    "name": "科里根矮妖欺诈者",
+    "type": "敌人",
+    "attack": 3,
+    "defense": 5,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "korrigan_swindler",
+    "programId": "korrigan_swindler"
+  },
+  {
+    "name": "铅魔像",
+    "type": "敌人",
+    "attack": 22,
+    "defense": 72,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "lead_golem",
+    "programId": "lead_golem"
+  },
+  {
+    "name": "次等恶魔",
+    "type": "敌人",
+    "attack": 8,
+    "defense": 8,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "地狱中较为低等的恶魔",
+    "programId": "lesser_demon"
+  },
+  {
+    "name": "巫妖",
+    "type": "敌人",
+    "attack": 60,
+    "defense": 50,
+    "splash": 3,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "lich",
+    "programId": "lich"
+  },
+  {
+    "name": "撒尔喀特弓箭手",
+    "type": "敌人",
+    "attack": 13,
+    "defense": 6,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "lizard_archer",
+    "programId": "lizard_archer"
+  },
+  {
+    "name": "撒尔喀特指挥官",
+    "type": "敌人",
+    "attack": 50,
+    "defense": 75,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "lizard_commander",
+    "programId": "lizard_commander"
+  },
+  {
+    "name": "撒尔喀特萨满",
+    "type": "敌人",
+    "attack": 22,
+    "defense": 32,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "lizard_shaman",
+    "programId": "lizard_shaman"
+  },
+  {
+    "name": "撒尔喀特战士",
+    "type": "敌人",
+    "attack": 12,
+    "defense": 12,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "lizard_warrior",
+    "programId": "lizard_warrior"
+  },
+  {
+    "name": "玛卡纳特",
+    "type": "敌人",
+    "attack": 900,
+    "defense": 600,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "markanat",
+    "programId": "markanat"
+  },
+  {
+    "name": "机械狼",
+    "type": "敌人",
+    "attack": 26,
+    "defense": 12,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "mechanical_wolf",
+    "programId": "mechanical_wolf"
+  },
+  {
+    "name": "无智之恶",
+    "type": "敌人",
+    "attack": 12000,
+    "defense": 150000,
+    "splash": 12,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "mindless_evil_u",
+    "programId": "mindless_evil_u"
+  },
+  {
+    "name": "牛头怪",
+    "type": "敌人",
+    "attack": 1000,
+    "defense": 1800,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "minotaur",
+    "programId": "minotaur"
+  },
+  {
+    "name": "邪雾",
+    "type": "敌人",
+    "attack": 1,
+    "defense": 35000,
+    "splash": 20,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "mist_evil",
+    "programId": "mist_evil"
+  },
+  {
+    "name": "移动炮塔",
+    "type": "敌人",
+    "attack": 150,
+    "defense": 30,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "mobile_turret",
+    "programId": "mobile_turret"
+  },
+  {
+    "name": "山岭巨人",
+    "type": "敌人",
+    "attack": 34,
+    "defense": 42,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 3,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "它以大山洞为家，有几十只地精仆从",
+    "programId": "mountain_giant"
+  },
+  {
+    "name": "铁炮足轻",
+    "type": "敌人",
+    "attack": 22,
+    "defense": 18,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "musket_ashigaru",
+    "programId": "musket_ashigaru"
+  },
+  {
+    "name": "蕈人",
+    "type": "敌人",
+    "attack": 3,
+    "defense": 10,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "myconid",
+    "programId": "myconid"
+  },
+  {
+    "name": "娜迦",
+    "type": "敌人",
+    "attack": 12,
+    "defense": 12,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "娜迦进化出了四条手臂，通常用于挥舞四把剑",
+    "programId": "naga"
+  },
+  {
+    "name": "娜迦公主",
+    "type": "敌人",
+    "attack": 380,
+    "defense": 1020,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 3,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "naga_princess",
+    "programId": "naga_princess"
+  },
+  {
+    "name": "娜迦皇家卫兵",
+    "type": "敌人",
+    "attack": 110,
+    "defense": 80,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "naga_royal_guard",
+    "programId": "naga_royal_guard"
+  },
+  {
+    "name": "死灵法师",
+    "type": "敌人",
+    "attack": 28,
+    "defense": 15,
+    "splash": 4,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "崇拜黑魔法的魔法师，亡者是他的仆从",
+    "programId": "necromancer"
+  },
+  {
+    "name": "窃魂者尼哈鲁尔",
+    "type": "敌人",
+    "attack": 780,
+    "defense": 1020,
+    "splash": 9,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "nikharul",
+    "programId": "nikharul"
+  },
+  {
+    "name": "鬼",
+    "type": "敌人",
+    "attack": 45,
+    "defense": 99,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "oni",
+    "programId": "oni"
+  },
+  {
+    "name": "精英兽人",
+    "type": "敌人",
+    "attack": 35,
+    "defense": 130,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "orc_champion",
+    "programId": "orc_champion"
+  },
+  {
+    "name": "兽人狂战士",
+    "type": "敌人",
+    "attack": 55,
+    "defense": 11,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "orc_berserker",
+    "programId": "orc_berserker"
+  },
+  {
+    "name": "兽人火法师",
+    "type": "敌人",
+    "attack": 45,
+    "defense": 12,
+    "splash": 3,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "orc_flame_caster",
+    "programId": "orc_flame_caster"
+  },
+  {
+    "name": "铁皮兽人",
+    "type": "敌人",
+    "attack": 18,
+    "defense": 169,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "orc_ironskin",
+    "programId": "orc_ironskin"
+  },
+  {
+    "name": "兽人萨满",
+    "type": "敌人",
+    "attack": 33,
+    "defense": 28,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "orc_shaman",
+    "programId": "orc_shaman"
+  },
+  {
+    "name": "兽人投石兵",
+    "type": "敌人",
+    "attack": 31,
+    "defense": 10,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "orc_stone_thrower",
+    "programId": "orc_stone_thrower"
+  },
+  {
+    "name": "兽人座狼骑兵",
+    "type": "敌人",
+    "attack": 33,
+    "defense": 70,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "orc_warg_rider",
+    "programId": "orc_warg_rider"
+  },
+  {
+    "name": "兽人督军",
+    "type": "敌人",
+    "attack": 70,
+    "defense": 150,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "orc_warlord",
+    "programId": "orc_warlord"
+  },
+  {
+    "name": "兽人战士",
+    "type": "敌人",
+    "attack": 25,
+    "defense": 63,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "orc_warrior",
+    "programId": "orc_warrior"
+  },
+  {
+    "name": "兽人工人",
+    "type": "敌人",
+    "attack": 17,
+    "defense": 48,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "orc_worker",
+    "programId": "orc_worker"
+  },
+  {
+    "name": "掠夺者",
+    "type": "敌人",
+    "attack": 3,
+    "defense": 5,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "pillager",
+    "programId": "pillager"
+  },
+  {
+    "name": "掠夺者",
+    "type": "敌人",
+    "attack": 22,
+    "defense": 10,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "raider",
+    "programId": "raider"
+  },
+  {
+    "name": "饥饿的螃蟹",
+    "type": "敌人",
+    "attack": 2,
+    "defense": 1,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "ravenous_crab",
+    "programId": "ravenous_crab"
+  },
+  {
+    "name": "红龙",
+    "type": "敌人",
+    "attack": 280,
+    "defense": 180,
+    "splash": 12,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "red_dragon",
+    "programId": "red_dragon"
+  },
+  {
+    "name": "蛇",
+    "type": "敌人",
+    "attack": 4,
+    "defense": 4,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "毒蛇",
+    "programId": "snake"
+  },
+  {
+    "name": "蜘蛛",
+    "type": "敌人",
+    "attack": 3,
+    "defense": 2,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "许多小毒蜘蛛",
+    "programId": "spider"
+  },
+  {
+    "name": "恶灵妖精",
+    "type": "敌人",
+    "attack": 26,
+    "defense": 6,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "sluagh",
+    "programId": "sluagh"
+  },
+  {
+    "name": "骷髅",
+    "type": "敌人",
+    "attack": 2,
+    "defense": 2,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "一堆可以移动的骨头，会使用武器",
+    "programId": "skeleton"
+  },
+  {
+    "name": "骷髅骑士",
+    "type": "敌人",
+    "attack": 18,
+    "defense": 22,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "skeletal_knight",
+    "programId": "skeletal_knight"
+  },
+  {
+    "name": "骷髅脸",
+    "type": "敌人",
+    "attack": 76,
+    "defense": 60,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 3,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "skullface",
+    "programId": "skullface"
+  },
+  {
+    "name": "阿塔玛之子",
+    "type": "敌人",
+    "attack": 22,
+    "defense": 20,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "son_atamar",
+    "programId": "son_atamar"
+  },
+  {
+    "name": "邪孽",
+    "type": "敌人",
+    "attack": 54,
+    "defense": 11,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "spawn_evil",
+    "programId": "spawn_evil"
+  },
+  {
+    "name": "记忆的幽灵",
+    "type": "敌人",
+    "attack": 5,
+    "defense": 8,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "spectra_memory",
+    "programId": "spectra_memory"
+  },
+  {
+    "name": "魅魔",
+    "type": "敌人",
+    "attack": 37,
+    "defense": 23,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "succubus",
+    "programId": "succubus"
+  },
+  {
+    "name": "魅魔女王",
+    "type": "敌人",
+    "attack": 1500,
+    "defense": 1750,
+    "splash": 5,
+    "trample": 0,
+    "defaultOrder": 2,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "succubus_queen",
+    "programId": "succubus_queen"
+  },
+  {
+    "name": "沼泽怪物",
+    "type": "敌人",
+    "attack": 900,
+    "defense": 1400,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "swamp_horror",
+    "programId": "swamp_horror"
+  },
+  {
+    "name": "泰坦",
+    "type": "敌人",
+    "attack": 1,
+    "defense": 52000,
+    "splash": 40,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "titan",
+    "programId": "titan"
+  },
+  {
+    "name": "陷阱",
+    "type": "敌人",
+    "attack": 8,
+    "defense": 41,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "trap",
+    "programId": "trap"
+  },
+  {
+    "name": "洞穴巨魔",
+    "type": "敌人",
+    "attack": 16,
+    "defense": 28,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "身形巨大，但十分蠢笨，住在它们占据的洞穴中，并以此作为巢穴。它们巨大的棍棒可以一击粉碎一个人",
+    "programId": "troll_cave"
+  },
+  {
+    "name": "百战巨魔",
+    "type": "敌人",
+    "attack": 42,
+    "defense": 56,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "troll_battle",
+    "programId": "troll_battle"
+  },
+  {
+    "name": "霸王龙",
+    "type": "敌人",
+    "attack": 1750,
+    "defense": 1200,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "tyrannosaurus",
+    "programId": "tyrannosaurus"
+  },
+  {
+    "name": "吸血鬼",
+    "type": "敌人",
+    "attack": 80,
+    "defense": 90,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "vampire",
+    "programId": "vampire"
+  },
+  {
+    "name": "吸血蝙蝠",
+    "type": "敌人",
+    "attack": 2,
+    "defense": 1,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "vampire_bat",
+    "programId": "vampire_bat"
+  },
+  {
+    "name": "吸血鬼下仆",
+    "type": "敌人",
+    "attack": 15,
+    "defense": 32,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "vampire_servant",
+    "programId": "vampire_servant"
+  },
+  {
+    "name": "迅猛龙",
+    "type": "敌人",
+    "attack": 37,
+    "defense": 22,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "velociraptors",
+    "programId": "velociraptors"
+  },
+  {
+    "name": "座狼",
+    "type": "敌人",
+    "attack": 22,
+    "defense": 18,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "warg",
+    "programId": "warg"
+  },
+  {
+    "name": "狼人",
+    "type": "敌人",
+    "attack": 1150,
+    "defense": 600,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 1,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "werewolf",
+    "programId": "werewolf"
+  },
+  {
+    "name": "温迪戈",
+    "type": "敌人",
+    "attack": 47,
+    "defense": 39,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "wendigo",
+    "programId": "wendigo"
+  },
+  {
+    "name": "风元素",
+    "type": "敌人",
+    "attack": 22,
+    "defense": 42,
+    "splash": 3,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "充满锋利风刃的龙卷风",
+    "programId": "wind_elemental"
+  },
+  {
+    "name": "狼",
+    "type": "敌人",
+    "attack": 4,
+    "defense": 4,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "wolf",
+    "programId": "wolf"
+  },
+  {
+    "name": "双足飞龙",
+    "type": "敌人",
+    "attack": 32,
+    "defense": 28,
+    "splash": 0,
+    "trample": 1,
+    "defaultOrder": 2,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "wyvern",
+    "programId": "wyvern"
+  },
+  {
+    "name": "僵尸",
+    "type": "敌人",
+    "attack": 3,
+    "defense": 3,
+    "splash": 0,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "肉盾",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "缓慢而腐烂，可以用疾病感染大片地区",
+    "programId": "zombie"
+  },
+  {
+    "name": "灰烬元素",
+    "type": "敌人",
+    "attack": 95,
+    "defense": 128,
+    "splash": 2,
+    "trample": 0,
+    "defaultOrder": 1,
+    "troopType": "射手",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "ash_elemental",
+    "programId": "ash_elemental"
+  },
+  {
+    "name": "“猩红灾厄”维戈洛斯",
+    "type": "敌人",
+    "attack": 900,
+    "defense": 2100,
+    "splash": 7,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "骑兵",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "vaelgoroth_crimson_doom",
+    "programId": "vaelgoroth_crimson_doom"
+  },
+  {
+    "name": "“焰缚者”阿兹拉西斯",
+    "type": "敌人",
+    "attack": 2300,
+    "defense": 500,
+    "splash": 9,
+    "trample": 0,
+    "defaultOrder": 3,
+    "troopType": "战士",
+    "trainingReqs": [],
+    "attackCosts": [],
+    "upkeepCosts": [],
+    "description": "azrathis_flamebinder",
+    "programId": "azrathis_flamebinder"
+  }
+]

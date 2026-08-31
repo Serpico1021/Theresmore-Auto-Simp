@@ -1,0 +1,96 @@
+          <div class="taTab">
+            <input type="radio" name="topLevelOptions" id="topLevelOptions-annihilatorRoute" class="taTab-switch">
+            <label for="topLevelOptions-annihilatorRoute" class="taTab-label">&#9876; <span data-lang="en">Annihilator Route</span><span data-lang="zh">灭世路线</span></label>
+            <div class="taTab-content">
+              <div id="taAnnihilatorRouteTabContent" class="ar-panel" data-ui-lang="en">
+                <style>
+                  #taAnnihilatorRouteTabContent { --ar-bg: #171d26; --ar-surface: #1d2530; --ar-surface-raised: #242e3b; --ar-border: #2a3441;
+                    --ar-accent: #ef6351; --ar-accent-soft: rgba(239, 99, 81, 0.14); --ar-accent-dim: #a8483c;
+                    --ar-text: #e7edf3; --ar-text-muted: #8a97a8; --ar-text-faint: #5c6879;
+                    --ar-good: #34d399; --ar-side: #c9a227; --ar-gate-armed: #f2b84b;
+                    background: var(--ar-bg); color: var(--ar-text); padding: 14px; border-radius: 8px; }
+                  #taAnnihilatorRouteTabContent[data-ui-lang="en"] [data-lang="zh"],
+                  #taAnnihilatorRouteTabContent[data-ui-lang="zh"] [data-lang="en"] { display: none; }
+                  #taAnnihilatorRouteTabContent .ar-header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 4px; }
+                  #taAnnihilatorRouteTabContent .ar-title { font-size: 20px; font-weight: 700; margin: 0; color: var(--ar-accent); }
+                  #taAnnihilatorRouteTabContent .ar-lang-toggle { display: inline-flex; align-items: center; background: var(--ar-surface);
+                    border: 1px solid var(--ar-border); border-radius: 999px; padding: 2px; flex-shrink: 0; }
+                  #taAnnihilatorRouteTabContent .ar-lang-btn { font-size: 11px; letter-spacing: 0.03em; padding: 5px 12px; border-radius: 999px;
+                    color: var(--ar-text-faint); cursor: pointer; background: none; border: none; }
+                  #taAnnihilatorRouteTabContent .ar-lang-btn.is-active { background: var(--ar-accent); color: #2a0d08; }
+                  #taAnnihilatorRouteTabContent .ar-toolbar { display: flex; justify-content: flex-end; margin: 10px 0; }
+                  #taAnnihilatorRouteTabContent .ar-btn { font-size: 12.5px; font-weight: 600; padding: 6px 14px; border-radius: 6px;
+                    border: 1px solid var(--ar-border); cursor: pointer; background: transparent; color: var(--ar-text-muted); }
+                  #taAnnihilatorRouteTabContent .ar-empty { color: var(--ar-text-muted); font-size: 13px; padding: 20px; text-align: center; }
+                  #taAnnihilatorRouteTabContent .ar-hero { background: var(--ar-surface); border: 1px solid var(--ar-accent-dim); border-radius: 12px;
+                    padding: 16px 18px; margin-bottom: 18px; box-shadow: 0 0 32px -14px rgba(239, 99, 81, 0.45); }
+                  #taAnnihilatorRouteTabContent .ar-hero-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ar-text-faint); }
+                  #taAnnihilatorRouteTabContent .ar-hero-name { font-size: 22px; font-weight: 700; margin: 4px 0 10px; }
+                  #taAnnihilatorRouteTabContent .ar-hero-army-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ar-text-faint); margin-bottom: 4px; }
+                  #taAnnihilatorRouteTabContent .ar-section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ar-text-faint);
+                    margin: 20px 0 10px; font-weight: 600; }
+                  #taAnnihilatorRouteTabContent .ar-route-list, #taAnnihilatorRouteTabContent .ar-side-list { display: flex; flex-direction: column; gap: 10px; }
+                  #taAnnihilatorRouteTabContent .ar-stage { background: var(--ar-surface); border: 1px solid var(--ar-border);
+                    border-left: 3px solid var(--ar-text-faint); border-radius: 8px; padding: 10px 12px; }
+                  #taAnnihilatorRouteTabContent .ar-stage.ar-status-cleared { border-left-color: var(--ar-good); opacity: 0.75; }
+                  #taAnnihilatorRouteTabContent .ar-stage.ar-status-front { border-left-color: var(--ar-accent); box-shadow: 0 0 0 1px var(--ar-accent-soft); }
+                  #taAnnihilatorRouteTabContent .ar-stage.ar-status-queued { border-left-color: var(--ar-gate-armed); }
+                  #taAnnihilatorRouteTabContent .ar-stage.ar-status-locked { border-left-color: var(--ar-text-faint); opacity: 0.55; }
+                  #taAnnihilatorRouteTabContent .ar-stage-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+                  #taAnnihilatorRouteTabContent .ar-stage-name { font-size: 14px; font-weight: 600; }
+                  #taAnnihilatorRouteTabContent .ar-stage-pill { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em;
+                    padding: 2px 8px; border-radius: 999px; background: var(--ar-surface-raised); color: var(--ar-text-muted); white-space: nowrap; }
+                  #taAnnihilatorRouteTabContent .ar-status-cleared .ar-stage-pill { color: var(--ar-good); }
+                  #taAnnihilatorRouteTabContent .ar-status-front .ar-stage-pill { background: var(--ar-accent); color: #2a0d08; }
+                  #taAnnihilatorRouteTabContent .ar-stage-req { font-size: 11.5px; color: var(--ar-text-muted); margin-top: 6px; }
+                  #taAnnihilatorRouteTabContent .ar-stage-army { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+                  #taAnnihilatorRouteTabContent .ar-stage-note { margin-top: 6px; font-size: 11px; color: var(--ar-text-faint); }
+                  #taAnnihilatorRouteTabContent .ar-army-chip, #taAnnihilatorRouteTabContent .ar-hero-army .ar-army-chip {
+                    display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-variant-numeric: tabular-nums;
+                    background: var(--ar-surface-raised); border: 1px solid var(--ar-border); border-radius: 6px; padding: 3px 8px; color: var(--ar-text-muted); }
+                  #taAnnihilatorRouteTabContent .ar-army-chip b { color: var(--ar-text); font-size: 14px; }
+                  #taAnnihilatorRouteTabContent .ar-hero-army { display: flex; flex-wrap: wrap; gap: 8px; }
+                  #taAnnihilatorRouteTabContent .ar-hero-army .ar-army-chip { font-size: 14px; padding: 5px 12px; }
+                  #taAnnihilatorRouteTabContent .ar-hero-army .ar-army-chip b { font-size: 18px; }
+                  #taAnnihilatorRouteTabContent .ar-cluster { border: 1px dashed var(--ar-border); border-radius: 10px; padding: 10px; }
+                  #taAnnihilatorRouteTabContent .ar-cluster-header { font-size: 11.5px; color: var(--ar-text-muted); margin-bottom: 8px; }
+                  #taAnnihilatorRouteTabContent .ar-cluster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+                  #taAnnihilatorRouteTabContent .ar-side { display: flex; align-items: center; justify-content: space-between; gap: 8px;
+                    background: var(--ar-surface); border: 1px solid var(--ar-border); border-left: 3px solid var(--ar-side);
+                    border-radius: 8px; padding: 8px 12px; opacity: 0.85; }
+                  #taAnnihilatorRouteTabContent .ar-side-name { font-size: 13px; }
+                  #taAnnihilatorRouteTabContent .ar-side-pill { font-size: 10.5px; color: var(--ar-text-faint); }
+                  #taAnnihilatorRouteTabContent .ar-gate-hint { font-size: 11.5px; color: var(--ar-text-faint); margin-bottom: 10px; }
+                  #taAnnihilatorRouteTabContent .ar-gate-list { display: flex; flex-direction: column; gap: 6px; }
+                  #taAnnihilatorRouteTabContent .ar-gate-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: center;
+                    background: var(--ar-surface); border: 1px solid var(--ar-border); border-radius: 8px; padding: 8px 12px; font-size: 12.5px; }
+                  #taAnnihilatorRouteTabContent .ar-gate-row.is-cleared { border-left: 3px solid var(--ar-good); }
+                  #taAnnihilatorRouteTabContent .ar-gate-row:not(.is-cleared) { border-left: 3px solid var(--ar-gate-armed); }
+                  #taAnnihilatorRouteTabContent .ar-gate-tech { font-weight: 600; }
+                  #taAnnihilatorRouteTabContent .ar-gate-fight { color: var(--ar-text-muted); }
+                  #taAnnihilatorRouteTabContent .ar-gate-stop { margin-top: 10px; font-size: 12px; padding: 8px 12px; border-radius: 8px;
+                    background: var(--ar-surface); border: 1px solid var(--ar-border); color: var(--ar-text-muted); }
+                  #taAnnihilatorRouteTabContent .ar-gate-stop.is-active { border-color: var(--ar-gate-armed); color: var(--ar-gate-armed); }
+                </style>
+
+                <div class="ar-header">
+                  <h2 class="ar-title">
+                    <span data-lang="en">Annihilator Route</span>
+                    <span data-lang="zh">灭世路线</span>
+                  </h2>
+                  <div class="ar-lang-toggle" role="group" aria-label="Panel language">
+                    <button type="button" class="ar-lang-btn is-active" data-set-lang="en">EN</button>
+                    <button type="button" class="ar-lang-btn" data-set-lang="zh">中文</button>
+                  </div>
+                </div>
+
+                <div class="ar-toolbar">
+                  <button type="button" class="ar-btn" id="taAnnihilatorRouteRefresh">
+                    <span data-lang="en">Refresh</span><span data-lang="zh">刷新</span>
+                  </button>
+                </div>
+
+                <div id="taAnnihilatorRouteBody"></div>
+              </div>
+            </div>
+          </div>

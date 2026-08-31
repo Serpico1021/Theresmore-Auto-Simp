@@ -1,0 +1,4033 @@
+[
+  {
+    "name": "远古墓地",
+    "esp": 4,
+    "level": 1,
+    "foundRange": "[1, 1]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "骷髅",
+        "qty": 11
+      },
+      {
+        "unit": "僵尸",
+        "qty": 6
+      },
+      {
+        "unit": "鬼魂",
+        "qty": 2
+      }
+    ],
+    "rewards": [
+      {
+        "content": "信念",
+        "attr": null,
+        "value": 0.5
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "ancient_burial_place",
+    "description": "一个早已被遗忘的地方，几乎没有亡者游荡。几十个士兵就可以将它们消灭"
+  },
+  {
+    "name": "远古藏身处",
+    "esp": 5,
+    "level": 1,
+    "foundRange": "[12, 13]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "强盗",
+        "qty": 17
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "黄金",
+        "attr": "上限",
+        "value": 800
+      }
+    ],
+    "programId": "ancient_hideout",
+    "description": "强盗占领了这个藏身处，几十个士兵就可以将他们消灭"
+  },
+  {
+    "name": "远古灯塔",
+    "esp": 45,
+    "level": 5,
+    "foundRange": "[16, 16]",
+    "reqFound": {
+      "type": "研究",
+      "content": "勘测周围区域",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "远古军团",
+        "qty": 280
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "光明",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "ancient_lighthouse",
+    "description": "深渊中的远古灯塔"
+  },
+  {
+    "name": "远古遗迹",
+    "esp": 45,
+    "level": 5,
+    "foundRange": "[14, 14]",
+    "reqFound": {
+      "type": "研究",
+      "content": "勘测周围区域",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "远古鬼魂",
+        "qty": 180
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 70
+      },
+      {
+        "content": "光明",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "ancient_ruin",
+    "description": "黑暗中出现了奇怪的遗迹"
+  },
+  {
+    "name": "黑暗骑士巡逻队",
+    "esp": 55,
+    "level": 6,
+    "foundRange": "[32, 32]",
+    "reqFound": {
+      "type": "研究",
+      "content": "黑暗之地",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "黑暗骑士",
+        "qty": 110
+      },
+      {
+        "unit": "远古军团",
+        "qty": 240
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 3
+      },
+      {
+        "content": "辉烬",
+        "attr": null,
+        "value": 0.1
+      }
+    ],
+    "programId": "dark_knight_patrol",
+    "description": "数支黑暗骑士巡逻队在领域中巡弋"
+  },
+  {
+    "name": "黑暗村庄",
+    "esp": 45,
+    "level": 6,
+    "foundRange": "[35, 35]",
+    "reqFound": {
+      "type": "研究",
+      "content": "勘测周围区域",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "远古军团",
+        "qty": 210
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 50
+      },
+      {
+        "content": "光明",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "dark_village",
+    "description": "位于神秘领域的失落村庄。或许这里曾有人居住"
+  },
+  {
+    "name": "球形闪电场",
+    "esp": 32,
+    "level": 2,
+    "foundRange": "[29, 29]",
+    "reqFound": {
+      "type": "研究",
+      "content": "探索新世界",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "球形闪电",
+        "qty": 26
+      }
+    ],
+    "rewards": [
+      {
+        "content": "食物",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "ball_lightning_field",
+    "description": "一群球形闪电占领了定居点附近的一片土地"
+  },
+  {
+    "name": "强盗营地",
+    "esp": 2,
+    "level": 1,
+    "foundRange": "[3, 4]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "强盗",
+        "qty": 9
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "食物",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "bandit_camp",
+    "description": "他们沿路和森林攻击商人和路人，几十个士兵就可以料理他们了"
+  },
+  {
+    "name": "野蛮人营地",
+    "esp": 7,
+    "level": 1,
+    "foundRange": "[2, 2]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "野蛮人战士",
+        "qty": 17
+      }
+    ],
+    "rewards": [
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "铁",
+        "attr": null,
+        "value": 0.3
+      },
+      {
+        "content": "人口",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "barbarian_camp",
+    "description": "和平的野蛮人部落。注意：不要手贱"
+  },
+  {
+    "name": "野蛮人村庄",
+    "esp": 16,
+    "level": 2,
+    "foundRange": "[7, 7]",
+    "reqFound": {
+      "type": "研究",
+      "content": "驯服野蛮人",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "野蛮人战士",
+        "qty": 40
+      },
+      {
+        "unit": "野蛮人首领",
+        "qty": 3
+      }
+    ],
+    "rewards": [
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "石头",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "铁",
+        "attr": null,
+        "value": 0.3
+      },
+      {
+        "content": "人口",
+        "attr": null,
+        "value": 3
+      }
+    ],
+    "programId": "barbarian_village",
+    "description": "一个野蛮人的大村庄，多个部落联合起来共同繁荣发展。再次提醒：不要手贱"
+  },
+  {
+    "name": "荒山",
+    "esp": 13,
+    "level": 2,
+    "foundRange": "[5, 5]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "山巨人",
+        "qty": 7
+      },
+      {
+        "unit": "狗头人",
+        "qty": 52
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 30
+      },
+      {
+        "content": "原料",
+        "attr": null,
+        "value": 0.1
+      },
+      {
+        "content": "补给",
+        "attr": null,
+        "value": 0.1
+      }
+    ],
+    "programId": "barren_hills",
+    "description": "荒山相当荒凉，巨人和狗头人居住在这里"
+  },
+  {
+    "name": "蛇怪洞穴",
+    "esp": 12,
+    "level": 2,
+    "foundRange": "[6, 6]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "蛇怪",
+        "qty": 7
+      }
+    ],
+    "rewards": [
+      {
+        "content": "奶牛",
+        "attr": null,
+        "value": 0.3
+      },
+      {
+        "content": "马",
+        "attr": null,
+        "value": 0.1
+      },
+      {
+        "content": "补给",
+        "attr": null,
+        "value": 0.1
+      }
+    ],
+    "programId": "basilisk_cave",
+    "description": "蛇怪出没的洞穴，它们非常危险"
+  },
+  {
+    "name": "燃烧深坑",
+    "esp": 8,
+    "level": 2,
+    "foundRange": "[8, 8]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "小鬼",
+        "qty": 20
+      },
+      {
+        "unit": "次等恶魔",
+        "qty": 6
+      }
+    ],
+    "rewards": [
+      {
+        "content": "铜",
+        "attr": null,
+        "value": 0.5
+      },
+      {
+        "content": "铁",
+        "attr": null,
+        "value": 0.3
+      }
+    ],
+    "programId": "burning_pit",
+    "description": "登攀者世界的底土充满了恶魔，还好它们数量不多"
+  },
+  {
+    "name": "黑魔法塔",
+    "esp": 20,
+    "level": 2,
+    "foundRange": "[39, 39]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "黑暗巫师",
+        "qty": 1
+      },
+      {
+        "unit": "地精战士",
+        "qty": 60
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 30
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "水晶",
+        "attr": null,
+        "value": 0.1
+      }
+    ],
+    "programId": "black_mage_tower",
+    "description": "一名黑暗巫师的塔楼。他正与地精们一起谋划着针对登攀者世界的邪恶计划"
+  },
+  {
+    "name": "熊地精部落",
+    "esp": 8,
+    "level": 2,
+    "foundRange": "[9, 9]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "熊地精",
+        "qty": 18
+      }
+    ],
+    "rewards": [
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "石头",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "bugbear_tribe",
+    "description": "熊地精从它们的小营地袭击这个地区，劫掠战利品"
+  },
+  {
+    "name": "熊地精作战队",
+    "esp": 32,
+    "level": 4,
+    "foundRange": "[9, 10]",
+    "reqFound": {
+      "type": "研究",
+      "content": "长途探险",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "熊地精酋长",
+        "qty": 1
+      },
+      {
+        "unit": "熊地精",
+        "qty": 120
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 2
+      }
+    ],
+    "programId": "bugbear_war_party",
+    "description": "酋长出征时，他手下的熊地精们就变成了令人畏惧的存在"
+  },
+  {
+    "name": "深渊教堂",
+    "esp": 35,
+    "level": 5,
+    "foundRange": "[24, 24]",
+    "reqFound": {
+      "type": "研究",
+      "content": "勘测周围区域",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "吸血鬼",
+        "qty": 280
+      }
+    ],
+    "rewards": [
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "光明",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "church_abyss",
+    "description": "深渊中被黑暗侵蚀的教堂"
+  },
+  {
+    "name": "亡者要塞",
+    "esp": 33,
+    "level": 5,
+    "foundRange": "[20, 21]",
+    "reqFound": {
+      "type": "研究",
+      "content": "长途探险",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "僵尸",
+        "qty": 350
+      },
+      {
+        "unit": "食尸鬼",
+        "qty": 130
+      },
+      {
+        "unit": "双足飞龙",
+        "qty": 30
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 70
+      },
+      {
+        "content": "钠红石",
+        "attr": null,
+        "value": 0.5
+      },
+      {
+        "content": "硝石",
+        "attr": null,
+        "value": 0.2
+      }
+    ],
+    "programId": "citadel_dead",
+    "description": "一座被遗弃的要塞，有亡者(和双足飞龙)出没"
+  },
+  {
+    "name": "死灵法师之环",
+    "esp": 45,
+    "level": 6,
+    "foundRange": "[31, 31]",
+    "reqFound": {
+      "type": "研究",
+      "content": "勘测周围区域",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "死灵法师",
+        "qty": 70
+      },
+      {
+        "unit": "无面恐怖‌",
+        "qty": 290
+      }
+    ],
+    "rewards": [
+      {
+        "content": "光明",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "信念",
+        "attr": "上限",
+        "value": 5000
+      },
+      {
+        "content": "法力",
+        "attr": "上限",
+        "value": 5000
+      }
+    ],
+    "programId": "circle_necromancer",
+    "description": "深渊中的死灵法师之环"
+  },
+  {
+    "name": "建筑工地",
+    "esp": 12,
+    "level": 2,
+    "foundRange": "[18, 19]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "佣兵",
+        "qty": 25
+      }
+    ],
+    "rewards": [
+      {
+        "content": "原料",
+        "attr": "上限",
+        "value": 750
+      },
+      {
+        "content": "钢",
+        "attr": "上限",
+        "value": 750
+      },
+      {
+        "content": "水晶",
+        "attr": "上限",
+        "value": 300
+      },
+      {
+        "content": "补给",
+        "attr": "上限",
+        "value": 300
+      }
+    ],
+    "programId": "construction_site",
+    "description": "佣兵们在这片广阔的空间里定居，让我们把他们赶出去"
+  },
+  {
+    "name": "腐化之地",
+    "esp": 42,
+    "level": 7,
+    "foundRange": "[18, 25]",
+    "reqFound": {
+      "type": "研究",
+      "content": "黑色古物",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "邪雾",
+        "qty": 1
+      },
+      {
+        "unit": "邪孽",
+        "qty": 750
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 3
+      },
+      {
+        "content": "食物",
+        "attr": null,
+        "value": 3
+      },
+      {
+        "content": "人口",
+        "attr": null,
+        "value": 3
+      }
+    ],
+    "programId": "corrupted_lands",
+    "description": "永恒之土痛苦地陷落在遭腐化的水晶周围"
+  },
+  {
+    "name": "暗渊之阱",
+    "esp": 35,
+    "level": 5,
+    "foundRange": "[18, 18]",
+    "reqFound": {
+      "type": "研究",
+      "content": "勘测周围区域",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "高等恶魔",
+        "qty": 220
+      },
+      {
+        "unit": "次等恶魔",
+        "qty": 360
+      }
+    ],
+    "rewards": [
+      {
+        "content": "石头",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "光明",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "dark_pit",
+    "description": "满是恶魔"
+  },
+  {
+    "name": "亵渎神庙",
+    "esp": 45,
+    "level": 4,
+    "foundRange": "[28, 31]",
+    "reqFound": {
+      "type": "研究",
+      "content": "月神的神庙",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "兽人萨满",
+        "qty": 15
+      },
+      {
+        "unit": "兽人工人",
+        "qty": 89
+      }
+    ],
+    "rewards": [
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "水晶",
+        "attr": null,
+        "value": 0.2
+      }
+    ],
+    "programId": "desecrated_temple",
+    "description": "月神的神庙已经变成了一堆腐臭的废渣，许多绿皮人形生物在此活动"
+  },
+  {
+    "name": "逃兵巢穴",
+    "esp": 16,
+    "level": 2,
+    "foundRange": "[10, 10]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "强盗",
+        "qty": 26
+      },
+      {
+        "unit": "逃兵",
+        "qty": 14
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "铜",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "deserters_den",
+    "description": "逃兵的巢穴，他们现在只尊重财神了"
+  },
+  {
+    "name": "女恶魔城堡",
+    "esp": 40,
+    "level": 5,
+    "foundRange": "[40, 40]",
+    "reqFound": {
+      "type": "祈祷",
+      "content": "恶魔卷轴",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "女恶魔",
+        "qty": 1
+      },
+      {
+        "unit": "高等恶魔",
+        "qty": 20
+      },
+      {
+        "unit": "次等恶魔",
+        "qty": 60
+      },
+      {
+        "unit": "着魔的居民",
+        "qty": 70
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 50
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "人口",
+        "attr": null,
+        "value": 3
+      }
+    ],
+    "programId": "demoness_castle",
+    "description": "一座阴森的城堡，散发浓郁的恶魔气息，里面一定有很多恶魔"
+  },
+  {
+    "name": "恶魔传送门",
+    "esp": 28,
+    "level": 3,
+    "foundRange": "[11, 11]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "高等恶魔",
+        "qty": 10
+      },
+      {
+        "unit": "次等恶魔",
+        "qty": 22
+      },
+      {
+        "unit": "小鬼",
+        "qty": 50
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 30
+      },
+      {
+        "content": "信念",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "水晶",
+        "attr": null,
+        "value": 0.1
+      }
+    ],
+    "programId": "demonic_portal",
+    "description": "传送门附近有一些大小恶魔，天空中还飞舞着几十只小鬼"
+  },
+  {
+    "name": "茂密的绿洲",
+    "esp": 48,
+    "level": 5,
+    "foundRange": "[29, 29]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "娜迦",
+        "qty": 180
+      },
+      {
+        "unit": "娜迦皇家卫兵",
+        "qty": 115
+      },
+      {
+        "unit": "娜迦公主",
+        "qty": 1
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 20
+      },
+      {
+        "content": "幸运石",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "食物",
+        "attr": null,
+        "value": 3
+      },
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 3
+      }
+    ],
+    "programId": "dense_oasis",
+    "description": "其中一位娜迦公主的家，要小心！"
+  },
+  {
+    "name": "烬火灾主",
+    "esp": 99,
+    "level": 9,
+    "foundRange": "[15, 15]",
+    "reqFound": {
+      "type": "研究",
+      "content": "烬火灾主",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "火元素",
+        "qty": 14800
+      },
+      {
+        "unit": "灰烬元素",
+        "qty": 9200
+      },
+      {
+        "unit": "“猩红灾厄”维戈洛斯",
+        "qty": 1
+      },
+      {
+        "unit": "“焰缚者”阿兹拉西斯",
+        "qty": 1
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 500
+      },
+      {
+        "content": "光明",
+        "attr": null,
+        "value": 4
+      },
+      {
+        "content": "幸运石",
+        "attr": null,
+        "value": 4
+      },
+      {
+        "content": "智慧卷轴",
+        "attr": null,
+        "value": 4
+      },
+      {
+        "content": "遗物",
+        "attr": null,
+        "value": 4
+      },
+      {
+        "content": "代币",
+        "attr": null,
+        "value": 4
+      },
+      {
+        "content": "宝石",
+        "attr": null,
+        "value": 4
+      }
+    ],
+    "programId": "elder_dragon",
+    "description": "维戈洛斯之影垂天蔽日，焚翼蔽空。阿兹拉西斯之姿巍然屹立，缠卷太古神焰"
+  },
+  {
+    "name": "邪恶居所",
+    "esp": 35,
+    "level": 5,
+    "foundRange": "[22, 22]",
+    "reqFound": {
+      "type": "研究",
+      "content": "勘测周围区域",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "魅魔",
+        "qty": 220
+      }
+    ],
+    "rewards": [
+      {
+        "content": "信念",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "光明",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "evil_abode",
+    "description": "深渊中的孤寂居所"
+  },
+  {
+    "name": "南火荒漠",
+    "esp": 55,
+    "level": 6,
+    "foundRange": "[21, 21]",
+    "reqFound": {
+      "type": "研究",
+      "content": "荒漠的精灵神话",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "娜迦",
+        "qty": 1200
+      },
+      {
+        "unit": "娜迦皇家卫兵",
+        "qty": 560
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 20
+      },
+      {
+        "content": "幸运石",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "食物",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 2
+      }
+    ],
+    "programId": "explore_desert",
+    "description": "精灵神话中的沙漠"
+  },
+  {
+    "name": "地狱之洞",
+    "esp": 42,
+    "level": 4,
+    "foundRange": "[12, 12]",
+    "reqFound": {
+      "type": "祈祷",
+      "content": "恶魔学",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "大恶魔",
+        "qty": 3
+      },
+      {
+        "unit": "高等恶魔",
+        "qty": 52
+      },
+      {
+        "unit": "次等恶魔",
+        "qty": 98
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 70
+      },
+      {
+        "content": "信念",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "水晶",
+        "attr": null,
+        "value": 0.2
+      }
+    ],
+    "programId": "hell_hole",
+    "description": "位于地面的一个洞，通往一个大洞穴。它是地狱的入口"
+  },
+  {
+    "name": "金矿",
+    "esp": 55,
+    "level": 5,
+    "foundRange": "[28, 28]",
+    "reqFound": {
+      "type": "研究",
+      "content": "长途探险",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "百战巨魔",
+        "qty": 70
+      },
+      {
+        "unit": "洞穴巨魔",
+        "qty": 120
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 150
+      },
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 15
+      }
+    ],
+    "programId": "gold_mine",
+    "description": "一个大型金矿，被巨魔占据。注意，巨魔数量极多！"
+  },
+  {
+    "name": "爬行动物之王",
+    "esp": 22,
+    "level": 4,
+    "foundRange": "[30, 30]",
+    "reqFound": {
+      "type": "研究",
+      "content": "探索新世界",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "迅猛龙",
+        "qty": 67
+      },
+      {
+        "unit": "霸王龙",
+        "qty": 1
+      }
+    ],
+    "rewards": [
+      {
+        "content": "食物",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "石头",
+        "attr": null,
+        "value": 2
+      }
+    ],
+    "programId": "king_reptiles",
+    "description": "在一个被时间遗忘的山谷中，有着前所未有的动物。它们是来自遥远过去的巨型爬行动物"
+  },
+  {
+    "name": "火法师领域入口",
+    "esp": 70,
+    "level": 7,
+    "foundRange": "[20, 20]",
+    "reqFound": {
+      "type": "研究",
+      "content": "火焰之迹",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "火元素",
+        "qty": 2200
+      },
+      {
+        "unit": "灰烬元素",
+        "qty": 760
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 30
+      },
+      {
+        "content": "幸运石",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "石头",
+        "attr": null,
+        "value": 3
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 3
+      }
+    ],
+    "programId": "fire_mage_domain",
+    "description": "这片熔岩沙漠是一位被长久遗忘的火法师之领域"
+  },
+  {
+    "name": "失落山谷",
+    "esp": 32,
+    "level": 6,
+    "foundRange": "[33, 34]",
+    "reqFound": {
+      "type": "研究",
+      "content": "精灵古物",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "迅猛龙",
+        "qty": 167
+      },
+      {
+        "unit": "霸王龙",
+        "qty": 23
+      }
+    ],
+    "rewards": [
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 2
+      }
+    ],
+    "programId": "lost_valley",
+    "description": "精灵传说中的失落山谷"
+  },
+  {
+    "name": "东部圣地",
+    "esp": 32,
+    "level": 2,
+    "foundRange": "[13, 14]",
+    "reqFound": {
+      "type": "祈祷",
+      "content": "圣地",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "风元素",
+        "qty": 28
+      }
+    ],
+    "rewards": [
+      {
+        "content": "信念",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "east_sacred_place",
+    "description": "东部有一个地方，那里的空气中活跃着登攀者世界的力量，并有元素守护着"
+  },
+  {
+    "name": "永恒大殿",
+    "esp": 30,
+    "level": 3,
+    "foundRange": "[11, 11]",
+    "reqFound": {
+      "type": "研究",
+      "content": "赢得民心",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "永恒守卫",
+        "qty": 35
+      },
+      {
+        "unit": "魔像",
+        "qty": 90
+      }
+    ],
+    "rewards": [
+      {
+        "content": "原料",
+        "attr": null,
+        "value": 0.8
+      },
+      {
+        "content": "水晶",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "eternal_halls",
+    "description": "永恒大殿是西部王国人民的圣地，它被石头守卫保护着"
+  },
+  {
+    "name": "双头巨人营地",
+    "esp": 19,
+    "level": 2,
+    "foundRange": "[1, 20]",
+    "reqFound": {
+      "type": "研究",
+      "content": "请求帮助",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "双头巨人",
+        "qty": 12
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "食物",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "ettin_camp",
+    "description": "营地中有几个当地人被关在了笼子里"
+  },
+  {
+    "name": "双头巨人奴隶主",
+    "esp": 32,
+    "level": 3,
+    "foundRange": "[22, 22]",
+    "reqFound": {
+      "type": "研究",
+      "content": "探索新世界",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "双头巨人",
+        "qty": 42
+      }
+    ],
+    "rewards": [
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "石头",
+        "attr": null,
+        "value": 2
+      }
+    ],
+    "programId": "ettin_enslaver",
+    "description": "主要从事奴隶交易的双头巨人部落"
+  },
+  {
+    "name": "地之元素环",
+    "esp": 32,
+    "level": 3,
+    "foundRange": "[25, 25]",
+    "reqFound": {
+      "type": "研究",
+      "content": "探索新世界",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "土元素",
+        "qty": 56
+      }
+    ],
+    "rewards": [
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "水晶",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "earth_elemental_circle",
+    "description": "它们看起来像是旧大陆的圣地，但强化了很多"
+  },
+  {
+    "name": "火之元素环",
+    "esp": 32,
+    "level": 3,
+    "foundRange": "[23, 23]",
+    "reqFound": {
+      "type": "研究",
+      "content": "探索新世界",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "火元素",
+        "qty": 56
+      }
+    ],
+    "rewards": [
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "水晶",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "fire_elemental_circle",
+    "description": "它们看起来像是旧大陆的圣地，但强化了很多"
+  },
+  {
+    "name": "冰之元素环",
+    "esp": 32,
+    "level": 3,
+    "foundRange": "[24, 24]",
+    "reqFound": {
+      "type": "研究",
+      "content": "探索新世界",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "冰元素",
+        "qty": 56
+      }
+    ],
+    "rewards": [
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "水晶",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "frost_elemental_circle",
+    "description": "它们看起来像是旧大陆的圣地，但强化了很多"
+  },
+  {
+    "name": "风之元素环",
+    "esp": 32,
+    "level": 3,
+    "foundRange": "[23, 23]",
+    "reqFound": {
+      "type": "研究",
+      "content": "探索新世界",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "风元素",
+        "qty": 56
+      }
+    ],
+    "rewards": [
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "水晶",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "wind_elemental_circle",
+    "description": "它们看起来像是旧大陆的圣地，但强化了很多"
+  },
+  {
+    "name": "火蜥蜴巢穴",
+    "esp": 11,
+    "level": 4,
+    "foundRange": "[23, 23]",
+    "reqFound": {
+      "type": "研究",
+      "content": "探索新世界",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "火蜥蜴",
+        "qty": 62
+      }
+    ],
+    "rewards": [
+      {
+        "content": "硝石",
+        "attr": null,
+        "value": 0.5
+      },
+      {
+        "content": "钠红石",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "fire_salamander_nest",
+    "description": "火蜥蜴的巢穴，太靠近它们的洞穴会很危险"
+  },
+  {
+    "name": "加里亚德佣兵营地",
+    "esp": 27,
+    "level": 4,
+    "foundRange": "[35, 35]",
+    "reqFound": {
+      "type": "研究",
+      "content": "佣兵团",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "加里亚德",
+        "qty": 1
+      },
+      {
+        "unit": "佣兵",
+        "qty": 70
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "铁",
+        "attr": null,
+        "value": 0.6
+      }
+    ],
+    "programId": "galliard_mercenary_camp",
+    "description": "营地里驻扎着加里亚德团长和他的佣兵团"
+  },
+  {
+    "name": "巨型寺庙",
+    "esp": 27,
+    "level": 3,
+    "foundRange": "[23, 23]",
+    "reqFound": {
+      "type": "研究",
+      "content": "探索新世界",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "石像鬼",
+        "qty": 43
+      }
+    ],
+    "rewards": [
+      {
+        "content": "信念",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "giant_temple",
+    "description": "隐藏在复杂森林之中的古代寺庙"
+  },
+  {
+    "name": "阴暗狼人之森",
+    "esp": 5,
+    "level": 4,
+    "foundRange": "[19, 19]",
+    "reqFound": {
+      "type": "研究",
+      "content": "猎杀怪物",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "狼人",
+        "qty": 1
+      },
+      {
+        "unit": "狼",
+        "qty": 130
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 50
+      },
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 1.5
+      },
+      {
+        "content": "补给",
+        "attr": null,
+        "value": 0.3
+      }
+    ],
+    "programId": "gloomy_werewolf_forest",
+    "description": "狼人的森林里布满障碍，即使是装备最好的部队也没法轻易胜利"
+  },
+  {
+    "name": "地精巢穴",
+    "esp": 2,
+    "level": 1,
+    "foundRange": "[15, 16]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "地精掠夺者",
+        "qty": 12
+      },
+      {
+        "unit": "地精战士",
+        "qty": 3
+      }
+    ],
+    "rewards": [
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "石头",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "goblin_lair",
+    "description": "地精是相当狡猾的生物，它们几乎没有武器，但会在箭头下毒。几十个士兵就够安全了"
+  },
+  {
+    "name": "蛇发女妖巢穴",
+    "esp": 5,
+    "level": 3,
+    "foundRange": "[17, 17]",
+    "reqFound": {
+      "type": "研究",
+      "content": "猎杀怪物",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "蛇发女妖",
+        "qty": 1
+      },
+      {
+        "unit": "娜迦",
+        "qty": 70
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 50
+      },
+      {
+        "content": "铜",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "铁",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "gorgon_cave",
+    "description": "蛇发女妖的凝视会让人石化，它潜伏在一个充满危险的洞穴里，里面地形错综复杂"
+  },
+  {
+    "name": "豺狼人突袭队",
+    "esp": 8,
+    "level": 2,
+    "foundRange": "[17, 17]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "豺狼人掠夺者",
+        "qty": 25
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "工具",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "gnoll_raiding_party",
+    "description": "这些人与鬣狗的杂交种从两边继承的都是坏基因"
+  },
+  {
+    "name": "豺狼人营地",
+    "esp": 37,
+    "level": 4,
+    "foundRange": "[17, 18]",
+    "reqFound": {
+      "type": "研究",
+      "content": "长途探险",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "豺狼人首领",
+        "qty": 1
+      },
+      {
+        "unit": "豺狼人掠夺者",
+        "qty": 180
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 3
+      },
+      {
+        "content": "工具",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "gnoll_camp",
+    "description": "数码之外的营地散发着腐肉的气息。小心豺狼人的首领"
+  },
+  {
+    "name": "魔像洞穴",
+    "esp": 15,
+    "level": 2,
+    "foundRange": "[21, 21]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "魔像",
+        "qty": 15
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 0.7
+      },
+      {
+        "content": "石头",
+        "attr": null,
+        "value": 0.5
+      },
+      {
+        "content": "原料",
+        "attr": null,
+        "value": 0.1
+      }
+    ],
+    "programId": "golem_cave",
+    "description": "充满魔像的洞穴。小心了，它们可能会活动起来，守卫洞穴"
+  },
+  {
+    "name": "古鲁德·乌格顿城堡",
+    "esp": 25,
+    "level": 5,
+    "foundRange": "[37, 37]",
+    "reqFound": {
+      "type": "研究",
+      "content": "孩子们的轨迹",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "古鲁德",
+        "qty": 1
+      },
+      {
+        "unit": "兽人工人",
+        "qty": 350
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 150
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 5
+      },
+      {
+        "content": "水晶",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "gulud_ugdun",
+    "description": "被掳走的孩子被囚禁于此。古鲁德必须死"
+  },
+  {
+    "name": "鹰身女妖巢穴",
+    "esp": 8,
+    "level": 2,
+    "foundRange": "[18, 18]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "鹰身女妖",
+        "qty": 26
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "奶牛",
+        "attr": null,
+        "value": 0.3
+      },
+      {
+        "content": "马",
+        "attr": null,
+        "value": 0.1
+      }
+    ],
+    "programId": "harpy_nest",
+    "description": "鹰身女妖的巢穴会吸引毫无戒心的旅行者"
+  },
+  {
+    "name": "闹鬼图书馆",
+    "esp": 4,
+    "level": 1,
+    "foundRange": "[5, 5]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "鬼魂",
+        "qty": 9
+      }
+    ],
+    "rewards": [
+      {
+        "content": "研究点",
+        "attr": null,
+        "value": 0.5
+      },
+      {
+        "content": "研究点",
+        "attr": "上限",
+        "value": 1500
+      }
+    ],
+    "programId": "haunted_library",
+    "description": "一座古老的图书馆，现在由鬼魂来守卫了。几十名士兵就可以击退它们"
+  },
+  {
+    "name": "淘气鬼营地",
+    "esp": 7,
+    "level": 2,
+    "foundRange": "[19, 19]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "淘气鬼士兵",
+        "qty": 21
+      }
+    ],
+    "rewards": [
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "工具",
+        "attr": null,
+        "value": 0.3
+      }
+    ],
+    "programId": "hobgoblin_encampment",
+    "description": "满是淘气鬼士兵的营地，它们的资源会很有用"
+  },
+  {
+    "name": "淘气鬼酋长",
+    "esp": 21,
+    "level": 3,
+    "foundRange": "[32, 32]",
+    "reqFound": {
+      "type": "研究",
+      "content": "公会",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "淘气鬼士兵",
+        "qty": 50
+      },
+      {
+        "unit": "淘气鬼弓箭手",
+        "qty": 60
+      },
+      {
+        "unit": "淘气鬼酋长",
+        "qty": 1
+      }
+    ],
+    "rewards": [
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 1.5
+      },
+      {
+        "content": "原料",
+        "attr": null,
+        "value": 0.5
+      },
+      {
+        "content": "钢",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "hobgoblin_chieftain",
+    "description": "一小队淘气鬼，由它们的酋长带领"
+  },
+  {
+    "name": "多头蛇之坑",
+    "esp": 5,
+    "level": 4,
+    "foundRange": "[18, 18]",
+    "reqFound": {
+      "type": "研究",
+      "content": "猎杀怪物",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "多头蛇",
+        "qty": 1
+      },
+      {
+        "unit": "巨蛇",
+        "qty": 110
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 50
+      },
+      {
+        "content": "奶牛",
+        "attr": null,
+        "value": 0.5
+      },
+      {
+        "content": "马",
+        "attr": null,
+        "value": 0.3
+      },
+      {
+        "content": "水晶",
+        "attr": null,
+        "value": 0.3
+      }
+    ],
+    "programId": "hydra_pit",
+    "description": "多头蛇之坑，它的五个头像军团一样战斗"
+  },
+  {
+    "name": "巨门",
+    "esp": 5,
+    "level": 4,
+    "foundRange": "[19, 19]",
+    "reqFound": {
+      "type": "研究",
+      "content": "科布统治领",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "巨门",
+        "qty": 1
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 50
+      }
+    ],
+    "programId": "immense_door_e",
+    "description": "门后是科布统治领的仓库"
+  },
+  {
+    "name": "铅魔像矿井",
+    "esp": 28,
+    "level": 3,
+    "foundRange": "[31, 31]",
+    "reqFound": {
+      "type": "研究",
+      "content": "探索新世界",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "铅魔像",
+        "qty": 42
+      }
+    ],
+    "rewards": [
+      {
+        "content": "铜",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "铁",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "lead_golem_mine",
+    "description": "在一个旧矿井中我们发现了一种魔像，它的外表坚硬到奇怪"
+  },
+  {
+    "name": "小矮妖巢穴",
+    "esp": 11,
+    "level": 2,
+    "foundRange": "[37, 39]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "陷阱",
+        "qty": 36
+      }
+    ],
+    "rewards": [
+      {
+        "content": "幸运石",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 0.2
+      }
+    ],
+    "programId": "leprechaun_den",
+    "description": "小矮妖的巢穴，它会给我们带来好运！"
+  },
+  {
+    "name": "巫妖寺庙",
+    "esp": 31,
+    "level": 4,
+    "foundRange": "[19, 19]",
+    "reqFound": {
+      "type": "研究",
+      "content": "死灵术",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "僵尸",
+        "qty": 70
+      },
+      {
+        "unit": "食尸鬼",
+        "qty": 40
+      },
+      {
+        "unit": "恶魂",
+        "qty": 30
+      },
+      {
+        "unit": "巫妖",
+        "qty": 1
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 40
+      },
+      {
+        "content": "信念",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "lich_temple",
+    "description": "巫妖是黑暗力量的源泉，指挥着几十个亡者"
+  },
+  {
+    "name": "狗头人之城",
+    "esp": 18,
+    "level": 3,
+    "foundRange": "[14, 14]",
+    "reqFound": {
+      "type": "研究",
+      "content": "地下任务",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "狗头人",
+        "qty": 99
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 40
+      },
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "食物",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "kobold_city",
+    "description": "我们脚底下就有一座狗头人的城市，这谁想得到？"
+  },
+  {
+    "name": "狗头人隧道",
+    "esp": 9,
+    "level": 2,
+    "foundRange": "[20, 20]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "狗头人",
+        "qty": 36
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 15
+      },
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "工具",
+        "attr": null,
+        "value": 0.3
+      }
+    ],
+    "programId": "kobold_underground_tunnels",
+    "description": "狗头人深挖它们的地洞，它们很弱小，但数量众多"
+  },
+  {
+    "name": "狗头人藏匿处",
+    "esp": 9,
+    "level": 2,
+    "foundRange": "[11, 11]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "狗头人",
+        "qty": 26
+      }
+    ],
+    "rewards": [
+      {
+        "content": "幸运石",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "kobold_stash",
+    "description": "狗头人的藏品中或许有我们能用上的东西"
+  },
+  {
+    "name": "科里根矮妖石屋",
+    "esp": 3,
+    "level": 1,
+    "foundRange": "[7, 7]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "科里根矮妖投石者",
+        "qty": 6
+      },
+      {
+        "unit": "科里根矮妖欺诈者",
+        "qty": 10
+      }
+    ],
+    "rewards": [
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 0.7
+      },
+      {
+        "content": "石头",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "korrigan_dolmen",
+    "description": "这些卑鄙的小动物喜欢在石屋附近捕食路人"
+  },
+  {
+    "name": "玛卡纳特森林",
+    "esp": 12,
+    "level": 4,
+    "foundRange": "[22, 22]",
+    "reqFound": {
+      "type": "研究",
+      "content": "长途探险",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "玛卡纳特",
+        "qty": 1
+      },
+      {
+        "unit": "巨蜘蛛",
+        "qty": 140
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 50
+      },
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 2
+      }
+    ],
+    "programId": "markanat_forest",
+    "description": "玛卡纳特的水淹丛林，它是一只不允许任何人接近的巨型蜘蛛"
+  },
+  {
+    "name": "牛头怪迷宫",
+    "esp": 5,
+    "level": 4,
+    "foundRange": "[20, 20]",
+    "reqFound": {
+      "type": "研究",
+      "content": "猎杀怪物",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "牛头怪",
+        "qty": 1
+      },
+      {
+        "unit": "狗头人",
+        "qty": 210
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 50
+      },
+      {
+        "content": "石头",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "原料",
+        "attr": null,
+        "value": 0.5
+      },
+      {
+        "content": "钢",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "minotaur_maze",
+    "description": "牛头怪的迷宫。对任何人来说都是艰巨的挑战"
+  },
+  {
+    "name": "山岭洞穴",
+    "esp": 17,
+    "level": 3,
+    "foundRange": "[22, 22]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "山岭巨人",
+        "qty": 1
+      },
+      {
+        "unit": "地精掠夺者",
+        "qty": 52
+      },
+      {
+        "unit": "地精战士",
+        "qty": 28
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 40
+      },
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "钢",
+        "attr": null,
+        "value": 0.3
+      }
+    ],
+    "programId": "mountain_cave",
+    "description": "一个巨大的洞穴，由一个巨人以及他的地精爪牙们控制"
+  },
+  {
+    "name": "山中之谷",
+    "esp": 50,
+    "level": 4,
+    "foundRange": "[29, 29]",
+    "reqFound": {
+      "type": "研究",
+      "content": "长途探险",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "冰霜巨人",
+        "qty": 1
+      },
+      {
+        "unit": "山巨人",
+        "qty": 120
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 50
+      },
+      {
+        "content": "食物",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "食物",
+        "attr": "上限",
+        "value": 1000
+      }
+    ],
+    "programId": "mountain_valley",
+    "description": "群山中央的大山谷。巨人居住在这里，如果能赶走它们，我们就可以获得山谷中大量的食物和木头了"
+  },
+  {
+    "name": "娜迦老巢",
+    "esp": 8,
+    "level": 2,
+    "foundRange": "[23, 23]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "娜迦",
+        "qty": 12
+      }
+    ],
+    "rewards": [
+      {
+        "content": "奶牛",
+        "attr": null,
+        "value": 0.2
+      },
+      {
+        "content": "马",
+        "attr": null,
+        "value": 0.1
+      }
+    ],
+    "programId": "naga_nest",
+    "description": "看来不流血，是没法从他们手上夺走他们的食物来源了"
+  },
+  {
+    "name": "灯神宫殿",
+    "esp": 32,
+    "level": 4,
+    "foundRange": "[25, 25]",
+    "reqFound": {
+      "type": "祈祷",
+      "content": "奇怪的灯",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "灯神",
+        "qty": 1
+      },
+      {
+        "unit": "娜迦",
+        "qty": 56
+      }
+    ],
+    "rewards": [
+      {
+        "content": "信念",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "djinn_palace",
+    "description": "灯神的居所，几个娜迦守卫着入口。战斗将十分艰辛"
+  },
+  {
+    "name": "死灵法师地穴",
+    "esp": 14,
+    "level": 3,
+    "foundRange": "[26, 26]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "食尸鬼",
+        "qty": 26
+      },
+      {
+        "unit": "恶魂",
+        "qty": 16
+      },
+      {
+        "unit": "死灵法师",
+        "qty": 1
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 20
+      },
+      {
+        "content": "信念",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "necromancer_crypt",
+    "description": "一位死灵法师沉闷的家，他已经疯了。小心亡者们！"
+  },
+  {
+    "name": "北部圣地",
+    "esp": 32,
+    "level": 3,
+    "foundRange": "[27, 27]",
+    "reqFound": {
+      "type": "祈祷",
+      "content": "圣地",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "冰元素",
+        "qty": 28
+      }
+    ],
+    "rewards": [
+      {
+        "content": "信念",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "north_sacred_place",
+    "description": "北部有一个地方，那里的空气中活跃着登攀者世界的力量，并有元素守护着"
+  },
+  {
+    "name": "佣兵营地",
+    "esp": 32,
+    "level": 2,
+    "foundRange": "[28, 28]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "佣兵",
+        "qty": 30
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "铁",
+        "attr": null,
+        "value": 0.3
+      }
+    ],
+    "programId": "mercenary_camp",
+    "description": "没有人赞助的佣兵，他们致力于打劫，非常危险"
+  },
+  {
+    "name": "蕈人洞穴",
+    "esp": 14,
+    "level": 2,
+    "foundRange": "[29, 29]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "蕈人",
+        "qty": 42
+      }
+    ],
+    "rewards": [
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "水晶",
+        "attr": null,
+        "value": 0.1
+      }
+    ],
+    "programId": "myconid_cavern",
+    "description": "一个蕈人部落在这个有着强大魔法脉动的洞穴安家了"
+  },
+  {
+    "name": "老草场",
+    "esp": 4,
+    "level": 1,
+    "foundRange": "[28, 29]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "脏鼠",
+        "qty": 18
+      }
+    ],
+    "rewards": [
+      {
+        "content": "奶牛",
+        "attr": "上限",
+        "value": 200
+      },
+      {
+        "content": "马",
+        "attr": "上限",
+        "value": 100
+      }
+    ],
+    "programId": "old_herd",
+    "description": "一片老草场，有老鼠出没，十几名士兵应该就足够清理了"
+  },
+  {
+    "name": "旧贮藏室",
+    "esp": 4,
+    "level": 1,
+    "foundRange": "[29, 31]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "蜘蛛",
+        "qty": 5
+      }
+    ],
+    "rewards": [
+      {
+        "content": "木材",
+        "attr": "上限",
+        "value": 500
+      },
+      {
+        "content": "石头",
+        "attr": "上限",
+        "value": 500
+      }
+    ],
+    "programId": "old_storage_room",
+    "description": "旧贮藏室里有蜘蛛筑了巢，十几个长矛兵就足够征服这里了"
+  },
+  {
+    "name": "兽人戈米亚克堡垒",
+    "esp": 45,
+    "level": 5,
+    "foundRange": "[7, 9]",
+    "reqFound": {
+      "type": "研究",
+      "content": "兽人堡垒",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "兽人战士",
+        "qty": 300
+      },
+      {
+        "unit": "兽人投石兵",
+        "qty": 150
+      },
+      {
+        "unit": "兽人督军",
+        "qty": 3
+      }
+    ],
+    "rewards": [
+      {
+        "content": "铁",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "钢",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "人口",
+        "attr": null,
+        "value": 3
+      }
+    ],
+    "programId": "orc_gormiak_citadel",
+    "description": "驻扎着兽人。它的腐臭污染着空气"
+  },
+  {
+    "name": "兽人霍里斯堡垒",
+    "esp": 50,
+    "level": 5,
+    "foundRange": "[10, 11]",
+    "reqFound": {
+      "type": "研究",
+      "content": "人类的至暗时刻",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "铁皮兽人",
+        "qty": 300
+      },
+      {
+        "unit": "兽人火法师",
+        "qty": 150
+      }
+    ],
+    "rewards": [
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 5
+      },
+      {
+        "content": "水晶",
+        "attr": null,
+        "value": 0.5
+      },
+      {
+        "content": "人口",
+        "attr": null,
+        "value": 3
+      }
+    ],
+    "programId": "orc_horith_citadel",
+    "description": "它保护着霍里斯领地，那里以火法师氏族而闻名"
+  },
+  {
+    "name": "兽人奥索格堡垒",
+    "esp": 50,
+    "level": 5,
+    "foundRange": "[12, 13]",
+    "reqFound": {
+      "type": "研究",
+      "content": "人类的至暗时刻",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "精英兽人",
+        "qty": 30
+      },
+      {
+        "unit": "兽人战士",
+        "qty": 350
+      },
+      {
+        "unit": "兽人督军",
+        "qty": 5
+      }
+    ],
+    "rewards": [
+      {
+        "content": "食物",
+        "attr": null,
+        "value": 5
+      },
+      {
+        "content": "补给",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "人口",
+        "attr": null,
+        "value": 3
+      }
+    ],
+    "programId": "orc_ogsog_citadel",
+    "description": "兽人精英来自于此"
+  },
+  {
+    "name": "兽人图尔冈堡垒",
+    "esp": 50,
+    "level": 5,
+    "foundRange": "[14, 15]",
+    "reqFound": {
+      "type": "研究",
+      "content": "人类的至暗时刻",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "兽人萨满",
+        "qty": 50
+      },
+      {
+        "unit": "兽人座狼骑兵",
+        "qty": 300
+      },
+      {
+        "unit": "兽人督军",
+        "qty": 1
+      }
+    ],
+    "rewards": [
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 3
+      },
+      {
+        "content": "石头",
+        "attr": null,
+        "value": 3
+      },
+      {
+        "content": "人口",
+        "attr": null,
+        "value": 3
+      }
+    ],
+    "programId": "orc_turgon_citadel",
+    "description": "兽人萨满氏族的起源地"
+  },
+  {
+    "name": "兽人突袭队",
+    "esp": 34,
+    "level": 5,
+    "foundRange": "[4, 6]",
+    "reqFound": {
+      "type": "研究",
+      "content": "兽人的威胁",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "兽人战士",
+        "qty": 200
+      },
+      {
+        "unit": "兽人督军",
+        "qty": 1
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 2
+      }
+    ],
+    "programId": "orc_raiding_party",
+    "description": "这只突袭队将定居点置于了他们刀锋之下"
+  },
+  {
+    "name": "兽人集中营",
+    "esp": 34,
+    "level": 5,
+    "foundRange": "[1, 3]",
+    "reqFound": {
+      "type": "研究",
+      "content": "被烧毁的农场",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "兽人工人",
+        "qty": 120
+      },
+      {
+        "unit": "兽人战士",
+        "qty": 90
+      },
+      {
+        "unit": "兽人座狼骑兵",
+        "qty": 60
+      }
+    ],
+    "rewards": [
+      {
+        "content": "人口",
+        "attr": null,
+        "value": 2
+      }
+    ],
+    "programId": "orcish_prison_camp",
+    "description": "兽人在此关押劫掠而来的俘虏"
+  },
+  {
+    "name": "掠夺者藏身处",
+    "esp": 11,
+    "level": 2,
+    "foundRange": "[22, 22]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "掠夺者",
+        "qty": 40
+      }
+    ],
+    "rewards": [
+      {
+        "content": "幸运石",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 0.4
+      }
+    ],
+    "programId": "raider_hideout",
+    "description": "洞里有四十个掠夺者"
+  },
+  {
+    "name": "生锈仓库",
+    "esp": 8,
+    "level": 2,
+    "foundRange": "[31, 32]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "强盗",
+        "qty": 22
+      }
+    ],
+    "rewards": [
+      {
+        "content": "木材",
+        "attr": "上限",
+        "value": 1000
+      },
+      {
+        "content": "石头",
+        "attr": "上限",
+        "value": 1000
+      },
+      {
+        "content": "铜",
+        "attr": "上限",
+        "value": 500
+      },
+      {
+        "content": "铁",
+        "attr": "上限",
+        "value": 500
+      },
+      {
+        "content": "工具",
+        "attr": "上限",
+        "value": 500
+      }
+    ],
+    "programId": "rusted_warehouse",
+    "description": "废弃的农舍，拿来当仓库应该不错"
+  },
+  {
+    "name": "拯救受诅者",
+    "esp": 45,
+    "level": 4,
+    "foundRange": "[31, 31]",
+    "reqFound": {
+      "type": "研究",
+      "content": "勘测周围区域",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "无面恐怖‌",
+        "qty": 90
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 50
+      },
+      {
+        "content": "人口",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "光明",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "save_damned",
+    "description": "受诅者的哭嚎在黑暗中回荡"
+  },
+  {
+    "name": "沉眠的泰坦",
+    "esp": 1,
+    "level": 7,
+    "foundRange": "[38, 38]",
+    "reqFound": {
+      "type": "研究",
+      "content": "泰坦的镶嵌画",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "泰坦",
+        "qty": 1
+      },
+      {
+        "unit": "魔像",
+        "qty": 750
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 150
+      }
+    ],
+    "programId": "sleeping_titan",
+    "description": "唤醒泰坦的人将获得丰厚的奖励"
+  },
+  {
+    "name": "骷髅脸营地",
+    "esp": 13,
+    "level": 3,
+    "foundRange": "[1, 2]",
+    "reqFound": {
+      "type": "研究",
+      "content": "强盗首领",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "骷髅脸",
+        "qty": 1
+      },
+      {
+        "unit": "强盗",
+        "qty": 75
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 15
+      },
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "食物",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "skullface_encampment",
+    "description": "骷髅脸营地由一些强盗守卫，消灭他会费点劲"
+  },
+  {
+    "name": "走私者仓库",
+    "esp": 31,
+    "level": 4,
+    "foundRange": "[35, 37]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "强盗",
+        "qty": 96
+      },
+      {
+        "unit": "走私者",
+        "qty": 56
+      }
+    ],
+    "rewards": [
+      {
+        "content": "幸运石",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "原料",
+        "attr": null,
+        "value": 0.4
+      },
+      {
+        "content": "钢",
+        "attr": null,
+        "value": 0.4
+      }
+    ],
+    "programId": "smuggler_warehouse",
+    "description": "走私者藏匿东西的大仓库"
+  },
+  {
+    "name": "蛇穴",
+    "esp": 8,
+    "level": 2,
+    "foundRange": "[30, 30]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "蛇",
+        "qty": 9
+      },
+      {
+        "unit": "巨蛇",
+        "qty": 4
+      }
+    ],
+    "rewards": [
+      {
+        "content": "食物",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "奶牛",
+        "attr": null,
+        "value": 0.3
+      }
+    ],
+    "programId": "snakes_nest",
+    "description": "许多毫无戒心的受害者落入其中"
+  },
+  {
+    "name": "蜘蛛森林",
+    "esp": 13,
+    "level": 2,
+    "foundRange": "[31, 31]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "蜘蛛",
+        "qty": 32
+      },
+      {
+        "unit": "巨蜘蛛",
+        "qty": 8
+      }
+    ],
+    "rewards": [
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 1.5
+      },
+      {
+        "content": "原料",
+        "attr": null,
+        "value": 0.1
+      }
+    ],
+    "programId": "spider_forest",
+    "description": "茂密的森林里遍布巨大的蜘蛛网"
+  },
+  {
+    "name": "阿塔玛之子",
+    "esp": 32,
+    "level": 3,
+    "foundRange": "[21, 21]",
+    "reqFound": {
+      "type": "研究",
+      "content": "逃兵的起源",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "逃兵",
+        "qty": 60
+      },
+      {
+        "unit": "阿塔玛之子",
+        "qty": 30
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 30
+      },
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "补给",
+        "attr": null,
+        "value": 0.2
+      }
+    ],
+    "programId": "son_atamar",
+    "description": "来自南部沙漠的阿塔玛邪教，其信徒是优秀的剑客"
+  },
+  {
+    "name": "奇怪的村庄",
+    "esp": 17,
+    "level": 2,
+    "foundRange": "[32, 32]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "着魔的居民",
+        "qty": 47
+      }
+    ],
+    "rewards": [
+      {
+        "content": "人口",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "strange_village",
+    "description": "一个居民目光呆滞的村庄，他们攻击性很强"
+  },
+  {
+    "name": "南部圣地",
+    "esp": 32,
+    "level": 3,
+    "foundRange": "[33, 34]",
+    "reqFound": {
+      "type": "祈祷",
+      "content": "圣地",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "火元素",
+        "qty": 28
+      }
+    ],
+    "rewards": [
+      {
+        "content": "信念",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "south_sacred_place",
+    "description": "南部有一个地方，那里的空气中活跃着登攀者世界的力量，并有元素守护着"
+  },
+  {
+    "name": "魅魔黑暗图书馆",
+    "esp": 29,
+    "level": 4,
+    "foundRange": "[33, 33]",
+    "reqFound": {
+      "type": "研究",
+      "content": "探索新世界",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "魅魔",
+        "qty": 90
+      }
+    ],
+    "rewards": [
+      {
+        "content": "研究点",
+        "attr": "上限",
+        "value": 5000
+      },
+      {
+        "content": "水晶",
+        "attr": "上限",
+        "value": 1000
+      }
+    ],
+    "programId": "succubus_library",
+    "description": "这群魅魔把一个不起眼的图书馆当成了住所。接近时要小心"
+  },
+  {
+    "name": "巨黄蜂群落",
+    "esp": 10,
+    "level": 4,
+    "foundRange": "[29, 29]",
+    "reqFound": {
+      "type": "研究",
+      "content": "探索新世界",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "巨黄蜂",
+        "qty": 540
+      }
+    ],
+    "rewards": [
+      {
+        "content": "补给",
+        "attr": null,
+        "value": 0.2
+      }
+    ],
+    "programId": "swarm_wasp",
+    "description": "一大群巨黄蜂在土地上游荡"
+  },
+  {
+    "name": "石像鬼寺庙",
+    "esp": 7,
+    "level": 2,
+    "foundRange": "[32, 32]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "石像鬼",
+        "qty": 14
+      }
+    ],
+    "rewards": [
+      {
+        "content": "石头",
+        "attr": null,
+        "value": 0.6
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 0.6
+      }
+    ],
+    "programId": "temple_gargoyle",
+    "description": "丛林中的远古寺庙被一些石像鬼守卫着"
+  },
+  {
+    "name": "巨魔洞穴",
+    "esp": 8,
+    "level": 2,
+    "foundRange": "[35, 35]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "洞穴巨魔",
+        "qty": 9
+      }
+    ],
+    "rewards": [
+      {
+        "content": "铜",
+        "attr": null,
+        "value": 0.3
+      },
+      {
+        "content": "铁",
+        "attr": null,
+        "value": 0.2
+      }
+    ],
+    "programId": "troll_cave",
+    "description": "一个被巨魔称作家的恶臭洞穴，要将它赶走恐怕会比较费劲"
+  },
+  {
+    "name": "西部圣地",
+    "esp": 32,
+    "level": 3,
+    "foundRange": "[37, 38]",
+    "reqFound": {
+      "type": "祈祷",
+      "content": "圣地",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "土元素",
+        "qty": 28
+      }
+    ],
+    "rewards": [
+      {
+        "content": "信念",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "法力",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "west_sacred_place",
+    "description": "西部有一个地方，那里的空气中活跃着登攀者世界的力量，并有元素守护着"
+  },
+  {
+    "name": "狼群",
+    "esp": 2,
+    "level": 1,
+    "foundRange": "[24, 24]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "狼",
+        "qty": 9
+      }
+    ],
+    "rewards": [
+      {
+        "content": "食物",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "wolf_pack",
+    "description": "一群凶恶的狼，会攻击过路的羊群，几十名士兵应该可以把它们包圆了"
+  },
+  {
+    "name": "破旧的地穴",
+    "esp": 14,
+    "level": 3,
+    "foundRange": "[37, 37]",
+    "reqFound": {
+      "type": "研究",
+      "content": "公会",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "骷髅骑士",
+        "qty": 67
+      }
+    ],
+    "rewards": [
+      {
+        "content": "研究点",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "worn_down_crypt",
+    "description": "在一片阴森森林的一个偏僻的犄角旮旯，有个通往一个破旧地穴的入口，但被一群骷髅骑士守卫着"
+  },
+  {
+    "name": "巨大洞穴",
+    "esp": 26,
+    "level": 5,
+    "foundRange": "[11, 11]",
+    "reqFound": {
+      "type": "研究",
+      "content": "图书馆之谜",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "骷髅骑士",
+        "qty": 50
+      },
+      {
+        "unit": "骷髅",
+        "qty": 750
+      }
+    ],
+    "rewards": [
+      {
+        "content": "研究点",
+        "attr": null,
+        "value": 1.5
+      }
+    ],
+    "programId": "huge_cave",
+    "description": "灵魂图书馆的下面有一个巨大的洞穴，里面满是骷髅"
+  },
+  {
+    "name": "双足飞龙巢穴",
+    "esp": 12,
+    "level": 2,
+    "foundRange": "[36, 36]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "双足飞龙",
+        "qty": 12
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 30
+      },
+      {
+        "content": "补给",
+        "attr": null,
+        "value": 0.3
+      }
+    ],
+    "programId": "wyvern_nest",
+    "description": "这些可怕的生物很像龙，也经常被误认为是龙"
+  },
+  {
+    "name": "蝙蝠洞穴",
+    "esp": 1,
+    "level": 0,
+    "foundRange": "[1, 40]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "吸血蝙蝠",
+        "qty": 2
+      }
+    ],
+    "rewards": [
+      {
+        "content": "木材",
+        "attr": null,
+        "value": 0.3
+      },
+      {
+        "content": "石头",
+        "attr": null,
+        "value": 0.3
+      }
+    ],
+    "programId": "cave_bats",
+    "description": "充满吸血蝙蝠的洞穴，一些长矛兵就可以消灭它们"
+  },
+  {
+    "name": "狗头人掠夺者",
+    "esp": 1,
+    "level": 0,
+    "foundRange": "[1, 32]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "狗头人",
+        "qty": 2
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "kobold_looters",
+    "description": "它们从小营地袭击附近的村庄，让我们用几个士兵将它们赶走"
+  },
+  {
+    "name": "肮脏的掠夺者",
+    "esp": 1,
+    "level": 0,
+    "foundRange": "[1, 32]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "掠夺者",
+        "qty": 2
+      }
+    ],
+    "rewards": [
+      {
+        "content": "铁",
+        "attr": null,
+        "value": 0.2
+      }
+    ],
+    "programId": "nasty_pillagers",
+    "description": "这些肮脏的掠夺者留了一些小财，我们派几个士兵去打散他们吧"
+  },
+  {
+    "name": "囚车",
+    "esp": 1,
+    "level": 0,
+    "foundRange": "[1, 32]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "强盗",
+        "qty": 2
+      }
+    ],
+    "rewards": [
+      {
+        "content": "人口",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "prisoner_wagon",
+    "description": "强盗们抓捕平民的马车，几个长矛兵带着弓箭手就可以消灭他们了"
+  },
+  {
+    "name": "老鼠地窖",
+    "esp": 1,
+    "level": 0,
+    "foundRange": "[1, 32]",
+    "reqFound": null,
+    "army": [
+      {
+        "unit": "脏鼠",
+        "qty": 3
+      }
+    ],
+    "rewards": [
+      {
+        "content": "食物",
+        "attr": null,
+        "value": 0.5
+      }
+    ],
+    "programId": "rat_cellar",
+    "description": "贪婪的老鼠在地窖里出没，让我们带一些长矛兵来吧"
+  },
+  {
+    "name": "大墓地",
+    "esp": 35,
+    "level": 6,
+    "foundRange": "[33, 33]",
+    "reqFound": {
+      "type": "研究",
+      "content": "勘测周围区域",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "死灵法师",
+        "qty": 170
+      },
+      {
+        "unit": "骷髅",
+        "qty": 1590
+      },
+      {
+        "unit": "僵尸",
+        "qty": 1590
+      }
+    ],
+    "rewards": [
+      {
+        "content": "光明",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "信念",
+        "attr": "上限",
+        "value": 10000
+      },
+      {
+        "content": "法力",
+        "attr": "上限",
+        "value": 10000
+      }
+    ],
+    "programId": "necropolis",
+    "description": "深渊中的巨型墓地"
+  },
+  {
+    "name": "吸血鬼地穴",
+    "esp": 35,
+    "level": 4,
+    "foundRange": "[35, 36]",
+    "reqFound": {
+      "type": "研究",
+      "content": "长途探险",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "吸血蝙蝠",
+        "qty": 120
+      },
+      {
+        "unit": "吸血鬼下仆",
+        "qty": 60
+      }
+    ],
+    "rewards": [
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 1
+      },
+      {
+        "content": "原料",
+        "attr": null,
+        "value": 0.2
+      }
+    ],
+    "programId": "vampire_crypt",
+    "description": "被时间遗忘的一个地穴，现在是吸血鬼，或是它们下仆的家了"
+  },
+  {
+    "name": "吸血鬼老巢",
+    "esp": 32,
+    "level": 4,
+    "foundRange": "[37, 37]",
+    "reqFound": {
+      "type": "研究",
+      "content": "血迹",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "吸血鬼",
+        "qty": 1
+      },
+      {
+        "unit": "吸血鬼下仆",
+        "qty": 140
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 50
+      },
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 2
+      },
+      {
+        "content": "补给",
+        "attr": null,
+        "value": 0.3
+      }
+    ],
+    "programId": "vampire_lair",
+    "description": "吸血鬼的家，她非常可怕，即使最英勇的士兵也会感到恐惧"
+  },
+  {
+    "name": "远西岛",
+    "esp": 10,
+    "level": 0,
+    "foundRange": "[17, 36]",
+    "reqFound": {
+      "type": "研究",
+      "content": "航海",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "饥饿的螃蟹",
+        "qty": 15
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 10
+      }
+    ],
+    "programId": "far_west_island",
+    "description": "需要向西航行数日才能到达的小岛"
+  },
+  {
+    "name": "旧前哨",
+    "esp": 12,
+    "level": 4,
+    "foundRange": "[34, 34]",
+    "reqFound": {
+      "type": "研究",
+      "content": "肃清旧前哨",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "强盗",
+        "qty": 120
+      },
+      {
+        "unit": "佣兵",
+        "qty": 90
+      },
+      {
+        "unit": "逃兵",
+        "qty": 50
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 50
+      },
+      {
+        "content": "黄金",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "old_outpost",
+    "description": "一个被废弃的前哨，变成了逃兵，强盗和佣兵的避难所"
+  },
+  {
+    "name": "加里亚德的遗忘避难所",
+    "esp": 22,
+    "level": 4,
+    "foundRange": "[36, 36]",
+    "reqFound": {
+      "type": "研究",
+      "content": "加里亚德的秘密",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "记忆的幽灵",
+        "qty": 250
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 50
+      },
+      {
+        "content": "研究点",
+        "attr": null,
+        "value": 2
+      }
+    ],
+    "programId": "forgotten_shelter",
+    "description": "一个被遗忘和封闭的避难所，记忆中的黑暗幽灵藏身于此"
+  },
+  {
+    "name": "远古巨人",
+    "esp": 31,
+    "level": 5,
+    "foundRange": "[38, 38]",
+    "reqFound": {
+      "type": "研究",
+      "content": "自由之翼",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "远古巨人",
+        "qty": 1
+      },
+      {
+        "unit": "山巨人",
+        "qty": 140
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 100
+      },
+      {
+        "content": "硝石",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "ancient_giant",
+    "description": "一个巨大的洞穴，远古巨人和它的后代居住在这里"
+  },
+  {
+    "name": "小型尸潮",
+    "esp": 35,
+    "level": 4,
+    "foundRange": "[23, 27]",
+    "reqFound": {
+      "type": "研究",
+      "content": "勘测周围区域",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "僵尸",
+        "qty": 920
+      }
+    ],
+    "rewards": [
+      {
+        "content": "光明",
+        "attr": null,
+        "value": 1
+      }
+    ],
+    "programId": "zombie_horde_small",
+    "description": "游荡的小型尸潮"
+  },
+  {
+    "name": "大型尸潮",
+    "esp": 35,
+    "level": 5,
+    "foundRange": "[24, 24]",
+    "reqFound": {
+      "type": "研究",
+      "content": "勘测周围区域",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "僵尸",
+        "qty": 2920
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 50
+      },
+      {
+        "content": "光明",
+        "attr": null,
+        "value": 2
+      }
+    ],
+    "programId": "zombie_horde_large",
+    "description": "游荡的大型尸潮"
+  },
+  {
+    "name": "巨型尸潮",
+    "esp": 35,
+    "level": 6,
+    "foundRange": "[25, 25]",
+    "reqFound": {
+      "type": "研究",
+      "content": "勘测周围区域",
+      "qty": 1
+    },
+    "army": [
+      {
+        "unit": "僵尸",
+        "qty": 5920
+      }
+    ],
+    "rewards": [
+      {
+        "content": "声誉",
+        "attr": null,
+        "value": 150
+      },
+      {
+        "content": "光明",
+        "attr": null,
+        "value": 3
+      }
+    ],
+    "programId": "zombie_horde_huge",
+    "description": "游荡的巨型尸潮"
+  }
+]

@@ -14,8 +14,7 @@ const smartPopulationPlanner = (() => {
   };
   const routeJobs = {
     moonlightNight: ['professor', 'carpenter', 'supplier'],
-    fastNgPlus: ['professor', 'carpenter', 'supplier'],
-    titanThenFastNgPlus: []
+    fastNgPlus: ['professor', 'carpenter', 'supplier']
   };
   const routeMinimums = {
     moonlightNight: { professor: 3, supplier: 1, carpenter: 1 },

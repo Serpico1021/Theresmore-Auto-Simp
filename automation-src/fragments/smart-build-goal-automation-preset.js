@@ -10,6 +10,12 @@ const GOAL_AUTOMATION_PRESETS = {
     ancestor: 'ancestor_farmer',
     path: 'humans',
     ngplus: 25
+  },
+  annihilator: {
+    ancestor: 'ancestor_farmer',
+    path: 'humans',
+    ngplus: false,
+    difficulty: 'difficulty_0'
   }
 };
 
@@ -51,6 +57,9 @@ const applyGoalAutomationPreset = goalId => {
     state.options.ngplus.enabled = !!preset.ngplus;
     if (preset.ngplus) state.options.ngplus.value = preset.ngplus;
   }
+  if (preset.difficulty) {
+    state.options.difficulty = { enabled: true, selected: preset.difficulty };
+  }
   localStorage.set('options', state.options);
 
   syncAutomationOptionDom('ancestor', 'enabled', true);
@@ -61,6 +70,10 @@ const applyGoalAutomationPreset = goalId => {
   if (preset.ngplus !== undefined) {
     syncAutomationOptionDom('ngplus', 'enabled', !!preset.ngplus);
     if (preset.ngplus) syncAutomationOptionDom('ngplus', 'value', preset.ngplus);
+  }
+  if (preset.difficulty) {
+    syncAutomationOptionDom('difficulty', 'enabled', true);
+    syncAutomationOptionDom('difficulty', 'selected', preset.difficulty);
   }
 
   logger({

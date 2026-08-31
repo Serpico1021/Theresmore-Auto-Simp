@@ -245,7 +245,7 @@ const taVersion = "1.0.0.10";
       smartBuild: {
         enabled: true,
         populationEnabled: true,
-        goal: 'progress',
+        goal: 'moonlightNight',
         strategy: 'balanced',
         risk: 'normal',
         manualOverrides: false,
@@ -47205,6 +47205,8 @@ const taVersion = "1.0.0.10";
   const executeAction$6 = async () => {
     if (!navigation.checkPage(CONSTANTS.PAGES.ARMY, CONSTANTS.SUBPAGES.ATTACK)) return;
     if (state.scriptPaused) return;
+    const configuredAttackOptions = state.options.pages[CONSTANTS.PAGES.ARMY].subpages[CONSTANTS.SUBPAGES.ATTACK].options;
+    const attackOptions = smartBuildPlanner.getAttackTargets(configuredAttackOptions) || configuredAttackOptions;
     const container = document.querySelector('div.tab-container.sub-container');
     if (container) {
       const boxes = [...container.querySelectorAll('div.grid > div.flex')];
@@ -47231,7 +47233,7 @@ const taVersion = "1.0.0.10";
                 button: h5,
                 ...enemyDetails
               };
-            }).filter(fight => fight).filter(fight => state.options.pages[CONSTANTS.PAGES.ARMY].subpages[CONSTANTS.SUBPAGES.ATTACK].options[fight.key]);
+            }).filter(fight => fight).filter(fight => attackOptions[fight.key]);
             enemyList.sort((a, b) => {
               let aLevel = a.level || 0;
               let bLevel = b.level || 0;
@@ -47326,9 +47328,30 @@ const taVersion = "1.0.0.10";
     }
   };
 
+const annihilatorRoute = {
+  stages: [
+    { id: 'far_west_island',    reqFoundTech: 'seafaring',           requiredArmy: { heavy_warrior: 1600 } },
+    { id: 'orcish_prison_camp', reqFoundTech: 'burned_farms',        requiredArmy: { heavy_warrior: 1600 } },
+    { id: 'orc_raiding_party',  reqFoundTech: 'orcish_threat',       requiredArmy: { heavy_warrior: 1600 } },
+    { id: 'orc_gormiak_citadel',reqFoundTech: 'orcish_citadel',      requiredArmy: { heavy_warrior: 1600 } },
+    { id: 'orc_horith_citadel', reqFoundTech: 'mankind_darkest',     requiredArmy: { heavy_warrior: 1600 }, parallelGroup: 'mankind_darkest_unlocked' },
+    { id: 'orc_ogsog_citadel',  reqFoundTech: 'mankind_darkest',     requiredArmy: { heavy_warrior: 1600 }, parallelGroup: 'mankind_darkest_unlocked' },
+    { id: 'orc_turgon_citadel', reqFoundTech: 'mankind_darkest',     requiredArmy: { heavy_warrior: 1600 }, parallelGroup: 'mankind_darkest_unlocked' },
+    { id: 'lost_valley',        reqFoundTech: 'ancient_artifact',    requiredArmy: { heavy_warrior: 1600 } },
+    { id: 'corrupted_lands',    reqFoundTech: 'black_artifact',      requiredArmy: { heavy_warrior: 1600 } },
+    { id: 'dark_village',       reqFoundTech: 'explore_sorrounding', requiredArmy: { heavy_warrior: 1600 }, note: 'requires 5 beacon buildings in addition to defeating this enemy (not covered by this route table)' }
+  ],
+  optionalStages: [
+    { id: 'mountain_cave',    requiredArmy: { heavy_warrior: 1600 } },
+    { id: 'worn_down_crypt',  reqFoundTech: 'guild',                requiredArmy: { heavy_warrior: 1600 } },
+    { id: 'huge_cave',        reqFoundTech: 'underground_library',  requiredArmy: { heavy_warrior: 1600 } },
+    { id: 'gulud_ugdun',      reqFoundTech: 'path_children',        requiredArmy: { heavy_warrior: 1600 } },
+    { id: 'lich_fortress',    reqFoundTech: 'huge_cave_t',          requiredArmy: { heavy_warrior: 1600 } }
+  ]
+};
 const smartBuildDefaults = {
   enabled: false,
-  goal: 'progress',
+  goal: 'moonlightNight',
   strategy: 'balanced',
   risk: 'normal',
   manualOverrides: false,
@@ -47340,7 +47363,7 @@ const smartBuildDefaults = {
   maxWaitSeconds: 180,
   forcedTargets: {}
 };
-const smartBuildResources = ['food', 'wood', 'stone', 'gold', 'research', 'tools', 'copper', 'iron', 'cow', 'horse', 'mana', 'building_material', 'faith', 'supplies', 'crystal', 'steel', 'saltpetre', 'natronite'];
+const smartBuildResources = ['food', 'wood', 'stone', 'gold', 'research', 'tools', 'copper', 'iron', 'cow', 'horse', 'mana', 'building_material', 'faith', 'supplies', 'crystal', 'steel', 'saltpetre', 'natronite', 'lumix'];
 const smartBuildGoals = {
   moonlightNight: {
     dangerousResearchOverrides: ['moonlight_night'],
@@ -47350,7 +47373,15 @@ const smartBuildGoals = {
   }
 };
 smartBuildGoals.fastNgPlus = { ...smartBuildGoals.moonlightNight };
-smartBuildGoals.titanThenFastNgPlus = { targetTechs: [], buildingFocus: [] };
+smartBuildGoals.annihilator = {
+  dangerousResearchOverrides: [],
+  targetTechs: [
+    'activate_signal', 'research_annhilator', 'create_annhilator', 'launch_annhilator',
+    ...annihilatorRoute.stages.flatMap(stage => stage.reqFoundTech ? [stage.reqFoundTech] : [])
+  ],
+  resourceFocus: ['research', 'mana', 'crystal', 'steel', 'natronite', 'lumix'],
+  buildingFocus: []
+};
 const smartBuildRoutes = {
   moonlightNight: {
     label: 'Moonlight Night',
@@ -47376,7 +47407,7 @@ const smartBuildRoutes = {
   }
 };
 smartBuildRoutes.fastNgPlus = { ...smartBuildRoutes.moonlightNight, label: 'Speed NG+' };
-smartBuildRoutes.titanThenFastNgPlus = { label: 'Titan then Speed NG+ (reserved)', buildingTargets: [], supportTargets: [] };
+smartBuildRoutes.annihilator = { label: 'Annihilator', buildingTargets: [], supportTargets: [] };
   const smartBuildPlanner = (() => {
 const getOptions = () => ({
   ...smartBuildDefaults,
@@ -47478,6 +47509,7 @@ const isUnlockCompleted = (type, id) => {
   if (type === 'tech' || type === 'research') return isTechCompleted(id);
   if (type === 'prayer' || type === 'magic') return hasIndexedOrRunItem(id, ['fai_']);
   if (type === 'legacy') return hasIndexedOrRunItem(id, ['leg_']);
+  if (type === 'enemy') return hasIndexedOrRunItem(id);
   return false;
 };
 const getCompletedLegacyIds = () => (typeof legacies !== 'undefined' ? legacies : [])
@@ -47489,7 +47521,75 @@ const getCurrentStageIndex = () => {
   const unlockedAges = buildings.filter(building => building.age !== 100 && hasStageGate(building) && isBuildingUnlocked(building)).map(building => building.age).filter(age => Number.isFinite(age));
   return unlockedAges.length ? Math.max(...unlockedAges) : 1;
 };
-
+const isAnnihilatorStageDefeated = stage => isUnlockCompleted('enemy', stage.id);
+const isAnnihilatorStageFound = stage => !stage.reqFoundTech || isTechCompleted(stage.reqFoundTech);
+const getRecruitedUnitCount = unitId => getUnitCount({ id: unitId });
+ const ANNIHILATOR_EXPLORE_MINIMUM = 200;
+const getAnnihilatorAllStages = () => [...annihilatorRoute.stages, ...annihilatorRoute.optionalStages];
+const getCurrentAnnihilatorStages = () => {
+  const frontIndex = annihilatorRoute.stages.findIndex(stage => !isAnnihilatorStageDefeated(stage));
+  if (frontIndex === -1) return [];
+  const front = annihilatorRoute.stages[frontIndex];
+  if (!front.parallelGroup) return [front];
+  return annihilatorRoute.stages.filter(stage => stage.parallelGroup === front.parallelGroup && !isAnnihilatorStageDefeated(stage));
+};
+const getAnnihilatorUnitTargets = configuredUnitsObject => {
+  const currentStages = getCurrentAnnihilatorStages();
+  if (!currentStages.length) return configuredUnitsObject;
+  const overrides = {};
+  currentStages.forEach(stage => {
+    Object.entries(stage.requiredArmy || {}).forEach(([unitId, qty]) => {
+      overrides[unitId] = Math.max(overrides[unitId] || 0, qty);
+    });
+  });
+  const targets = { ...configuredUnitsObject };
+  Object.entries(overrides).forEach(([unitId, qty]) => {
+    targets[unitId] = qty;
+    targets[`prio_${unitId}`] = 9;
+  });
+  return targets;
+};
+const getAnnihilatorAttackWhitelist = configuredAttackOptions => {
+  const targets = { ...configuredAttackOptions };
+  getAnnihilatorAllStages().forEach(stage => {
+    if (isAnnihilatorStageFound(stage)) targets[stage.id] = true;
+  });
+  return targets;
+};
+const ANNIHILATOR_DANGER_GATE_TECHS = ['dragon_assault', 'mysterious_robbery', 'fallen_angel', 'orc_horde'];
+const getAnnihilatorRouteSnapshot = () => {
+  const options = getOptions();
+  if (options.goal !== 'annihilator') return null;
+  const mapStage = stage => ({
+    id: stage.id,
+    reqFoundTech: stage.reqFoundTech || null,
+    found: isAnnihilatorStageFound(stage),
+    defeated: isAnnihilatorStageDefeated(stage),
+    requiredArmy: stage.requiredArmy || {},
+    parallelGroup: stage.parallelGroup || null,
+    note: stage.note || null
+  });
+  const currentStageIds = getCurrentAnnihilatorStages().map(stage => stage.id);
+  return {
+    stages: annihilatorRoute.stages.map(mapStage),
+    optionalStages: annihilatorRoute.optionalStages.map(mapStage),
+    currentStageIds,
+    dangerGates: ANNIHILATOR_DANGER_GATE_TECHS.map(techId => ({
+      tech: techId,
+      fight: dangerousFightsMapping[techId] || null,
+      researched: isTechCompleted(techId)
+    }))
+  };
+};
+const getAnnihilatorExploreTargets = configuredExploreOptions => {
+  const hasRemainingMainStage = annihilatorRoute.stages.some(stage => !isAnnihilatorStageDefeated(stage));
+  if (!hasRemainingMainStage) return configuredExploreOptions;
+  return {
+    ...configuredExploreOptions,
+    scoutsMax: Math.max(configuredExploreOptions.scoutsMax || 0, ANNIHILATOR_EXPLORE_MINIMUM),
+    explorersMax: Math.max(configuredExploreOptions.explorersMax || 0, ANNIHILATOR_EXPLORE_MINIMUM)
+  };
+};
 const getGoal = options => smartBuildGoals[options.goal] || null;
 const getRoute = options => smartBuildRoutes[options.goal] || null;
 const getGoalBuildingMinimums = goal => goal && ['moonlightNight', 'fastNgPlus'].includes(goal)
@@ -47560,14 +47660,13 @@ const getMandatoryGoalTechs = goal => {
   return tech.filter(technology => technology.id === 'house_of_workers' ||
     (technology.id.startsWith('heirloom_') && (technology.req || []).some(req => req.type === 'building' && req.id === 'monument')));
 };
-
-const isDangerousResearchOverridden = researchKey => {
+ const isDangerousResearchOverridden = researchKey => {
   const options = getOptions();
   if (!options.enabled) return false;
   const goal = getGoal(options);
   return !!goal && (goal.dangerousResearchOverrides || []).includes(researchKey);
 };
-const shouldGateDangerousResearch = () => false;
+const shouldGateDangerousResearch = researchKey => !!dangerousFightsMapping[researchKey];
 const getResourceCost = (req, count = 0) => {
   const value = Number(req.value) || 0;
   if (!value) return 0;
@@ -47743,8 +47842,7 @@ const getPath = (options, resourceMap) => {
   pathCache = { fingerprint, path: computeShortestPath(options, resourceMap) };
   return pathCache.path;
 };
-
-const applyForcedTargets = (targets, forcedTargets, allowedTab) => {
+ const applyForcedTargets = (targets, forcedTargets, allowedTab) => {
   if (!forcedTargets) return targets;
   Object.keys(forcedTargets).forEach(id => {
     const building = buildings.find(candidate => candidate.id === id);
@@ -47854,16 +47952,32 @@ const getPathSnapshot = () => {
   }).sort((a, b) => a.layer - b.layer);
   return { goal: options.goal, nodes };
 };
-
+ const getUnitTargets = configuredUnitsObject => {
+  const options = getOptions();
+  if (!options.enabled || options.manualOverrides || options.goal !== 'annihilator') return null;
+  return getAnnihilatorUnitTargets(configuredUnitsObject);
+};
+const getExploreTargets = configuredExploreOptions => {
+  const options = getOptions();
+  if (!options.enabled || options.manualOverrides || options.goal !== 'annihilator') return null;
+  return getAnnihilatorExploreTargets(configuredExploreOptions);
+};
+const getAttackTargets = configuredAttackOptions => {
+  const options = getOptions();
+  if (!options.enabled || options.manualOverrides || options.goal !== 'annihilator') return null;
+  return getAnnihilatorAttackWhitelist(configuredAttackOptions);
+};
 return {
   getTargets,
   getResearchTargets,
-  getUnitTargets: () => null,
-  getExploreTargets: () => null,
+  getUnitTargets,
+  getExploreTargets,
+  getAttackTargets,
   getPrayerTargets: () => null,
   isDangerousResearchOverridden,
   shouldGateDangerousResearch,
-  getPathSnapshot
+  getPathSnapshot,
+  getAnnihilatorRouteSnapshot
 };
 
   })();
@@ -47883,8 +47997,7 @@ const smartPopulationPlanner = (() => {
   };
   const routeJobs = {
     moonlightNight: ['professor', 'carpenter', 'supplier'],
-    fastNgPlus: ['professor', 'carpenter', 'supplier'],
-    titanThenFastNgPlus: []
+    fastNgPlus: ['professor', 'carpenter', 'supplier']
   };
   const routeMinimums = {
     moonlightNight: { professor: 3, supplier: 1, carpenter: 1 },
@@ -50497,7 +50610,7 @@ const GOAL_PATH_REQ_TYPE_LABEL = {
 const GOAL_PATH_I18N = {
   en: {
     title: 'Path to',
-    emptyState: 'This view is only available for the Moonlight Night goal. Select it in Smart Build settings to see your path.',
+    emptyState: 'This view needs a Smart Build goal selected (Moonlight Night / Speed NG+ / Annihilator) to show your path.',
     activeOverrides: 'Active overrides',
     noOverrides: '— everything else follows the computed path',
     summit: '☾ Summit',
@@ -50531,7 +50644,7 @@ const GOAL_PATH_I18N = {
   },
   zh: {
     title: '通往',
-    emptyState: '该视图仅支持 Moonlight Night 目标，请先在智能建造设置里选择该目标。',
+    emptyState: '该视图需要先在智能建造设置里选择一个目标（Moonlight Night / 速刷超转生 / 灭世）才能显示路线。',
     activeOverrides: '生效中的强制覆盖',
     noOverrides: '——其余节点均按计算结果执行',
     summit: '☾ 山顶',
@@ -50811,6 +50924,211 @@ const initGoalPathTab = () => {
   if (tabRadio) tabRadio.addEventListener('change', refreshGoalPathTab);
   applyGoalPathLang(getGoalPathLang());
 };
+// Annihilator Route panel: read-only view of smartBuildPlanner.getAnnihilatorRouteSnapshot().
+// No edit/override interactions on purpose -- if the user wants to change something they go to
+// the native Army/Research/Attack pages, this panel only answers "which enemies, how many troops".
+const ANNIHILATOR_ROUTE_LANG_STORAGE_KEY = 'smartBuildAnnihilatorRouteLang';
+
+const ANNIHILATOR_ROUTE_I18N = {
+  en: {
+    title: 'Annihilator Route',
+    emptyState: 'This view is only available for the Annihilator goal. Select it in Smart Build settings to see your route.',
+    currentFront: 'Current front',
+    requiredArmy: 'Required army',
+    reqFoundPending: 'Research pending',
+    reqFoundReady: 'Research complete',
+    noPrereq: 'No research gate',
+    mainRoute: 'Main route',
+    sideTargets: 'Side targets (optional farming)',
+    dangerGates: 'Dangerous research gates',
+    dangerGateHint: 'Researching these triggers an immediate defense battle (base template mechanism, shown as-is).',
+    stopAttacksOn: 'Attacks are currently paused (stopAttacks armed)',
+    stopAttacksOff: 'Attacks are not paused',
+    clusterProgress: (done, total) => `${done} / ${total} defeated`,
+    statusCleared: 'Cleared',
+    statusFront: 'Current front',
+    statusLocked: 'Locked',
+    statusQueued: 'Found, awaiting turn',
+    researched: 'Researched',
+    pending: 'Not researched yet',
+    fightLabel: 'Fight'
+  },
+  zh: {
+    title: '灭世路线',
+    emptyState: '该视图仅支持"灭世"目标，请先在智能建造设置里选择该目标。',
+    currentFront: '当前前线',
+    requiredArmy: '所需兵力',
+    reqFoundPending: '前置科技未完成',
+    reqFoundReady: '前置科技已完成',
+    noPrereq: '无科技前置',
+    mainRoute: '主线路线',
+    sideTargets: '旁支目标（可选资源farming）',
+    dangerGates: '危险科技闸门',
+    dangerGateHint: '研究这些科技会立即结算一场防御战（base 模板自带机制，这里只展示状态）。',
+    stopAttacksOn: '出击已暂停（stopAttacks 已启动）',
+    stopAttacksOff: '出击未暂停',
+    clusterProgress: (done, total) => `${done} / ${total} 已攻克`,
+    statusCleared: '已攻克',
+    statusFront: '当前前线',
+    statusLocked: '未解锁',
+    statusQueued: '已解锁，等待轮到',
+    researched: '已研究',
+    pending: '尚未研究',
+    fightLabel: '防御战'
+  }
+};
+
+const getAnnihilatorRouteLang = () => {
+  try {
+    return localStorage.get(ANNIHILATOR_ROUTE_LANG_STORAGE_KEY) || 'en';
+  } catch (e) {
+    return 'en';
+  }
+};
+const setAnnihilatorRouteLang = lang => {
+  try {
+    localStorage.set(ANNIHILATOR_ROUTE_LANG_STORAGE_KEY, lang);
+  } catch (e) {}
+};
+
+const annihilatorStageLabel = stageId => translate(stageId, 'ene_') || stageId;
+const annihilatorTechLabel = techId => translate(techId, 'tec_') || techId;
+
+const annihilatorStageStatus = (stage, currentStageIds) => {
+  if (stage.defeated) return 'cleared';
+  if (currentStageIds.includes(stage.id)) return 'front';
+  return stage.found ? 'queued' : 'locked';
+};
+
+const renderAnnihilatorRequiredArmy = requiredArmy => Object.entries(requiredArmy || {})
+  .map(([unitId, qty]) => `<span class="ar-army-chip">${escapeHtml(translate(unitId, 'uni_') || unitId)} <b>${qty}</b></span>`)
+  .join('');
+
+const renderAnnihilatorStageCard = (stage, lang, currentStageIds) => {
+  const t = ANNIHILATOR_ROUTE_I18N[lang];
+  const status = annihilatorStageStatus(stage, currentStageIds);
+  const statusLabel = { cleared: t.statusCleared, front: t.statusFront, queued: t.statusQueued, locked: t.statusLocked }[status];
+  const reqLine = stage.reqFoundTech
+    ? `${escapeHtml(annihilatorTechLabel(stage.reqFoundTech))} — ${escapeHtml(stage.found ? t.reqFoundReady : t.reqFoundPending)}`
+    : escapeHtml(t.noPrereq);
+  const noteLine = stage.note ? `<div class="ar-stage-note">${escapeHtml(stage.note)}</div>` : '';
+  return `<div class="ar-stage ar-status-${status}">
+    <div class="ar-stage-top">
+      <span class="ar-stage-name">${escapeHtml(annihilatorStageLabel(stage.id))}</span>
+      <span class="ar-stage-pill">${escapeHtml(statusLabel)}</span>
+    </div>
+    <div class="ar-stage-req">${reqLine}</div>
+    <div class="ar-stage-army">${renderAnnihilatorRequiredArmy(stage.requiredArmy)}</div>
+    ${noteLine}
+  </div>`;
+};
+
+const renderAnnihilatorMainRoute = (snapshot, lang) => {
+  const { stages, currentStageIds } = snapshot;
+  const html = [];
+  let i = 0;
+  while (i < stages.length) {
+    const stage = stages[i];
+    if (stage.parallelGroup) {
+      const cluster = [];
+      while (i < stages.length && stages[i].parallelGroup === stage.parallelGroup) {
+        cluster.push(stages[i]);
+        i += 1;
+      }
+      const done = cluster.filter(item => item.defeated).length;
+      const t = ANNIHILATOR_ROUTE_I18N[lang];
+      html.push(`<div class="ar-cluster">
+        <div class="ar-cluster-header">${escapeHtml(t.clusterProgress(done, cluster.length))}</div>
+        <div class="ar-cluster-grid">${cluster.map(item => renderAnnihilatorStageCard(item, lang, currentStageIds)).join('')}</div>
+      </div>`);
+    } else {
+      html.push(renderAnnihilatorStageCard(stage, lang, currentStageIds));
+      i += 1;
+    }
+  }
+  return html.join('');
+};
+
+const renderAnnihilatorFrontHero = (snapshot, lang) => {
+  const t = ANNIHILATOR_ROUTE_I18N[lang];
+  const frontStages = snapshot.stages.filter(stage => snapshot.currentStageIds.includes(stage.id));
+  if (!frontStages.length) return '';
+  const names = frontStages.map(stage => escapeHtml(annihilatorStageLabel(stage.id))).join(' / ');
+  const army = renderAnnihilatorRequiredArmy(frontStages[0].requiredArmy);
+  return `<div class="ar-hero">
+    <div class="ar-hero-label">${escapeHtml(t.currentFront)}</div>
+    <div class="ar-hero-name">${names}</div>
+    <div class="ar-hero-army-label">${escapeHtml(t.requiredArmy)}</div>
+    <div class="ar-hero-army">${army}</div>
+  </div>`;
+};
+
+const renderAnnihilatorSideTargets = (snapshot, lang) => {
+  const t = ANNIHILATOR_ROUTE_I18N[lang];
+  return snapshot.optionalStages.map(stage => {
+    const status = stage.defeated ? 'cleared' : (stage.found ? 'queued' : 'locked');
+    const statusLabel = { cleared: t.statusCleared, queued: t.statusQueued, locked: t.statusLocked }[status];
+    return `<div class="ar-side ar-status-${status}">
+      <span class="ar-side-name">${escapeHtml(annihilatorStageLabel(stage.id))}</span>
+      <span class="ar-side-pill">${escapeHtml(statusLabel)}</span>
+    </div>`;
+  }).join('');
+};
+
+const renderAnnihilatorDangerGates = (snapshot, lang) => {
+  const t = ANNIHILATOR_ROUTE_I18N[lang];
+  const rows = snapshot.dangerGates.map(gate => `<div class="ar-gate-row ${gate.researched ? 'is-cleared' : ''}">
+    <span class="ar-gate-tech">${escapeHtml(annihilatorTechLabel(gate.tech))}</span>
+    <span class="ar-gate-fight">${escapeHtml(t.fightLabel)}: ${escapeHtml(gate.fight ? (translate(gate.fight) || gate.fight) : '—')}</span>
+    <span class="ar-gate-status">${escapeHtml(gate.researched ? t.researched : t.pending)}</span>
+  </div>`).join('');
+  const stopAttacksActive = !!state.stopAttacks;
+  return `<div class="ar-gate-hint">${escapeHtml(t.dangerGateHint)}</div>
+    <div class="ar-gate-list">${rows}</div>
+    <div class="ar-gate-stop ${stopAttacksActive ? 'is-active' : ''}">${escapeHtml(stopAttacksActive ? t.stopAttacksOn : t.stopAttacksOff)}</div>`;
+};
+
+const renderAnnihilatorRoutePanel = () => {
+  const lang = getAnnihilatorRouteLang();
+  const t = ANNIHILATOR_ROUTE_I18N[lang];
+  const container = document.querySelector('#taAnnihilatorRouteBody');
+  if (!container) return;
+  const snapshot = smartBuildPlanner.getAnnihilatorRouteSnapshot();
+  if (!snapshot) {
+    container.innerHTML = `<p class="ar-empty">${escapeHtml(t.emptyState)}</p>`;
+    return;
+  }
+  container.innerHTML = `
+    ${renderAnnihilatorFrontHero(snapshot, lang)}
+    <h3 class="ar-section-title">${escapeHtml(t.mainRoute)}</h3>
+    <div class="ar-route-list">${renderAnnihilatorMainRoute(snapshot, lang)}</div>
+    <h3 class="ar-section-title">${escapeHtml(t.sideTargets)}</h3>
+    <div class="ar-side-list">${renderAnnihilatorSideTargets(snapshot, lang)}</div>
+    <h3 class="ar-section-title">${escapeHtml(t.dangerGates)}</h3>
+    ${renderAnnihilatorDangerGates(snapshot, lang)}
+  `;
+};
+
+const applyAnnihilatorRouteLang = lang => {
+  setAnnihilatorRouteLang(lang);
+  const root = document.querySelector('#taAnnihilatorRouteTabContent');
+  if (root) root.setAttribute('data-ui-lang', lang);
+  [...document.querySelectorAll('.ar-lang-btn')].forEach(btn => {
+    btn.classList.toggle('is-active', btn.dataset.setLang === lang);
+  });
+  renderAnnihilatorRoutePanel();
+};
+
+const initAnnihilatorRouteTab = () => {
+  [...document.querySelectorAll('.ar-lang-btn')].forEach(btn => {
+    btn.addEventListener('click', () => applyAnnihilatorRouteLang(btn.dataset.setLang));
+  });
+  const refreshButton = document.querySelector('#taAnnihilatorRouteRefresh');
+  if (refreshButton) refreshButton.addEventListener('click', renderAnnihilatorRoutePanel);
+  const tabRadio = document.querySelector('#topLevelOptions-annihilatorRoute');
+  if (tabRadio) tabRadio.addEventListener('change', renderAnnihilatorRoutePanel);
+  applyAnnihilatorRouteLang(getAnnihilatorRouteLang());
+};
 const GOAL_AUTOMATION_PRESETS = {
   moonlightNight: {
     // Both fast routes deliberately start with the food-focused ancestor.
@@ -50823,6 +51141,12 @@ const GOAL_AUTOMATION_PRESETS = {
     ancestor: 'ancestor_farmer',
     path: 'humans',
     ngplus: 25
+  },
+  annihilator: {
+    ancestor: 'ancestor_farmer',
+    path: 'humans',
+    ngplus: false,
+    difficulty: 'difficulty_0'
   }
 };
 
@@ -50864,6 +51188,9 @@ const applyGoalAutomationPreset = goalId => {
     state.options.ngplus.enabled = !!preset.ngplus;
     if (preset.ngplus) state.options.ngplus.value = preset.ngplus;
   }
+  if (preset.difficulty) {
+    state.options.difficulty = { enabled: true, selected: preset.difficulty };
+  }
   localStorage.set('options', state.options);
 
   syncAutomationOptionDom('ancestor', 'enabled', true);
@@ -50874,6 +51201,10 @@ const applyGoalAutomationPreset = goalId => {
   if (preset.ngplus !== undefined) {
     syncAutomationOptionDom('ngplus', 'enabled', !!preset.ngplus);
     if (preset.ngplus) syncAutomationOptionDom('ngplus', 'value', preset.ngplus);
+  }
+  if (preset.difficulty) {
+    syncAutomationOptionDom('difficulty', 'enabled', true);
+    syncAutomationOptionDom('difficulty', 'selected', preset.difficulty);
   }
 
   logger({
@@ -51097,6 +51428,103 @@ const initGoalAutomationPreset = () => {
                     </button>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="taTab">
+            <input type="radio" name="topLevelOptions" id="topLevelOptions-annihilatorRoute" class="taTab-switch">
+            <label for="topLevelOptions-annihilatorRoute" class="taTab-label">&#9876; <span data-lang="en">Annihilator Route</span><span data-lang="zh">灭世路线</span></label>
+            <div class="taTab-content">
+              <div id="taAnnihilatorRouteTabContent" class="ar-panel" data-ui-lang="en">
+                <style>
+                  #taAnnihilatorRouteTabContent { --ar-bg: #171d26; --ar-surface: #1d2530; --ar-surface-raised: #242e3b; --ar-border: #2a3441;
+                    --ar-accent: #ef6351; --ar-accent-soft: rgba(239, 99, 81, 0.14); --ar-accent-dim: #a8483c;
+                    --ar-text: #e7edf3; --ar-text-muted: #8a97a8; --ar-text-faint: #5c6879;
+                    --ar-good: #34d399; --ar-side: #c9a227; --ar-gate-armed: #f2b84b;
+                    background: var(--ar-bg); color: var(--ar-text); padding: 14px; border-radius: 8px; }
+                  #taAnnihilatorRouteTabContent[data-ui-lang="en"] [data-lang="zh"],
+                  #taAnnihilatorRouteTabContent[data-ui-lang="zh"] [data-lang="en"] { display: none; }
+                  #taAnnihilatorRouteTabContent .ar-header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 4px; }
+                  #taAnnihilatorRouteTabContent .ar-title { font-size: 20px; font-weight: 700; margin: 0; color: var(--ar-accent); }
+                  #taAnnihilatorRouteTabContent .ar-lang-toggle { display: inline-flex; align-items: center; background: var(--ar-surface);
+                    border: 1px solid var(--ar-border); border-radius: 999px; padding: 2px; flex-shrink: 0; }
+                  #taAnnihilatorRouteTabContent .ar-lang-btn { font-size: 11px; letter-spacing: 0.03em; padding: 5px 12px; border-radius: 999px;
+                    color: var(--ar-text-faint); cursor: pointer; background: none; border: none; }
+                  #taAnnihilatorRouteTabContent .ar-lang-btn.is-active { background: var(--ar-accent); color: #2a0d08; }
+                  #taAnnihilatorRouteTabContent .ar-toolbar { display: flex; justify-content: flex-end; margin: 10px 0; }
+                  #taAnnihilatorRouteTabContent .ar-btn { font-size: 12.5px; font-weight: 600; padding: 6px 14px; border-radius: 6px;
+                    border: 1px solid var(--ar-border); cursor: pointer; background: transparent; color: var(--ar-text-muted); }
+                  #taAnnihilatorRouteTabContent .ar-empty { color: var(--ar-text-muted); font-size: 13px; padding: 20px; text-align: center; }
+                  #taAnnihilatorRouteTabContent .ar-hero { background: var(--ar-surface); border: 1px solid var(--ar-accent-dim); border-radius: 12px;
+                    padding: 16px 18px; margin-bottom: 18px; box-shadow: 0 0 32px -14px rgba(239, 99, 81, 0.45); }
+                  #taAnnihilatorRouteTabContent .ar-hero-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ar-text-faint); }
+                  #taAnnihilatorRouteTabContent .ar-hero-name { font-size: 22px; font-weight: 700; margin: 4px 0 10px; }
+                  #taAnnihilatorRouteTabContent .ar-hero-army-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ar-text-faint); margin-bottom: 4px; }
+                  #taAnnihilatorRouteTabContent .ar-section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ar-text-faint);
+                    margin: 20px 0 10px; font-weight: 600; }
+                  #taAnnihilatorRouteTabContent .ar-route-list, #taAnnihilatorRouteTabContent .ar-side-list { display: flex; flex-direction: column; gap: 10px; }
+                  #taAnnihilatorRouteTabContent .ar-stage { background: var(--ar-surface); border: 1px solid var(--ar-border);
+                    border-left: 3px solid var(--ar-text-faint); border-radius: 8px; padding: 10px 12px; }
+                  #taAnnihilatorRouteTabContent .ar-stage.ar-status-cleared { border-left-color: var(--ar-good); opacity: 0.75; }
+                  #taAnnihilatorRouteTabContent .ar-stage.ar-status-front { border-left-color: var(--ar-accent); box-shadow: 0 0 0 1px var(--ar-accent-soft); }
+                  #taAnnihilatorRouteTabContent .ar-stage.ar-status-queued { border-left-color: var(--ar-gate-armed); }
+                  #taAnnihilatorRouteTabContent .ar-stage.ar-status-locked { border-left-color: var(--ar-text-faint); opacity: 0.55; }
+                  #taAnnihilatorRouteTabContent .ar-stage-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+                  #taAnnihilatorRouteTabContent .ar-stage-name { font-size: 14px; font-weight: 600; }
+                  #taAnnihilatorRouteTabContent .ar-stage-pill { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em;
+                    padding: 2px 8px; border-radius: 999px; background: var(--ar-surface-raised); color: var(--ar-text-muted); white-space: nowrap; }
+                  #taAnnihilatorRouteTabContent .ar-status-cleared .ar-stage-pill { color: var(--ar-good); }
+                  #taAnnihilatorRouteTabContent .ar-status-front .ar-stage-pill { background: var(--ar-accent); color: #2a0d08; }
+                  #taAnnihilatorRouteTabContent .ar-stage-req { font-size: 11.5px; color: var(--ar-text-muted); margin-top: 6px; }
+                  #taAnnihilatorRouteTabContent .ar-stage-army { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+                  #taAnnihilatorRouteTabContent .ar-stage-note { margin-top: 6px; font-size: 11px; color: var(--ar-text-faint); }
+                  #taAnnihilatorRouteTabContent .ar-army-chip, #taAnnihilatorRouteTabContent .ar-hero-army .ar-army-chip {
+                    display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-variant-numeric: tabular-nums;
+                    background: var(--ar-surface-raised); border: 1px solid var(--ar-border); border-radius: 6px; padding: 3px 8px; color: var(--ar-text-muted); }
+                  #taAnnihilatorRouteTabContent .ar-army-chip b { color: var(--ar-text); font-size: 14px; }
+                  #taAnnihilatorRouteTabContent .ar-hero-army { display: flex; flex-wrap: wrap; gap: 8px; }
+                  #taAnnihilatorRouteTabContent .ar-hero-army .ar-army-chip { font-size: 14px; padding: 5px 12px; }
+                  #taAnnihilatorRouteTabContent .ar-hero-army .ar-army-chip b { font-size: 18px; }
+                  #taAnnihilatorRouteTabContent .ar-cluster { border: 1px dashed var(--ar-border); border-radius: 10px; padding: 10px; }
+                  #taAnnihilatorRouteTabContent .ar-cluster-header { font-size: 11.5px; color: var(--ar-text-muted); margin-bottom: 8px; }
+                  #taAnnihilatorRouteTabContent .ar-cluster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+                  #taAnnihilatorRouteTabContent .ar-side { display: flex; align-items: center; justify-content: space-between; gap: 8px;
+                    background: var(--ar-surface); border: 1px solid var(--ar-border); border-left: 3px solid var(--ar-side);
+                    border-radius: 8px; padding: 8px 12px; opacity: 0.85; }
+                  #taAnnihilatorRouteTabContent .ar-side-name { font-size: 13px; }
+                  #taAnnihilatorRouteTabContent .ar-side-pill { font-size: 10.5px; color: var(--ar-text-faint); }
+                  #taAnnihilatorRouteTabContent .ar-gate-hint { font-size: 11.5px; color: var(--ar-text-faint); margin-bottom: 10px; }
+                  #taAnnihilatorRouteTabContent .ar-gate-list { display: flex; flex-direction: column; gap: 6px; }
+                  #taAnnihilatorRouteTabContent .ar-gate-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: center;
+                    background: var(--ar-surface); border: 1px solid var(--ar-border); border-radius: 8px; padding: 8px 12px; font-size: 12.5px; }
+                  #taAnnihilatorRouteTabContent .ar-gate-row.is-cleared { border-left: 3px solid var(--ar-good); }
+                  #taAnnihilatorRouteTabContent .ar-gate-row:not(.is-cleared) { border-left: 3px solid var(--ar-gate-armed); }
+                  #taAnnihilatorRouteTabContent .ar-gate-tech { font-weight: 600; }
+                  #taAnnihilatorRouteTabContent .ar-gate-fight { color: var(--ar-text-muted); }
+                  #taAnnihilatorRouteTabContent .ar-gate-stop { margin-top: 10px; font-size: 12px; padding: 8px 12px; border-radius: 8px;
+                    background: var(--ar-surface); border: 1px solid var(--ar-border); color: var(--ar-text-muted); }
+                  #taAnnihilatorRouteTabContent .ar-gate-stop.is-active { border-color: var(--ar-gate-armed); color: var(--ar-gate-armed); }
+                </style>
+
+                <div class="ar-header">
+                  <h2 class="ar-title">
+                    <span data-lang="en">Annihilator Route</span>
+                    <span data-lang="zh">灭世路线</span>
+                  </h2>
+                  <div class="ar-lang-toggle" role="group" aria-label="Panel language">
+                    <button type="button" class="ar-lang-btn is-active" data-set-lang="en">EN</button>
+                    <button type="button" class="ar-lang-btn" data-set-lang="zh">中文</button>
+                  </div>
+                </div>
+
+                <div class="ar-toolbar">
+                  <button type="button" class="ar-btn" id="taAnnihilatorRouteRefresh">
+                    <span data-lang="en">Refresh</span><span data-lang="zh">刷新</span>
+                  </button>
+                </div>
+
+                <div id="taAnnihilatorRouteBody"></div>
               </div>
             </div>
           </div>
@@ -51651,13 +52079,9 @@ const initGoalAutomationPreset = () => {
             <div class="mb-2">
               Goal:
               <select class="option dark:bg-mydark-200" data-setting="smartBuild" data-key="goal">
-                <option value="progress">Progress game stages</option>
                 <option value="moonlightNight">Moonlight Night</option>
                 <option value="fastNgPlus">速刷超转生</option>
-                <option value="titanThenFastNgPlus">泰坦建筑后速刷（预留）</option>
-                <option value="druid">Druid Route</option>
-                <option value="gloriousRetirement">Glorious Retirement</option>
-                <option value="annihilator">Launch Annihilator</option>
+                <option value="annihilator">灭世 (Launch Annihilator)</option>
               </select>
             </div>
             <div class="mb-2">
@@ -51723,6 +52147,7 @@ const initGoalAutomationPreset = () => {
     document.querySelector('#exportOptions').addEventListener('click', exportOptions);
     document.querySelector('#importOptions').addEventListener('click', importOptions);
     initGoalPathTab();
+    initAnnihilatorRouteTab();
     initGoalAutomationPreset();
 
     // Cheats

@@ -47186,6 +47186,8 @@ const taVersion = "1.0.0.10";
   const executeAction$6 = async () => {
     if (!navigation.checkPage(CONSTANTS.PAGES.ARMY, CONSTANTS.SUBPAGES.ATTACK)) return;
     if (state.scriptPaused) return;
+    const configuredAttackOptions = state.options.pages[CONSTANTS.PAGES.ARMY].subpages[CONSTANTS.SUBPAGES.ATTACK].options;
+    const attackOptions = smartBuildPlanner.getAttackTargets(configuredAttackOptions) || configuredAttackOptions;
     const container = document.querySelector('div.tab-container.sub-container');
     if (container) {
       const boxes = [...container.querySelectorAll('div.grid > div.flex')];
@@ -47212,7 +47214,7 @@ const taVersion = "1.0.0.10";
                 button: h5,
                 ...enemyDetails
               };
-            }).filter(fight => fight).filter(fight => state.options.pages[CONSTANTS.PAGES.ARMY].subpages[CONSTANTS.SUBPAGES.ATTACK].options[fight.key]);
+            }).filter(fight => fight).filter(fight => attackOptions[fight.key]);
             enemyList.sort((a, b) => {
               let aLevel = a.level || 0;
               let bLevel = b.level || 0;
@@ -49734,6 +49736,7 @@ const manualNG = async () => {
   >${options.join('')}</select>`;
   };
   /* @@SMART_BUILD_GOAL_PATH_SCRIPT@@ */
+  /* @@SMART_BUILD_ANNIHILATOR_ROUTE_SCRIPT@@ */
   /* @@SMART_BUILD_GOAL_AUTOMATION_PRESET@@ */
   const createPanel$1 = startFunction => {
     start$1 = startFunction;
@@ -49807,6 +49810,8 @@ const manualNG = async () => {
       </div>
 
       <!-- @@SMART_BUILD_GOAL_PATH_TAB@@ -->
+
+      <!-- @@SMART_BUILD_ANNIHILATOR_ROUTE_TAB@@ -->
 
       <div class="taTab">
         <input type="radio" name="topLevelOptions" id="topLevelOptions-${CONSTANTS.PAGES.RESEARCH}" class="taTab-switch">
@@ -50368,6 +50373,7 @@ const manualNG = async () => {
     document.querySelector('#exportOptions').addEventListener('click', exportOptions);
     document.querySelector('#importOptions').addEventListener('click', importOptions);
     /* @@SMART_BUILD_GOAL_PATH_INIT@@ */
+    /* @@SMART_BUILD_ANNIHILATOR_ROUTE_INIT@@ */
     /* @@SMART_BUILD_GOAL_AUTOMATION_PRESET_INIT@@ */
 
     // Cheats

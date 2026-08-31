@@ -1,6 +1,6 @@
 const smartBuildDefaults = {
   enabled: false,
-  goal: 'progress',
+  goal: 'moonlightNight',
   strategy: 'balanced',
   risk: 'normal',
   manualOverrides: false,
@@ -12,7 +12,7 @@ const smartBuildDefaults = {
   maxWaitSeconds: 180,
   forcedTargets: {}
 };
-const smartBuildResources = ['food', 'wood', 'stone', 'gold', 'research', 'tools', 'copper', 'iron', 'cow', 'horse', 'mana', 'building_material', 'faith', 'supplies', 'crystal', 'steel', 'saltpetre', 'natronite'];
+const smartBuildResources = ['food', 'wood', 'stone', 'gold', 'research', 'tools', 'copper', 'iron', 'cow', 'horse', 'mana', 'building_material', 'faith', 'supplies', 'crystal', 'steel', 'saltpetre', 'natronite', 'lumix'];
 const smartBuildGoals = {
   moonlightNight: {
     dangerousResearchOverrides: ['moonlight_night'],
@@ -22,7 +22,15 @@ const smartBuildGoals = {
   }
 };
 smartBuildGoals.fastNgPlus = { ...smartBuildGoals.moonlightNight };
-smartBuildGoals.titanThenFastNgPlus = { targetTechs: [], buildingFocus: [] };
+smartBuildGoals.annihilator = {
+  dangerousResearchOverrides: [],
+  targetTechs: [
+    'activate_signal', 'research_annhilator', 'create_annhilator', 'launch_annhilator',
+    ...annihilatorRoute.stages.flatMap(stage => stage.reqFoundTech ? [stage.reqFoundTech] : [])
+  ],
+  resourceFocus: ['research', 'mana', 'crystal', 'steel', 'natronite', 'lumix'],
+  buildingFocus: []
+};
 const smartBuildRoutes = {
   moonlightNight: {
     label: 'Moonlight Night',
@@ -48,4 +56,4 @@ const smartBuildRoutes = {
   }
 };
 smartBuildRoutes.fastNgPlus = { ...smartBuildRoutes.moonlightNight, label: 'Speed NG+' };
-smartBuildRoutes.titanThenFastNgPlus = { label: 'Titan then Speed NG+ (reserved)', buildingTargets: [], supportTargets: [] };
+smartBuildRoutes.annihilator = { label: 'Annihilator', buildingTargets: [], supportTargets: [] };
