@@ -1,48 +1,17 @@
 {
-  "exportedAt": "2026-08-29T20:31:02.563Z",
+  "exportedAt": "2026-08-31T02:25:33.186Z",
   "goal": "fastNgPlus",
   "nodes": [
     {
-      "kind": "tech",
-      "id": "wood_cutting",
-      "layer": 1,
-      "status": "queued",
-      "blockReason": null,
-      "current": 0,
-      "target": 1,
-      "reasons": [
-        {
-          "key": "prerequisiteFor",
-          "targetId": "lumberjack_camp"
-        }
-      ]
-    },
-    {
-      "kind": "tech",
-      "id": "stone_masonry",
-      "layer": 1,
-      "status": "queued",
-      "blockReason": null,
-      "current": 0,
-      "target": 1,
-      "reasons": [
-        {
-          "key": "prerequisiteFor",
-          "targetId": "quarry"
-        },
-        {
-          "key": "prerequisiteFor",
-          "targetId": "pottery"
-        }
-      ]
-    },
-    {
       "kind": "building",
       "id": "common_house",
-      "layer": 4,
-      "status": "queued",
-      "blockReason": null,
-      "current": 0,
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "food-security",
+        "requirement": "farm"
+      },
+      "current": 1,
       "target": 15,
       "reasons": [
         {
@@ -50,8 +19,73 @@
           "targetId": "end_ancient_era"
         },
         {
-          "key": "bootstrapProducer",
-          "resourceId": "research"
+          "key": "goalBuildingFocus"
+        },
+        {
+          "key": "whitelist"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "religion",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "end_ancient_era"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "farm",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "breeding"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "breeding",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "stable"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "artisan_workshop",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "end_ancient_era"
         },
         {
           "key": "goalBuildingFocus"
@@ -63,13 +97,27 @@
     },
     {
       "kind": "building",
-      "id": "quarry",
-      "layer": 5,
+      "id": "stable",
+      "layer": 2,
       "status": "blocked",
       "blockReason": {
         "type": "resource-cap",
-        "resourceId": "gold"
+        "resourceId": "tools"
       },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "quarry",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
       "current": 0,
       "target": 5,
       "reasons": [
@@ -91,27 +139,8 @@
     },
     {
       "kind": "tech",
-      "id": "pottery",
-      "layer": 5,
-      "status": "queued",
-      "blockReason": null,
-      "current": 0,
-      "target": 1,
-      "reasons": [
-        {
-          "key": "prerequisiteFor",
-          "targetId": "artisan_workshop"
-        },
-        {
-          "key": "prerequisiteFor",
-          "targetId": "writing"
-        }
-      ]
-    },
-    {
-      "kind": "tech",
       "id": "mining",
-      "layer": 5,
+      "layer": 3,
       "status": "queued",
       "blockReason": null,
       "current": 0,
@@ -137,72 +166,8 @@
     },
     {
       "kind": "tech",
-      "id": "agricolture",
-      "layer": 5,
-      "status": "queued",
-      "blockReason": null,
-      "current": 0,
-      "target": 1,
-      "reasons": [
-        {
-          "key": "prerequisiteFor",
-          "targetId": "farm"
-        },
-        {
-          "key": "prerequisiteFor",
-          "targetId": "storage"
-        }
-      ]
-    },
-    {
-      "kind": "building",
-      "id": "lumberjack_camp",
-      "layer": 6,
-      "status": "blocked",
-      "blockReason": {
-        "type": "resource-cap",
-        "resourceId": "gold"
-      },
-      "current": 0,
-      "target": 5,
-      "reasons": [
-        {
-          "key": "bootstrapJobProducer",
-          "resourceId": "wood"
-        },
-        {
-          "key": "routeTarget"
-        }
-      ]
-    },
-    {
-      "kind": "building",
-      "id": "artisan_workshop",
-      "layer": 6,
-      "status": "blocked",
-      "blockReason": {
-        "type": "resource-cap",
-        "resourceId": "gold"
-      },
-      "current": 0,
-      "target": 5,
-      "reasons": [
-        {
-          "key": "prerequisiteFor",
-          "targetId": "end_ancient_era"
-        },
-        {
-          "key": "goalBuildingFocus"
-        },
-        {
-          "key": "whitelist"
-        }
-      ]
-    },
-    {
-      "kind": "tech",
       "id": "bronze_working",
-      "layer": 6,
+      "layer": 4,
       "status": "blocked",
       "blockReason": {
         "type": "resource-cap",
@@ -214,49 +179,17 @@
         {
           "key": "prerequisiteFor",
           "targetId": "iron_working"
-        }
-      ]
-    },
-    {
-      "kind": "tech",
-      "id": "writing",
-      "layer": 6,
-      "status": "queued",
-      "blockReason": null,
-      "current": 0,
-      "target": 1,
-      "reasons": [
-        {
-          "key": "prerequisiteFor",
-          "targetId": "religion"
-        }
-      ]
-    },
-    {
-      "kind": "building",
-      "id": "farm",
-      "layer": 6,
-      "status": "blocked",
-      "blockReason": {
-        "type": "resource-cap",
-        "resourceId": "gold"
-      },
-      "current": 0,
-      "target": 5,
-      "reasons": [
-        {
-          "key": "routeTarget"
         },
         {
           "key": "prerequisiteFor",
-          "targetId": "breeding"
+          "targetId": "servitude"
         }
       ]
     },
     {
       "kind": "tech",
       "id": "house_of_workers",
-      "layer": 6,
+      "layer": 4,
       "status": "blocked",
       "blockReason": {
         "type": "structural",
@@ -273,24 +206,37 @@
       ]
     },
     {
-      "kind": "tech",
-      "id": "storage",
-      "layer": 6,
+      "kind": "building",
+      "id": "lumberjack_camp",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 1,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "mine",
+      "layer": 4,
       "status": "queued",
       "blockReason": null,
       "current": 0,
-      "target": 1,
+      "target": 5,
       "reasons": [
         {
-          "key": "prerequisiteFor",
-          "targetId": "breeding"
+          "key": "routeTarget"
         }
       ]
     },
     {
       "kind": "tech",
       "id": "architecture_titan_t",
-      "layer": 6,
+      "layer": 4,
       "status": "blocked",
       "blockReason": {
         "type": "structural",
@@ -309,7 +255,7 @@
     {
       "kind": "tech",
       "id": "iron_working",
-      "layer": 7,
+      "layer": 5,
       "status": "blocked",
       "blockReason": {
         "type": "resource-cap",
@@ -326,26 +272,22 @@
     },
     {
       "kind": "tech",
-      "id": "religion",
-      "layer": 7,
-      "status": "blocked",
-      "blockReason": {
-        "type": "resource-cap",
-        "resourceId": "gold"
-      },
+      "id": "servitude",
+      "layer": 5,
+      "status": "queued",
+      "blockReason": null,
       "current": 0,
       "target": 1,
       "reasons": [
         {
-          "key": "prerequisiteFor",
-          "targetId": "end_ancient_era"
+          "key": "goalTargetTech"
         }
       ]
     },
     {
       "kind": "building",
       "id": "house_workers",
-      "layer": 7,
+      "layer": 5,
       "status": "queued",
       "blockReason": null,
       "current": 0,
@@ -357,45 +299,13 @@
       ]
     },
     {
-      "kind": "tech",
-      "id": "breeding",
-      "layer": 7,
-      "status": "queued",
-      "blockReason": null,
-      "current": 0,
-      "target": 1,
-      "reasons": [
-        {
-          "key": "prerequisiteFor",
-          "targetId": "stable"
-        }
-      ]
-    },
-    {
-      "kind": "building",
-      "id": "mine",
-      "layer": 7,
-      "status": "blocked",
-      "blockReason": {
-        "type": "resource-cap",
-        "resourceId": "gold"
-      },
-      "current": 0,
-      "target": 5,
-      "reasons": [
-        {
-          "key": "routeTarget"
-        }
-      ]
-    },
-    {
       "kind": "building",
       "id": "titan_work_area",
-      "layer": 7,
+      "layer": 5,
       "status": "blocked",
       "blockReason": {
         "type": "resource-cap",
-        "resourceId": "gold"
+        "resourceId": "copper"
       },
       "current": 0,
       "target": 1,
@@ -408,7 +318,7 @@
     {
       "kind": "tech",
       "id": "end_ancient_era",
-      "layer": 8,
+      "layer": 6,
       "status": "queued",
       "blockReason": null,
       "current": 0,
@@ -422,29 +332,12 @@
     },
     {
       "kind": "building",
-      "id": "stable",
-      "layer": 8,
-      "status": "blocked",
-      "blockReason": {
-        "type": "resource-cap",
-        "resourceId": "gold"
-      },
-      "current": 0,
-      "target": 1,
-      "reasons": [
-        {
-          "key": "routeTarget"
-        }
-      ]
-    },
-    {
-      "kind": "building",
       "id": "city_center_unit",
-      "layer": 9,
+      "layer": 7,
       "status": "blocked",
       "blockReason": {
         "type": "resource-cap",
-        "resourceId": "gold"
+        "resourceId": "copper"
       },
       "current": 0,
       "target": 12,
@@ -458,7 +351,7 @@
     {
       "kind": "building",
       "id": "city_center",
-      "layer": 10,
+      "layer": 8,
       "status": "queued",
       "blockReason": null,
       "current": 0,
@@ -473,7 +366,7 @@
     {
       "kind": "tech",
       "id": "feudalism",
-      "layer": 11,
+      "layer": 9,
       "status": "queued",
       "blockReason": null,
       "current": 0,
@@ -492,7 +385,7 @@
     {
       "kind": "tech",
       "id": "architecture",
-      "layer": 12,
+      "layer": 10,
       "status": "queued",
       "blockReason": null,
       "current": 0,
@@ -518,7 +411,7 @@
     {
       "kind": "tech",
       "id": "education",
-      "layer": 12,
+      "layer": 10,
       "status": "queued",
       "blockReason": null,
       "current": 0,
@@ -541,12 +434,9 @@
     {
       "kind": "tech",
       "id": "establish_boundaries",
-      "layer": 13,
-      "status": "blocked",
-      "blockReason": {
-        "type": "resource-cap",
-        "resourceId": "gold"
-      },
+      "layer": 11,
+      "status": "queued",
+      "blockReason": null,
       "current": 0,
       "target": 1,
       "reasons": [
@@ -562,7 +452,7 @@
     {
       "kind": "tech",
       "id": "guild",
-      "layer": 13,
+      "layer": 11,
       "status": "queued",
       "blockReason": null,
       "current": 0,
@@ -577,11 +467,11 @@
     {
       "kind": "building",
       "id": "university",
-      "layer": 13,
+      "layer": 11,
       "status": "blocked",
       "blockReason": {
         "type": "resource-cap",
-        "resourceId": "gold"
+        "resourceId": "tools"
       },
       "current": 0,
       "target": 3,
@@ -594,11 +484,11 @@
     {
       "kind": "building",
       "id": "mansion",
-      "layer": 13,
+      "layer": 11,
       "status": "blocked",
       "blockReason": {
         "type": "resource-cap",
-        "resourceId": "gold"
+        "resourceId": "tools"
       },
       "current": 0,
       "target": 4,
@@ -611,11 +501,11 @@
     {
       "kind": "building",
       "id": "carpenter_workshop",
-      "layer": 13,
+      "layer": 11,
       "status": "blocked",
       "blockReason": {
         "type": "resource-cap",
-        "resourceId": "gold"
+        "resourceId": "iron"
       },
       "current": 0,
       "target": 1,
@@ -628,7 +518,7 @@
     {
       "kind": "tech",
       "id": "food_conservation",
-      "layer": 13,
+      "layer": 11,
       "status": "queued",
       "blockReason": null,
       "current": 0,
@@ -643,7 +533,7 @@
     {
       "kind": "tech",
       "id": "herald_canava",
-      "layer": 14,
+      "layer": 12,
       "status": "queued",
       "blockReason": null,
       "current": 0,
@@ -658,7 +548,7 @@
     {
       "kind": "tech",
       "id": "craftsmen_guild",
-      "layer": 14,
+      "layer": 12,
       "status": "blocked",
       "blockReason": {
         "type": "structural",
@@ -677,11 +567,11 @@
     {
       "kind": "building",
       "id": "grocery",
-      "layer": 14,
+      "layer": 12,
       "status": "blocked",
       "blockReason": {
         "type": "resource-cap",
-        "resourceId": "gold"
+        "resourceId": "tools"
       },
       "current": 0,
       "target": 1,
@@ -694,7 +584,7 @@
     {
       "kind": "building",
       "id": "watchman_outpost",
-      "layer": 15,
+      "layer": 13,
       "status": "blocked",
       "blockReason": {
         "type": "resource-cap",
@@ -718,11 +608,11 @@
     {
       "kind": "building",
       "id": "guild_of_craftsmen",
-      "layer": 15,
+      "layer": 13,
       "status": "blocked",
       "blockReason": {
         "type": "resource-cap",
-        "resourceId": "gold"
+        "resourceId": "tools"
       },
       "current": 0,
       "target": 1,
@@ -735,7 +625,7 @@
     {
       "kind": "tech",
       "id": "moonlight_night",
-      "layer": 16,
+      "layer": 14,
       "status": "queued",
       "blockReason": null,
       "current": 0,

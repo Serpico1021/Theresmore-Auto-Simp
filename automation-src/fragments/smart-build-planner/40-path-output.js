@@ -18,9 +18,15 @@ const getTargets = (subpage, manualOptions = {}) => {
   const path = getPath(options, resourceMap);
   const allowedTab = CONSTANTS.SUBPAGES_INDEX[subpage] + 1;
   const targets = {};
+  const farm = buildings.find(candidate => candidate.id === 'farm');
+  const commonHouse = buildings.find(candidate => candidate.id === 'common_house');
+  const farmNode = path.nodesById['building:farm'];
+  const farmFirstGateActive = isFoodSecurityGateEnabled(options) &&
+    commonHouse && getCount(commonHouse) >= 1 &&
+    farm && getCount(farm) < 1 &&
+    farmNode && farmNode.status !== 'blocked';
   buildings.filter(building => building.tab === allowedTab).forEach(building => {
     const node = path.nodesById[`building:${building.id}`];
-    const farm = buildings.find(candidate => candidate.id === 'farm');
     const canExpandCommonHouse = building.id === 'common_house' && isFoodSecurityGateEnabled(options) && farm && getCount(farm) >= 1;
     if (!node || node.status === 'met') {
       if (node && node.status === 'met' && canExpandCommonHouse) {
@@ -47,6 +53,12 @@ const getTargets = (subpage, manualOptions = {}) => {
       targets[`prio_${id}`] = Math.max(targets[`prio_${id}`] || 0, 9);
     }
   });
+  if (farmFirstGateActive) {
+    buildings.filter(building => building.tab === allowedTab && building.id !== 'farm').forEach(building => {
+      targets[building.id] = 0;
+      targets[`prio_${building.id}`] = 0;
+    });
+  }
   applyForcedTargets(targets, options.forcedTargets, allowedTab);
   buildings.filter(building => building.tab === allowedTab).forEach(building => {
     const blockReason = getFoodSecurityBlockReason(options, building.id, getCount(building));
