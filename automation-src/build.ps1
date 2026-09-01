@@ -37,6 +37,10 @@ $plannerInner = (($plannerInnerFiles | ForEach-Object {
 })) -join "`n"
 $smartBuildPlanner = $annihilatorRouteData.TrimEnd() + "`n" + $dataTables.TrimEnd() + "`n  const smartBuildPlanner = (() => {`n" + $plannerInner + "`n  })();`n"
 
+$optionsPanelTabs = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'options-panel-tabs.template.html')
+$optionsPanelTabsCss = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'options-panel-tabs.css')
+$optionsPanelTabsJs = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'options-panel-tabs.js')
+
 $smartBuildPanel = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'smart-build-panel.template.html')
 $smartBuildGoalPathPanel = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'smart-build-goal-path-panel.template.html')
 $smartBuildGoalPathScript = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'smart-build-goal-path-panel.js')
@@ -45,6 +49,9 @@ $smartBuildAnnihilatorRouteScript = Get-Content -Raw -Encoding UTF8 -LiteralPath
 $smartBuildGoalAutomationPreset = Get-Content -Raw -Encoding UTF8 -LiteralPath (Join-Path $fragmentsPath 'smart-build-goal-automation-preset.js')
 
 $bundle = $base.
+  Replace('    <!-- @@OPTIONS_PANEL_TABS@@ -->', $optionsPanelTabs.TrimEnd()).
+  Replace('  /* @@OPTIONS_PANEL_TABS_CSS@@ */', $optionsPanelTabsCss.TrimEnd()).
+  Replace('  /* @@OPTIONS_PANEL_TABS_JS@@ */', $optionsPanelTabsJs.TrimEnd()).
   Replace('      /* @@SMART_BUILD_OPTIONS@@ */', $smartBuildOptions.TrimEnd()).
   Replace('  /* @@SMART_BUILD_PLANNER_MODULE@@ */', $smartBuildPlanner.TrimEnd()).
   Replace('  /* @@SMART_POPULATION_PLANNER@@ */', $smartPopulationPlanner.TrimEnd()).
@@ -56,9 +63,10 @@ $bundle = $base.
   Replace('  /* @@SMART_BUILD_GOAL_AUTOMATION_PRESET@@ */', $smartBuildGoalAutomationPreset.TrimEnd()).
   Replace('    /* @@SMART_BUILD_GOAL_PATH_INIT@@ */', '    initGoalPathTab();').
   Replace('    /* @@SMART_BUILD_ANNIHILATOR_ROUTE_INIT@@ */', '    initAnnihilatorRouteTab();').
-  Replace('    /* @@SMART_BUILD_GOAL_AUTOMATION_PRESET_INIT@@ */', '    initGoalAutomationPreset();')
+  Replace('    /* @@SMART_BUILD_GOAL_AUTOMATION_PRESET_INIT@@ */', '    initGoalAutomationPreset();').
+  Replace('    /* @@OPTIONS_PANEL_TABS_INIT@@ */', '    initOptionsPanelFilter();')
 
-$missingMarkers = [regex]::Matches($bundle, '@@SMART_BUILD_[A-Z_]+@@')
+$missingMarkers = [regex]::Matches($bundle, '@@[A-Z_]+@@')
 if ($missingMarkers.Count -gt 0) {
   $markers = ($missingMarkers | ForEach-Object { $_.Value } | Sort-Object -Unique) -join ', '
   throw "Build failed; unresolved markers: $markers"

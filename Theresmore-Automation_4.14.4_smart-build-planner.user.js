@@ -51226,6 +51226,102 @@ const initGoalAutomationPreset = () => {
     goalSelect.addEventListener('change', () => applyGoalAutomationPreset(goalSelect.value));
   }
 };
+const initOptionsPanelFilter = () => {
+  const panel = document.querySelector('.taInnerPanelElement');
+  const input = document.querySelector('#taOptFilterInput');
+  const onlyChanged = document.querySelector('#taOptFilterOnlyChanged');
+  const countEl = document.querySelector('#taOptFilterCount');
+  if (!panel || !input || !onlyChanged || !countEl) {
+    return;
+  }
+
+  const isOptionChanged = el => {
+    if (el.tagName === 'SELECT') {
+      return !!el.querySelector('option[value="0"]') && el.value !== '0';
+    }
+    if (el.type === 'checkbox') {
+      return el.checked;
+    }
+    if (el.type === 'number') {
+      return el.value !== '' && el.value !== '0';
+    }
+    return false;
+  };
+
+  const applyFilter = () => {
+    const query = input.value.trim().toLowerCase();
+    const onlyChangedActive = onlyChanged.checked;
+    let shown = 0;
+    let total = 0;
+    panel.querySelectorAll('.taOptRow').forEach(row => {
+      total += 1;
+      const changed = [...row.querySelectorAll('.option')].some(isOptionChanged);
+      row.classList.toggle('taOptChanged', changed);
+      const matchesQuery = !query || row.textContent.toLowerCase().includes(query);
+      const matchesChanged = !onlyChangedActive || changed;
+      const visible = matchesQuery && matchesChanged;
+      row.classList.toggle('taOptRowHidden', !visible);
+      if (visible) {
+        shown += 1;
+      }
+    });
+    if (query || onlyChangedActive) {
+      panel.querySelectorAll('.taOptRow:not(.taOptRowHidden)').forEach(row => {
+        let ancestor = row.parentElement ? row.parentElement.closest('details') : null;
+        while (ancestor) {
+          ancestor.open = true;
+          ancestor = ancestor.parentElement ? ancestor.parentElement.closest('details') : null;
+        }
+      });
+    }
+    countEl.textContent = total ? `${shown} / ${total}` : '';
+  };
+
+  const expandAdvancedIfManualOverrides = () => {
+    const manualOverridesInput = document.querySelector('input[data-setting="smartBuild"][data-key="manualOverrides"]');
+    if (manualOverridesInput && manualOverridesInput.checked) {
+      panel.querySelectorAll('.taOptAdvanced').forEach(details => {
+        details.open = true;
+      });
+    }
+  };
+
+  input.addEventListener('input', applyFilter);
+  onlyChanged.addEventListener('change', applyFilter);
+  const panelRoot = panel.parentElement;
+  if (panelRoot && window.MutationObserver) {
+    new MutationObserver(() => {
+      if (panelRoot.classList.contains('taPanelElementVisible')) {
+        applyFilter();
+        expandAdvancedIfManualOverrides();
+      }
+    }).observe(panelRoot, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  }
+  panel.addEventListener('input', event => {
+    if (event.target.classList && event.target.classList.contains('option')) {
+      applyFilter();
+    }
+  });
+  panel.addEventListener('change', event => {
+    if (event.target.classList && event.target.classList.contains('option')) {
+      applyFilter();
+      if (event.target.dataset.setting === 'smartBuild' && event.target.dataset.key === 'manualOverrides') {
+        expandAdvancedIfManualOverrides();
+      }
+    }
+  });
+  panel.addEventListener('click', event => {
+    if (event.target.matches('.setAllMax, .setAllPrio, .minus1Medium, .zeroDisabled, .spellsResourceEnable, .spellsResourceDisable, .spellsArmyEnable, .spellsArmyDisable, .toggleLevelFights')) {
+      applyFilter();
+    }
+  });
+
+  applyFilter();
+  expandAdvancedIfManualOverrides();
+};
   const createPanel$1 = startFunction => {
     start$1 = startFunction;
     const saveTextarea = document.createElement('textarea');
@@ -51249,7 +51345,17 @@ const initGoalAutomationPreset = () => {
       <button id="importOptions" type="button" class="btn btn-blue w-min px-4 mr-2">Import options</button>
     </div>
 
-    <div class="taTabs">
+    <div class="taOptionsDark">
+    <div class="mb-2 taOptFilterBar">
+      <input type="text" id="taOptFilterInput" placeholder="Search building / tech / unit..." />
+      <label><input type="checkbox" id="taOptFilterOnlyChanged" /> Only changed</label>
+      <span id="taOptFilterCount" class="taOptFilterCount"></span>
+    </div>
+
+    <div class="taTabs taTabsTop">
+      <details class="taNavGroup" open>
+        <summary class="taNavGroupLabel">Economy</summary>
+
       <div class="taTab">
         <input type="radio" name="topLevelOptions" id="topLevelOptions-${CONSTANTS.PAGES.BUILD}" checked class="taTab-switch">
         <label for="topLevelOptions-${CONSTANTS.PAGES.BUILD}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.BUILD}" data-key="enabled" class="option" /> ${CONSTANTS.PAGES.BUILD}</label>
@@ -51261,6 +51367,8 @@ const initGoalAutomationPreset = () => {
               <input type="radio" name="${CONSTANTS.PAGES.BUILD}PageOptions" id="${CONSTANTS.PAGES.BUILD}PageOptions-${subpage}" ${subpage == CONSTANTS.SUBPAGES.CITY ? 'checked' : ''} class="taTab-switch">
               <label for="${CONSTANTS.PAGES.BUILD}PageOptions-${subpage}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.BUILD}" data-subpage="${subpage}" data-key="enabled" class="option" /> ${subpage}</label>
               <div class="taTab-content">
+                <details class="taOptAdvanced">
+                  <summary class="taOptAdvancedLabel">Advanced: manual per-building overrides</summary>
                 <div class="mb-2">
                   <input type="number" class="option text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200 setAllMaxInput" value="0" min="-1" max="999" step="1" />
                   <button type="button" class="btn btn-blue w-min px-4 mr-2 setAllMax">Set all max</button>
@@ -51273,25 +51381,313 @@ const initGoalAutomationPreset = () => {
 
                 ${buildingCats.map(cat => `
                   <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600">
-                    <div class="w-full pb-3 font-bold text-center xl:text-left">${translate(cat)}</div>
-                    <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
-                      ${buildings.filter(building => building.cat === cat).filter(building => building.tab === CONSTANTS.SUBPAGES_INDEX[subpage] + 1).map(building => `<div class="flex flex-col mb-2"><label><span class="font-bold">${translate(building.id)}</span><br/>
-                          Max:
+                    <details class="taOptCatToggle" open>
+                      <summary class="taOptCatLabel">${translate(cat)}</summary>
+                      <div class="grid gap-3 min-w-full px-12 xl:px-0 mb-2 taOptList">
+                        ${buildings.filter(building => building.cat === cat).filter(building => building.tab === CONSTANTS.SUBPAGES_INDEX[subpage] + 1).map(building => `<div class="taOptRow">
+                          <div class="taOptName">${translate(building.id)}</div>
+                          <div class="taOptMax">Max:
                             <input type="number" data-page="${CONSTANTS.PAGES.BUILD}" data-subpage="${subpage}" data-key="options" data-subkey="${building.id}"
                             class="option text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200"
-                            value="0" min="-1" max="${building.cap ? building.cap : 999}" step="1" /><br />
-                          Prio: ${generatePrioritySelect({
+                            value="0" min="-1" max="${building.cap ? building.cap : 999}" step="1" /></div>
+                          <div class="taOptPrio">Prio: ${generatePrioritySelect({
     page: CONSTANTS.PAGES.BUILD,
     subpage: subpage,
     key: 'options',
     subkey: `prio_${building.id}`
-  })}</label></div>`).join('')}
-                    </div>
+  })}</div>
+                        </div>`).join('')}
+                      </div>
+                    </details>
                   </div>
                 `).join('')}
+                </details>
 
               </div>
             </div>`).join('')}
+          </div>
+
+        </div>
+      </div>
+
+      <div class="taTab">
+        <input type="radio" name="topLevelOptions" id="topLevelOptions-${CONSTANTS.PAGES.MARKETPLACE}" class="taTab-switch">
+        <label for="topLevelOptions-${CONSTANTS.PAGES.MARKETPLACE}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.MARKETPLACE}" data-key="enabled" class="option" /> ${CONSTANTS.PAGES.MARKETPLACE}</label>
+        <div class="taTab-content">
+
+        <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
+          ${['cow', 'horse', 'food', 'copper', 'wood', 'stone', 'iron', 'tools'].map(res => {
+    return `<div class="flex flex-col mb-2 taOptRow"><label>
+                <input type="checkbox" data-page="${CONSTANTS.PAGES.MARKETPLACE}" data-key="options" data-subkey="resource_${res}" class="option" />
+              <span class="taOptName">Sell ${translate(res, 'res_')}</span></label></div>`;
+  }).join('')}
+        </div>
+        <div>Don't sell if max gold can be reached in
+          <input type="number" class="option w-min text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="60"
+          data-page="${CONSTANTS.PAGES.MARKETPLACE}" data-key="options" data-subkey="timeToWaitUntilFullGold" /> seconds</div>
+        <div>Sell the same resource at most every
+          <input type="number" class="option w-min text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="90"
+          data-page="${CONSTANTS.PAGES.MARKETPLACE}" data-key="options" data-subkey="secondsBetweenSells" /> seconds</div>
+        <div>Sell the resource if it can be refilled in at most
+          <input type="number" class="option w-min text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="90"
+          data-page="${CONSTANTS.PAGES.MARKETPLACE}" data-key="options" data-subkey="timeToFillResource" /> seconds</div>
+
+        </div>
+      </div>
+
+      <div class="taTab">
+        <input type="radio" name="topLevelOptions" id="topLevelOptions-${CONSTANTS.PAGES.POPULATION}" class="taTab-switch">
+        <label for="topLevelOptions-${CONSTANTS.PAGES.POPULATION}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.POPULATION}" data-key="enabled" class="option" /> ${CONSTANTS.PAGES.POPULATION}</label>
+        <div class="taTab-content">
+
+          <p class="mb-2">Max values: -1 -> hire unlimited; 0 -> do not hire;</p>
+
+          <details class="taOptAdvanced">
+            <summary class="taOptAdvancedLabel">Advanced: manual per-job overrides</summary>
+          <div class="mb-2">
+            <button type="button" class="btn btn-blue w-min px-4 mr-2 minus1Medium">Set all to -1/Medium</button>
+            <button type="button" class="btn btn-blue w-min px-4 mr-2 zeroDisabled">Set all to 0/Disabled</button>
+          </div>
+
+          <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600 mb-2">
+            <details class="taOptCatToggle" open>
+              <summary class="taOptCatLabel">Hire:</summary>
+              <div class="grid gap-3 min-w-full px-12 xl:px-0 mb-2 taOptList">
+                ${jobs.filter(job => job.gen).map(job => {
+    return `<div class="taOptRow">
+                  <div class="taOptName">${translate(job.id, 'pop_')}</div>
+                  <div class="taOptMax">Max:
+                    <input type="number" data-page="${CONSTANTS.PAGES.POPULATION}" data-key="options" data-subkey="${job.id}"
+                    class="option text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200"
+                    value="0" min="-1" max="999" step="1" /></div>
+                  <div class="taOptPrio">Prio: ${generatePrioritySelect({
+      page: CONSTANTS.PAGES.POPULATION,
+      key: 'options',
+      subkey: `prio_${job.id}`
+    })}</div>
+                </div>`;
+  }).join('')}
+              </div>
+            </details>
+          </div>
+          </details>
+
+          <div class="mb-2"><label>Minimum Food production to aim for:
+            <input type="number" class="option w-min text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200"
+            data-page="${CONSTANTS.PAGES.POPULATION}" data-key="options" data-subkey="minimumFood" value="1" min="0" max="999999" step="1" /></label></div>
+
+          <div class="mb-2"><label>Ratio for unsafe jobs (speed of resource production to usage):
+            <input type="number" class="option w-min text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200"
+            data-page="${CONSTANTS.PAGES.POPULATION}" data-key="options" data-subkey="unsafeJobRatio"
+            value="2" min="0" max="999999" step="0.01" /></label></div>
+
+
+          <div class="mb-2"><label>Rebalance population every:
+            <input type="number" class="option w-min text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200"
+              data-page="${CONSTANTS.PAGES.POPULATION}" data-key="options" data-subkey="populationRebalanceTime" value="0" min="0" max="999999" step="1" />
+            minutes (0 to disable)</label></div>
+
+        </div>
+      </div>
+      </details>
+
+      <details class="taNavGroup" open>
+        <summary class="taNavGroupLabel">Progression</summary>
+
+      <div class="taTab">
+        <input type="radio" name="topLevelOptions" id="topLevelOptions-${CONSTANTS.PAGES.RESEARCH}" class="taTab-switch">
+        <label for="topLevelOptions-${CONSTANTS.PAGES.RESEARCH}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.RESEARCH}" data-subpage="${CONSTANTS.SUBPAGES.RESEARCH}" data-key="enabled" class="option" /> ${CONSTANTS.PAGES.RESEARCH}</label>
+        <div class="taTab-content">
+          <div class="mb-2"><label>Dangerous fights should require enough army to win before researching:
+            <input type="checkbox" data-page="${CONSTANTS.PAGES.RESEARCH}" data-subpage="${CONSTANTS.SUBPAGES.RESEARCH}"
+              data-key="options" data-subkey="dangerousFights" class="option" />
+          </label></div>
+
+          <details class="taOptAdvanced">
+            <summary class="taOptAdvancedLabel">Advanced: manual per-research overrides</summary>
+          <div class="mb-2">
+            <button type="button" class="btn btn-blue w-min px-4 mr-2 minus1Medium">Set all regular to Medium</button>
+            <button type="button" class="btn btn-blue w-min px-4 mr-2 zeroDisabled">Set all regular to Disabled</button>
+          </div>
+
+          <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600">
+            <details class="taOptCatToggle" open>
+              <summary class="taOptCatLabel">Exclusive researches:</summary>
+              <div class="grid gap-3 min-w-full px-12 xl:px-0 mb-2 taOptList taOptList-2col">
+                ${researchGroups.map(item => {
+    return `<div class="taOptRow">
+                  <div class="taOptName">${generateMultiSelect(item, {
+      page: CONSTANTS.PAGES.RESEARCH,
+      subpage: CONSTANTS.SUBPAGES.RESEARCH,
+      key: 'options',
+      multiselectkey: item['key']['id']
+    })}</div>
+                  <div class="taOptPrio">Prio: ${generatePrioritySelect({
+      page: CONSTANTS.PAGES.RESEARCH,
+      subpage: CONSTANTS.SUBPAGES.RESEARCH,
+      key: 'options',
+      multiselectkey: item['key']['id'],
+      subkey: 'multiSelectPriority'
+    })}</div>
+                </div>`;
+  }).join('')}
+              </div>
+            </details>
+          </div>
+
+          <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600">
+            <details class="taOptCatToggle" open>
+              <summary class="taOptCatLabel">Regular researches:</summary>
+              <div class="grid gap-3 min-w-full px-12 xl:px-0 mb-2 taOptList taOptList-2col">
+                ${tech.filter(technology => !technology.confirm && !unsafeResearch.includes(technology.id) && !groupedResearchs.includes(technology.id)).map(technology => {
+    return `<div class="taOptRow">
+                  <div class="taOptName">${translate(technology.id, 'tec_')}</div>
+                  <div class="taOptPrio">Prio: ${generatePrioritySelect({
+      page: CONSTANTS.PAGES.RESEARCH,
+      subpage: CONSTANTS.SUBPAGES.RESEARCH,
+      key: 'options',
+      subkey: technology.id
+    })}</div>
+                </div>`;
+  }).join('')}
+              </div>
+            </details>
+          </div>
+
+          <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600 unsafe">
+            <details class="taOptCatToggle" open>
+              <summary class="taOptCatLabel">Dangerous researches (requiring confirmation):</summary>
+              <div class="grid gap-3 min-w-full px-12 xl:px-0 mb-2 taOptList taOptList-2col">
+                ${tech.filter(technology => technology.confirm || unsafeResearch.includes(technology.id)).map(technology => {
+    return `<div class="taOptRow">
+                  <div class="taOptName">${translate(technology.id, 'tec_')}</div>
+                  <div class="taOptPrio">Prio: ${generatePrioritySelect({
+      page: CONSTANTS.PAGES.RESEARCH,
+      subpage: CONSTANTS.SUBPAGES.RESEARCH,
+      key: 'options',
+      subkey: technology.id
+    })}</div>
+                </div>`;
+  }).join('')}
+              </div>
+            </details>
+          </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="taTab">
+        <input type="radio" name="topLevelOptions" id="topLevelOptions-${CONSTANTS.PAGES.MAGIC}" class="taTab-switch">
+        <label for="topLevelOptions-${CONSTANTS.PAGES.MAGIC}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.MAGIC}" data-key="enabled" class="option" /> ${CONSTANTS.PAGES.MAGIC}</label>
+        <div class="taTab-content">
+          <div class="taTabs">
+            <div class="taTab">
+              <input type="radio" name="${CONSTANTS.PAGES.MAGIC}PageOptions" id="${CONSTANTS.PAGES.MAGIC}PageOptions-${CONSTANTS.SUBPAGES.PRAYERS}" checked class="taTab-switch">
+              <label for="${CONSTANTS.PAGES.MAGIC}PageOptions-${CONSTANTS.SUBPAGES.PRAYERS}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.MAGIC}" data-subpage="${CONSTANTS.SUBPAGES.PRAYERS}" data-key="enabled" class="option" /> ${CONSTANTS.SUBPAGES.PRAYERS}</label>
+              <div class="taTab-content">
+                <details class="taOptAdvanced">
+                  <summary class="taOptAdvancedLabel">Advanced: manual per-prayer overrides</summary>
+                <div class="mb-2">
+                  <button type="button" class="btn btn-blue w-min px-4 mr-2 minus1Medium">Set all to Medium</button>
+                  <button type="button" class="btn btn-blue w-min px-4 mr-2 zeroDisabled">Set all to Disabled</button>
+                </div>
+
+          <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600">
+            <details class="taOptCatToggle" open>
+              <summary class="taOptCatLabel">Exclusive researches:</summary>
+              <div class="grid gap-3 min-w-full px-12 xl:px-0 mb-2 taOptList taOptList-2col">
+                ${prayerGroups.map(item => {
+    return `<div class="taOptRow">
+                  <div class="taOptName">${generateMultiSelect(item, {
+      page: CONSTANTS.PAGES.MAGIC,
+      subpage: CONSTANTS.SUBPAGES.PRAYERS,
+      key: 'options',
+      multiselectkey: item['key']['id']
+    })}</div>
+                  <div class="taOptPrio">Prio: ${generatePrioritySelect({
+      page: CONSTANTS.PAGES.MAGIC,
+      subpage: CONSTANTS.SUBPAGES.PRAYERS,
+      key: 'options',
+      multiselectkey: item['key']['id'],
+      subkey: 'multiSelectPriority'
+    })}</div>
+                </div>`;
+  }).join('')}
+              </div>
+            </details>
+          </div>
+
+                <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600">
+                  <details class="taOptCatToggle" open>
+                    <summary class="taOptCatLabel">Regular Prayers:</summary>
+                    <div class="grid gap-3 min-w-full px-12 xl:px-0 mb-2 taOptList taOptList-2col">
+                      ${spells.filter(prayer => prayer.type === 'prayer' && !groupedPrayers.includes(prayer.id)).map(prayer => {
+    return `<div class="taOptRow">
+                        <div class="taOptName">${translate(prayer.id)}</div>
+                        <div class="taOptPrio">Prio: ${generatePrioritySelect({
+      page: CONSTANTS.PAGES.MAGIC,
+      subpage: CONSTANTS.SUBPAGES.PRAYERS,
+      key: 'options',
+      subkey: prayer.id
+    })}</div>
+                      </div>`;
+  }).join('')}
+                    </div>
+                  </details>
+                </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="taTab">
+              <input type="radio" name="${CONSTANTS.PAGES.MAGIC}PageOptions"
+              id="${CONSTANTS.PAGES.MAGIC}PageOptions-${CONSTANTS.SUBPAGES.SPELLS}"  class="taTab-switch">
+              <label for="${CONSTANTS.PAGES.MAGIC}PageOptions-${CONSTANTS.SUBPAGES.SPELLS}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.MAGIC}" data-subpage="${CONSTANTS.SUBPAGES.SPELLS}" data-key="enabled" class="option" /> ${CONSTANTS.SUBPAGES.SPELLS}</label>
+              <div class="taTab-content">
+                <div class="mb-2"><label>Minimum Mana production to leave:
+                <input type="number" class="option w-min text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200"
+                data-page="${CONSTANTS.PAGES.MAGIC}" data-subpage="${CONSTANTS.SUBPAGES.SPELLS}"
+                data-key="options" data-subkey="minimumMana" value="0" min="0" max="999999" step="1" /></label></div>
+
+                <details class="taOptAdvanced">
+                  <summary class="taOptAdvancedLabel">Advanced: manual per-spell overrides</summary>
+                <div class="mb-2">
+                  <button type="button" class="btn btn-blue w-min px-4 mr-2 spellsResourceEnable">Enable all Resource spells</button>
+                  <button type="button" class="btn btn-blue w-min px-4 mr-2 spellsResourceDisable">Disable all Resource spells</button>
+                  <button type="button" class="btn btn-blue w-min px-4 mr-2 spellsArmyEnable">Enable all Army spells</button>
+                  <button type="button" class="btn btn-blue w-min px-4 mr-2 spellsArmyDisable">Disable all Army spells</button>
+                </div>
+
+                <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600 spellsResource">
+                  <details class="taOptCatToggle" open>
+                    <summary class="taOptCatLabel">Resource spells:</summary>
+                    <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
+                      ${spells.filter(spell => spell.type === 'spell').filter(spell => spell.gen && !spell.gen.find(gen => gen.type === 'modifier' && gen.type_id === 'army')).map(spell => {
+    return `<div class="flex flex-col mb-2 taOptRow"><label>
+                          <input type="checkbox" data-page="${CONSTANTS.PAGES.MAGIC}" data-subpage="${CONSTANTS.SUBPAGES.SPELLS}"
+                            data-key="options" data-subkey="${spell.id}" class="option" />
+                          <span class="taOptName">${translate(spell.id)}</span></label></div>`;
+  }).join('')}
+                    </div>
+                  </details>
+                </div>
+
+                <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600 spellsArmy">
+                  <details class="taOptCatToggle" open>
+                    <summary class="taOptCatLabel">Army spells:</summary>
+                    <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
+                      ${spells.filter(spell => spell.type === 'spell').filter(spell => spell.gen && spell.gen.find(gen => gen.type === 'modifier' && gen.type_id === 'army')).map(spell => {
+    return `<div class="flex flex-col mb-2 taOptRow"><label>
+                          <input type="checkbox" data-page="${CONSTANTS.PAGES.MAGIC}" data-subpage="${CONSTANTS.SUBPAGES.SPELLS}"
+                            data-key="options" data-subkey="${spell.id}" class="option" />
+                          <span class="taOptName">${translate(spell.id)}</span></label></div>`;
+  }).join('')}
+                    </div>
+                  </details>
+                </div>
+                </details>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -51534,146 +51930,10 @@ const initGoalAutomationPreset = () => {
               </div>
             </div>
           </div>
+      </details>
 
-      <div class="taTab">
-        <input type="radio" name="topLevelOptions" id="topLevelOptions-${CONSTANTS.PAGES.RESEARCH}" class="taTab-switch">
-        <label for="topLevelOptions-${CONSTANTS.PAGES.RESEARCH}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.RESEARCH}" data-subpage="${CONSTANTS.SUBPAGES.RESEARCH}" data-key="enabled" class="option" /> ${CONSTANTS.PAGES.RESEARCH}</label>
-        <div class="taTab-content">
-          <div class="mb-2"><label>Dangerous fights should require enough army to win before researching:
-            <input type="checkbox" data-page="${CONSTANTS.PAGES.RESEARCH}" data-subpage="${CONSTANTS.SUBPAGES.RESEARCH}"
-              data-key="options" data-subkey="dangerousFights" class="option" />
-          </label></div>
-
-          <div class="mb-2">
-            <button type="button" class="btn btn-blue w-min px-4 mr-2 minus1Medium">Set all regular to Medium</button>
-            <button type="button" class="btn btn-blue w-min px-4 mr-2 zeroDisabled">Set all regular to Disabled</button>
-          </div>
-
-          <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600">
-            <div class="w-full pb-3 font-bold text-center xl:text-left">Exclusive researches:</div>
-            <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
-              ${researchGroups.map(item => {
-    return `<div class="flex flex-col mb-2"><label>${generateMultiSelect(item, {
-      page: CONSTANTS.PAGES.RESEARCH,
-      subpage: CONSTANTS.SUBPAGES.RESEARCH,
-      key: 'options',
-      multiselectkey: item['key']['id']
-    })}<br />
-                Prio: ${generatePrioritySelect({
-      page: CONSTANTS.PAGES.RESEARCH,
-      subpage: CONSTANTS.SUBPAGES.RESEARCH,
-      key: 'options',
-      multiselectkey: item['key']['id'],
-      subkey: 'multiSelectPriority'
-    })}</label></div>`;
-  }).join('')}
-            </div>
-          </div>
-
-          <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600">
-            <div class="w-full pb-3 font-bold text-center xl:text-left">Regular researches:</div>
-            <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
-              ${tech.filter(technology => !technology.confirm && !unsafeResearch.includes(technology.id) && !groupedResearchs.includes(technology.id)).map(technology => {
-    return `<div class="flex flex-col mb-2"><label><span class="font-bold">${translate(technology.id, 'tec_')}</span><br />
-                  Prio: ${generatePrioritySelect({
-      page: CONSTANTS.PAGES.RESEARCH,
-      subpage: CONSTANTS.SUBPAGES.RESEARCH,
-      key: 'options',
-      subkey: technology.id
-    })}</label></div>`;
-  }).join('')}
-            </div>
-          </div>
-
-          <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600 unsafe">
-            <div class="w-full pb-3 font-bold text-center xl:text-left">Dangerous researches (requiring confirmation):</div>
-            <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
-              ${tech.filter(technology => technology.confirm || unsafeResearch.includes(technology.id)).map(technology => {
-    return `<div class="flex flex-col mb-2"><label><span class="font-bold">${translate(technology.id, 'tec_')}</span><br />
-                  Prio: ${generatePrioritySelect({
-      page: CONSTANTS.PAGES.RESEARCH,
-      subpage: CONSTANTS.SUBPAGES.RESEARCH,
-      key: 'options',
-      subkey: technology.id
-    })}</label></div>`;
-  }).join('')}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="taTab">
-        <input type="radio" name="topLevelOptions" id="topLevelOptions-${CONSTANTS.PAGES.MARKETPLACE}" class="taTab-switch">
-        <label for="topLevelOptions-${CONSTANTS.PAGES.MARKETPLACE}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.MARKETPLACE}" data-key="enabled" class="option" /> ${CONSTANTS.PAGES.MARKETPLACE}</label>
-        <div class="taTab-content">
-
-        <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
-          ${['cow', 'horse', 'food', 'copper', 'wood', 'stone', 'iron', 'tools'].map(res => {
-    return `<div class="flex flex-col mb-2"><label>
-                <input type="checkbox" data-page="${CONSTANTS.PAGES.MARKETPLACE}" data-key="options" data-subkey="resource_${res}" class="option" />
-              Sell ${translate(res, 'res_')}</label></div>`;
-  }).join('')}
-        </div>
-        <div>Don't sell if max gold can be reached in
-          <input type="number" class="option w-min text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="60"
-          data-page="${CONSTANTS.PAGES.MARKETPLACE}" data-key="options" data-subkey="timeToWaitUntilFullGold" /> seconds</div>
-        <div>Sell the same resource at most every
-          <input type="number" class="option w-min text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="90"
-          data-page="${CONSTANTS.PAGES.MARKETPLACE}" data-key="options" data-subkey="secondsBetweenSells" /> seconds</div>
-        <div>Sell the resource if it can be refilled in at most
-          <input type="number" class="option w-min text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200" value="90"
-          data-page="${CONSTANTS.PAGES.MARKETPLACE}" data-key="options" data-subkey="timeToFillResource" /> seconds</div>
-
-        </div>
-      </div>
-
-      <div class="taTab">
-        <input type="radio" name="topLevelOptions" id="topLevelOptions-${CONSTANTS.PAGES.POPULATION}" class="taTab-switch">
-        <label for="topLevelOptions-${CONSTANTS.PAGES.POPULATION}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.POPULATION}" data-key="enabled" class="option" /> ${CONSTANTS.PAGES.POPULATION}</label>
-        <div class="taTab-content">
-
-          <p class="mb-2">Max values: -1 -> hire unlimited; 0 -> do not hire;</p>
-
-          <div class="mb-2">
-            <button type="button" class="btn btn-blue w-min px-4 mr-2 minus1Medium">Set all to -1/Medium</button>
-            <button type="button" class="btn btn-blue w-min px-4 mr-2 zeroDisabled">Set all to 0/Disabled</button>
-          </div>
-
-          <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600 mb-2">
-            <div class="w-full pb-3 font-bold text-center xl:text-left">Hire:</div>
-            <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
-              ${jobs.filter(job => job.gen).map(job => {
-    return `<div class="flex flex-col mb-2"><label><span class="font-bold">${translate(job.id, 'pop_')}</span><br />
-                  Max:
-                    <input type="number" data-page="${CONSTANTS.PAGES.POPULATION}" data-key="options" data-subkey="${job.id}"
-                    class="option text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200"
-                    value="0" min="-1" max="999" step="1" /><br />
-                  Prio: ${generatePrioritySelect({
-      page: CONSTANTS.PAGES.POPULATION,
-      key: 'options',
-      subkey: `prio_${job.id}`
-    })}</label></div>`;
-  }).join('')}
-            </div>
-          </div>
-
-          <div class="mb-2"><label>Minimum Food production to aim for:
-            <input type="number" class="option w-min text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200"
-            data-page="${CONSTANTS.PAGES.POPULATION}" data-key="options" data-subkey="minimumFood" value="1" min="0" max="999999" step="1" /></label></div>
-
-          <div class="mb-2"><label>Ratio for unsafe jobs (speed of resource production to usage):
-            <input type="number" class="option w-min text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200"
-            data-page="${CONSTANTS.PAGES.POPULATION}" data-key="options" data-subkey="unsafeJobRatio"
-            value="2" min="0" max="999999" step="0.01" /></label></div>
-
-
-          <div class="mb-2"><label>Rebalance population every:
-            <input type="number" class="option w-min text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200"
-              data-page="${CONSTANTS.PAGES.POPULATION}" data-key="options" data-subkey="populationRebalanceTime" value="0" min="0" max="999999" step="1" />
-            minutes (0 to disable)</label></div>
-
-        </div>
-      </div>
+      <details class="taNavGroup" open>
+        <summary class="taNavGroupLabel">Military</summary>
 
       <div class="taTab">
         <input type="radio" name="topLevelOptions" id="topLevelOptions-${CONSTANTS.PAGES.ARMY}" class="taTab-switch">
@@ -51689,26 +51949,33 @@ const initGoalAutomationPreset = () => {
             <div class="taTab-content">
               <p class="mb-2">Max values: -1 -> hire unlimited; 0 -> do not hire;</p>
 
+              <details class="taOptAdvanced">
+                <summary class="taOptAdvancedLabel">Advanced: manual per-unit overrides</summary>
               ${userUnitsCategory.map((cat, index) => `
                 <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600">
-                  <div class="w-full pb-3 font-bold text-center xl:text-left">${cat}</div>
-                  <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
-                    ${userUnits.filter(unit => unit.category === index).map(unit => {
-    return `<div class="flex flex-col mb-2"><label><span class="font-bold">${translate(unit.id, 'uni_')}</span><br/>
-                        Max:
+                  <details class="taOptCatToggle" open>
+                    <summary class="taOptCatLabel">${cat}</summary>
+                    <div class="grid gap-3 min-w-full px-12 xl:px-0 mb-2 taOptList">
+                      ${userUnits.filter(unit => unit.category === index).map(unit => {
+    return `<div class="taOptRow">
+                        <div class="taOptName">${translate(unit.id, 'uni_')}</div>
+                        <div class="taOptMax">Max:
                           <input type="number" data-page="${CONSTANTS.PAGES.ARMY}" data-subpage="${CONSTANTS.SUBPAGES.ARMY}" data-key="options" data-subkey="${unit.id}"
                           class="option text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200"
-                          value="0" min="-1" max="${unit.cap ? unit.cap : 999}" step="1" /><br />
-                        Prio: ${generatePrioritySelect({
+                          value="0" min="-1" max="${unit.cap ? unit.cap : 999}" step="1" /></div>
+                        <div class="taOptPrio">Prio: ${generatePrioritySelect({
       page: CONSTANTS.PAGES.ARMY,
       subpage: CONSTANTS.SUBPAGES.ARMY,
       key: 'options',
       subkey: `prio_${unit.id}`
-    })}</label></div>`;
+    })}</div>
+                      </div>`;
   }).join('')}
-                  </div>
+                    </div>
+                  </details>
                 </div>
               `).join('')}
+              </details>
             </div>
           </div>
 
@@ -51755,6 +52022,8 @@ const initGoalAutomationPreset = () => {
 
               <p class="mb-2">Check all fights to take</p>
 
+              <details class="taOptAdvanced">
+                <summary class="taOptAdvancedLabel">Advanced: manual per-fight overrides</summary>
               <div class="mb-2">
                 ${fightLevels.map(level => `
                 <button type="button" class="btn btn-blue w-min px-4 mr-2 toggleLevelFights" data-checked="1" data-level="${level}">Toggle all Level ${level}</button>
@@ -51763,120 +52032,24 @@ const initGoalAutomationPreset = () => {
 
               ${fightLevels.map(level => `
                 <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600 taFights level${level}">
-                  <div class="w-full pb-3 font-bold text-center xl:text-left">Level ${level}</div>
-                  <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
-                    ${fights.filter(fight => fight.level === level).map(fight => {
-    return `<div class="flex flex-col mb-2"><label>
-                        <input type="checkbox"  data-page="${CONSTANTS.PAGES.ARMY}" data-subpage="${CONSTANTS.SUBPAGES.ATTACK}"
-                          data-key="options" data-subkey="${fight.key}" class="option" />
-                        <span class="font-bold">${fight.id}</span></label></div>`;
+                  <details class="taOptCatToggle" open>
+                    <summary class="taOptCatLabel">Level ${level}</summary>
+                    <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
+                      ${fights.filter(fight => fight.level === level).map(fight => {
+    return `<div class="flex flex-col mb-2 taOptRow"><label>
+                          <input type="checkbox"  data-page="${CONSTANTS.PAGES.ARMY}" data-subpage="${CONSTANTS.SUBPAGES.ATTACK}"
+                            data-key="options" data-subkey="${fight.key}" class="option" />
+                          <span class="taOptName">${fight.id}</span></label></div>`;
   }).join('')}
-                  </div>
+                    </div>
+                  </details>
                 </div>
               `).join('')}
+              </details>
 
             </div>
           </div>
         </div>
-
-        </div>
-      </div>
-
-      <div class="taTab">
-        <input type="radio" name="topLevelOptions" id="topLevelOptions-${CONSTANTS.PAGES.MAGIC}" class="taTab-switch">
-        <label for="topLevelOptions-${CONSTANTS.PAGES.MAGIC}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.MAGIC}" data-key="enabled" class="option" /> ${CONSTANTS.PAGES.MAGIC}</label>
-        <div class="taTab-content">
-          <div class="taTabs">
-            <div class="taTab">
-              <input type="radio" name="${CONSTANTS.PAGES.MAGIC}PageOptions" id="${CONSTANTS.PAGES.MAGIC}PageOptions-${CONSTANTS.SUBPAGES.PRAYERS}" checked class="taTab-switch">
-              <label for="${CONSTANTS.PAGES.MAGIC}PageOptions-${CONSTANTS.SUBPAGES.PRAYERS}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.MAGIC}" data-subpage="${CONSTANTS.SUBPAGES.PRAYERS}" data-key="enabled" class="option" /> ${CONSTANTS.SUBPAGES.PRAYERS}</label>
-              <div class="taTab-content">
-                <div class="mb-2">
-                  <button type="button" class="btn btn-blue w-min px-4 mr-2 minus1Medium">Set all to Medium</button>
-                  <button type="button" class="btn btn-blue w-min px-4 mr-2 zeroDisabled">Set all to Disabled</button>
-                </div>
-
-          <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600">
-            <div class="w-full pb-3 font-bold text-center xl:text-left">Exclusive researches:</div>
-            <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
-              ${prayerGroups.map(item => {
-    return `<div class="flex flex-col mb-2"><label>${generateMultiSelect(item, {
-      page: CONSTANTS.PAGES.MAGIC,
-      subpage: CONSTANTS.SUBPAGES.PRAYERS,
-      key: 'options',
-      multiselectkey: item['key']['id']
-    })}<br />
-                Prio: ${generatePrioritySelect({
-      page: CONSTANTS.PAGES.MAGIC,
-      subpage: CONSTANTS.SUBPAGES.PRAYERS,
-      key: 'options',
-      multiselectkey: item['key']['id'],
-      subkey: 'multiSelectPriority'
-    })}</label></div>`;
-  }).join('')}
-            </div>
-          </div>
-
-                <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600">
-                  <div class="w-full pb-3 font-bold text-center xl:text-left">Regular Prayers:</div>
-                  <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
-                    ${spells.filter(prayer => prayer.type === 'prayer' && !groupedPrayers.includes(prayer.id)).map(prayer => {
-    return `<div class="flex flex-col mb-2"><label><span class="font-bold">${translate(prayer.id)}</span><br/>
-                        Prio: ${generatePrioritySelect({
-      page: CONSTANTS.PAGES.MAGIC,
-      subpage: CONSTANTS.SUBPAGES.PRAYERS,
-      key: 'options',
-      subkey: prayer.id
-    })}</label></div>`;
-  }).join('')}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="taTab">
-              <input type="radio" name="${CONSTANTS.PAGES.MAGIC}PageOptions"
-              id="${CONSTANTS.PAGES.MAGIC}PageOptions-${CONSTANTS.SUBPAGES.SPELLS}"  class="taTab-switch">
-              <label for="${CONSTANTS.PAGES.MAGIC}PageOptions-${CONSTANTS.SUBPAGES.SPELLS}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.MAGIC}" data-subpage="${CONSTANTS.SUBPAGES.SPELLS}" data-key="enabled" class="option" /> ${CONSTANTS.SUBPAGES.SPELLS}</label>
-              <div class="taTab-content">
-                <div class="mb-2"><label>Minimum Mana production to leave:
-                <input type="number" class="option w-min text-center lg:text-sm text-gray-700 bg-gray-100 dark:text-mydark-50 dark:bg-mydark-200 border-y border-gray-400 dark:border-mydark-200"
-                data-page="${CONSTANTS.PAGES.MAGIC}" data-subpage="${CONSTANTS.SUBPAGES.SPELLS}"
-                data-key="options" data-subkey="minimumMana" value="0" min="0" max="999999" step="1" /></label></div>
-
-                <div class="mb-2">
-                  <button type="button" class="btn btn-blue w-min px-4 mr-2 spellsResourceEnable">Enable all Resource spells</button>
-                  <button type="button" class="btn btn-blue w-min px-4 mr-2 spellsResourceDisable">Disable all Resource spells</button>
-                  <button type="button" class="btn btn-blue w-min px-4 mr-2 spellsArmyEnable">Enable all Army spells</button>
-                  <button type="button" class="btn btn-blue w-min px-4 mr-2 spellsArmyDisable">Disable all Army spells</button>
-                </div>
-
-                <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600 spellsResource">
-                  <div class="w-full pb-3 font-bold text-center xl:text-left">Resource spells:</div>
-                  <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
-                    ${spells.filter(spell => spell.type === 'spell').filter(spell => spell.gen && !spell.gen.find(gen => gen.type === 'modifier' && gen.type_id === 'army')).map(spell => {
-    return `<div class="flex flex-col mb-2"><label>
-                        <input type="checkbox" data-page="${CONSTANTS.PAGES.MAGIC}" data-subpage="${CONSTANTS.SUBPAGES.SPELLS}"
-                          data-key="options" data-subkey="${spell.id}" class="option" />
-                        <span class="font-bold">${translate(spell.id)}</span></label></div>`;
-  }).join('')}
-                  </div>
-                </div>
-
-                <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600 spellsArmy">
-                  <div class="w-full pb-3 font-bold text-center xl:text-left">Army spells:</div>
-                  <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
-                    ${spells.filter(spell => spell.type === 'spell').filter(spell => spell.gen && spell.gen.find(gen => gen.type === 'modifier' && gen.type_id === 'army')).map(spell => {
-    return `<div class="flex flex-col mb-2"><label>
-                        <input type="checkbox" data-page="${CONSTANTS.PAGES.MAGIC}" data-subpage="${CONSTANTS.SUBPAGES.SPELLS}"
-                          data-key="options" data-subkey="${spell.id}" class="option" />
-                        <span class="font-bold">${translate(spell.id)}</span></label></div>`;
-  }).join('')}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
         </div>
       </div>
@@ -51886,9 +52059,13 @@ const initGoalAutomationPreset = () => {
         <label for="topLevelOptions-${CONSTANTS.PAGES.DIPLOMACY}" class="taTab-label"><input type="checkbox" data-page="${CONSTANTS.PAGES.DIPLOMACY}" data-key="enabled" class="option" /> ${CONSTANTS.PAGES.DIPLOMACY}</label>
         <div class="taTab-content">
 
+          <details class="taOptAdvanced">
+            <summary class="taOptAdvancedLabel">Advanced: manual per-faction overrides</summary>
           <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600 spellsArmy">
-            <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
-              ${factions.filter(faction => faction.gen).filter(faction => faction.relationship).map(faction => {
+            <details class="taOptCatToggle" open>
+              <summary class="taOptCatLabel">Factions</summary>
+              <div class="grid gap-3 min-w-full px-12 xl:px-0 mb-2 taOptList taOptList-2col">
+                ${factions.filter(faction => faction.gen).filter(faction => faction.relationship).map(faction => {
     const options = [{
       key: 'Disabled',
       value: CONSTANTS.DIPLOMACY.DISABLED
@@ -51905,19 +52082,26 @@ const initGoalAutomationPreset = () => {
       key: 'Ally without trading',
       value: CONSTANTS.DIPLOMACY.ONLY_ALLY
     }];
-    return `<div class="flex flex-col mb-2"><label><span class="font-bold">${translate(faction.id)}</span><br />
-                  ${generatePrioritySelect({
+    return `<div class="taOptRow">
+                  <div class="taOptName">${translate(faction.id)}</div>
+                  <div class="taOptPrio">${generatePrioritySelect({
       page: CONSTANTS.PAGES.DIPLOMACY,
       key: 'options',
       subkey: `${faction.id}`
-    }, options)}
-                  </label></div>`;
+    }, options)}</div>
+                </div>`;
   }).join('')}
-            </div>
+              </div>
+            </details>
           </div>
+          </details>
 
         </div>
       </div>
+      </details>
+
+      <details class="taNavGroup">
+        <summary class="taNavGroupLabel">System</summary>
 
       <div class="taTab">
         <input type="radio" name="topLevelOptions" id="topLevelOptions-Automation" class="taTab-switch">
@@ -52001,24 +52185,31 @@ const initGoalAutomationPreset = () => {
             </label></div>
           </div>
 
+          <details class="taOptAdvanced">
+            <summary class="taOptAdvancedLabel">Advanced: manual per-legacy overrides</summary>
           <div class="mb-2">
             <button type="button" class="btn btn-blue w-min px-4 mr-2 minus1Medium">Set all to Medium</button>
             <button type="button" class="btn btn-blue w-min px-4 mr-2 zeroDisabled">Set all to Disabled</button>
           </div>
 
           <div class="flex flex-wrap min-w-full mt-3 p-3 shadow rounded-lg ring-1 ring-gray-300 dark:ring-mydark-200 bg-gray-100 dark:bg-mydark-600">
-            <div class="grid gap-3 grid-cols-fill-240 min-w-full px-12 xl:px-0 mb-2">
-              ${legacies.map(legacy => {
-    return `<div class="flex flex-col mb-2"><label>
-                  <span class="font-bold">${translate(legacy.id, 'leg_')} (${legacy.req.find(req => req.id === 'legacy').value})</span><br />
-                  Prio: ${generatePrioritySelect({
+            <details class="taOptCatToggle" open>
+              <summary class="taOptCatLabel">Legacies</summary>
+              <div class="grid gap-3 min-w-full px-12 xl:px-0 mb-2 taOptList taOptList-2col">
+                ${legacies.map(legacy => {
+    return `<div class="taOptRow">
+                  <div class="taOptName">${translate(legacy.id, 'leg_')} (${legacy.req.find(req => req.id === 'legacy').value})</div>
+                  <div class="taOptPrio">Prio: ${generatePrioritySelect({
       setting: 'prestige',
       key: 'options',
       subkey: legacy.id
-    })}</label></div>`;
+    })}</div>
+                </div>`;
   }).join('')}
-            </div>
+              </div>
+            </details>
           </div>
+          </details>
 
         </div>
       </div>
@@ -52139,6 +52330,8 @@ const initGoalAutomationPreset = () => {
 
         </div>
       </div>
+      </details>
+    </div>
     </div>
 
     <div class="absolute top-0 right-0 z-20 pt-4 pr-4">
@@ -52155,6 +52348,7 @@ const initGoalAutomationPreset = () => {
     initGoalPathTab();
     initAnnihilatorRouteTab();
     initGoalAutomationPreset();
+    initOptionsPanelFilter();
 
     // Cheats
     document.querySelector('button.maxResources').addEventListener('click', cheats.maxResources);
@@ -52530,17 +52724,67 @@ const initGoalAutomationPreset = () => {
     padding: 10px;
     border: 1px black solid;
     overflow-y: auto;
-    overflow-x: none;
+    overflow-x: auto;
   }
 
   .toastifyDisabled {
     display: none!important;
   }
 
+  /* Dark theme (2026-09-01): re-skins the whole Manage Options panel to match the
+     "Quartermaster Console" design exploration prototype (ink/brass/parchment/teal
+     palette). Scoped entirely under .taOptionsDark, the new wrapper div added around
+     this template's output in options-panel-tabs.template.html, so it never leaks
+     into the rest of the (light-themed) game UI. Every rule below only changes
+     background/border/color/font-family values on the existing selectors -- layout
+     properties (display/grid/flex/position/sizing) are left untouched on purpose,
+     since those are what Phase 1-3 already verified against the button-targeting
+     class selectors (div.flex.flex-wrap / .spellsResource / .spellsArmy /
+     .taFights.levelN) in the base script. */
+  .taOptionsDark {
+    --ta-ink-900: #12151c;
+    --ta-ink-800: #1a1f29;
+    --ta-ink-700: #232a37;
+    --ta-ink-600: #2c3546;
+    --ta-line: #39435660;
+    --ta-brass-300: #e6cb8f;
+    --ta-brass-500: #c99a4b;
+    --ta-brass-700: #8a6a30;
+    --ta-parchment: #ece4d3;
+    --ta-slate: #94a0b4;
+    --ta-teal: #4bb99c;
+    --ta-danger: #d17660;
+    display: block;
+    background: var(--ta-ink-900);
+    color: var(--ta-parchment);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+  .taOptionsDark label {
+    color: var(--ta-parchment);
+  }
+  .taOptionsDark .btn,
+  .taOptionsDark button[type='button'] {
+    background: var(--ta-ink-700);
+    border: 1px solid var(--ta-line);
+    color: var(--ta-parchment);
+    border-radius: 0.25rem;
+  }
+  .taOptionsDark input[type='number'],
+  .taOptionsDark input[type='text'],
+  .taOptionsDark select {
+    background: var(--ta-ink-600);
+    border: 1px solid var(--ta-line);
+    color: var(--ta-brass-300);
+    font-family: ui-monospace, Consolas, 'Courier New', monospace;
+    border-radius: 0.2rem;
+  }
+
   .taTabs {
     position: relative;
     margin: 3rem 0;
-    background: #1abc9c;
+    background: transparent;
   }
   .taTabs::before,
   .taTabs::after {
@@ -52562,9 +52806,9 @@ const initGoalAutomationPreset = () => {
     line-height: 2.75em;
     height: 3em;
     padding: 0 1.618em;
-    background: #1abc9c;
-    border-right: 0.125rem solid #16a085;
-    color: #fff;
+    background: var(--ta-ink-700);
+    border-right: 0.125rem solid var(--ta-ink-900);
+    color: var(--ta-slate);
     cursor: pointer;
     top: 0;
     transition: all 0.25s;
@@ -52580,14 +52824,17 @@ const initGoalAutomationPreset = () => {
     left: 0;
     padding: 1.618rem;
     opacity: 0;
+    pointer-events: none;
     transition: all 0.35s;
     width: 100%;
+    background: var(--ta-ink-800);
+    color: var(--ta-parchment);
   }
   .taTab-switch:checked + .taTab-label {
-    background: #fff;
-    color: #2c3e50;
+    background: var(--ta-ink-800);
+    color: var(--ta-brass-300);
     border-bottom: 0;
-    border-right: 0.125rem solid #fff;
+    border-right: 0.125rem solid var(--ta-ink-800);
     transition: all 0.35s;
     z-index: 1;
     top: -0.0625rem;
@@ -52595,7 +52842,241 @@ const initGoalAutomationPreset = () => {
   .taTab-switch:checked + label + .taTab-content {
     z-index: 2;
     opacity: 1;
+    pointer-events: auto;
     transition: all 0.35s;
+  }
+
+  /* Top-level Manage Options nav: grouped sidebar list instead of a horizontal tab
+     row, so the tab count can keep growing without ever wrapping/overlapping again.
+     Nested sub-tabs (Build/Army/Magic subpages) keep the original .taTabs/.taTab
+     horizontal styling above untouched. All selectors below use the > combinator
+     so they only match the top-level tab tree, not the nested one. */
+  .taTabsTop {
+    display: block;
+    width: 100%;
+    margin: 1rem 0 0;
+    background: transparent;
+  }
+  .taTabsTop::before,
+  .taTabsTop::after {
+    content: none;
+  }
+  .taNavGroup {
+    border: none;
+    margin: 0;
+  }
+  .taNavGroupLabel {
+    display: block;
+    list-style: none;
+    cursor: pointer;
+    width: 220px;
+    box-sizing: border-box;
+    padding: 0.9em 1em 0.3em;
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ta-brass-500);
+    font-family: ui-monospace, Consolas, 'Courier New', monospace;
+  }
+  .taNavGroupLabel::marker {
+    content: "";
+  }
+  .taNavGroupLabel::-webkit-details-marker {
+    display: none;
+  }
+  .taTabsTop > .taNavGroup > .taTab {
+    float: none;
+    display: block;
+    width: 220px;
+  }
+  .taTabsTop > .taNavGroup > .taTab > .taTab-label {
+    width: 220px;
+    box-sizing: border-box;
+    height: auto;
+    line-height: 1.4;
+    padding: 0.75em 1em;
+    white-space: normal;
+    word-break: break-word;
+    border-right: none;
+    border-left: 0.1875rem solid transparent;
+    background: transparent;
+    color: var(--ta-slate);
+    top: 0;
+  }
+  .taTabsTop > .taNavGroup > .taTab > .taTab-label:hover {
+    top: 0;
+    background: var(--ta-ink-700);
+  }
+  .taTabsTop > .taNavGroup > .taTab > .taTab-switch:checked + .taTab-label {
+    background: var(--ta-ink-800);
+    border-left: 0.1875rem solid var(--ta-brass-500);
+    border-right: none;
+    color: var(--ta-brass-300);
+    font-weight: 600;
+    top: 0;
+  }
+  .taTabsTop > .taNavGroup > .taTab > .taTab-content {
+    top: 0;
+    left: 232px;
+    width: calc(100% - 232px);
+    background: var(--ta-ink-800);
+    border: 1px solid var(--ta-line);
+    border-radius: 0.5rem;
+  }
+
+  /* Dense list optimization (2026-09-01): the Build/Research/Population/Army/Diplomacy
+     tabs are walls of "name + Max input + Priority select" cards laid out via a
+     fill-240 auto-grid, which does not align Max/Prio across cards and has no way to
+     jump straight to one item — exactly the "很难定位" complaint. Below adds an
+     always-visible search box + "only changed" filter (logic in options-panel-tabs.js,
+     driven by .taOptRow/.taOptCat markers added in options-panel-tabs.template.html),
+     plus a column-aligned list layout for the Name/Max/Prio card groups. Category
+     wrappers keep their original div.flex.flex-wrap class/classList untouched (Build's
+     "Set all Max/Prio", Research's "Set all regular", spellsResource/spellsArmy
+     enable-disable and toggleLevelFights buttons all select containers via
+     div.flex.flex-wrap / .spellsResource / .spellsArmy / .taFights.levelN
+     class selectors in the base script) — only a details.taOptCatToggle element
+     is nested one level inside for the collapse behavior, so none of that existing
+     button wiring breaks. */
+  .taOptFilterBar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--ta-ink-800);
+    border: 1px solid var(--ta-line);
+    border-radius: 0.375rem;
+  }
+  .taOptFilterBar input[type='text'] {
+    flex: 1 1 220px;
+    min-width: 160px;
+    padding: 0.35em 0.6em;
+    border: 1px solid var(--ta-line);
+    border-radius: 0.25rem;
+  }
+  .taOptFilterBar label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    white-space: nowrap;
+    color: var(--ta-slate);
+  }
+  .taOptFilterCount {
+    font-family: ui-monospace, Consolas, 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: var(--ta-slate);
+    white-space: nowrap;
+  }
+  .taOptCatToggle {
+    width: 100%;
+  }
+  .taOptCatToggle > summary.taOptCatLabel {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    padding: 0.5em 0.75em;
+    margin-bottom: 0.35rem;
+    background: var(--ta-ink-700);
+    border: 1px solid var(--ta-line);
+    border-radius: 0.3rem;
+    color: var(--ta-parchment);
+    font-weight: 600;
+  }
+  .taOptCatToggle > summary.taOptCatLabel::marker {
+    content: '';
+  }
+  .taOptCatToggle > summary.taOptCatLabel::-webkit-details-marker {
+    display: none;
+  }
+  .taOptCatToggle > summary.taOptCatLabel::before {
+    content: '▾';
+    color: var(--ta-brass-700);
+  }
+  .taOptCatToggle:not([open]) > summary.taOptCatLabel::before {
+    content: '▸';
+  }
+  .taOptList {
+    display: grid;
+    grid-template-columns: minmax(140px, 1fr) auto auto;
+    align-items: center;
+    gap: 0.35rem 1rem;
+    padding: 0.35rem 0.25rem;
+  }
+  .taOptList.taOptList-2col {
+    grid-template-columns: minmax(140px, 1fr) auto;
+  }
+  .taOptList > .taOptRow {
+    display: contents;
+  }
+  .taOptRow.taOptRowHidden {
+    display: none;
+  }
+  .taOptRow .taOptName {
+    font-weight: bold;
+    color: var(--ta-parchment);
+    border-left: 3px solid transparent;
+    padding-left: 0.5em;
+  }
+  .taOptRow.taOptChanged .taOptName {
+    border-left: 3px solid var(--ta-teal);
+  }
+  .taOptRow.taOptChanged .taOptName::after {
+    content: ' ●';
+    font-size: 0.6em;
+    vertical-align: middle;
+    color: var(--ta-teal);
+  }
+
+  /* Manual-override declutter (2026-09-01): the per-item Max/Priority lists above are
+     the fallback/manual-config path, which the project direction wants secondary to
+     goal-driven automation rather than the default view. Each tab now wraps its manual
+     list(s) in one more collapsed-by-default details.taOptAdvanced layer, styled to
+     read as a distinct "advanced" affordance rather than a normal taOptCatToggle
+     category. options-panel-tabs.js opens it automatically on search/only-changed
+     matches (same ancestor-details walk as taOptCatToggle) and also opens it whenever
+     the "Manual values override smart plan" checkbox is checked. */
+  .taOptAdvanced {
+    width: 100%;
+    margin: 0.5rem 0 0.75rem;
+  }
+  .taOptAdvanced > summary.taOptAdvancedLabel {
+    cursor: pointer;
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    padding: 0.35em 0.75em;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--ta-brass-300);
+    background: var(--ta-ink-800);
+    border: 1px dashed var(--ta-line);
+    border-radius: 0.3rem;
+  }
+  .taOptAdvanced > summary.taOptAdvancedLabel::marker {
+    content: '';
+  }
+  .taOptAdvanced > summary.taOptAdvancedLabel::-webkit-details-marker {
+    display: none;
+  }
+  .taOptAdvanced > summary.taOptAdvancedLabel::before {
+    content: '▸';
+    color: var(--ta-brass-700);
+  }
+  .taOptAdvanced[open] > summary.taOptAdvancedLabel::before {
+    content: '▾';
+  }
+
+  [hidden] {
+    display: none !important;
   }
 
   .taOptionsBar {
