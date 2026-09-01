@@ -51277,6 +51277,19 @@ const initOptionsPanelFilter = () => {
     countEl.textContent = total ? `${shown} / ${total}` : '';
   };
 
+  const addCategoryCounts = () => {
+    panel.querySelectorAll('.taOptCatToggle > summary.taOptCatLabel').forEach(summary => {
+      if (summary.querySelector('.taOptCatCount')) {
+        return;
+      }
+      const count = summary.parentElement.querySelectorAll('.taOptRow').length;
+      const badge = document.createElement('span');
+      badge.className = 'taOptCatCount';
+      badge.textContent = String(count);
+      summary.appendChild(badge);
+    });
+  };
+
   const expandAdvancedIfManualOverrides = () => {
     const manualOverridesInput = document.querySelector('input[data-setting="smartBuild"][data-key="manualOverrides"]');
     if (manualOverridesInput && manualOverridesInput.checked) {
@@ -51292,6 +51305,7 @@ const initOptionsPanelFilter = () => {
   if (panelRoot && window.MutationObserver) {
     new MutationObserver(() => {
       if (panelRoot.classList.contains('taPanelElementVisible')) {
+        addCategoryCounts();
         applyFilter();
         expandAdvancedIfManualOverrides();
       }
@@ -51319,6 +51333,7 @@ const initOptionsPanelFilter = () => {
     }
   });
 
+  addCategoryCounts();
   applyFilter();
   expandAdvancedIfManualOverrides();
 };
@@ -52800,27 +52815,37 @@ const initOptionsPanelFilter = () => {
   .taTab-switch {
     display: none;
   }
+  /* Nested sub-tabs (Build/Army/Magic's City/Colony/Abyss etc.) as pills instead of a
+     touching horizontal band (2026-09-01, Phase 4 follow-up): only .taTab-label/
+     .taTab-content geometry changes here -- .display stays "block" (float:left above
+     still applies) so the .taTabsTop > .taNavGroup > ... sidebar overrides further
+     down, which never redeclare display, keep working unchanged. */
   .taTab-label {
     position: relative;
     display: block;
-    line-height: 2.75em;
-    height: 3em;
-    padding: 0 1.618em;
+    line-height: 1.8em;
+    height: auto;
+    margin: 0 0.4em 0.6em 0;
+    padding: 0.4em 1.1em;
     background: var(--ta-ink-700);
-    border-right: 0.125rem solid var(--ta-ink-900);
+    border: 1px solid var(--ta-line);
+    border-radius: 999px;
     color: var(--ta-slate);
     cursor: pointer;
     top: 0;
-    transition: all 0.25s;
+    font-size: 0.8rem;
+    font-family: ui-monospace, Consolas, 'Courier New', monospace;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
   }
   .taTab-label:hover {
-    top: -0.25rem;
-    transition: top 0.25s;
+    top: 0;
+    background: var(--ta-ink-600);
+    transition: background 0.2s;
   }
   .taTab-content {
     position: absolute;
     z-index: 1;
-    top: 2.75em;
+    top: 3.4em;
     left: 0;
     padding: 1.618rem;
     opacity: 0;
@@ -52828,16 +52853,16 @@ const initOptionsPanelFilter = () => {
     transition: all 0.35s;
     width: 100%;
     background: var(--ta-ink-800);
+    border: 1px solid var(--ta-line);
+    border-radius: 0.5rem;
     color: var(--ta-parchment);
   }
   .taTab-switch:checked + .taTab-label {
-    background: var(--ta-ink-800);
-    color: var(--ta-brass-300);
-    border-bottom: 0;
-    border-right: 0.125rem solid var(--ta-ink-800);
-    transition: all 0.35s;
-    z-index: 1;
-    top: -0.0625rem;
+    background: var(--ta-teal);
+    color: var(--ta-ink-900);
+    border-color: var(--ta-teal);
+    font-weight: 600;
+    top: 0;
   }
   .taTab-switch:checked + label + .taTab-content {
     z-index: 2;
@@ -53002,6 +53027,16 @@ const initOptionsPanelFilter = () => {
   }
   .taOptCatToggle:not([open]) > summary.taOptCatLabel::before {
     content: '▸';
+  }
+  /* Per-category item count badge (2026-09-01, Phase 4 follow-up), injected by
+     addCategoryCounts() in options-panel-tabs.js -- static count of .taOptRow inside
+     each .taOptCatToggle, not touching the summary's existing text/markup. */
+  .taOptCatToggle > summary.taOptCatLabel .taOptCatCount {
+    margin-left: auto;
+    font-family: ui-monospace, Consolas, 'Courier New', monospace;
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--ta-slate);
   }
   .taOptList {
     display: grid;

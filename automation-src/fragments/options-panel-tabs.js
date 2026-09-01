@@ -49,6 +49,19 @@ const initOptionsPanelFilter = () => {
     countEl.textContent = total ? `${shown} / ${total}` : '';
   };
 
+  const addCategoryCounts = () => {
+    panel.querySelectorAll('.taOptCatToggle > summary.taOptCatLabel').forEach(summary => {
+      if (summary.querySelector('.taOptCatCount')) {
+        return;
+      }
+      const count = summary.parentElement.querySelectorAll('.taOptRow').length;
+      const badge = document.createElement('span');
+      badge.className = 'taOptCatCount';
+      badge.textContent = String(count);
+      summary.appendChild(badge);
+    });
+  };
+
   const expandAdvancedIfManualOverrides = () => {
     const manualOverridesInput = document.querySelector('input[data-setting="smartBuild"][data-key="manualOverrides"]');
     if (manualOverridesInput && manualOverridesInput.checked) {
@@ -64,6 +77,7 @@ const initOptionsPanelFilter = () => {
   if (panelRoot && window.MutationObserver) {
     new MutationObserver(() => {
       if (panelRoot.classList.contains('taPanelElementVisible')) {
+        addCategoryCounts();
         applyFilter();
         expandAdvancedIfManualOverrides();
       }
@@ -91,6 +105,7 @@ const initOptionsPanelFilter = () => {
     }
   });
 
+  addCategoryCounts();
   applyFilter();
   expandAdvancedIfManualOverrides();
 };
