@@ -15,6 +15,7 @@ const GOAL_AUTOMATION_PRESETS = {
     ancestor: 'ancestor_farmer',
     path: 'humans',
     ngplus: false,
+    strategy: 'military',
     difficulty: 'difficulty_0'
   }
 };
@@ -57,9 +58,11 @@ const applyGoalAutomationPreset = goalId => {
     state.options.ngplus.enabled = !!preset.ngplus;
     if (preset.ngplus) state.options.ngplus.value = preset.ngplus;
   }
+  if (preset.strategy) state.options.smartBuild.strategy = preset.strategy;
   if (preset.difficulty) {
     state.options.difficulty = { enabled: true, selected: preset.difficulty };
   }
+  if (preset.strategy) syncAutomationOptionDom('smartBuild', 'strategy', preset.strategy);
   localStorage.set('options', state.options);
 
   syncAutomationOptionDom('ancestor', 'enabled', true);

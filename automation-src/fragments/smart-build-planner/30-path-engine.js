@@ -87,7 +87,11 @@ const computeShortestPath = (options, resourceMap) => {
       if (isUnlockCompleted(req.type, req.id)) return;
       if (req.type === 'tech') {
         const techNode = resolveTech(req.id, { key: 'prerequisiteFor', targetId: ownerId });
-        maxPrereqLayer = Math.max(maxPrereqLayer, techNode.layer);
+        if (techNode) {
+          maxPrereqLayer = Math.max(maxPrereqLayer, techNode.layer);
+        } else {
+          blocked = blocked || { type: 'structural', reqType: req.type, reqId: req.id };
+        }
         return;
       }
       blocked = blocked || { type: 'structural', reqType: req.type, reqId: req.id };

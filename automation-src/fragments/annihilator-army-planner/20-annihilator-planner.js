@@ -9,14 +9,17 @@ const getCurrentAnnihilatorStages = () => {
 };
 const getAnnihilatorUnitTargets = configuredUnitsObject => {
   const currentStages = getCurrentAnnihilatorStages();
-  if (!currentStages.length) return configuredUnitsObject;
+  const configuredTargets = Object.fromEntries(Object.entries(annihilatorRoute.armyTargets || {}).flatMap(([unitId, qty]) => [
+    [unitId, qty], [`prio_${unitId}`, 4]
+  ]));
+  if (!currentStages.length) return configuredTargets;
   const overrides = {};
   currentStages.forEach(stage => {
     Object.entries(stage.requiredArmy || {}).forEach(([unitId, qty]) => {
       overrides[unitId] = Math.max(overrides[unitId] || 0, qty);
     });
   });
-  const targets = { ...configuredUnitsObject };
+  const targets = { ...configuredTargets };
   Object.entries(overrides).forEach(([unitId, qty]) => {
     targets[unitId] = qty;
     targets[`prio_${unitId}`] = 9;

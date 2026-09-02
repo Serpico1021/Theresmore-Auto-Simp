@@ -82,7 +82,23 @@ const hasIndexedOrRunItem = (id, prefixes = []) => {
   });
 };
 const isTechCompleted = techId => {
-  return hasIndexedOrRunItem(techId, ['tec_']);
+  const gameData = reactUtil.getGameData && reactUtil.getGameData();
+  if (!gameData) return false;
+  const techIndex = gameData.idxs && gameData.idxs.techs ? gameData.idxs.techs[techId] : undefined;
+  const indexedTech = typeof techIndex !== 'undefined' && gameData.run && Array.isArray(gameData.run.techs)
+    ? gameData.run.techs[techIndex]
+    : null;
+  if (indexedTech && typeof indexedTech === 'object') return Number(indexedTech.value) > 0;
+  const techs = gameData.run && gameData.run.techs;
+  if (Array.isArray(techs)) {
+    const entry = techs.find(item => item && (item.id === techId || item.key === techId || item.tech === techId));
+    return !!entry && Number(entry.value) > 0;
+  }
+  if (techs && typeof techs === 'object') {
+    const entry = techs[techId] || techs[`tec_${techId}`];
+    return typeof entry === 'object' ? Number(entry.value) > 0 : Number(entry) > 0;
+  }
+  return false;
 };
 const isBuildingUnlocked = building => {
   if (!building.req) return true;

@@ -24,10 +24,7 @@ const smartBuildGoals = {
 smartBuildGoals.fastNgPlus = { ...smartBuildGoals.moonlightNight };
 smartBuildGoals.annihilator = {
   dangerousResearchOverrides: [],
-  targetTechs: [
-    'activate_signal', 'research_annhilator', 'create_annhilator', 'launch_annhilator',
-    ...annihilatorRoute.stages.flatMap(stage => stage.reqFoundTech ? [stage.reqFoundTech] : [])
-  ],
+  targetTechs: annihilatorRoute.targetTechs,
   resourceFocus: ['research', 'mana', 'crystal', 'steel', 'natronite', 'lumix'],
   buildingFocus: []
 };
@@ -56,4 +53,4 @@ const smartBuildRoutes = {
   }
 };
 smartBuildRoutes.fastNgPlus = { ...smartBuildRoutes.moonlightNight, label: 'Speed NG+' };
-smartBuildRoutes.annihilator = { label: 'Annihilator', buildingTargets: [], supportTargets: [] };
+smartBuildRoutes.annihilator = { label: 'Annihilator', buildingTargets: annihilatorRoute.buildingTargets, supportTargets: [] };

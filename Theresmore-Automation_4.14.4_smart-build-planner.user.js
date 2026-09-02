@@ -7,7 +7,7 @@
 // @match       https://theresmoregame.g8hh.com.cn/
 // @license     MIT
 // @run-at      document-idle
-// @version     1.0.0.10
+// @version     1.0.0.13
 // @homepage    https://github.com/Theresmore-Automation/Theresmore-Automation
 // @author      Theresmore Automation team
 // @grant       none
@@ -53,7 +53,7 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WIT
 
 */
 
-const taVersion = "1.0.0.10";
+const taVersion = "1.0.0.13";
 
 
 (function () {
@@ -47329,6 +47329,34 @@ const taVersion = "1.0.0.10";
   };
 
 const annihilatorRoute = {
+  buildingTargets: [
+    { id: 'common_house', target: 15 }, { id: 'house_workers', target: 10 }, { id: 'monument', target: 1 },
+    { id: 'hall_of_the_dead', target: 3 }, { id: 'city_hall', target: 3 }, { id: 'amusement_quarter_b', target: 15 },
+    { id: 'mansion', target: 3 }, { id: 'residential_block', target: 3 }, { id: 'ministry_interior', target: 3 },
+    { id: 'gan_eden', target: 3 }, { id: 'farm', target: 5 }, { id: 'granary', target: 1 },
+    { id: 'lumberjack_camp', target: 5 }, { id: 'sawmill', target: 1 }, { id: 'lucky_grove_b', target: 15 },
+    { id: 'quarry', target: 5 }, { id: 'stonemason', target: 1 }, { id: 'mine', target: 1 },
+    { id: 'titan_work_area', target: 8 }, { id: 'stable', target: 1 }, { id: 'undead_herd', target: 3 },
+    { id: 'machines_of_gods', target: 5 }, { id: 'carpenter_workshop', target: 3 }, { id: 'grocery', target: 3 },
+    { id: 'steelworks', target: 3 }, { id: 'guild_of_craftsmen', target: 5 }, { id: 'alchemic_laboratory', target: 3 },
+    { id: 'natronite_refinery', target: 3 }, { id: 'school', target: 5 }, { id: 'eureka_halls_b', target: 15 },
+    { id: 'hall_of_wisdom', target: 5 }, { id: 'library_of_theresmore', target: 5 }, { id: 'university', target: 3 },
+    { id: 'archeological_dig', target: 5 }, { id: 'island_outpost', target: 1 }, { id: 'artisan_workshop', target: 5 },
+    { id: 'marketplace', target: 5 }, { id: 'lucky_well_b', target: 15 }, { id: 'canava_trading', target: 5 },
+    { id: 'bank', target: 8 }, { id: 'credit_union', target: 5 }, { id: 'barracks', target: 1 },
+    { id: 'underground_tunnel_b', target: 15 }, { id: 'watchman_outpost', target: 4 }, { id: 'temple', target: 5 },
+    { id: 'fate_shrine_b', target: 15 }, { id: 'altar_of_sacrifices', target: 5 }, { id: 'magic_circle', target: 13 },
+    { id: 'monastery', target: 10 }, { id: 'fortune_grove', target: 10 }, { id: 'mana_fields_b', target: 5 },
+    { id: 'pillars_of_mana', target: 5 }, { id: 'matter_transmuter', target: 10 }, { id: 'ministry_worship', target: 5 },
+    { id: 'conclave', target: 3 }, { id: 'reactivate_portal', target: 1 }, { id: 'spiritual_garden', target: 5 },
+    { id: 'colony_hall', target: 12 }, { id: 'lumix_plant', target: 5 }, { id: 'steel_mills_b', target: 1 },
+    { id: 'crystal_farm_b', target: 1 }, { id: 'refinery', target: 5 }, { id: 'sanctum_healing', target: 1 },
+    { id: 'healing_chambers', target: 8 }, { id: 'regenerative_gardens', target: 8 }, { id: 'pilgrim_camp', target: 5 },
+    { id: 'church_old_gods', target: 5 }, { id: 'launch_silos', target: 1 }, { id: 'beacon_light', target: 5 },
+    { id: 'light_square_b', target: 5 }, { id: 'lumix_refinery', target: 3 }
+  ],
+  targetTechs: ['beacon_faith','launch_annhilator','exhibit_flame','loot_storehouse','persuade_nobility','trading_woods','fine_lucky_wood','throwing_coin','dirty_money','fountain_gold','lucky_idea','eureka','master_history','lucky_investments','lucky_little_city','illgotten_gains','prepare_tunnel','tunnel_hq','stocked_tunnel','martial_arts','fate_blessing','avatar_fate','raider_teaching','pillaging_training','mercenary_pockets','housing','monument_past','heirloom_housing','heirloom_horseshoes_t','heirloom_momento_t','heirloom_contract_t','heirloom_wisdom_t','heirloom_death_t','heirloom_wealth_t','agricolture','stone_masonry','wood_cutting','crop_rotation','grain_surplus','pottery','woodcarvers','wood_saw','stone_extraction_tools','stone_processing','archery','mining','house_of_workers','architecture_titan_t','mining_efficency','storage','local_products','writing','bronze_working','bronze_sword','ancient_balor_t','magic','ancient_spell','zenix_familiar_t','mythology','breeding','fortification','remember_the_ancients','servitude','mathematic','municipal_administration','warfare','currency','religion','cloistered_life','regional_markets','fortune_sanctuary','enclosures','fine_marbles','fine_woods','iron_working','iron_sword','holy_fury','seraphim_t','end_ancient_era','plenty_valley','feudalism','architecture','education','embassy_nation','liturgical_rites','necromancy','food_conservation','metal_casting','establish_boundaries','herald_canava','daylong_celebration','banking','steeling','steel_sword','guild','craftsmen_guild','master_craftsmen','professional_soldier','knighthood','fairs_and_markets','library_of_souls','end_feudal_era','underground_library','scientific_theory','chemistry','printing_press','gunpowder','the_scourge','the_vault','northern_star','flame_atamar','trail_power','economics','ministry_interior_t','ministry_war_t','ministry_worship_t','order_of_clerics','magic_arts_teaching','mana_utilization','agreement_passage_wanders','scout_mission_east','mana_engine','long_expedition','shores_theresmore','mechanization','research_district','adamantium_sword','harbor_project','financial_markets','ecology','communion_nature','lonely_druid','miracle_city','preparation_war','joyful_nation_1','joyful_nation_2','end_era_4_1','end_era_4_2','seafaring','outpost_tiny_island','the_journey','overseas_refinery','centralized_power','colonial_trade','colonial_exploitations','artisan_complex','alchemist_complex_t','new_world_exploration','mithril_sword','assembly_line','replicable_parts','burned_farms','orcish_citadel','mankind_darkest','war_effort','honor_humanity','swear_give_up','the_triumph','elf_decadence','ancient_artifact','cavern_artifact','black_artifact','the_portal_t','survey_abyss','lumix_t','effort_abyss','overlook_darkness','delimiting_perimeter','arcane_study','extensive_cultivation_t','market_laws','crystal_farm_t','steel_mills_t','mana_maker_t','underground_rooms','explore_sorrounding','dark_land','light_square','dark_crystal','rocketry','probes','satellite','the_signal','decrypt_signal','nuclear_power','activate_signal','research_annhilator','create_annhilator','barbarian_tribes','moonlight_night','dragon_assault','kobold_nation','mysterious_robbery','fallen_angel','huge_cave_t','orcish_threat','orc_horde','mindless_evil'],
+  armyTargets: { scout: 200, heavy_warrior: 1600 },
   stages: [
     { id: 'far_west_island',    reqFoundTech: 'seafaring',           requiredArmy: { heavy_warrior: 1600 } },
     { id: 'orcish_prison_camp', reqFoundTech: 'burned_farms',        requiredArmy: { heavy_warrior: 1600 } },
@@ -47375,10 +47403,7 @@ const smartBuildGoals = {
 smartBuildGoals.fastNgPlus = { ...smartBuildGoals.moonlightNight };
 smartBuildGoals.annihilator = {
   dangerousResearchOverrides: [],
-  targetTechs: [
-    'activate_signal', 'research_annhilator', 'create_annhilator', 'launch_annhilator',
-    ...annihilatorRoute.stages.flatMap(stage => stage.reqFoundTech ? [stage.reqFoundTech] : [])
-  ],
+  targetTechs: annihilatorRoute.targetTechs,
   resourceFocus: ['research', 'mana', 'crystal', 'steel', 'natronite', 'lumix'],
   buildingFocus: []
 };
@@ -47407,7 +47432,7 @@ const smartBuildRoutes = {
   }
 };
 smartBuildRoutes.fastNgPlus = { ...smartBuildRoutes.moonlightNight, label: 'Speed NG+' };
-smartBuildRoutes.annihilator = { label: 'Annihilator', buildingTargets: [], supportTargets: [] };
+smartBuildRoutes.annihilator = { label: 'Annihilator', buildingTargets: annihilatorRoute.buildingTargets, supportTargets: [] };
   const smartBuildPlanner = (() => {
 const getOptions = () => ({
   ...smartBuildDefaults,
@@ -47493,7 +47518,23 @@ const hasIndexedOrRunItem = (id, prefixes = []) => {
   });
 };
 const isTechCompleted = techId => {
-  return hasIndexedOrRunItem(techId, ['tec_']);
+  const gameData = reactUtil.getGameData && reactUtil.getGameData();
+  if (!gameData) return false;
+  const techIndex = gameData.idxs && gameData.idxs.techs ? gameData.idxs.techs[techId] : undefined;
+  const indexedTech = typeof techIndex !== 'undefined' && gameData.run && Array.isArray(gameData.run.techs)
+    ? gameData.run.techs[techIndex]
+    : null;
+  if (indexedTech && typeof indexedTech === 'object') return Number(indexedTech.value) > 0;
+  const techs = gameData.run && gameData.run.techs;
+  if (Array.isArray(techs)) {
+    const entry = techs.find(item => item && (item.id === techId || item.key === techId || item.tech === techId));
+    return !!entry && Number(entry.value) > 0;
+  }
+  if (techs && typeof techs === 'object') {
+    const entry = techs[techId] || techs[`tec_${techId}`];
+    return typeof entry === 'object' ? Number(entry.value) > 0 : Number(entry) > 0;
+  }
+  return false;
 };
 const isBuildingUnlocked = building => {
   if (!building.req) return true;
@@ -47535,14 +47576,17 @@ const getCurrentAnnihilatorStages = () => {
 };
 const getAnnihilatorUnitTargets = configuredUnitsObject => {
   const currentStages = getCurrentAnnihilatorStages();
-  if (!currentStages.length) return configuredUnitsObject;
+  const configuredTargets = Object.fromEntries(Object.entries(annihilatorRoute.armyTargets || {}).flatMap(([unitId, qty]) => [
+    [unitId, qty], [`prio_${unitId}`, 4]
+  ]));
+  if (!currentStages.length) return configuredTargets;
   const overrides = {};
   currentStages.forEach(stage => {
     Object.entries(stage.requiredArmy || {}).forEach(([unitId, qty]) => {
       overrides[unitId] = Math.max(overrides[unitId] || 0, qty);
     });
   });
-  const targets = { ...configuredUnitsObject };
+  const targets = { ...configuredTargets };
   Object.entries(overrides).forEach(([unitId, qty]) => {
     targets[unitId] = qty;
     targets[`prio_${unitId}`] = 9;
@@ -47749,7 +47793,11 @@ const computeShortestPath = (options, resourceMap) => {
       if (isUnlockCompleted(req.type, req.id)) return;
       if (req.type === 'tech') {
         const techNode = resolveTech(req.id, { key: 'prerequisiteFor', targetId: ownerId });
-        maxPrereqLayer = Math.max(maxPrereqLayer, techNode.layer);
+        if (techNode) {
+          maxPrereqLayer = Math.max(maxPrereqLayer, techNode.layer);
+        } else {
+          blocked = blocked || { type: 'structural', reqType: req.type, reqId: req.id };
+        }
         return;
       }
       blocked = blocked || { type: 'structural', reqType: req.type, reqId: req.id };
@@ -51204,6 +51252,7 @@ const GOAL_AUTOMATION_PRESETS = {
     ancestor: 'ancestor_farmer',
     path: 'humans',
     ngplus: false,
+    strategy: 'military',
     difficulty: 'difficulty_0'
   }
 };
@@ -51246,9 +51295,11 @@ const applyGoalAutomationPreset = goalId => {
     state.options.ngplus.enabled = !!preset.ngplus;
     if (preset.ngplus) state.options.ngplus.value = preset.ngplus;
   }
+  if (preset.strategy) state.options.smartBuild.strategy = preset.strategy;
   if (preset.difficulty) {
     state.options.difficulty = { enabled: true, selected: preset.difficulty };
   }
+  if (preset.strategy) syncAutomationOptionDom('smartBuild', 'strategy', preset.strategy);
   localStorage.set('options', state.options);
 
   syncAutomationOptionDom('ancestor', 'enabled', true);
