@@ -60,6 +60,43 @@ const syncPageOptionDom = (page, subpage, key, subkey, value) => {
   }
 };
 
+const applyAnnihilatorBuildPreset = () => {
+  const buildPageId = CONSTANTS.PAGES.BUILD;
+  const buildPage = state.options.pages && state.options.pages[buildPageId];
+  if (!buildPage || !buildPage.subpages) return;
+  const buildSubpages = [CONSTANTS.SUBPAGES.CITY, CONSTANTS.SUBPAGES.COLONY, CONSTANTS.SUBPAGES.ABYSS];
+  const routeEntries = Object.fromEntries(annihilatorRoute.buildingTargets.map(entry => [entry.id, entry]));
+
+  buildPage.enabled = true;
+  syncPageOptionDom(buildPageId, null, 'enabled', null, true);
+  buildSubpages.forEach(subpageId => {
+    const subpage = buildPage.subpages[subpageId];
+    if (!subpage) return;
+    subpage.enabled = true;
+    subpage.options = subpage.options || {};
+    syncPageOptionDom(buildPageId, subpageId, 'enabled', null, true);
+
+    const tab = CONSTANTS.SUBPAGES_INDEX[subpageId] + 1;
+    buildings.filter(building => building.tab === tab).forEach(building => {
+      const routeEntry = routeEntries[building.id];
+      const requestedTarget = routeEntry ? Number(routeEntry.target) : 0;
+      const buildingCap = Number(building.cap);
+      const target = requestedTarget === -1
+        ? -1
+        : Math.min(
+          Math.max(0, Number.isFinite(requestedTarget) ? requestedTarget : 0),
+          Number.isFinite(buildingCap) && buildingCap > 0 ? buildingCap : 999
+        );
+      const priority = routeEntry ? Math.max(1, Math.min(10, Number(routeEntry.priority) || 6)) : 0;
+
+      subpage.options[building.id] = target;
+      subpage.options[`prio_${building.id}`] = priority;
+      syncPageOptionDom(buildPageId, subpageId, 'options', building.id, target);
+      syncPageOptionDom(buildPageId, subpageId, 'options', `prio_${building.id}`, priority);
+    });
+  });
+};
+
 const applyAnnihilatorArmyPreset = () => {
   const armyPageId = CONSTANTS.PAGES.ARMY;
   const armyPage = state.options.pages && state.options.pages[armyPageId];
@@ -102,7 +139,10 @@ const applyGoalAutomationPreset = goalId => {
   if (preset.difficulty) {
     state.options.difficulty = { enabled: true, selected: preset.difficulty };
   }
-  if (goalId === 'annihilator') applyAnnihilatorArmyPreset();
+  if (goalId === 'annihilator') {
+    applyAnnihilatorBuildPreset();
+    applyAnnihilatorArmyPreset();
+  }
   if (preset.strategy) syncAutomationOptionDom('smartBuild', 'strategy', preset.strategy);
   localStorage.set('options', state.options);
 

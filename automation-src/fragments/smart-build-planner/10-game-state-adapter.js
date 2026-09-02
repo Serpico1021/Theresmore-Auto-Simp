@@ -2,11 +2,44 @@ const getOptions = () => ({
   ...smartBuildDefaults,
   ...(state.options.smartBuild || {})
 });
-const getRunResourceSnapshot = id => {
+const normalizeRunCollection = collection => {
+  if (!collection) return [];
+  if (typeof collection === 'object' && typeof collection.length === 'number' && Number.isFinite(collection.length)) {
+    return Array.from({ length: Math.max(0, collection.length) }, (_, index) => collection[index])
+      .filter(item => typeof item !== 'undefined');
+  }
+  if (typeof collection.values === 'function') {
+    try {
+      return Array.from(collection.values());
+    } catch (error) {}
+  }
+  return typeof collection === 'object' ? Object.values(collection) : [];
+};
+const getRunCollection = groupName => {
   const gameData = reactUtil.getGameData && reactUtil.getGameData();
-  const runResources = gameData && gameData.run && Array.isArray(gameData.run.resources) ? gameData.run.resources : [];
-  const entry = runResources.find(resource => resource && resource.id === id);
-  const current = entry ? Number(entry.value) : NaN;
+  return normalizeRunCollection(gameData && gameData.run ? gameData.run[groupName] : null);
+};
+const getRunCollectionEntry = (groupName, id, prefixes = []) => {
+  const gameData = reactUtil.getGameData && reactUtil.getGameData();
+  if (!gameData || !gameData.run) return null;
+  const keys = [id, ...prefixes.map(prefix => `${prefix}${id}`)];
+  const collection = gameData.run[groupName];
+  const indexMap = gameData.idxs && gameData.idxs[groupName];
+  const index = indexMap && keys.map(key => indexMap[key]).find(value => typeof value !== 'undefined');
+  if (collection && typeof index !== 'undefined' && typeof collection[index] !== 'undefined') return collection[index];
+  if (collection && typeof collection === 'object') {
+    const directKey = keys.find(key => typeof collection[key] !== 'undefined');
+    if (directKey) return collection[directKey];
+  }
+  return getRunCollection(groupName).find(entry => {
+    if (keys.includes(entry)) return true;
+    if (!entry || typeof entry !== 'object') return false;
+    return keys.includes(entry.id || entry.key || entry.tech || entry.name || entry.job);
+  }) || null;
+};
+const getRunResourceSnapshot = id => {
+  const entry = getRunCollectionEntry('resources', id);
+  const current = entry && typeof entry === 'object' ? Number(entry.value ?? entry.current) : Number(entry);
   if (!Number.isFinite(current)) return null;
   return { name: id, current, max: current, speed: 0, ttf: null, ttz: null };
 };
@@ -51,21 +84,7 @@ const getFirstHouseMaterialBlockReason = () => {
   };
 };
 const getAssignedJobCount = jobId => {
-  const gameData = reactUtil.getGameData && reactUtil.getGameData();
-  if (!gameData) return 0;
-  const rawPopulation = gameData.run && gameData.run.population;
-  const population = Array.isArray(rawPopulation)
-    ? rawPopulation
-    : rawPopulation && typeof rawPopulation === 'object'
-      ? Object.values(rawPopulation)
-      : [];
-  const normalizeJobId = value => String(value || '').replace(/^(population_|pop_)/, '');
-  const matchesJob = item => item && normalizeJobId(item.id || item.key || item.job) === jobId;
-  const populationIndex = gameData.idxs && gameData.idxs.population ? gameData.idxs.population : {};
-  const indexKeys = [jobId, `population_${jobId}`, `pop_${jobId}`];
-  const index = indexKeys.map(key => populationIndex[key]).find(value => Number.isInteger(Number(value)));
-  const indexedEntry = typeof index !== 'undefined' ? population[Number(index)] : null;
-  const entry = matchesJob(indexedEntry) ? indexedEntry : population.find(matchesJob);
+  const entry = getRunCollectionEntry('population', jobId, ['population_', 'pop_']);
   const numeric = entry ? Number(entry.value ?? entry.current ?? entry.count) : 0;
   return Number.isFinite(numeric) && numeric > 0 ? numeric : 0;
 };
@@ -84,31 +103,18 @@ const hasIndexedOrRunItem = (id, prefixes = []) => {
   if (idxGroups.some(group => keys.some(key => typeof group[key] !== 'undefined'))) return true;
   const runGroups = gameData.run ? Object.keys(gameData.run).map(key => gameData.run[key]).filter(Boolean) : [];
   return runGroups.some(group => {
-    if (Array.isArray(group)) {
-      return group.some(item => keys.includes(item) || item && keys.includes(item.id || item.key || item.tech || item.name) && item.value !== 0);
-    }
+    const items = normalizeRunCollection(group);
+    if (items.some(item => keys.includes(item) || item && keys.includes(item.id || item.key || item.tech || item.name) && item.value !== 0)) return true;
     if (typeof group === 'object') return keys.some(key => !!group[key]);
     return false;
   });
 };
 const isTechCompleted = techId => {
-  const gameData = reactUtil.getGameData && reactUtil.getGameData();
-  if (!gameData) return false;
-  const techIndex = gameData.idxs && gameData.idxs.techs ? gameData.idxs.techs[techId] : undefined;
-  const indexedTech = typeof techIndex !== 'undefined' && gameData.run && Array.isArray(gameData.run.techs)
-    ? gameData.run.techs[techIndex]
-    : null;
-  if (indexedTech && typeof indexedTech === 'object') return Number(indexedTech.value) > 0;
-  const techs = gameData.run && gameData.run.techs;
-  if (Array.isArray(techs)) {
-    const entry = techs.find(item => item && (item.id === techId || item.key === techId || item.tech === techId));
-    return !!entry && Number(entry.value) > 0;
-  }
-  if (techs && typeof techs === 'object') {
-    const entry = techs[techId] || techs[`tec_${techId}`];
-    return typeof entry === 'object' ? Number(entry.value) > 0 : Number(entry) > 0;
-  }
-  return false;
+  const entry = getRunCollectionEntry('techs', techId, ['tec_']);
+  if (!entry) return false;
+  return typeof entry === 'object'
+    ? Number(entry.value ?? entry.current ?? entry.owned) > 0
+    : Number(entry) > 0;
 };
 const isBuildingUnlocked = building => {
   if (!building.req) return true;
