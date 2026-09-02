@@ -7,7 +7,7 @@
 // @match       https://theresmoregame.g8hh.com.cn/
 // @license     MIT
 // @run-at      document-idle
-// @version     1.0.0.13
+// @version     1.0.0.14
 // @homepage    https://github.com/Theresmore-Automation/Theresmore-Automation
 // @author      Theresmore Automation team
 // @grant       none
@@ -53,7 +53,7 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WIT
 
 */
 
-const taVersion = "1.0.0.13";
+const taVersion = "1.0.0.14";
 
 
 (function () {
@@ -47357,6 +47357,27 @@ const annihilatorRoute = {
   ],
   targetTechs: ['beacon_faith','launch_annhilator','exhibit_flame','loot_storehouse','persuade_nobility','trading_woods','fine_lucky_wood','throwing_coin','dirty_money','fountain_gold','lucky_idea','eureka','master_history','lucky_investments','lucky_little_city','illgotten_gains','prepare_tunnel','tunnel_hq','stocked_tunnel','martial_arts','fate_blessing','avatar_fate','raider_teaching','pillaging_training','mercenary_pockets','housing','monument_past','heirloom_housing','heirloom_horseshoes_t','heirloom_momento_t','heirloom_contract_t','heirloom_wisdom_t','heirloom_death_t','heirloom_wealth_t','agricolture','stone_masonry','wood_cutting','crop_rotation','grain_surplus','pottery','woodcarvers','wood_saw','stone_extraction_tools','stone_processing','archery','mining','house_of_workers','architecture_titan_t','mining_efficency','storage','local_products','writing','bronze_working','bronze_sword','ancient_balor_t','magic','ancient_spell','zenix_familiar_t','mythology','breeding','fortification','remember_the_ancients','servitude','mathematic','municipal_administration','warfare','currency','religion','cloistered_life','regional_markets','fortune_sanctuary','enclosures','fine_marbles','fine_woods','iron_working','iron_sword','holy_fury','seraphim_t','end_ancient_era','plenty_valley','feudalism','architecture','education','embassy_nation','liturgical_rites','necromancy','food_conservation','metal_casting','establish_boundaries','herald_canava','daylong_celebration','banking','steeling','steel_sword','guild','craftsmen_guild','master_craftsmen','professional_soldier','knighthood','fairs_and_markets','library_of_souls','end_feudal_era','underground_library','scientific_theory','chemistry','printing_press','gunpowder','the_scourge','the_vault','northern_star','flame_atamar','trail_power','economics','ministry_interior_t','ministry_war_t','ministry_worship_t','order_of_clerics','magic_arts_teaching','mana_utilization','agreement_passage_wanders','scout_mission_east','mana_engine','long_expedition','shores_theresmore','mechanization','research_district','adamantium_sword','harbor_project','financial_markets','ecology','communion_nature','lonely_druid','miracle_city','preparation_war','joyful_nation_1','joyful_nation_2','end_era_4_1','end_era_4_2','seafaring','outpost_tiny_island','the_journey','overseas_refinery','centralized_power','colonial_trade','colonial_exploitations','artisan_complex','alchemist_complex_t','new_world_exploration','mithril_sword','assembly_line','replicable_parts','burned_farms','orcish_citadel','mankind_darkest','war_effort','honor_humanity','swear_give_up','the_triumph','elf_decadence','ancient_artifact','cavern_artifact','black_artifact','the_portal_t','survey_abyss','lumix_t','effort_abyss','overlook_darkness','delimiting_perimeter','arcane_study','extensive_cultivation_t','market_laws','crystal_farm_t','steel_mills_t','mana_maker_t','underground_rooms','explore_sorrounding','dark_land','light_square','dark_crystal','rocketry','probes','satellite','the_signal','decrypt_signal','nuclear_power','activate_signal','research_annhilator','create_annhilator','barbarian_tribes','moonlight_night','dragon_assault','kobold_nation','mysterious_robbery','fallen_angel','huge_cave_t','orcish_threat','orc_horde','mindless_evil'],
   armyTargets: { scout: 200, heavy_warrior: 1600 },
+  prayerTargets: Object.fromEntries([
+    'accept_druid','control_fortress','desire_magic','focus_magic','gold_factory_f','incremental_power',
+    'zenix_funder','zenix_master','praise_gods','blessing','lucky_grove_f','sacrifices_gods',
+    'acolyte_circle','prayer_for_the_great_seeker','prayer_for_mother_earth','prayer_wild_man',
+    'lucky_well_f','mana_defense','prayer_for_the_old_small_one','prayer_for_the_ancient_monk',
+    'prayer_for_the_great_warrior','prayer_goddess_luck','sacred_equipments','spear_wild_man',
+    'strange_lamp','study_undead_creatures','unveil_theresmore','ancient_spell_p','sacred_place',
+    'growth_nature','lighten_rocks','magical_tools','magical_lights','life_magic_p','highlightment_p',
+    'mana_flowers_p','demonology','demoniac_tome','temple_mirune','create_sacred_golem','eureka_halls_f',
+    'mana_defense_II','prayer_for_the_great_builder','prayer_for_the_mysterious_arcane',
+    'sacred_equipments_II','mage_p','mana_armor_p','the_aid','sacred_den_f','mage_academy_f','mage_fields_f',
+    'zenix_aid','dragon_skull','holy_light','power_spell_east','power_spell_west','power_spell_north',
+    'power_spell_south','gold_consecration','mother_earth_2','great_seeker_2','great_warrior_2',
+    'legion_light_p','old_small_one_2','wild_man_2','amusement_quarter_f','northern_star_power',
+    'archmage_p','armored_caravan_p','army_faith','highschool_magic_f','magic_workshop_f','mana_forest_p',
+    'philosopher_stone_p','spell_book_p','prayer_lonely_druid','city_blessing','underground_tunnel_f',
+    'pilgrim_chant','ivory_tower_f','magic_stable_f','mana_fortress_p','mana_materials_p','mana_spiral_p',
+    'steel_palace_f','tome_wisdom_p','warrior_gods','blessing_church','shape_mana','blessing_prelate',
+    'hope_children','fate_shrine_f','enchanted_bullet','enhanced_barracks_f','lumix_refinery_f',
+    'power_spell_fireball','lumix_fountain','gold_trasmutation'
+  ].map(id => [id, 4])),
   stages: [
     { id: 'far_west_island',    reqFoundTech: 'seafaring',           requiredArmy: { heavy_warrior: 1600 } },
     { id: 'orcish_prison_camp', reqFoundTech: 'burned_farms',        requiredArmy: { heavy_warrior: 1600 } },
@@ -48015,13 +48036,18 @@ const getAttackTargets = configuredAttackOptions => {
   if (!options.enabled || options.manualOverrides || options.goal !== 'annihilator') return null;
   return getAnnihilatorAttackWhitelist(configuredAttackOptions);
 };
+const getPrayerTargets = () => {
+  const options = getOptions();
+  if (!options.enabled || options.prayerEnabled === false || options.manualOverrides || options.goal !== 'annihilator') return null;
+  return { ...annihilatorRoute.prayerTargets };
+};
 return {
   getTargets,
   getResearchTargets,
   getUnitTargets,
   getExploreTargets,
   getAttackTargets,
-  getPrayerTargets: () => null,
+  getPrayerTargets,
   isDangerousResearchOverridden,
   shouldGateDangerousResearch,
   getPathSnapshot,

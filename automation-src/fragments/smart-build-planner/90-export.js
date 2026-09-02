@@ -13,13 +13,18 @@ const getAttackTargets = configuredAttackOptions => {
   if (!options.enabled || options.manualOverrides || options.goal !== 'annihilator') return null;
   return getAnnihilatorAttackWhitelist(configuredAttackOptions);
 };
+const getPrayerTargets = () => {
+  const options = getOptions();
+  if (!options.enabled || options.prayerEnabled === false || options.manualOverrides || options.goal !== 'annihilator') return null;
+  return { ...annihilatorRoute.prayerTargets };
+};
 return {
   getTargets,
   getResearchTargets,
   getUnitTargets,
   getExploreTargets,
   getAttackTargets,
-  getPrayerTargets: () => null,
+  getPrayerTargets,
   isDangerousResearchOverridden,
   shouldGateDangerousResearch,
   getPathSnapshot,
