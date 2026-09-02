@@ -12,7 +12,8 @@ const smartBuildDefaults = {
   maxWaitSeconds: 180,
   forcedTargets: {}
 };
-const smartBuildResources = ['food', 'wood', 'stone', 'gold', 'research', 'tools', 'copper', 'iron', 'cow', 'horse', 'mana', 'building_material', 'faith', 'supplies', 'crystal', 'steel', 'saltpetre', 'natronite', 'lumix'];
+const smartBuildStaticResources = ['light'];
+const smartBuildResources = ['food', 'wood', 'stone', 'gold', 'research', 'tools', 'copper', 'iron', 'cow', 'horse', 'mana', 'building_material', 'faith', 'supplies', 'crystal', 'steel', 'saltpetre', 'natronite', 'lumix', ...smartBuildStaticResources];
 const smartBuildGoals = {
   moonlightNight: {
     dangerousResearchOverrides: ['moonlight_night'],

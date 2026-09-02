@@ -5,7 +5,7 @@ const applyForcedTargets = (targets, forcedTargets, allowedTab) => {
     if (!building || building.tab !== allowedTab) return;
     const value = Number(forcedTargets[id]);
     if (!Number.isFinite(value)) return;
-    targets[id] = value;
+    targets[id] = clampBuildingTarget(building, value);
     targets[`prio_${id}`] = Math.max(targets[`prio_${id}`] || 0, 9);
   });
   return targets;

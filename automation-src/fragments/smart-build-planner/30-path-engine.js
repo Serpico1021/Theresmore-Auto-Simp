@@ -48,6 +48,12 @@ const computeShortestPath = (options, resourceMap) => {
       const res = resourceMap[req.id];
       const cost = getResourceCost(req, count);
       if (!cost) return;
+      if (smartBuildStaticResources.includes(req.id)) {
+        if (!res || Number(res.current) < cost) {
+          blocked = blocked || { type: 'resource-current', resourceId: req.id, required: cost };
+        }
+        return;
+      }
       if (!res || res.max < cost) {
         blocked = blocked || { type: 'resource-cap', resourceId: req.id };
         return;
@@ -102,7 +108,7 @@ const computeShortestPath = (options, resourceMap) => {
     const building = buildings.find(candidate => candidate.id === buildingId);
     if (!building) return null;
     const node = getOrCreateNode('building', buildingId);
-    node.targetValue = Math.max(node.targetValue, targetValue);
+    node.targetValue = Math.max(node.targetValue, clampBuildingTarget(building, targetValue));
     addNodeReason(node, reason);
     if (visiting[node.key]) return node;
     if (node.status !== 'pending' && node.targetValue <= (node.resolvedTargetValue || 0)) return node;

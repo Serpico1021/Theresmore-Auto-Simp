@@ -2,10 +2,20 @@ const getOptions = () => ({
   ...smartBuildDefaults,
   ...(state.options.smartBuild || {})
 });
+const getRunResourceSnapshot = id => {
+  const gameData = reactUtil.getGameData && reactUtil.getGameData();
+  const runResources = gameData && gameData.run && Array.isArray(gameData.run.resources) ? gameData.run.resources : [];
+  const entry = runResources.find(resource => resource && resource.id === id);
+  const current = entry ? Number(entry.value) : NaN;
+  if (!Number.isFinite(current)) return null;
+  return { name: id, current, max: current, speed: 0, ttf: null, ttz: null };
+};
 const getResourceMap = () => {
   const map = {};
   smartBuildResources.forEach(id => {
-    const value = resources.get(id);
+    const value = smartBuildStaticResources.includes(id)
+      ? getRunResourceSnapshot(id) || resources.get(id)
+      : resources.get(id);
     if (value) map[id] = value;
   });
   return map;

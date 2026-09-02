@@ -7,6 +7,11 @@ const getRouteTargets = route => {
   if (!route) return [];
   return [...(route.buildingTargets || []), ...(route.supportTargets || [])];
 };
+const clampBuildingTarget = (building, value) => {
+  const target = Math.max(0, Number(value) || 0);
+  const cap = Number(building && building.cap);
+  return Number.isFinite(cap) && cap > 0 ? Math.min(target, cap) : target;
+};
 const expandPrerequisiteTargets = (seedEntries, reasonLabel = { key: 'target' }) => {
   if (!seedEntries || !seedEntries.length) return [];
   const byId = {};
@@ -18,9 +23,10 @@ const expandPrerequisiteTargets = (seedEntries, reasonLabel = { key: 'target' })
     const priority = Math.max(entry.priority || 0, inheritedPriority || 0, 1);
     const configuredTarget = Number(entry.target);
     const buildingCap = Number(building.cap);
-    const target = configuredTarget === -1
+    const requestedTarget = configuredTarget === -1
       ? (Number.isFinite(buildingCap) && buildingCap > 0 ? buildingCap : 999)
       : Math.max(1, configuredTarget || 1);
+    const target = clampBuildingTarget(building, requestedTarget);
     if (!byId[entry.id] || byId[entry.id].target < target || byId[entry.id].priority < priority) {
       byId[entry.id] = {
         id: entry.id,

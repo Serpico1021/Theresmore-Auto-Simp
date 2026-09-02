@@ -7,7 +7,7 @@
 // @match       https://theresmoregame.g8hh.com.cn/
 // @license     MIT
 // @run-at      document-idle
-// @version     1.0.0.16
+// @version     1.0.0.17
 // @homepage    https://github.com/Theresmore-Automation/Theresmore-Automation
 // @author      Theresmore Automation team
 // @grant       none
@@ -53,7 +53,7 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WIT
 
 */
 
-const taVersion = "1.0.0.16";
+const taVersion = "1.0.0.17";
 
 
 (function () {
@@ -47432,7 +47432,8 @@ const smartBuildDefaults = {
   maxWaitSeconds: 180,
   forcedTargets: {}
 };
-const smartBuildResources = ['food', 'wood', 'stone', 'gold', 'research', 'tools', 'copper', 'iron', 'cow', 'horse', 'mana', 'building_material', 'faith', 'supplies', 'crystal', 'steel', 'saltpetre', 'natronite', 'lumix'];
+const smartBuildStaticResources = ['light'];
+const smartBuildResources = ['food', 'wood', 'stone', 'gold', 'research', 'tools', 'copper', 'iron', 'cow', 'horse', 'mana', 'building_material', 'faith', 'supplies', 'crystal', 'steel', 'saltpetre', 'natronite', 'lumix', ...smartBuildStaticResources];
 const smartBuildGoals = {
   moonlightNight: {
     dangerousResearchOverrides: ['moonlight_night'],
@@ -47479,10 +47480,20 @@ const getOptions = () => ({
   ...smartBuildDefaults,
   ...(state.options.smartBuild || {})
 });
+const getRunResourceSnapshot = id => {
+  const gameData = reactUtil.getGameData && reactUtil.getGameData();
+  const runResources = gameData && gameData.run && Array.isArray(gameData.run.resources) ? gameData.run.resources : [];
+  const entry = runResources.find(resource => resource && resource.id === id);
+  const current = entry ? Number(entry.value) : NaN;
+  if (!Number.isFinite(current)) return null;
+  return { name: id, current, max: current, speed: 0, ttf: null, ttz: null };
+};
 const getResourceMap = () => {
   const map = {};
   smartBuildResources.forEach(id => {
-    const value = resources.get(id);
+    const value = smartBuildStaticResources.includes(id)
+      ? getRunResourceSnapshot(id) || resources.get(id)
+      : resources.get(id);
     if (value) map[id] = value;
   });
   return map;
@@ -47690,6 +47701,11 @@ const getRouteTargets = route => {
   if (!route) return [];
   return [...(route.buildingTargets || []), ...(route.supportTargets || [])];
 };
+const clampBuildingTarget = (building, value) => {
+  const target = Math.max(0, Number(value) || 0);
+  const cap = Number(building && building.cap);
+  return Number.isFinite(cap) && cap > 0 ? Math.min(target, cap) : target;
+};
 const expandPrerequisiteTargets = (seedEntries, reasonLabel = { key: 'target' }) => {
   if (!seedEntries || !seedEntries.length) return [];
   const byId = {};
@@ -47701,9 +47717,10 @@ const expandPrerequisiteTargets = (seedEntries, reasonLabel = { key: 'target' })
     const priority = Math.max(entry.priority || 0, inheritedPriority || 0, 1);
     const configuredTarget = Number(entry.target);
     const buildingCap = Number(building.cap);
-    const target = configuredTarget === -1
+    const requestedTarget = configuredTarget === -1
       ? (Number.isFinite(buildingCap) && buildingCap > 0 ? buildingCap : 999)
       : Math.max(1, configuredTarget || 1);
+    const target = clampBuildingTarget(building, requestedTarget);
     if (!byId[entry.id] || byId[entry.id].target < target || byId[entry.id].priority < priority) {
       byId[entry.id] = {
         id: entry.id,
@@ -47805,6 +47822,12 @@ const computeShortestPath = (options, resourceMap) => {
       const res = resourceMap[req.id];
       const cost = getResourceCost(req, count);
       if (!cost) return;
+      if (smartBuildStaticResources.includes(req.id)) {
+        if (!res || Number(res.current) < cost) {
+          blocked = blocked || { type: 'resource-current', resourceId: req.id, required: cost };
+        }
+        return;
+      }
       if (!res || res.max < cost) {
         blocked = blocked || { type: 'resource-cap', resourceId: req.id };
         return;
@@ -47859,7 +47882,7 @@ const computeShortestPath = (options, resourceMap) => {
     const building = buildings.find(candidate => candidate.id === buildingId);
     if (!building) return null;
     const node = getOrCreateNode('building', buildingId);
-    node.targetValue = Math.max(node.targetValue, targetValue);
+    node.targetValue = Math.max(node.targetValue, clampBuildingTarget(building, targetValue));
     addNodeReason(node, reason);
     if (visiting[node.key]) return node;
     if (node.status !== 'pending' && node.targetValue <= (node.resolvedTargetValue || 0)) return node;
@@ -47948,7 +47971,7 @@ const getPath = (options, resourceMap) => {
     if (!building || building.tab !== allowedTab) return;
     const value = Number(forcedTargets[id]);
     if (!Number.isFinite(value)) return;
-    targets[id] = value;
+    targets[id] = clampBuildingTarget(building, value);
     targets[`prio_${id}`] = Math.max(targets[`prio_${id}`] || 0, 9);
   });
   return targets;
