@@ -47635,8 +47635,11 @@ const taVersion = "1.0.0.10";
             return;
           }
           if (confirmed.some(item => item.wasPopulationSensitive)) {
-            await adjustPopulation();
-            return;
+            const nextHasPopulationSensitive = buttons.filter(shouldBuildButton).some(candidate => isPopulationSensitiveBuilding(candidate.building));
+            if (!nextHasPopulationSensitive) {
+              await adjustPopulation();
+              return;
+            }
           }
         }
       }

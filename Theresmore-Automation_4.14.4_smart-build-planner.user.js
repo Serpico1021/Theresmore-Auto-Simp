@@ -48504,8 +48504,11 @@ const smartPopulationPlanner = (() => {
             return;
           }
           if (confirmed.some(item => item.wasPopulationSensitive)) {
-            await adjustPopulation();
-            return;
+            const nextHasPopulationSensitive = buttons.filter(shouldBuildButton).some(candidate => isPopulationSensitiveBuilding(candidate.building));
+            if (!nextHasPopulationSensitive) {
+              await adjustPopulation();
+              return;
+            }
           }
         }
       }
