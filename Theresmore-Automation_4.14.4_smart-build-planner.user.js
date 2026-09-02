@@ -48411,24 +48411,29 @@ const smartPopulationPlanner = (() => {
           }
         };
         const waitForBuildingCountIncreaseBatch = async clickedItems => {
-          const timeoutMs = 2000;
           const pollIntervalMs = 100;
-          const startedAt = Date.now();
-          const pending = new Map(clickedItems.map(item => [item.buildingKey, item.previousCount]));
+          const maxPolls = 20;
+          const reclickEveryPolls = 5;
+          const pending = new Map(clickedItems.map(item => [item.buildingKey, { previousCount: item.previousCount, reclick: item.reclick }]));
           const succeeded = new Set();
           const checkPending = () => {
-            for (const [key, previousCount] of pending) {
-              if (getCurrentBuildingCount(key) > previousCount) {
+            for (const [key, info] of pending) {
+              if (getCurrentBuildingCount(key) > info.previousCount) {
                 succeeded.add(key);
                 pending.delete(key);
               }
             }
           };
-          while (!state.scriptPaused && pending.size && Date.now() - startedAt < timeoutMs) {
+          for (let poll = 0; !state.scriptPaused && pending.size && poll < maxPolls; poll++) {
             if (!navigation.checkPage(CONSTANTS.PAGES.BUILD)) break;
             checkPending();
             if (!pending.size) break;
-            await sleep(pollIntervalMs);
+            if (poll > 0 && poll % reclickEveryPolls === 0) {
+              for (const info of pending.values()) {
+                if (info.reclick) info.reclick();
+              }
+            }
+            await sleep(pollIntervalMs, true);
           }
           checkPending();
           return succeeded;
@@ -48466,28 +48471,38 @@ const smartPopulationPlanner = (() => {
             seenKeys.add(key);
             return true;
           });
-          if (!batchCandidates.length) break;
+          if (!batchCandidates.length) {
+            break;
+          }
+          const performClick = (buildingKey, element) => {
+            if (state.options.turbo.enabled && state.MainStore) {
+              state.MainStore.BuildingsStore.addBuilding(buildingKey);
+              return true;
+            }
+            if (element.classList.contains('btn-off') || element.disabled) return false;
+            element.click();
+            return true;
+          };
           const clicked = [];
           for (const button of batchCandidates) {
             const buildingKey = button.building.key;
             const previousCount = getButtonCount(button);
-            const buttonWasUnavailable = button.element.classList.contains('btn-off') || button.element.disabled;
-            if (buttonWasUnavailable) continue;
-            if (state.options.turbo.enabled && state.MainStore) {
-              state.MainStore.BuildingsStore.addBuilding(buildingKey);
-            } else {
-              button.element.click();
-            }
+            if (!performClick(buildingKey, button.element)) continue;
             logger({ msgLevel: 'log', msg: `Building ${button.building.id}` });
             clicked.push({
               buildingKey,
               previousCount,
-              wasPopulationSensitive: isPopulationSensitiveBuilding(button.building)
+              wasPopulationSensitive: isPopulationSensitiveBuilding(button.building),
+              reclick: () => performClick(buildingKey, button.element)
             });
           }
-          if (!clicked.length) break;
+          if (!clicked.length) {
+            break;
+          }
           const succeededKeys = await waitForBuildingCountIncreaseBatch(clicked);
-          if (!succeededKeys.size) return;
+          if (!succeededKeys.size) {
+            return;
+          }
           buttons = getAllButtons();
           const confirmed = clicked.filter(item => {
             if (!succeededKeys.has(item.buildingKey)) return false;
@@ -48495,7 +48510,9 @@ const smartPopulationPlanner = (() => {
             const currentCount = updatedButton ? getButtonCount(updatedButton) : getCurrentBuildingCount(item.buildingKey);
             return currentCount > item.previousCount;
           });
-          if (!confirmed.length) return;
+          if (!confirmed.length) {
+            return;
+          }
           if (wasFirstHouseRound && confirmed.some(item => item.buildingKey === 'common_house')) {
             const agricultureCompleted = await completeFirstAgricultureResearch();
             if (agricultureCompleted) {
