@@ -44,6 +44,46 @@ const syncAutomationOptionDom = (setting, key, value) => {
   }
 };
 
+const syncPageOptionDom = (page, subpage, key, subkey, value) => {
+  const selector = [
+    `.option[data-page="${page}"]`,
+    subpage ? `[data-subpage="${subpage}"]` : ':not([data-subpage])',
+    `[data-key="${key}"]`,
+    subkey ? `[data-subkey="${subkey}"]` : ':not([data-subkey])'
+  ].join('');
+  const el = document.querySelector(selector);
+  if (!el) return;
+  if (el.type === 'checkbox') {
+    el.checked = !!value;
+  } else {
+    el.value = value;
+  }
+};
+
+const applyAnnihilatorArmyPreset = () => {
+  const armyPageId = CONSTANTS.PAGES.ARMY;
+  const armyPage = state.options.pages && state.options.pages[armyPageId];
+  if (!armyPage || !armyPage.subpages) return;
+  const enabledSubpages = [CONSTANTS.SUBPAGES.ARMY, CONSTANTS.SUBPAGES.EXPLORE, CONSTANTS.SUBPAGES.ATTACK];
+
+  armyPage.enabled = true;
+  syncPageOptionDom(armyPageId, null, 'enabled', null, true);
+  enabledSubpages.forEach(subpageId => {
+    const subpage = armyPage.subpages[subpageId];
+    if (!subpage) return;
+    subpage.enabled = true;
+    syncPageOptionDom(armyPageId, subpageId, 'enabled', null, true);
+  });
+
+  const attackSubpage = armyPage.subpages[CONSTANTS.SUBPAGES.ATTACK];
+  if (!attackSubpage) return;
+  attackSubpage.options = attackSubpage.options || {};
+  [...annihilatorRoute.stages, ...annihilatorRoute.optionalStages].forEach(stage => {
+    attackSubpage.options[stage.id] = true;
+    syncPageOptionDom(armyPageId, CONSTANTS.SUBPAGES.ATTACK, 'options', stage.id, true);
+  });
+};
+
 const applyGoalAutomationPreset = goalId => {
   const preset = GOAL_AUTOMATION_PRESETS[goalId];
   if (!preset) return;
@@ -62,6 +102,7 @@ const applyGoalAutomationPreset = goalId => {
   if (preset.difficulty) {
     state.options.difficulty = { enabled: true, selected: preset.difficulty };
   }
+  if (goalId === 'annihilator') applyAnnihilatorArmyPreset();
   if (preset.strategy) syncAutomationOptionDom('smartBuild', 'strategy', preset.strategy);
   localStorage.set('options', state.options);
 

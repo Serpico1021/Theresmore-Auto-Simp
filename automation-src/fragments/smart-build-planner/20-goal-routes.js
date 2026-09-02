@@ -16,7 +16,11 @@ const expandPrerequisiteTargets = (seedEntries, reasonLabel = { key: 'target' })
     const building = buildings.find(candidate => candidate.id === entry.id);
     if (!building) return;
     const priority = Math.max(entry.priority || 0, inheritedPriority || 0, 1);
-    const target = Math.max(1, Number(entry.target) || 1);
+    const configuredTarget = Number(entry.target);
+    const buildingCap = Number(building.cap);
+    const target = configuredTarget === -1
+      ? (Number.isFinite(buildingCap) && buildingCap > 0 ? buildingCap : 999)
+      : Math.max(1, configuredTarget || 1);
     if (!byId[entry.id] || byId[entry.id].target < target || byId[entry.id].priority < priority) {
       byId[entry.id] = {
         id: entry.id,

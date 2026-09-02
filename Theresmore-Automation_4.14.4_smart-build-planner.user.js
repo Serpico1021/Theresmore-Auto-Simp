@@ -7,7 +7,7 @@
 // @match       https://theresmoregame.g8hh.com.cn/
 // @license     MIT
 // @run-at      document-idle
-// @version     1.0.0.14
+// @version     1.0.0.16
 // @homepage    https://github.com/Theresmore-Automation/Theresmore-Automation
 // @author      Theresmore Automation team
 // @grant       none
@@ -53,7 +53,7 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WIT
 
 */
 
-const taVersion = "1.0.0.14";
+const taVersion = "1.0.0.16";
 
 
 (function () {
@@ -47353,7 +47353,27 @@ const annihilatorRoute = {
     { id: 'crystal_farm_b', target: 1 }, { id: 'refinery', target: 5 }, { id: 'sanctum_healing', target: 1 },
     { id: 'healing_chambers', target: 8 }, { id: 'regenerative_gardens', target: 8 }, { id: 'pilgrim_camp', target: 5 },
     { id: 'church_old_gods', target: 5 }, { id: 'launch_silos', target: 1 }, { id: 'beacon_light', target: 5 },
-    { id: 'light_square_b', target: 5 }, { id: 'lumix_refinery', target: 3 }
+    { id: 'light_square_b', target: 5 }, { id: 'lumix_refinery', target: 3 },
+    { id: 'statue_firio', target: -1 }, { id: 'library_souls', target: -1 },
+    { id: 'books', target: -1 }, { id: 'souls', target: -1 },
+    { id: 'valley_of_plenty', target: -1 }, { id: 'tax_revenue_checkpoints', target: -1 },
+    { id: 'the_vaults', target: -1 }, { id: 'boot_camp', target: -1 },
+    { id: 'recruit_training_center', target: -1 }, { id: 'soulstealer_citadel', target: -1 },
+    { id: 'mind_shrine', target: -1 }, { id: 'reactivate_portal_decryption', target: -1 },
+    { id: 'fountain_prosperity', target: -1 }, { id: 'city_center', target: -1 },
+    { id: 'city_center_unit', target: -1 }, { id: 'great_fair', target: -1 },
+    { id: 'cathedral', target: -1 }, { id: 'academy_of_freethinkers', target: -1 },
+    { id: 'academy_of_freethinkers_part', target: -1 }, { id: 'great_bombard', target: -1 },
+    { id: 'refugee_district', target: -1 }, { id: 'refugee_district_part', target: -1 },
+    { id: 'stock_exchange', target: -1 }, { id: 'stock_exchange_part', target: -1 },
+    { id: 'tower_mana', target: -1 }, { id: 'tower_mana_part', target: -1 },
+    { id: 'mana_pit', target: -1 }, { id: 'mana_pit_part', target: -1 },
+    { id: 'hall_heroic_deeds', target: -1 }, { id: 'harbor_district', target: -1 },
+    { id: 'harbor_district_part', target: -1 }, { id: 'city_lights', target: -1 },
+    { id: 'steel_palace_b', target: -1 }, { id: 'ivory_tower_b', target: -1 },
+    { id: 'automated_complex', target: -1 }, { id: 'arch_triumph', target: -1 },
+    { id: 'containment_cell', target: -1 }, { id: 'signal_machine', target: -1 },
+    { id: 'signal_machine_part', target: -1 }
   ],
   targetTechs: ['beacon_faith','launch_annhilator','exhibit_flame','loot_storehouse','persuade_nobility','trading_woods','fine_lucky_wood','throwing_coin','dirty_money','fountain_gold','lucky_idea','eureka','master_history','lucky_investments','lucky_little_city','illgotten_gains','prepare_tunnel','tunnel_hq','stocked_tunnel','martial_arts','fate_blessing','avatar_fate','raider_teaching','pillaging_training','mercenary_pockets','housing','monument_past','heirloom_housing','heirloom_horseshoes_t','heirloom_momento_t','heirloom_contract_t','heirloom_wisdom_t','heirloom_death_t','heirloom_wealth_t','agricolture','stone_masonry','wood_cutting','crop_rotation','grain_surplus','pottery','woodcarvers','wood_saw','stone_extraction_tools','stone_processing','archery','mining','house_of_workers','architecture_titan_t','mining_efficency','storage','local_products','writing','bronze_working','bronze_sword','ancient_balor_t','magic','ancient_spell','zenix_familiar_t','mythology','breeding','fortification','remember_the_ancients','servitude','mathematic','municipal_administration','warfare','currency','religion','cloistered_life','regional_markets','fortune_sanctuary','enclosures','fine_marbles','fine_woods','iron_working','iron_sword','holy_fury','seraphim_t','end_ancient_era','plenty_valley','feudalism','architecture','education','embassy_nation','liturgical_rites','necromancy','food_conservation','metal_casting','establish_boundaries','herald_canava','daylong_celebration','banking','steeling','steel_sword','guild','craftsmen_guild','master_craftsmen','professional_soldier','knighthood','fairs_and_markets','library_of_souls','end_feudal_era','underground_library','scientific_theory','chemistry','printing_press','gunpowder','the_scourge','the_vault','northern_star','flame_atamar','trail_power','economics','ministry_interior_t','ministry_war_t','ministry_worship_t','order_of_clerics','magic_arts_teaching','mana_utilization','agreement_passage_wanders','scout_mission_east','mana_engine','long_expedition','shores_theresmore','mechanization','research_district','adamantium_sword','harbor_project','financial_markets','ecology','communion_nature','lonely_druid','miracle_city','preparation_war','joyful_nation_1','joyful_nation_2','end_era_4_1','end_era_4_2','seafaring','outpost_tiny_island','the_journey','overseas_refinery','centralized_power','colonial_trade','colonial_exploitations','artisan_complex','alchemist_complex_t','new_world_exploration','mithril_sword','assembly_line','replicable_parts','burned_farms','orcish_citadel','mankind_darkest','war_effort','honor_humanity','swear_give_up','the_triumph','elf_decadence','ancient_artifact','cavern_artifact','black_artifact','the_portal_t','survey_abyss','lumix_t','effort_abyss','overlook_darkness','delimiting_perimeter','arcane_study','extensive_cultivation_t','market_laws','crystal_farm_t','steel_mills_t','mana_maker_t','underground_rooms','explore_sorrounding','dark_land','light_square','dark_crystal','rocketry','probes','satellite','the_signal','decrypt_signal','nuclear_power','activate_signal','research_annhilator','create_annhilator','barbarian_tribes','moonlight_night','dragon_assault','kobold_nation','mysterious_robbery','fallen_angel','huge_cave_t','orcish_threat','orc_horde','mindless_evil'],
   armyTargets: { scout: 200, heavy_warrior: 1600 },
@@ -47583,7 +47603,13 @@ const getCurrentStageIndex = () => {
   const unlockedAges = buildings.filter(building => building.age !== 100 && hasStageGate(building) && isBuildingUnlocked(building)).map(building => building.age).filter(age => Number.isFinite(age));
   return unlockedAges.length ? Math.max(...unlockedAges) : 1;
 };
-const isAnnihilatorStageDefeated = stage => isUnlockCompleted('enemy', stage.id);
+const isAnnihilatorStageDefeated = stage => {
+  const gameData = reactUtil.getGameData && reactUtil.getGameData();
+  const enemies = gameData && gameData.run && gameData.run.enemies;
+  if (!Array.isArray(enemies)) return false;
+  const enemy = enemies.find(entry => entry && entry.id === stage.id);
+  return !!enemy && Number(enemy.owned) === 1;
+};
 const isAnnihilatorStageFound = stage => !stage.reqFoundTech || isTechCompleted(stage.reqFoundTech);
 const getRecruitedUnitCount = unitId => getUnitCount({ id: unitId });
  const ANNIHILATOR_EXPLORE_MINIMUM = 200;
@@ -47673,7 +47699,11 @@ const expandPrerequisiteTargets = (seedEntries, reasonLabel = { key: 'target' })
     const building = buildings.find(candidate => candidate.id === entry.id);
     if (!building) return;
     const priority = Math.max(entry.priority || 0, inheritedPriority || 0, 1);
-    const target = Math.max(1, Number(entry.target) || 1);
+    const configuredTarget = Number(entry.target);
+    const buildingCap = Number(building.cap);
+    const target = configuredTarget === -1
+      ? (Number.isFinite(buildingCap) && buildingCap > 0 ? buildingCap : 999)
+      : Math.max(1, configuredTarget || 1);
     if (!byId[entry.id] || byId[entry.id].target < target || byId[entry.id].priority < priority) {
       byId[entry.id] = {
         id: entry.id,
@@ -51307,6 +51337,46 @@ const syncAutomationOptionDom = (setting, key, value) => {
   }
 };
 
+const syncPageOptionDom = (page, subpage, key, subkey, value) => {
+  const selector = [
+    `.option[data-page="${page}"]`,
+    subpage ? `[data-subpage="${subpage}"]` : ':not([data-subpage])',
+    `[data-key="${key}"]`,
+    subkey ? `[data-subkey="${subkey}"]` : ':not([data-subkey])'
+  ].join('');
+  const el = document.querySelector(selector);
+  if (!el) return;
+  if (el.type === 'checkbox') {
+    el.checked = !!value;
+  } else {
+    el.value = value;
+  }
+};
+
+const applyAnnihilatorArmyPreset = () => {
+  const armyPageId = CONSTANTS.PAGES.ARMY;
+  const armyPage = state.options.pages && state.options.pages[armyPageId];
+  if (!armyPage || !armyPage.subpages) return;
+  const enabledSubpages = [CONSTANTS.SUBPAGES.ARMY, CONSTANTS.SUBPAGES.EXPLORE, CONSTANTS.SUBPAGES.ATTACK];
+
+  armyPage.enabled = true;
+  syncPageOptionDom(armyPageId, null, 'enabled', null, true);
+  enabledSubpages.forEach(subpageId => {
+    const subpage = armyPage.subpages[subpageId];
+    if (!subpage) return;
+    subpage.enabled = true;
+    syncPageOptionDom(armyPageId, subpageId, 'enabled', null, true);
+  });
+
+  const attackSubpage = armyPage.subpages[CONSTANTS.SUBPAGES.ATTACK];
+  if (!attackSubpage) return;
+  attackSubpage.options = attackSubpage.options || {};
+  [...annihilatorRoute.stages, ...annihilatorRoute.optionalStages].forEach(stage => {
+    attackSubpage.options[stage.id] = true;
+    syncPageOptionDom(armyPageId, CONSTANTS.SUBPAGES.ATTACK, 'options', stage.id, true);
+  });
+};
+
 const applyGoalAutomationPreset = goalId => {
   const preset = GOAL_AUTOMATION_PRESETS[goalId];
   if (!preset) return;
@@ -51325,6 +51395,7 @@ const applyGoalAutomationPreset = goalId => {
   if (preset.difficulty) {
     state.options.difficulty = { enabled: true, selected: preset.difficulty };
   }
+  if (goalId === 'annihilator') applyAnnihilatorArmyPreset();
   if (preset.strategy) syncAutomationOptionDom('smartBuild', 'strategy', preset.strategy);
   localStorage.set('options', state.options);
 
