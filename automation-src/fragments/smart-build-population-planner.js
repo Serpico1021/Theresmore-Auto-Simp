@@ -107,6 +107,13 @@ const smartPopulationPlanner = (() => {
       addJobProjection(projectedSpeeds, farmer, count);
       remaining -= count;
     }
+    const breeder = findJob('breeder');
+    if (breeder && remaining > 0 && Number(breeder.current) < 1) {
+      const count = take(Math.min(1, capacity(breeder)));
+      addAllocation(allocations, breeder, count, allocatedCounts);
+      addJobProjection(projectedSpeeds, breeder, count);
+      remaining -= count;
+    }
     const minimums = getRouteMinimums(goal);
     for (const id of getRouteJobs(goal)) {
       if (remaining <= 0) break;
@@ -142,20 +149,26 @@ const smartPopulationPlanner = (() => {
       cursor = (balanceJobs.indexOf(balancedJob.key || balancedJob.id) + 1) % balanceJobs.length;
     }
     const routeIds = getRouteJobs(goal);
-    const sorted = candidates.filter(job => capacity(job) > 0 && !routeIds.includes(job.key || job.id) && canApplyJob(job, projectedSpeeds)).sort((a, b) => {
-      const aKey = a.key || a.id;
-      const bKey = b.key || b.id;
-      return (priorityMap[bKey] || 0) - (priorityMap[aKey] || 0) || Number(a.current) - Number(b.current);
-    });
-    sorted.forEach(job => {
-      if (remaining <= 0) return;
-      const count = take(Math.min(capacity(job), remaining));
+    while (remaining > 0) {
+      const fallbackPriorityMap = createPriorityMap(goal, jobs, projectedSpeeds);
+      const fallbackCandidates = candidates.filter(job => capacity(job) > 0 && !routeIds.includes(job.key || job.id) && canApplyJob(job, projectedSpeeds)).sort((a, b) => {
+        const aKey = a.key || a.id;
+        const bKey = b.key || b.id;
+        return (fallbackPriorityMap[bKey] || 0) - (fallbackPriorityMap[aKey] || 0) || Number(a.current) - Number(b.current);
+      });
+      const job = fallbackCandidates[0];
+      if (!job) break;
+      const deficitDriven = getResourceDeficit(projectedSpeeds).some(deficit => getJobProduction(job, deficit.id) > 0);
+      const count = deficitDriven
+        ? take(Math.min(capacity(job), getSafetyAllocationCount(job, projectedSpeeds)))
+        : take(Math.min(capacity(job), remaining));
+      if (!count) break;
       addAllocation(allocations, job, count, allocatedCounts);
       addJobProjection(projectedSpeeds, job, count);
       remaining -= count;
-    });
+    }
     const hasRoute = allocations.some(item => routeIds.includes(item.key || item.id));
-    const hasSafety = allocations.some(item => !routeIds.includes(item.key || item.id) && !['farmer', ...balanceJobs].includes(item.key || item.id));
+    const hasSafety = allocations.some(item => !routeIds.includes(item.key || item.id) && !['farmer', 'breeder', ...balanceJobs].includes(item.key || item.id));
     const last = allocations[allocations.length - 1];
     const lastIndex = last ? balanceJobs.indexOf(last.key || last.id) : -1;
     return {

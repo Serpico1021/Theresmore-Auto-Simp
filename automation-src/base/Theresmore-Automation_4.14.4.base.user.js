@@ -47541,16 +47541,28 @@ const taVersion = "1.0.0.10";
             await executeAction$4();
           }
         };
-        const waitForBuildingCountIncrease = async (buildingKey, previousCount) => {
+        const waitForBuildingCountIncreaseBatch = async clickedItems => {
           const timeoutMs = 2000;
           const pollIntervalMs = 100;
           const startedAt = Date.now();
-          while (!state.scriptPaused && Date.now() - startedAt < timeoutMs) {
-            if (!navigation.checkPage(CONSTANTS.PAGES.BUILD)) return false;
-            if (getCurrentBuildingCount(buildingKey) > previousCount) return true;
+          const pending = new Map(clickedItems.map(item => [item.buildingKey, item.previousCount]));
+          const succeeded = new Set();
+          const checkPending = () => {
+            for (const [key, previousCount] of pending) {
+              if (getCurrentBuildingCount(key) > previousCount) {
+                succeeded.add(key);
+                pending.delete(key);
+              }
+            }
+          };
+          while (!state.scriptPaused && pending.size && Date.now() - startedAt < timeoutMs) {
+            if (!navigation.checkPage(CONSTANTS.PAGES.BUILD)) break;
+            checkPending();
+            if (!pending.size) break;
             await sleep(pollIntervalMs);
           }
-          return getCurrentBuildingCount(buildingKey) > previousCount;
+          checkPending();
+          return succeeded;
         };
         const completeFirstAgricultureResearch = async () => {
           if (isTechCompleted('agricolture')) return true;
@@ -47577,48 +47589,55 @@ const taVersion = "1.0.0.10";
           return isTechCompleted('agricolture');
         };
         while (!state.scriptPaused && buttons.length) {
-          const button = buttons.find(shouldBuildButton);
-          if (!button) break;
-          const wasPopulationSensitive = isPopulationSensitiveBuilding(button.building);
-          const buildingKey = button.building.key;
-          const previousCount = getButtonCount(button);
-          const buttonWasUnavailable = button.element.classList.contains('btn-off') || button.element.disabled;
-          if (buttonWasUnavailable) {
-            if (wasPopulationSensitive) await adjustPopulation();
-            return;
+          const wasFirstHouseRound = firstHouse;
+          const seenKeys = new Set();
+          const batchCandidates = buttons.filter(shouldBuildButton).filter(button => {
+            const key = button.building.key;
+            if (seenKeys.has(key)) return false;
+            seenKeys.add(key);
+            return true;
+          });
+          if (!batchCandidates.length) break;
+          const clicked = [];
+          for (const button of batchCandidates) {
+            const buildingKey = button.building.key;
+            const previousCount = getButtonCount(button);
+            const buttonWasUnavailable = button.element.classList.contains('btn-off') || button.element.disabled;
+            if (buttonWasUnavailable) continue;
+            if (state.options.turbo.enabled && state.MainStore) {
+              state.MainStore.BuildingsStore.addBuilding(buildingKey);
+            } else {
+              button.element.click();
+            }
+            logger({ msgLevel: 'log', msg: `Building ${button.building.id}` });
+            clicked.push({
+              buildingKey,
+              previousCount,
+              wasPopulationSensitive: isPopulationSensitiveBuilding(button.building)
+            });
           }
-          if (state.options.turbo.enabled && state.MainStore) {
-            state.MainStore.BuildingsStore.addBuilding(buildingKey);
-          } else {
-            button.element.click();
-          }
-          logger({ msgLevel: 'log', msg: `Building ${button.building.id}` });
-          const buildSucceeded = await waitForBuildingCountIncrease(buildingKey, previousCount);
-          if (!buildSucceeded) {
-            if (wasPopulationSensitive) await adjustPopulation();
-            return;
-          }
+          if (!clicked.length) break;
+          const succeededKeys = await waitForBuildingCountIncreaseBatch(clicked);
+          if (!succeededKeys.size) return;
           buttons = getAllButtons();
-          const updatedButton = buttons.find(candidate => candidate.building.key === buildingKey);
-          const currentCount = updatedButton ? getButtonCount(updatedButton) : getCurrentBuildingCount(buildingKey);
-          if (!(currentCount > previousCount)) {
-            if (wasPopulationSensitive) await adjustPopulation();
-            return;
-          }
-          if (buildingKey === 'common_house' && firstHouse) {
+          const confirmed = clicked.filter(item => {
+            if (!succeededKeys.has(item.buildingKey)) return false;
+            const updatedButton = buttons.find(candidate => candidate.building.key === item.buildingKey);
+            const currentCount = updatedButton ? getButtonCount(updatedButton) : getCurrentBuildingCount(item.buildingKey);
+            return currentCount > item.previousCount;
+          });
+          if (!confirmed.length) return;
+          if (wasFirstHouseRound && confirmed.some(item => item.buildingKey === 'common_house')) {
             const agricultureCompleted = await completeFirstAgricultureResearch();
             if (agricultureCompleted) {
               await navigation.switchSubPage(subpage, CONSTANTS.PAGES.BUILD);
             }
             return;
           }
-          if (!wasPopulationSensitive) continue;
-          const nextButton = buttons[0];
-          if (!nextButton || !isPopulationSensitiveBuilding(nextButton.building) || !shouldBuildButton(nextButton)) {
+          if (confirmed.some(item => item.wasPopulationSensitive)) {
             await adjustPopulation();
             return;
           }
-          await sleep(1400);
         }
       }
       const buildingsList = getBuildingsList();
