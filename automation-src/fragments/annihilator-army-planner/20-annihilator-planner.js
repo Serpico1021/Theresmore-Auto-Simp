@@ -7,7 +7,25 @@ const getCurrentAnnihilatorStages = () => {
   if (!front.parallelGroup) return [front];
   return annihilatorRoute.stages.filter(stage => stage.parallelGroup === front.parallelGroup && !isAnnihilatorStageDefeated(stage));
 };
+const isMoonlightNightResearchPending = () => {
+  const path = getPath(getOptions(), getResourceMap());
+  const node = path.nodesById['tech:moonlight_night'];
+  return !!node && node.status === 'queued' && !isTechCompleted('moonlight_night');
+};
+const canWinMoonlightNightBattle = () => {
+  try {
+    const calculator = typeof armyCalculator !== 'undefined' ? armyCalculator : null;
+    if (!calculator || typeof calculator.canWinBattle !== 'function') return false;
+    const result = calculator.canWinBattle('army_of_goblin', true, false, state.options.autoSortArmy.enabled);
+    return result === true;
+  } catch (error) {
+    return false;
+  }
+};
 const getAnnihilatorUnitTargets = configuredUnitsObject => {
+  if (!isTechCompleted('moonlight_night')) {
+    if (!isMoonlightNightResearchPending() || canWinMoonlightNightBattle()) return {};
+  }
   const currentStages = getCurrentAnnihilatorStages();
   const configuredTargets = Object.fromEntries(Object.entries(annihilatorRoute.armyTargets || {}).flatMap(([unitId, qty]) => [
     [unitId, qty], [`prio_${unitId}`, 4]
