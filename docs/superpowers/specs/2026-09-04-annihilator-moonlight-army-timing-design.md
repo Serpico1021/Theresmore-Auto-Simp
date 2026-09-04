@@ -47,7 +47,7 @@
 
 ## 版本与构建
 
-这是用户可见的行为变更，基础模板中的 `@version` 与 `taVersion` 从 `1.0.0.8` 递增到 `1.0.0.9`。修改 fragment 后必须运行 `automation-src/build.ps1`，并使用 `node --check` 校验生成 userscript。
+这是用户可见的行为变更，当前基础模板中的 `@version` 与 `taVersion` 为 `1.0.0.19`，本次递增到 `1.0.0.20`。修改 fragment 后必须运行 `automation-src/build.ps1`，并使用 `node --check` 校验生成 userscript。
 
 ## 验证标准
 
