@@ -1,0 +1,5536 @@
+{
+  "exportedAt": "2026-09-02T16:53:34.754Z",
+  "goal": "annihilator",
+  "nodes": [
+    {
+      "kind": "tech",
+      "id": "beacon_faith",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "dark_land",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "enemy",
+        "reqId": "dark_village"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "light_square"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "flame_atamar",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "diplomacy_owned",
+        "reqId": "zultan_emirate"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "exhibit_flame"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "kobu_dominion_storehouse",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "enemy",
+        "reqId": "immense_door_e"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "loot_storehouse"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "trail_power",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "diplomacy_owned",
+        "reqId": "western_kingdom"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "persuade_nobility"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "lucky_grove_b",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "resource-cap",
+        "resourceId": "luck"
+      },
+      "current": 0,
+      "target": 15,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "trading_woods"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "fine_lucky_wood"
+        },
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "lucky_well_b",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "resource-cap",
+        "resourceId": "luck"
+      },
+      "current": 0,
+      "target": 15,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "throwing_coin"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "dirty_money"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "fountain_gold"
+        },
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "eureka_halls_b",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "resource-cap",
+        "resourceId": "luck"
+      },
+      "current": 0,
+      "target": 15,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "lucky_idea"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "eureka"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "master_history"
+        },
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "amusement_quarter_b",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "resource-cap",
+        "resourceId": "luck"
+      },
+      "current": 0,
+      "target": 15,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "lucky_investments"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "lucky_little_city"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "illgotten_gains"
+        },
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "underground_tunnel_b",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "resource-cap",
+        "resourceId": "luck"
+      },
+      "current": 0,
+      "target": 15,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "prepare_tunnel"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "tunnel_hq"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "stocked_tunnel"
+        },
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "fate_shrine_b",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "resource-cap",
+        "resourceId": "luck"
+      },
+      "current": 0,
+      "target": 15,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "martial_arts"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "fate_blessing"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "avatar_fate"
+        },
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "housing",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "monument_past"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "agricolture"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "stone_masonry"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "wood_cutting"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "heirloom_housing",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "heirloom_horseshoes_t",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "heirloom_horseshoes"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "heirloom_momento_t",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "heirloom_momento"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "heirloom_contract_t",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "heirloom_contract"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "heirloom_wisdom_t",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "heirloom_wisdom"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "heirloom_death_t",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "heirloom_death"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "heirloom_wealth_t",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "heirloom_wealth"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "crop_rotation",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "grain_surplus"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "woodcarvers",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "wood_saw"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "stone_extraction_tools",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "stone_processing"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mining",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "house_of_workers"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "architecture_titan_t"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "bronze_working"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mining_efficency",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "local_products",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "municipal_administration",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "fortune_sanctuary",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "enclosures",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "fine_marbles",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "fine_woods",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "plenty_valley",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "cap",
+        "reqId": "food"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "feudalism",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "architecture"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "education"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "metal_casting"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "embassy_nation",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "diplomacy_alliance",
+        "reqId": "theresmore_wanders"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "necromancy",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "enemy",
+        "reqId": "necromancer_crypt"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "moonlight_night",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "daylong_celebration"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "end_feudal_era"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "master_craftsmen",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "library_of_souls",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "books"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "souls"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "underground_library",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "scientific_theory",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "chemistry"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "printing_press"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "the_vault",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "northern_star",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "diplomacy_owned",
+        "reqId": "nightdale_protectorate"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "dragon_assault",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mana_utilization"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "agreement_passage_wanders",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "diplomacy_alliance",
+        "reqId": "theresmore_wanders"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "scout_mission_east",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "diplomacy_owned",
+        "reqId": "theresmore_wanders"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mana_engine",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "long_expedition"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mechanization"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "miracle_city",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mysterious_robbery"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "preparation_war",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "prayer",
+        "reqId": "city_blessing"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "fallen_angel"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "seafaring",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "tech",
+        "reqId": "end_4"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "centralized_power"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "new_world_exploration"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "outpost_tiny_island",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "enemy",
+        "reqId": "far_west_island"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "the_journey",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "productive_hub",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "overseas_refinery"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "colonial_trade"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "refinery"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "colonial_exploitations",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "artisan_complex"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "assembly_line",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "replicable_parts"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "burned_farms",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "orcish_citadel",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mankind_darkest",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "war_effort"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "honor_humanity",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "swear_give_up",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "orc_horde",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "the_triumph"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "ancient_artifact",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "cavern_artifact",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "black_artifact",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "the_portal_t",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "survey_abyss",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "overlook_darkness"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "lumix_t",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "effort_abyss",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "extensive_cultivation_t"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "market_laws"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "dark_crystal",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "diplomacy_owned",
+        "reqId": "lich_fortress"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "barbarian_tribes",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "enemy",
+        "reqId": "barbarian_village"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "kobold_nation",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "enemy",
+        "reqId": "kobold_city"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "huge_cave_t",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "orcish_threat",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "enemy",
+        "reqId": "orcish_prison_camp"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "common_house",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 15,
+      "target": 15,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "house_workers",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 10,
+      "target": 10,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "monument",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "city_hall",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 3,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "mansion",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 3,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "residential_block",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 3,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "ministry_interior",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 3,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "gan_eden",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 3,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "farm",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 15,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "granary",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "lumberjack_camp",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 15,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "sawmill",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "quarry",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 15,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "stonemason",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "mine",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 15,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "titan_work_area",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 8,
+      "target": 8,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "stable",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "undead_herd",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 15,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "carpenter_workshop",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 3,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "grocery",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 3,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "steelworks",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 3,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "guild_of_craftsmen",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "alchemic_laboratory",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 3,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "natronite_refinery",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 3,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "school",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "library_of_theresmore",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "university",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 3,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "island_outpost",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "artisan_workshop",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 15,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "marketplace",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "canava_trading",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "bank",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 8,
+      "target": 8,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "credit_union",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "barracks",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "watchman_outpost",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 4,
+      "target": 4,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "temple",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "altar_of_sacrifices",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "magic_circle",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 13,
+      "target": 13,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "monastery",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 10,
+      "target": 10,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "fortune_grove",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 10,
+      "target": 10,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "mana_fields_b",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "pillars_of_mana",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "matter_transmuter",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 10,
+      "target": 10,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "ministry_worship",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "conclave",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 3,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "reactivate_portal",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "portal_of_the_dead",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "reactivate_portal_decryption"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "spiritual_garden",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "colony_hall",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 12,
+      "target": 12,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "lumix_plant",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "steel_mills_b",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "crystal_farm_b",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "sanctum_healing",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "pilgrim_camp",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "church_old_gods",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "beacon_light",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "lumix_refinery",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "prayer",
+        "reqId": "lumix_refinery_f"
+      },
+      "current": 0,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "statue_firio",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "library_souls",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "valley_of_plenty",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "safe_roads",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "enemy",
+        "reqId": "bandit_camp"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "tax_revenue_checkpoints"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "the_vaults",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 3,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "boot_camp",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 8,
+      "target": 8,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "recruit_training_center",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "soulstealer_citadel",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 5,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "mind_shrine",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "fountain_prosperity",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 4,
+      "target": 4,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "city_center",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "great_fair",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "cathedral",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "academy_of_freethinkers",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "great_bombard",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "large_defensive_project",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "great_bombard_part"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "refugee_district",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "refugee_district_part",
+      "layer": 0,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 8,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "refugee_district"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "stock_exchange",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "commercial_monopolies",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "cap",
+        "reqId": "gold"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "stock_exchange_part"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "tower_mana_part",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "enemy",
+        "reqId": "east_sacred_place"
+      },
+      "current": 0,
+      "target": 4,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "tower_mana"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "mana_pit",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "monster_epuration",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "enemy",
+        "reqId": "hydra_pit"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "hall_heroic_deeds_part"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "harbor_district",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "city_lights",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "steel_palace_b_part",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "prayer",
+        "reqId": "steel_palace_f"
+      },
+      "current": 0,
+      "target": 10,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "steel_palace_b"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "ivory_tower_b_part",
+      "layer": 0,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "prayer",
+        "reqId": "ivory_tower_f"
+      },
+      "current": 0,
+      "target": 10,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "ivory_tower_b"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "automated_complex",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "arch_triumph",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 1,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "containment_cell",
+      "layer": 0,
+      "status": "met",
+      "blockReason": null,
+      "current": 3,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "light_square",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "light_square_b"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "exhibit_flame",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "loot_storehouse",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "persuade_nobility",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "trading_woods",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "fine_lucky_wood",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "throwing_coin",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "dirty_money",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "fountain_gold",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "lucky_idea",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "eureka",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "master_history",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "archeological_dig"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "lucky_investments",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "lucky_little_city",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "illgotten_gains",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "prepare_tunnel",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "tunnel_hq",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "stocked_tunnel",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "martial_arts",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "fate_blessing",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "avatar_fate",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "monument_past",
+      "layer": 1,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "monument_1"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "agricolture",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "storage"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "stone_masonry",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "pottery"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "wood_cutting",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "archery"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "grain_surplus",
+      "layer": 1,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "grain_storage"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "wood_saw",
+      "layer": 1,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "woodworking"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "stone_processing",
+      "layer": 1,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "stonemason_l"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "house_of_workers",
+      "layer": 1,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "stat",
+        "reqId": "ng_reset"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "architecture_titan_t",
+      "layer": 1,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "architecture_titan"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "bronze_working",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "bronze_sword"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "ancient_balor_t"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "fortification"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "servitude"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "iron_working"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "architecture",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "establish_boundaries"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "education",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "liturgical_rites"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "food_conservation"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "banking"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "guild"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "metal_casting",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "steeling"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "machines_of_gods"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "daylong_celebration",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "chemistry",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "gunpowder"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "printing_press",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "economics"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "order_of_clerics"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "long_expedition",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "shores_theresmore"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mechanization",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "research_district"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mysterious_robbery",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "joyful_nation_1"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "fallen_angel",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "joyful_nation_2"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "overseas_refinery",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "refinery"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "centralized_power",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "colonial_trade",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "artisan_complex",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "alchemist_complex_t"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "new_world_exploration",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mithril_sword"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "replicable_parts",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "automated_complex_part"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "war_effort",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "the_triumph",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "elf_decadence"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "arch_triumph_part"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "overlook_darkness",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "delimiting_perimeter"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "extensive_cultivation_t",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "crystal_farm_t"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "market_laws",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "steel_mills_t"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "reactivate_portal_decryption",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "reactivate_portal"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "books",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 8,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "library_souls"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "souls",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 8,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "library_souls"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "tax_revenue_checkpoints",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 4,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "great_bombard_part",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 6,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "great_bombard"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "stock_exchange_part",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "stock_exchange"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "tower_mana",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "hall_heroic_deeds_part",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 4,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "hall_heroic_deeds"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "steel_palace_b",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "ivory_tower_b",
+      "layer": 1,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "light_square_b",
+      "layer": 2,
+      "status": "blocked",
+      "blockReason": {
+        "type": "resource-current",
+        "resourceId": "light",
+        "required": 1
+      },
+      "current": 0,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "rocketry"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mercenary_abyss"
+        },
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "pottery",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "writing"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "archery",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "storage",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "breeding"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "bronze_sword",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "ancient_balor_t",
+      "layer": 2,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "ancient_balor_l"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "fortification",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "servitude",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "hall_of_the_dead"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "iron_working",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "warfare"
+        },
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "iron_sword"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "holy_fury"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "end_ancient_era"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "liturgical_rites",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "food_conservation",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "establish_boundaries",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "herald_canava"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "banking",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "fairs_and_markets"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "steeling",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "steel_sword"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "plate_armor"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "knighthood"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "guild",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "craftsmen_guild"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "fairs_and_markets"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "religious_orders"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "gunpowder",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "the_scourge"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "economics",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "ministry_interior_t"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "ministry_war_t"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "ministry_worship_t"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "order_of_clerics",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "magic_arts_teaching"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "shores_theresmore",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "harbor_project"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "research_district",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "adamantium_sword"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "financial_markets"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "ecology"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "joyful_nation_1",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "end_era_4_1"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "joyful_nation_2",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "end_era_4_2"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "alchemist_complex_t",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mithril_sword",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "elf_decadence",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "healing_chambers"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "regenerative_gardens"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "delimiting_perimeter",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "arcane_study"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "crystal_farm_t",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mana_maker_t"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "steel_mills_t",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "machines_of_gods",
+      "layer": 2,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "machines_gods"
+      },
+      "current": 0,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "archeological_dig",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "refinery",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "hall_heroic_deeds",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "automated_complex_part",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 12,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "automated_complex"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "arch_triumph_part",
+      "layer": 2,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 25,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "arch_triumph"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "rocketry",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "probes"
+        },
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "launch_silos"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mercenary_abyss",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mercenary_camp"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "writing",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "religion"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mythology"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mathematic"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "hall_of_wisdom"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "breeding",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "warfare",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "iron_sword",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "holy_fury",
+      "layer": 3,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "angel"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "seraphim_t"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "herald_canava",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "steel_sword",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "craftsmen_guild",
+      "layer": 3,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "guild_craftsmen"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "plate_armor",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "professional_soldier"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "knighthood",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "end_feudal_era"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "fairs_and_markets",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "end_feudal_era"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "great_fair_unit"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "the_scourge",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "ministry_interior_t",
+      "layer": 3,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "ministry_interior_l"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "ministry_war_t",
+      "layer": 3,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "ministry_war_l"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "ministry_worship_t",
+      "layer": 3,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "ministry_worship_l"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "magic_arts_teaching",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mana_utilization"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "adamantium_sword",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "harbor_project",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "harbor_district_part"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "financial_markets",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "natrocity"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "ecology",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "communion_nature"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "end_era_4_1",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "end_era_4_2",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "arcane_study",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "underground_rooms"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mana_maker_t",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "hall_of_the_dead",
+      "layer": 3,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "hall_dead"
+      },
+      "current": 0,
+      "target": 3,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "healing_chambers",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 8,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "sanctum_healing"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "regenerative_gardens",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 8,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "sanctum_healing"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "religious_orders",
+      "layer": 3,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "cathedral_unit"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "probes",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "satellite"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "mercenary_camp",
+      "layer": 4,
+      "status": "blocked",
+      "blockReason": {
+        "type": "resource-cap",
+        "resourceId": "luck"
+      },
+      "current": 0,
+      "target": 15,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "raider_teaching"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "pillaging_training"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mercenary_pockets"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "religion",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "magic"
+        },
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "end_ancient_era"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mythology",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "remember_the_ancients"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mathematic",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "currency"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "seraphim_t",
+      "layer": 4,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "seraphim_l"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "professional_soldier",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "end_feudal_era",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "academy_of_freethinkers_part"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mana_utilization",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mana_pit_part"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "communion_nature",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "lonely_druid"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "underground_rooms",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "explore_sorrounding"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "hall_of_wisdom",
+      "layer": 4,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "hall_wisdom"
+      },
+      "current": 0,
+      "target": 5,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "launch_silos",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "great_fair_unit",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 8,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "great_fair"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "cathedral_unit",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 8,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "cathedral"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "harbor_district_part",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 8,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "harbor_district"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "natrocity",
+      "layer": 4,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "city_lights_part"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "satellite",
+      "layer": 5,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "the_signal"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "raider_teaching",
+      "layer": 5,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "pillaging_training",
+      "layer": 5,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mercenary_pockets",
+      "layer": 5,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "magic",
+      "layer": 5,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "ancient_spell"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "zenix_familiar_t"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "cloistered_life"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "remember_the_ancients",
+      "layer": 5,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "library_theresmore"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "currency",
+      "layer": 5,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "regional_markets"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "end_ancient_era",
+      "layer": 5,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "city_center_unit"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "lonely_druid",
+      "layer": 5,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "explore_sorrounding",
+      "layer": 5,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "academy_of_freethinkers_part",
+      "layer": 5,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 12,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "academy_of_freethinkers"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "mana_pit_part",
+      "layer": 5,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 10,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mana_pit"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "city_lights_part",
+      "layer": 5,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 10,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "city_lights"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "the_signal",
+      "layer": 6,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "decrypt_signal"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "ancient_spell",
+      "layer": 6,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "stat",
+        "reqId": "ng_reset"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "zenix_familiar_t",
+      "layer": 6,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "zenix_familiar_l"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "cloistered_life",
+      "layer": 6,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "monastic_orders"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "regional_markets",
+      "layer": 6,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "legacy",
+        "reqId": "regional_market"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "city_center_unit",
+      "layer": 6,
+      "status": "queued",
+      "blockReason": null,
+      "current": -1,
+      "target": 12,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "city_center"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "decrypt_signal",
+      "layer": 7,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "nuclear_power"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "nuclear_power",
+      "layer": 8,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "signal_machine_part"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "signal_machine_part",
+      "layer": 9,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 11,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "signal_machine"
+        }
+      ]
+    },
+    {
+      "kind": "building",
+      "id": "signal_machine",
+      "layer": 10,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "activate_signal"
+        },
+        {
+          "key": "routeTarget"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "activate_signal",
+      "layer": 11,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "research_annhilator"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "research_annhilator",
+      "layer": 12,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "create_annhilator"
+        },
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "create_annhilator",
+      "layer": 13,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "launch_annhilator"
+        },
+        {
+          "key": "goalTargetTech"
+        },
+        {
+          "key": "prerequisiteFor",
+          "targetId": "destroy_annhilator"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "launch_annhilator",
+      "layer": 14,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "destroy_annhilator",
+      "layer": 14,
+      "status": "queued",
+      "blockReason": null,
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "prerequisiteFor",
+          "targetId": "mindless_evil"
+        }
+      ]
+    },
+    {
+      "kind": "tech",
+      "id": "mindless_evil",
+      "layer": 15,
+      "status": "blocked",
+      "blockReason": {
+        "type": "structural",
+        "reqType": "diplomacy_owned",
+        "reqId": "baron_mordecai"
+      },
+      "current": 0,
+      "target": 1,
+      "reasons": [
+        {
+          "key": "goalTargetTech"
+        }
+      ]
+    }
+  ],
+  "forcedTargets": {},
+  "notes": ""
+}
